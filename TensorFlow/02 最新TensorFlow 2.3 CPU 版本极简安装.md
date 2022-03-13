@@ -4,9 +4,16 @@ https://www.bilibili.com/video/BV1Zt411T7zE?p=2
 
 <img src="/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2020-12-20 下午9.48.15.png" alt="截屏2020-12-20 下午9.48.15" style="zoom:33%;" />
 
-
-
 mac查看安装的python是什么版本？
+
+```bash
+chenmeifang@chenmeifangdeMacBook-Air-2 ~ % python -V
+Python 2.7.16
+chenmeifang@chenmeifangdeMacBook-Air-2 ~ % source ~/.bash_profile
+chenmeifang@chenmeifangdeMacBook-Air-2 ~ % python -V             
+Python 3.6.3 :: Anaconda, Inc.
+chenmeifang@chenmeifangdeMacBook-Air-2 ~ % 
+```
 
 
 
@@ -71,3 +78,13 @@ jupyter notebook
 ![截屏2020-12-22 下午11.38.42](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2020-12-22 下午11.38.42.png)
 
 如果感觉上面那些命令都不太好使用，就先执行以下 source ~/.bash_profile
+
+---
+
+https://blog.csdn.net/qq_38193902/article/details/107214357?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-13.control&dist_request_id=1328602.27043.16150146402853213&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-13.control
+
+
+
+安装miniconda![截屏2021-03-06 下午3.37.46](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-06 下午3.37.46.png)
+
+https://blog.csdn.net/weixin_38109583/article/details/93376954
