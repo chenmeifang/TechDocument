@@ -6,25 +6,15 @@ https://www.bilibili.com/video/BV137411N7aB?from=search&seid=1622846931988383453
 
 ![image-20210905090148314](02 MVC MVP MVVM.assets/image-20210905090148314.png)
 
-==JSP在服务端生成。调用service获取数据，然后在JSP页面中进行封装。==
+JSP在服务端生成。调用service获取数据，然后在JSP页面中进行封装
 
-==JSP代码难以维护：因为前端代码和后端代码混在一起==
+JSP代码难以维护：因为前端代码和后端代码混在一起
 
 # 2.后端MVC（以node为例）
 
-==把**数据**，**视图**，**业务逻辑**分层==
+把**数据**，**视图**，**业务逻辑**分层
 
 ![image-20210905090427171](02 MVC MVP MVVM.assets/image-20210905090427171.png)
-
-Model：主要处理数据的CRUD
-
-View：前端页面
-
-Controller：业务逻辑层
-
-![截屏2021-09-06 下午10.53.56](02 MVC MVP MVVM.assets/截屏2021-09-06 下午10.53.56.png)
-
-
 
 这种模式下存在的问题：
 
@@ -33,7 +23,9 @@ Controller：业务逻辑层
 
 # 3.前端MVC
 
-<img src="02 MVC MVP MVVM.assets/image-20210905090734761.png" alt="image-20210905090734761" style="zoom: 67%;" />
+https://zh.wikipedia.org/wiki/Gmail
+
+<img src="02 MVC MVP MVVM.assets/image-20210905090734761.png" alt="image-20210905090734761" style="zoom: 80%;" />
 
 <img src="02 MVC MVP MVVM.assets/企业微信截图_16308041553315.png" alt="img" style="zoom:75%;" />
 
