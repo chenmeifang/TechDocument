@@ -2,8 +2,6 @@ https://www.bilibili.com/video/BV1LD4y1X7FB
 
 https://www.bilibili.com/video/BV1CJ411T7k5?from=search&seid=13961602534363452532 手写webpack 共70分钟
 
-![截屏2021-03-29 下午6.21.41](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-29 下午6.21.41.png)
-
 # http://astexplorer.net/
 
 ```js
