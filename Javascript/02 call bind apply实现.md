@@ -146,8 +146,6 @@ let Fn = test.myBind(obj, 'param1', 'param2')
 let fn = new Fn();
 ```
 
-
-
 bind返回的函数接收的第一个参数也是绑定的this
 
 注意：因为函数里面有返回的函数，在执行中很容易造成this的丢失。所以需要提前进行this的保存。
