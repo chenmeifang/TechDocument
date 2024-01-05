@@ -16,3 +16,6 @@ new的过程：
 
 **面试题：手写一个new()**
 
+https://juejin.cn/post/7216650471746289701
+
+https://juejin.cn/post/7081885715218300965
