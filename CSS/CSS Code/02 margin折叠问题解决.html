@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .div1 {
+            height: 100px;
+            width: 100px;
+            background-color: red;
+            margin-bottom: 30px;
+        }
+
+        .div2 {
+            height: 100px;
+            width: 100px;
+            background-color: green;
+            margin-top: 10px;
+        }
+
+        .div2-wrapper {
+            /* 这两条属性任选其一都可 */
+            overflow: hidden;
+            /* display: inline-block; */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 虽然有一个margin-bottom: 30px;和 margin-top: 10px;
+        但是div1和div2之间的margin只有30px.
+        这就是margin collapse现象-->
+
+    <!-- 要解决margin collapse问题，
+        就要让div1和div2不属于同一个BFC。 -->
+
+    <!-- 怎么才能让这俩不属于同一个BFC呢？
+        比如给div2创建一个新的BFC -->
+
+    <!-- 怎么创建一个新的BFC？
+        给div再包一层，设置inline-block是不是就可行了————yes -->
+    <div class="div1"></div>
+    <div class="div2-wrapper">
+        <div class="div2"></div>
+    </div>
+    
+</body>
+
+</html>
