@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .div1 {
+            height: 100px;
+            width: 100px;
+            background-color: red;
+            margin-bottom: 30px;
+        }
+        .div2 {
+            height: 100px;
+            width: 100px;
+            background-color: green;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 虽然有一个margin-bottom: 30px;和 margin-top: 10px;
+        但是div1和div2之间的margin只有30px.
+        这就是margin collapse现象-->
+    <div class="div1"></div>
+    <div class="div2"></div>
+</body>
+</html>
