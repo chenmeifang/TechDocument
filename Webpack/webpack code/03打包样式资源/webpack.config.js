@@ -1,4 +1,5 @@
-// 所有的构建工具都是基于nodejs平台运行的，模块化默认采用commonjs
+// 所有的构建工具都是基于nodejs平台运行的，
+// 模块化默认采用commonjs。
 // import { resolve } from 'path'; 写法错误
 const { resolve } = require('path')
 module.exports = {
