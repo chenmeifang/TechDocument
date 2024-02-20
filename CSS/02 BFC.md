@@ -60,9 +60,9 @@ https://www.bilibili.com/video/BV18L4y1N7g3/?spm_id_from=333.880.my_history.page
 
 方案二： 给container加’overflow：auto‘
 
+加’overflow：auto‘后会形成一个新的BFC
 
-
-
+![ ](02 BFC.assets/image-20240201233821980.png)
 
 
 

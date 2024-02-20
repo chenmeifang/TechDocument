@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="inputEl">
+    <script>
+        const inputEl = document.getElementById('inputEl')
+        // 参数：要被防抖的函数(回调函数); 延迟时间
+        function debounce(fn, delay) {
+            // 注意1：不能直接返回fn，要返回一个新的函数
+            let timer = null;
+            // 注意2：这里写箭头函数或者普通函数有什么区别？————见注意6
+            //       此处要使用普通函数，不能乱用箭头函数
+            const _debounce = () => {
+                if (timer) {
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(() => {
+                    // fn();
+                    fn.apply(this); 
+                    // 注意6：
+                    // 如果_debounce是箭头函数，此处的this就是window
+                    // 如果_debounce是普通函数，此处的this就是inputEl
+                    timer = null;
+                    console.log('执行fn');
+                }, delay)
+            };
+            // 返回一个新的函数
+            // 注意4：如果_debounce对象本身没有被销毁掉，timer也不会被销毁，因为形成了闭包————函数的内部引用了外面的变量
+            return _debounce;
+        }
+
+        // 每次调用onInput函数的时候，里面的箭头函数的内存地址会变吗？
+        // 注意5：关于onxxx事件的this指向不是很清楚
+        //        如果没有加防抖，this是指向inputEl的，代码如下
+                    // inputEl.oninput = function () {
+                    //     console.log(this.value)
+                    // }
+        let oninputFn = debounce(function () {
+            // 注意3: 这里可以写成箭头函数形式吗？
+            // 对应注意5：如果加了防抖，this指向window
+            console.log('输入框内容：', this)
+        }, 1000)
+        inputEl.oninput = oninputFn;
+
+    </script>
+</body>
+
+</html>

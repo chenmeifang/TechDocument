@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="inputEl">
+    <script>
+        const inputEl = document.getElementById('inputEl')
+        // 参数：要被防抖的函数(回调函数); 延迟时间
+        function debounce(fn, delay) {
+            // 注意1：不能直接返回fn，要返回一个新的函数
+            let timer = null;
+            // 注意2：这里写箭头函数或者普通函数有什么区别？
+            const _debounce = () => {
+                if (timer) {
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(() => {
+                    fn();
+                    timer = null;
+                    console.log('执行fn');
+                }, delay)
+            };
+            // 返回一个新的函数
+            // 注意4：如果_debounce对象本身没有被销毁掉，timer也不会被销毁，因为形成了闭包————函数的内部引用了外面的变量
+            return _debounce;
+        }
+
+        // 每次调用onInput函数的时候，里面的箭头函数的内存地址会变吗？
+        // 关于onxxx事件的this指向不是很清楚
+        let oninputFn = debounce(function () {
+            // 注意3: 这里可以写成箭头函数形式吗？
+            console.log('输入框内容：')
+        }, 1000)
+        inputEl.oninput = oninputFn;
+
+    </script>
+</body>
+
+</html>
