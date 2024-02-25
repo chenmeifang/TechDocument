@@ -40,6 +40,16 @@ let foo = "foo";
 
 ![image-20240221230547079](05 let 和 var 和 const.assets/image-20240221230547079.png)
 
+# 3.let/const和window的关系
+
+![image-20240223222941925](05 let 和 var 和 const.assets/image-20240223222941925.png)
+
+![image-20240223224258995](05 let 和 var 和 const.assets/image-20240223224258995.png)
+
+# 4.ES6新增的块级作用域
+
+
+
 # 3.var：
 
 **1.可以重复声明**
