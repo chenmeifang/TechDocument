@@ -33,7 +33,6 @@
         }
 
         // 每次调用onInput函数的时候，里面的箭头函数的内存地址会变吗？
-        // 关于onxxx事件的this指向不是很清楚
         let oninputFn = debounce(function () {
             // 注意3: 这里可以写成箭头函数形式吗？
             console.log('输入框内容：')

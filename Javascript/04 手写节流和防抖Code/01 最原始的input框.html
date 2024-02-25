@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="" id="">
+    <script>
+        const inputEl = document.querySelector("input");
+        // 注意点1：关于不同写法下this的指向
+        // inputEl.oninput = function(params) {
+        //     console.log('写法1')
+        //     console.log('params', params);
+        //     console.log('this:', this) // this指向inputEl
+        // }
+        // 写法2：
+        inputEl.oninput = (params) => {
+            console.log('写法2')
+            console.log('params', params);
+            console.log('this:', this) // this指向window
+        }
+    </script>
+</body>
+</html>
