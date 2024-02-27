@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="inputEl">
+    <script>
+        // 问题：不在input框输入也会按固定频率执行console！！！
+        // 按固定频率触发事件
+        const inputEl = document.getElementById('inputEl')
+        function throttle(fn, interval) {
+            let _fn = function () {
+                let timer = setInterval(function () {
+                    fn();
+                }, interval)
+            };
+
+            return _fn;
+        }
+
+        let oninputFn = throttle(function () {
+            console.log('输入框内容：')
+        }, 1000)
+        inputEl.oninput = oninputFn;
+
+    </script>
+</body>
+
+</html>
