@@ -12,7 +12,11 @@ https://www.bilibili.com/video/BV1pK411X7sn/?p=2&spm_id_from=333.880.my_history.
 
 # 4.container-flex-direction
 
-# 5.container-wrap-flow
+# 5.container     wrap-flow
+
+![image-20240229121858471](04 Flex布局.assets/image-20240229121858471.png)
+
+![image-20240229122024296](04 Flex布局.assets/image-20240229122024296.png)
 
 # 6.container-justify-content
 
