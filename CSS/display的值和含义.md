@@ -1,5 +1,3 @@
-![截屏2021-03-16 下午3.38.58](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-16 下午3.38.58.png)
-
 display : block 块级元素
 
 - 处于常规流中，如果width没有设置，会自动填满父容器(宽度缺省是它容器的100%，除非设定一个宽度。)
@@ -32,8 +30,6 @@ display：inherit
 * inherit：规定应该从父元素继承 display 属性的值。
 
 
-
-![截屏2021-03-16 下午3.40.06](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-16 下午3.40.06.png)
 
 vertical-align属性：
 
