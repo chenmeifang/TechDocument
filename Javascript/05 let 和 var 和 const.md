@@ -1,21 +1,21 @@
-https://www.bilibili.com/video/BV1zd4y1X7ky/?p=4&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+# [1. var/let/const的基本使用](https://www.bilibili.com/video/BV1zd4y1X7ky?p=3&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# 1.var/let/const的基本使用
+<img src="05 let 和 var 和 const.assets/image-20240221215634103.png" alt="image-20240221215634103" style="zoom: 75%;" />
 
-![image-20240221215634103](05 let 和 var 和 const.assets/image-20240221215634103.png)
-
-# 2.let/const的作用域提升
+# [2. let/const的作用域提升](https://www.bilibili.com/video/BV1zd4y1X7ky/?p=4&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 ```javascript
 console.log(foo); // undefined
 var foo = "foo";
 ```
 
-用var声明一个变量，这个变量是会进行作用域提升的
+用var声明一个变量，这个变量是会进行**作用域提升**的
 
 所以在第二行执行之前，在第一行是可以访问到foo的
 
 因为在对代码进行解析的时候，就已经知道有foo了
+
+-------------------
 
 
 
@@ -28,25 +28,63 @@ let foo = "foo";
 
 ![image-20240221224712248](05 let 和 var 和 const.assets/image-20240221224712248.png)
 
-**结论：let/const是没有作用域提升的**
+## 2.1 结论：let/const是没有作用域提升的
 
-![image-20240221225237317](05 let 和 var 和 const.assets/image-20240221225237317.png)
+
+
+<img src="05 let 和 var 和 const.assets/image-20240221225237317.png" alt="image-20240221225237317" style="zoom: 50%;" />
+
+
 
 - [ ] 词法环境（LexicalEnvironment）是指啥？
 
-  如果一份代码准备运行，它会先在我们的调用栈中给我们创建一个执行上下文，
+  如果一份代码准备运行，它会先在我们的调用栈中给我们创建一个**执行上下文**，
 
   在执行上下文里面，有一个东西叫词法环境（在创建执行上下文的时候，其实会创建一个词法环境）
+  
+  
 
-![image-20240221230547079](05 let 和 var 和 const.assets/image-20240221230547079.png)
+<img src="05 let 和 var 和 const.assets/image-20240221230547079.png" alt="image-20240221230547079" style="zoom:60%;" />
 
-# 3.let/const和window的关系
+# [3. let/const和window的关系](https://www.bilibili.com/video/BV1zd4y1X7ky?p=5&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-![image-20240223222941925](05 let 和 var 和 const.assets/image-20240223222941925.png)
+<img src="05 let 和 var 和 const.assets/image-20240223222941925.png" alt="image-20240223222941925" style="zoom:80%;" />
 
-![image-20240223224258995](05 let 和 var 和 const.assets/image-20240223224258995.png)
 
-# 4.ES6新增的块级作用域
+
+<img src="05 let 和 var 和 const.assets/image-20240223224258995.png" alt="image-20240223224258995" style="zoom: 80%;" />
+
+# [4. ES6新增的块级作用域](https://www.bilibili.com/video/BV1zd4y1X7ky?p=6&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+## 4.1 块级作用域的理解
+
+- 在ES5及之前，在JS中压根没有块级作用域
+
+- ```javascript
+  // 块代码
+  {
+      var foo = 'foo'
+  }
+  // 在很多语言里面，在块代码的外面是不能访问foo变量的
+  // 因为块有自己的作用域，自己的作用域就意味着在自己里面声明的东西只能在自己内部被访问
+  ```
+
+- 但是在早期的js里面，没有块级作用域
+
+- 在es5里面，只有两个东西会形成作用域：
+
+  - 全局作用域
+  - 函数作用域
+
+- es6中开始有块级作用域
+
+- 但是**块级作用域针对var声明的变量是无效的**
+
+- 只对let/const/function/class声明的类型有效
+
+## 4.2 块级作用域的应用场景
+
+页面中有四个按钮，监听四个按钮的点击，并且输出现在点击的是第几个按钮
 
 
 
