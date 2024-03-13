@@ -82,6 +82,9 @@ let foo = "foo";
 
 - 只对let/const/function/class声明的类型有效
 
+  - ![image-20240313204639879](05 let 和 var 和 const.assets/image-20240313204639879.png)
+
+
 ## 4.2 块级作用域的应用场景
 
 页面中有四个按钮，监听四个按钮的点击，并且输出现在点击的是第几个按钮

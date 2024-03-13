@@ -63,18 +63,6 @@ Uncaught TypeError: res.forEach is not a function at closure.html:15
 
 返回类型 **HTMLCollection[]**
 
-![截屏2021-02-24 上午11.21.44](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-24 上午11.21.44.png)
-
-<img src="/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-24 上午11.22.37.png" alt="截屏2021-02-24 上午11.22.37" style="zoom: 80%;" />
-
-<img src="/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-24 上午11.22.58.png" alt="截屏2021-02-24 上午11.22.58" style="zoom:80%;" />
-
-<img src="/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-24 上午11.23.23.png" alt="截屏2021-02-24 上午11.23.23" style="zoom:80%;" />
-
-<img src="/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-24 上午11.23.41.png" alt="截屏2021-02-24 上午11.23.41" style="zoom:80%;" />
-
-<img src="/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-24 上午11.24.24.png" alt="截屏2021-02-24 上午11.24.24" style="zoom:80%;" />
-
 ------
 
 **query 方式：**query 方式获取的 dom 元素，可使用forEach、for-in、for-of、for循环
@@ -83,8 +71,6 @@ Uncaught TypeError: res.forEach is not a function at closure.html:15
 2. querySelectorAll
 
 返回类型 NodeList[]
-
-![截屏2021-02-24 上午11.28.44](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-24 上午11.28.44.png)
 
 ***HTMLCollection和NodeList*本质上的不同：**
 
@@ -111,7 +97,6 @@ While a `NodeList` can contain any node type, an `HTMLCollection` is supposed to
    3. 元素.getAttribute（“属性名”）获取属性值的方法
    4. 元素.removerAttribute("属性")删除属性
 
-   ![截屏2021-02-25 下午1.09.48](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-25 下午1.09.48.png)
 
 **1.HTMLCollection有namedItem方法，NodeList没有namedItem方法**
 
@@ -126,8 +111,6 @@ While a `NodeList` can contain any node type, an `HTMLCollection` is supposed to
     </script>
 </body>
 ```
-
-![截屏2021-02-24 上午11.47.25](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-24 上午11.47.25.png)
 
 **2.包含节点类型不同**：`NodeList`可以包含任何节点类型，`HTMLCollection`只包含元素节点（ElementNode)
 
@@ -145,8 +128,6 @@ While a `NodeList` can contain any node type, an `HTMLCollection` is supposed to
 </body>
 ```
 
-![截屏2021-02-25 下午1.31.35](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-25 下午1.31.35.png)
-
 ---
 
 
@@ -157,8 +138,6 @@ While a `NodeList` can contain any node type, an `HTMLCollection` is supposed to
 
 # ES6将集合 转换成 普通数组：
 
-![截屏2021-02-24 上午11.50.44](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-24 上午11.50.44.png)
-
 根据__proto__可以看出HTMLCollection不是数组，是类数组——类数组对象，最基本的要求就是具有length属性的对象。
 
 （1）ES6 提供了 Array.from() 方法可将这些集合转换成普通数组，这样就可以享用数组的各种方法了
@@ -168,16 +147,10 @@ let array = Array.from(a)
 // 　　Array.from()方法就是将一个类数组对象或者可遍历对象转换成一个真正的数组。
 ```
 
-![截屏2021-02-24 上午11.54.43](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-24 上午11.54.43.png)
-
 （2）
 
 ```javascript
 Array.prototype.slice.call（elems);
 ```
 
-![截屏2021-02-24 上午11.57.48](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-24 上午11.57.48.png)
-
 (3)用[ ...elems ]方法转化为数组
-
-![截屏2021-02-24 上午11.58.43](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-24 上午11.58.43.png)
