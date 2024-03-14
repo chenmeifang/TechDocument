@@ -108,35 +108,87 @@ Domain Name Server 域名服务器
 
 https://www.sfn.cn/news/technology/detail/222.html?navId=22
 
-## 3.3 IP
+## 3.3 IP  Internet Protocol Address
 
 38min处
 
+互联网协议地址
+
+IP又称为互联网协议
+
+什么协议呢？——是分配给用户上网使用的互联网协议
+
+为什么说IP是协议呢？——也就是说IP是有一定的规范的
+
+![image-20240314130623447](js 网络相关面试.assets/image-20240314130623447.png)
+
+## 3.4 IP端口号PORT
+
+47min处
+
+![image-20240314130939868](js 网络相关面试.assets/image-20240314130939868.png)
+
+## 3.5 TCP Transmission Control Protocol
+
+52min处
+
+传输控制协议
+
+![image-20240314131554899](js 网络相关面试.assets/image-20240314131554899.png)
+
+## 3.6 UDP User Data Protocol
+
+1h2min处
+
+用户数据报协议
+
+![image-20240314131944271](js 网络相关面试.assets/image-20240314131944271.png)
+
+## 3.7 HTTP与HTTPS Hyper Text Transfer Protocol
+
+- HTML：超文本标记语言 Hyper Text Mark Language
+- HTTP：超文本传输协议 Hyper Text Transfer Protocol——客户端和服务器端请求和应答的标准，**用于从WEB服务器传输超文本到本地浏览器的传输协议**
+- HTTPS：超文本传输安全协议 Hyper Text Transfer Protocol Secure
 
 
-## HTTP与HTTPS：
 
-HTML：超文本标记语言 Hyper Text Mark Language
+- HTTP与HTTPS本质上是一样的， HTTPS在HTTP的基础上加了一层安全层。  HTTPS是HTTP的安全版。（安全基础是SSL/TLS）
 
-HTTP：超文本传输协议 Hyper Text Transfer Protocol
+- http不安全的原因是什么？
 
-HTTPS：超文本传输安全协议 Hyper Text Transfer Protocol Secure
+  - 是由于http在请求的过程中，很多东西是明文的，比如http请求头
 
-HTTP与HTTPS本质上是一样的， HTTPS在HTTP的基础上加了一层安全层。  HTTPS是HTTP的安全版。（安全基础是SSL/TLS）
+   
 
-http不安全的原因是什么？
+- **SSL**： 安全套接层 Secure Sockets Layer
 
- 是由于http在请求的过程中 很多东西是明文的。 
+- **TLS**： 传输层安全 Transport Layer Security（对SSL进行了升级）
 
-**SSL**： 安全套接层 Secure Sockets Layer
 
-**TLS**：Transport Layer Security 传输层安全（对SSL进行了升级）
 
-第二点中：客户端和服务器都无法验证对方身份。 只能靠标识位。 但是标识位有可能被篡改。
+- http与https的区别：
+
+  - ![image-20240314151608888](js 网络相关面试.assets/image-20240314151608888.png)
+
+  - 第二点中：客户端和服务器都无法验证对方身份。 只能靠标识位。 但是标识位有可能被篡改
+
 
 ---
 
-## 建立TCP连接的前奏
+## 3.8 建立TCP连接的前奏
+
+1h25min处
+
+- SYN：Synchronize Sequence Numbers 同步序列编号
+- ACK：Acknowledgement 确认字符
+- LISTEN：监听TCP端口的连接请求（我等着你发送连接请求呢）
+- SYN-SENT：发送了标识位。在发送连接请求后，等待匹配的连接请求（我发送了连接请求，我等你回复哈）
+- SYN-RECEIVED：接收了标识位。在收到和发送一个连接请求后，等待对连接请求的确认（我收到你的连接请求了哈，我等你回复我）
+- ESTABLISHED：代表一个打开的连接，数据可以传送给用户
+
+## 3.9 三次握手
+
+![image-20240314160713661](js 网络相关面试.assets/image-20240314160713661.png)
 
 发送序号是上一次的确认序号
 
@@ -144,7 +196,7 @@ http不安全的原因是什么？
 
 # 4. www历史，HTTP报文，请求方式，GET与POST
 
-这里讲了很多跟面试相关的！！！！
+
 
 30min前
 
