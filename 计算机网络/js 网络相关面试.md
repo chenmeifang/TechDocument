@@ -2,7 +2,7 @@ https://www.bilibili.com/video/BV1bk4y1m7zC
 
 https://ke.qq.com/user/index/index.html#/plan/cid=2837895&term_id=102948532 买的课程
 
-# 第1节 服务器搭建与相关操作 21min
+# 1. 服务器搭建与相关操作
 
 wampServer
 
@@ -10,33 +10,109 @@ xampp
 
 14min处
 
-# 第2节 网络初探 URL 客户端与服务端 域名操作 139mins
+# [2. 网络初探 URL 客户端与服务端 域名操作](https://ke.qq.com/webcourse/2837895/102948532#taid=10038614178876807&vid=5285890787800102052)
 
 5min开始
 
-![截屏2021-02-22 上午1.00.11](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 上午1.00.11.png)
+## 2.1 浏览器请求一个网页的流程
 
-输入网址，敲回车，发生了什么？
+即输入网址，敲回车，发生了什么？
 
-1.DNS解析（将网址转成IP地址）
+1. DNS解析（将网址转成IP地址）
+2. TCP/IP三次握手，建立TCP连接
+3. 发起HTTP请求
+4. 浏览器得到HTML代码，并解析HTML代码
 
-2.TCP/IP三次握手，建立TCP连接
+5. 请求下载HTML中的静态资源，渲染页面
+6. 四次挥手，中断连接请求
 
-3.发起HTTP请求
+<img src="js 网络相关面试.assets/image-20240313222314205.png" alt="image-20240313222314205" style="zoom:67%;" />
 
-4.浏览器得到HTML代码，并解析HTML代码
+## 2.2 URI Uniform Resource Identifer
 
-5.请求下载HTML中的静态资源，渲染页面
+28min处
 
-6.四次挥手，中断连接请求
+**统一资源标识符**
 
-1小时44min处
+用来唯一的标识一个资源
 
-# 第3节 DNS IP TCP/UDP HTTP/HTTPS 三次握手
+- URI只是资源标识
 
-## 描述DNS解析过程：
+## 2.3 URL Uniform Resource Locator
 
- 
+**统一资源定位符**
+
+URL可以用来标识一个资源，而且还指明了如何定位这个资源
+
+用地址定义一个资源
+
+- URL 是资源标识
+- URL 具有定位资源的功能
+- URL 指明了获取资源所采用的协议
+
+URL：协议名称 + 主机名称 + 端口 + 路径 + 文件 + 查询所需字符串
+
+<img src="js 网络相关面试.assets/image-20240313224622488.png" alt="image-20240313224622488" style="zoom:80%;" />
+
+## 2.4 URN Uniform Resource Name
+
+**统一资源命名**
+
+用名称定位一个资源
+
+URN：主机名称 + 端口 + 路径 + 文件 + 查询所需字符串
+
+==URL肯定是一个URI，URI并不一定是URL，也可能是URN==
+
+<img src="js 网络相关面试.assets/image-20240313223801593.png" alt="image-20240313223801593" style="zoom: 50%;" />
+
+<img src="js 网络相关面试.assets/image-20240313224822228.png" alt="image-20240313224822228" style="zoom:67%;" />
+
+## 2.5 CS架构与BS架构
+
+<img src="js 网络相关面试.assets/image-20240313232440909.png" alt="image-20240313232440909" style="zoom:67%;" />
+
+## 2.6 域名
+
+1小时26min处
+
+<img src="js 网络相关面试.assets/image-20240313233548456.png" alt="image-20240313233548456" style="zoom:67%;" />
+
+<img src="js 网络相关面试.assets/image-20240313234424051.png" alt="image-20240313234424051" style="zoom:67%;" />
+
+<img src="js 网络相关面试.assets/image-20240313234447792.png" alt="image-20240313234447792" style="zoom:67%;" />
+
+<img src="js 网络相关面试.assets/image-20240313234523338.png" alt="image-20240313234523338" style="zoom:67%;" />
+
+<img src="js 网络相关面试.assets/image-20240313234738026.png" alt="image-20240313234738026" style="zoom:67%;" />
+
+<img src="js 网络相关面试.assets/image-20240313234918055.png" alt="image-20240313234918055" style="zoom:67%;" />
+
+# [3. DNS IP TCP/UDP HTTP/HTTPS 三次握手](https://ke.qq.com/webcourse/2837895/102948532#taid=10038618473844103&vid=5285890788393511851)
+
+## 3.1 www World Wide Web 万维网
+
+<img src="js 网络相关面试.assets/image-20240313235547069.png" alt="image-20240313235547069" style="zoom:80%;" />
+
+## 3.2 DNS解析过程
+
+ 18min处
+
+Domain Name Server 域名服务器
+
+<img src="js 网络相关面试.assets/image-20240314083219400.png" alt="image-20240314083219400" style="zoom: 67%;" />
+
+<img src="js 网络相关面试.assets/image-20240314083323393.png" alt="image-20240314083323393" style="zoom:67%;" />
+
+- DNS本地服务器：运营商。例如：电信，移动，长城等
+
+https://www.sfn.cn/news/technology/detail/222.html?navId=22
+
+## 3.3 IP
+
+38min处
+
+
 
 ## HTTP与HTTPS：
 
@@ -56,29 +132,17 @@ http不安全的原因是什么？
 
 **TLS**：Transport Layer Security 传输层安全（对SSL进行了升级）
 
- ![截屏2021-02-22 下午3.22.12](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 下午3.22.12.png)
-
 第二点中：客户端和服务器都无法验证对方身份。 只能靠标识位。 但是标识位有可能被篡改。
 
 ---
 
 ## 建立TCP连接的前奏
 
-
-
-![截屏2021-02-22 下午4.02.50](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 下午4.02.50.png)
-
-![截屏2021-02-22 下午4.01.48](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 下午4.01.48.png)
-
 发送序号是上一次的确认序号
 
 确认序号是上一次发送序号加一
 
-![截屏2021-02-22 下午4.05.40](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 下午4.05.40.png)
-
-  
-
-# 第4节 www历史，HTTP报文，请求方式，GET与POST
+# 4. www历史，HTTP报文，请求方式，GET与POST
 
 这里讲了很多跟面试相关的！！！！
 
@@ -86,61 +150,27 @@ http不安全的原因是什么？
 
 ## www 30mins～50mins
 
-
-
 ## HTTP报文前言 57mins～
 
 报文：客户端和服务端之间的数据传递
 
 一次请求 服务端要知道 你是什么样的请求
 
-![截屏2021-02-22 下午8.37.00](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 下午8.37.00.png)
-
 “限制每次连接只处理一个请求”：这是传统的TCP/IP连接。
-
- 背：![截屏2021-02-22 下午8.55.28](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 下午8.55.28.png)
 
 一般来说，用post请求的时候，请求体是FormData——表单数据；get请求的时候请求体是查询字符串参数（Query String Parameters）
 
   ## 请求方式 POST与GET：
 
-![截屏2021-02-22 下午9.10.24](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 下午9.10.24.png)
-
-![截屏2021-02-22 下午9.11.34](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 下午9.11.34.png) 
-
-背 区别： ![截屏2021-02-22 下午9.44.01](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 下午9.44.01.png)
-
-![截屏2021-02-22 下午9.47.52](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 下午9.47.52.png)
-
-![截屏2021-02-22 下午9.48.09](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 下午9.48.09.png)
-
-![截屏2021-02-22 下午9.51.52](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 下午9.51.52.png)
-
 加分项：
-
-![截屏2021-02-22 下午9.55.14](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 下午9.55.14.png)
 
 持久化连接 connection: keep-alive
 
-![截屏2021-02-22 下午9.56.53](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 下午9.56.53.png)
-
 管道化持久连接：
-
-![截屏2021-02-22 下午9.57.34](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 下午9.57.34.png)
 
 # 第5节 http状态码，accept，Content-Type 
 
-1min后
-
-背：
-
-![截屏2021-02-23 上午12.16.32](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-23 上午12.16.32.png)
-
 ### 304 资源重定向：
-
-![截屏2021-02-23 下午12.21.15](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-23 下午12.21.15.png)
-
-![截屏2021-02-23 下午12.21.29](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-23 下午12.21.29.png)
 
 ### 302重定向：
 
@@ -155,8 +185,6 @@ http不安全的原因是什么？
 
 
 ## Accept 40min  
-
-![截屏2021-02-23 下午12.29.27](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-23 下午12.29.27.png)
 
 逗号分割
 
