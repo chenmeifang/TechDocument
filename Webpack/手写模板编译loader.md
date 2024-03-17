@@ -204,22 +204,19 @@ Webpack是分析文件的依赖，然后把所有文件打包到一个文件里�
 
 ==那Webpack是怎么去分析文件的依赖呢？==
 
-![截屏2021-03-29 下午6.31.11](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-29 下午6.31.11.png)
-
 1. 拿到入口文件的内容——==fs模块==
-   1. ![截屏2021-03-29 下午6.38.19](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-29 下午6.38.19.png)
 2. 将ES6 Code ==用babel parser解析成AST==
    1. 安装babel/parser
-   2. ![截屏2021-03-29 下午6.39.42](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-29 下午6.39.42.png)
-   3. ![截屏2021-03-29 下午6.41.34](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-29 下午6.41.34.png) 
-   4. ![截屏2021-03-29 下午6.41.09](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-29 下午6.41.09.png)
+   2. 
+   3. 
+   4. 
 3. 通过操作AST去分析出依赖文件——==使用babel/traverse==
-   1. ![截屏2021-03-29 下午6.46.34](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-29 下午6.46.34.png)
-   2. ![截屏2021-03-29 下午6.50.02](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-29 下午6.50.02.png)
+   1. 
+   2. 
 4. 用==babel/core==库把ES6代码转成ES5（其实是从AST到ES5）
-   1. ![截屏2021-03-29 下午6.51.59](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-29 下午6.51.59.png)
-   2. ![截屏2021-03-29 下午6.54.21](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-29 下午6.54.21.png)
-   3. ![截屏2021-03-29 下午6.56.58](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-29 下午6.56.58.png)
+   1. 
+   2. 
+   3. 
 5. 得到文件依赖图
 6. 实现CMD api，整合代码，打包到bundle.js
 
