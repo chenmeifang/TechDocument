@@ -179,8 +179,13 @@ IP又称为互联网协议
 
 1h25min处
 
+标志位：即数据包
+
 - SYN：Synchronize Sequence Numbers 同步序列编号
 - ACK：Acknowledgement 确认字符
+
+状态：
+
 - LISTEN：监听TCP端口的连接请求（我等着你发送连接请求呢）
 - SYN-SENT：发送了标识位。在发送连接请求后，等待匹配的连接请求（我发送了连接请求，我等你回复哈）
 - SYN-RECEIVED：接收了标识位。在收到和发送一个连接请求后，等待对连接请求的确认（我收到你的连接请求了哈，我等你回复我）
@@ -188,21 +193,29 @@ IP又称为互联网协议
 
 ## 3.9 三次握手
 
-![image-20240314160713661](js 网络相关面试.assets/image-20240314160713661.png)
+<img src="js 网络相关面试.assets/image-20240319232638265.png" alt="image-20240319232638265" style="zoom: 60%;" />
 
-发送序号是上一次的确认序号
-
-确认序号是上一次发送序号加一
-
-# 4. www历史，HTTP报文，请求方式，GET与POST
+- 发送序号是上一次的确认序号
 
 
+- 确认序号是上一次发送序号加1
 
-30min前
 
-## www 30mins～50mins
+# [4. www历史，HTTP报文，请求方式，GET与POST](https://ke.qq.com/webcourse/2837895/102948532#taid=10038622768811399&vid=5285890788031352464)
 
-## HTTP报文前言 57mins～
+## 4.1 www （没太听懂）
+
+ 30mins～
+
+World Wide Web 万维网
+
+- www以前是一个协议，并不是一个二级域名，是**网页传输协议（网页服务协议）**
+
+![image-20240319235733337](js 网络相关面试.assets/image-20240319235733337.png)
+
+## 4.2 HTTP报文前言
+
+57mins～
 
 报文：客户端和服务端之间的数据传递
 
@@ -212,7 +225,7 @@ IP又称为互联网协议
 
 一般来说，用post请求的时候，请求体是FormData——表单数据；get请求的时候请求体是查询字符串参数（Query String Parameters）
 
-  ## 请求方式 POST与GET：
+  ## 请求方式 POST与GET
 
 加分项：
 
