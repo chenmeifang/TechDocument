@@ -9,6 +9,7 @@ module.exports = {
         // 2.__filename:当前模块的完整路径
         // 3.__dirname:当前模块所在文件夹的完整路径
         path: path.resolve(__dirname, 'dist')
+        // resolve：用来拼接绝对路径
     },
     // 对应loader
     module: {
