@@ -233,107 +233,164 @@ World Wide Web 万维网
 
 管道化持久连接：
 
-# 第5节 http状态码，accept，Content-Type 
+# [5.http状态码，accept，Content-Type](https://ke.qq.com/webcourse/2837895/102948532#taid=10038627063778695&vid=5285890787895797556)
 
-### 304 资源重定向：
+## 5.1 状态码
 
-### 302重定向：
+<img src="js 网络相关面试.assets/image-20240320214031984.png" alt="image-20240320214031984" style="zoom:67%;" />
 
-### 404页面错误：页面不存在（找不到页面或者资源）
+### 5.1.1 304——重定向
 
-### 403服务器拒绝请求forbidden：服务器不给你权限进入
+<img src="js 网络相关面试.assets/image-20240320215559409.png" alt="image-20240320215559409" style="zoom:80%;" />
 
-### 500 内部服务器错误
+- 什么是重定向
+  - 重定向有点像跳转页面
+  - Response Headers    **ETag**：是服务器返回回来的你这个**资源的唯一标识**
+  - Response Headers    **Last-Modified**：最后一次修正的时间
+  - Request Headers       **If-Modified-Since**
+  - Request Headers       **If-None-Match**
 
-### 503 服务器当前不能处理客户端请求
+### 5.1.2 302——重定向
 
+### 5.1.3 404——页面错误
 
+页面不存在（找不到页面或者资源）
 
-## Accept 40min  
+### 5.1.4 403——服务器拒绝请求forbidden
 
-逗号分割
+服务器不给你权限进入
 
+### 5.1.5 500——内部服务器错误
 
+### 5.1.6 503——服务器当前不能处理客户端请求
 
-# 第6节 浏览器缓存 长短连接 Content-Length
+## 5.2 Accept
 
-![截屏2021-02-23 下午12.43.33](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-23 下午12.43.33.png)
+- 代表客户端希望接收的数据类型
 
-缓存到底是怎么运行的？
+<img src="js 网络相关面试.assets/image-20240320220718734.png" alt="image-20240320220718734" style="zoom:80%;" />
 
-![截屏2021-02-23 下午12.45.34](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-23 下午12.45.34.png)
+<img src="js 网络相关面试.assets/image-20240320221147187.png" alt="image-20240320221147187" style="zoom:80%;" />
 
-为什么Cache-Control这个字段在请求头和响应头里面都有？
+## 5.3 Content-Type
 
-![截屏2021-02-23 下午12.50.55](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-23 下午12.50.55.png)
+在响应头里面
 
-![截屏2021-02-23 下午1.04.22](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-23 下午1.04.22.png)
+<img src="js 网络相关面试.assets/image-20240320221254672.png" alt="image-20240320221254672" style="zoom: 67%;" />
 
-## 缓存机制：
-
-![截屏2021-02-23 下午1.06.30](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-23 下午1.06.30.png)
-
-感觉这个图是错的！！！缓存已经过期了为什么还能304读取缓存呢？？？？？？？？？？？？？？？？？？？？？？？？？？？？
-
-31:10处
-
-## 长短连接：Connection：keep-alive 
+## 5.4 Accept-Encoding
 
 在请求头里面
 
-## content-length：
+<img src="js 网络相关面试.assets/image-20240320221417064.png" alt="image-20240320221417064" style="zoom: 67%;" />
 
-1.GET请求：请求头没有content-length，响应头带content-length。
+## 5.5 Content-Encoding
+
+在响应头里面
+
+<img src="js 网络相关面试.assets/image-20240320221626944.png" alt="image-20240320221626944" style="zoom:67%;" />
+
+# [6. 浏览器缓存，长短连接，Content-Length，referrer](https://ke.qq.com/webcourse/2837895/102948532#taid=10038635653713287&vid=5285890788266905342)
+
+## 6.1 浏览器缓存
+
+<img src="js 网络相关面试.assets/image-20240320222005588.png" alt="image-20240320222005588" style="zoom:67%;" />
+
+<img src="js 网络相关面试.assets/image-20240320222231303.png" alt="image-20240320222231303" style="zoom:67%;" />
+
+## 6.2 Cache-Control
+
+- 缓存控制（响应头）
+- 为什么Cache-Control这个字段在请求头和响应头里面都有？
+- <img src="js 网络相关面试.assets/image-20240320222615578.png" alt="image-20240320222615578" style="zoom:67%;" />
+- <img src="js 网络相关面试.assets/image-20240320222654350.png" alt="image-20240320222654350" style="zoom:67%;" />
+- <img src="js 网络相关面试.assets/image-20240320222833788.png" alt="image-20240320222833788" style="zoom:67%;" />
+
+## 6.3 Expires
+
+在响应头里面
+
+<img src="js 网络相关面试.assets/image-20240320223006865.png" alt="image-20240320223006865" style="zoom: 67%;" />
+
+<img src="js 网络相关面试.assets/image-20240320223051690.png" alt="image-20240320223051690" style="zoom:67%;" />
+
+## 6.4 浏览器缓存机制
+
+<img src="js 网络相关面试.assets/image-20240321115453937.png" alt="image-20240321115453937" style="zoom:67%;" />
+
+==感觉这个图是错的！缓存已经过期了为什么还能304读取缓存呢？？==
+
+## 6.5 Connection：keep-alive
+
+38min处
+
+在请求头里面
+
+http有两种连接：
+
+- 长连接：只建立一次连接，多次资源请求都复用该连接，完成后关闭
+  - <img src="js 网络相关面试.assets/image-20240321120302650.png" alt="image-20240321120302650" style="zoom:67%;" />
+- 短连接：每次请求一个资源就建立连接，请求完成就立马关闭
+  - <img src="js 网络相关面试.assets/image-20240321120038074.png" alt="image-20240321120038074" style="zoom:67%;" />
+
+
+
+- 早期的HTTP1.0：每个HTTP请求都要创建一个TCP/IP连接，也就是串行连接
+- 后期的HTTP1.0：在请求头增加：**Connection：keep-alive**
+- HTTP1.1：默认开启：Connection：keep-alive，如需关闭：Connection：close
+
+## 6.6 content-length
+
+1.GET请求：请求头没有content-length，响应头带content-length
 
 2.POST请求：请求头与响应头都带content-length
 
-## Referer：来源域名
+## 6.7 Referrer
 
-防盗链！！
+referer
 
-# 第7节 http版本，关闭TCP，四次挥手
+在请求头里面
 
-## HTTP版本 背不住：
+来源域名
 
-### 1.HTTP/0.9
+<img src="js 网络相关面试.assets/image-20240321124557847.png" alt="image-20240321124557847" style="zoom:67%;" />
 
-![截屏2021-02-23 下午7.03.58](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-23 下午7.03.58.png)
+- referrer是可以在html中设置的
+- <img src="js 网络相关面试.assets/image-20240321125506985.png" alt="image-20240321125506985" style="zoom:67%;" />
+- <img src="js 网络相关面试.assets/image-20240321125653385.png" alt="image-20240321125653385" style="zoom:67%;" />
+- <img src="js 网络相关面试.assets/image-20240321125738628.png" alt="image-20240321125738628" style="zoom:67%;" />
 
-### 2.HTTP/1.0
+# [7. http版本，关闭TCP，四次挥手，同源策略](https://ke.qq.com/webcourse/2837895/102948532#taid=10038639948680583&vid=5285890787804243247)
 
-![截屏2021-02-23 下午7.04.20](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-23 下午7.04.20.png)
+## 7.1 HTTP版本
 
-### 3.HTTP/1.1
+### 7.1.1 HTTP/0.9
 
-![截屏2021-02-23 下午7.07.11](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-23 下午7.07.11.png)
+<img src="js 网络相关面试.assets/image-20240321130600692.png" alt="image-20240321130600692" style="zoom:67%;" />
 
-### 4.HTTP/2.0
+所以最初的网页是没有图片和视频的，只有文字
+
+### 7.1.2 HTTP/1.0
+
+
+
+### 7.1.3 HTTP/1.1
+
+
+
+### 7.1.4 HTTP/2.0
 
 双工模式和管道机制有什么区别？
 
 服务器推送是如何知道要推哪些静态资源的？
 
-![截屏2021-02-23 下午7.12.34](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-23 下午7.12.34.png)
-
-
-
----
-
-
-
-![截屏2021-02-22 下午4.02.50](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 下午4.02.50.png)
-
-![截屏2021-02-22 下午4.01.48](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-22 下午4.01.48.png)
-
 ## 关闭TCP连接的前奏
-
-![截屏2021-02-23 下午7.18.36](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-23 下午7.18.36.png)
 
 SYN：synchronize sequence numbers 同步序列编号
 
 FIN：数据包
 
-![截屏2021-02-23 下午7.43.07](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-23 下午7.43.07.png)
+
 
 小写ack：确认FIN包的信息，包里面的数据我已经看过了
 
