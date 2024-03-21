@@ -78,21 +78,65 @@ Node中的三大模块：
   - http模块
 - 自定义模块：自己封装的模块，可以直接使用require()引入的模块
 
-# 10.path模块
+# [10. path模块](https://www.bilibili.com/video/BV1v5411T7Ez?p=10&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# 11.fs模块
+- 路径相关
+  - <img src="01 Koa + MongoDB打造简书后台管理系统.assets/image-20240321144449324.png" alt="image-20240321144449324" style="zoom:60%;" />
+- 文件相关
+  - <img src="01 Koa + MongoDB打造简书后台管理系统.assets/image-20240321144512208.png" alt="image-20240321144512208" style="zoom:60%;" />
+- 路径解析
+  - <img src="01 Koa + MongoDB打造简书后台管理系统.assets/image-20240321144527802.png" alt="image-20240321144527802" style="zoom:60%;" />
 
-# 12.buffer模块
+## 10.1 path.resolve()
 
-# 13.events模块
+- 将路径或路径片段的序列解析为绝对路径
 
-# 14.http模块
+- 给定的路径序列从右到左处理，每个后续的 `path` 会被追加到前面，直到构建绝对路径。例如，给定路径段的顺序：`/foo`、`/bar`、`baz`，调用 `path.resolve('/foo', '/bar', 'baz')` 将返回 `/bar/baz`，因为 `'baz'` 不是绝对路径，但 `'/bar' + '/' + 'baz'` 是。
 
-# 15.get请求
+- 如果在处理完所有给定的 `path` 片段之后，还没有生成绝对路径，则使用当前工作目录。
 
-# 16.post请求
+- 生成的路径被规范化，并删除尾部斜杠（除非路径解析为根目录）。
 
-# 17.Koa简介
+- 零长度的 `path` 片段被忽略。
+
+- 如果没有传入 `path` 片段，则 `path.resolve()` 将返回当前工作目录的绝对路径。
+
+- ```javascript
+  path.resolve('/foo/bar', './baz');
+  // Returns: '/foo/bar/baz'
+  
+  path.resolve('/foo/bar', '/tmp/file/');
+  // Returns: '/tmp/file'
+  
+  path.resolve('wwwroot', 'static_files/png/', '../gif/image.gif');
+  // If the current working directory is /home/myself/node,
+  // this returns '/home/myself/node/wwwroot/static_files/gif/image.gif' 
+  ```
+
+## 10.2 path.dirname()
+
+返回 `path` 的目录名
+
+```javascript
+path.dirname('/foo/bar/baz/asdf/quux');
+// Returns: '/foo/bar/baz/asdf' 
+```
+
+
+
+# 11. fs模块
+
+# 12. buffer模块
+
+# 13. events模块
+
+# 14. http模块
+
+# 15. get请求
+
+# 16. post请求
+
+# 17. Koa简介
 
 - Koa2是NodeJs Web Server框架
 - 通过async/await语法高效编写Web Server
