@@ -4,7 +4,7 @@ CMD推崇依赖就近 对
 
 Sea.js遵循AMD规范，RequireJS遵循CMD规范  错
 
-主流的模块化包括CommonJS，AMD，CMD
+主流的模块化包括CommonJS，AMD，CMD9. devServer
 
 ### 1.commonjs是用在==服务器端==，==同步==的 如nodejs
 

@@ -1,0 +1,23 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "39620438",
+      "name": "标识",
+      "font_class": "biaoshi",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "39620439",
+      "name": "病害归档",
+      "font_class": "binghaiguidang",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    }
+  ]
+}
