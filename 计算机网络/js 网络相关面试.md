@@ -217,17 +217,34 @@ World Wide Web 万维网
 
 57mins～
 
-报文：客户端和服务端之间的数据传递
+- 报文：客户端和服务端之间的数据传递
+- **HTTP基于TCP/IP通信协议来传递数据**
+- 一次请求 服务端要知道 你是什么样的请求
 
-一次请求 服务端要知道 你是什么样的请求
+- “限制每次连接只处理一个请求”——这是传统的TCP/IP连接。服务器处理完客户的请求，并收到客户的应答后，即断开连接。采用这种方式可以节省传输时间
 
-“限制每次连接只处理一个请求”：这是传统的TCP/IP连接。
+## 4.3 HTTP报文
 
-一般来说，用post请求的时候，请求体是FormData——表单数据；get请求的时候请求体是查询字符串参数（Query String Parameters）
+![image-20240320123141970](js 网络相关面试.assets/image-20240320123141970.png)
 
-  ## 请求方式 POST与GET
+- 一般来说，用post请求的时候，请求体是Form Data——表单数据
+- get请求的时候请求体是查询字符串参数——Query String Parameters
+- <img src="js 网络相关面试.assets/image-20240320135317088.png" alt="image-20240320135317088" style="zoom:67%;" />
 
-加分项：
+  ## 4.4 HTTP报文请求方式 
+
+1h41min~
+
+http 1.1版本中有八种请求方式：
+
+- GET
+- POST
+- OPTIONS
+- HEAD
+- PUT：上传资源
+- DELETE
+- TRACE
+- CONNECT
 
 持久化连接 connection: keep-alive
 
@@ -250,8 +267,6 @@ World Wide Web 万维网
 
 
 ## Accept 40min  
-
-逗号分割
 
 
 
