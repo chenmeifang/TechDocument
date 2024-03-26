@@ -172,6 +172,33 @@ Session和Cookie都是**会话**跟踪技术
 
 
 
+# 3.JWT
+
+https://www.bilibili.com/video/BV1134y1g7VC/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+
+## 3.1 什么是JWT及其特点
+
+JSON Web Token
+
+<img src="03 session和cookie和JWT.assets/image-20240325221127729.png" alt="image-20240325221127729" style="zoom:50%;" />
+
+- JWT是一种用于在网络应用之间安全传递信息的开放标准，通常JWT用于身份验证和非敏感数据的传递
+- 设计JWT的主要目标：在不需要服务器端存储状态的情况下，安全地传递**非敏感信息**给受信任的实体
+- ![image-20240325222909629](03 session和cookie和JWT.assets/image-20240325222909629.png)‘
+- 解码后：<img src="03 session和cookie和JWT.assets/image-20240325223209714.png" alt="image-20240325223209714" style="zoom:50%;" />
+- <img src="03 session和cookie和JWT.assets/image-20240325223229215.png" alt="image-20240325223229215" style="zoom:50%;" />
+
+## 3.2 JWT的应用场景
+
+## 3.3 与其他认证方式的对比
+
+- API Key
+- cookie session
+
+
+
+
+
 
 
 
