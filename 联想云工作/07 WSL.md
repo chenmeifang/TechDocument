@@ -125,7 +125,7 @@ sudo apt-get install make gcc
 gcc -v
 ```
 
-方法2：https://redis.io/docs/install/install-redis/install-redis-on-linux/
+方法2：https://redis.io/docs/install/install-redis/install-redis-on-linux/  (但是按这种方法安装的redis，在启动luoshu-server的时候会报错，报‘redis client is closed’)
 
 ```shell
 $ curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
@@ -201,6 +201,13 @@ python --version
 ```
 npm config set registry https://registry.npmmirror.com
 npm run lerna-build
+```
+
+中间遇到了问题，补充执行了以下命令：
+
+```
+apt-get install make
+apt-get install g++
 ```
 
 # 12.WSL中卸载ubuntu
