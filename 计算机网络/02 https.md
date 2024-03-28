@@ -1,4 +1,35 @@
-[浏览器是如何验证https证书合法性的](https://blog.csdn.net/WoTrusCA/article/details/108253548)
+https://www.bilibili.com/video/BV1KY411x7Jp/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+
+- http协议的请求和响应的报文都是明文的
+- https：在http的基础上用TLS/SSL进行加密，这样通信就不容易受到拦截和攻击
+
+# 1. TLS/SSL
+
+- SSL是TLS的前身，都是加密安全协议
+
+# 2. SSL证书
+
+# 3. 申请15年SSL免费证书
+
+https://www.bilibili.com/video/BV13X4y127gL/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+
+cloudflare.com
+
+# 4. SSL连接过程
+
+https://www.bilibili.com/video/BV1Jp4y1T7NQ/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+
+<img src="02 https.assets/image-20240328230353013.png" alt="image-20240328230353013" style="zoom: 67%;" />
+
+<img src="02 https.assets/image-20240328230522974.png" alt="image-20240328230522974" style="zoom: 67%;" />
+
+# [5. 浏览器是如何验证https证书合法性的](https://blog.csdn.net/WoTrusCA/article/details/108253548)
+
+# 6. 数字签名和CA数字证书的核心原理和作用
+
+https://www.bilibili.com/video/BV1mj421d7VE/?spm_id_from=333.788&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+
+
 
 [https的加密原理](https://zhuanlan.zhihu.com/p/43789231)
 
