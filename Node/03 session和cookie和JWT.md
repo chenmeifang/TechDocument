@@ -1,4 +1,4 @@
-# 一 cookie
+# 0.cookie
 
 在http协议中有这样一项规则：
 
@@ -218,7 +218,6 @@ server.listen(8000)
 
 - 不同的会话，对应不同的Session
 - ==那么系统是如何识别各个Session对象的？==
-
 - ==即是如何做到在同一会话过程中，一直使用的是同一个Session对象呢？==
 
 - 两个浏览器，是两个窗口，是两次会话，所以session对象不一样。
@@ -247,13 +246,11 @@ server.listen(8000)
 
 
 
-# 3.JWT
+# 14.JWT——JSON Web Token
 
 https://www.bilibili.com/video/BV1134y1g7VC/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
 
-## 3.1 什么是JWT及其特点
-
-JSON Web Token
+## 14.1 什么是JWT及其特点
 
 <img src="03 session和cookie和JWT.assets/image-20240325221127729.png" alt="image-20240325221127729" style="zoom:50%;" />
 
@@ -263,12 +260,94 @@ JSON Web Token
 - 解码后：<img src="03 session和cookie和JWT.assets/image-20240325223209714.png" alt="image-20240325223209714" style="zoom:50%;" />
 - <img src="03 session和cookie和JWT.assets/image-20240325223229215.png" alt="image-20240325223229215" style="zoom:50%;" />
 
-## 3.2 JWT的应用场景
+## 14.2 JWT的应用场景
 
-## 3.3 与其他认证方式的对比
+## 14.3 与其他认证方式的对比
 
 - API Key
 - cookie session
+
+# [15. JWT——JSON Web Token](https://www.bilibili.com/video/BV1tJ411B7yJ?p=1&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+一般用于用户认证（前后端分离的项目）
+
+## [15.1 基于传统Token实现用户认证](https://www.bilibili.com/video/BV1tJ411B7yJ?p=2&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+- 用户登录，服务端给客户端返回token，并将token保存在服务端
+- 以后用户再来访问时，需要携带token，服务端获取token后，再去数据库中获取token进行校验
+
+## [15.2 基于JWT实现用户认证](https://www.bilibili.com/video/BV1tJ411B7yJ?p=2&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+- 用户登录，服务端给客户端返回token，服务端不保存token
+- 以后用户再来访问时，需要携带token，服务端获取token后，再对token进行校验
+
+
+
+- 优势：相较于传统的token，无需在服务端保存token
+
+## [15.3 JWT实现原理](https://www.bilibili.com/video/BV1tJ411B7yJ?p=3&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
