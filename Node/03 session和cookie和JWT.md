@@ -267,16 +267,16 @@ https://www.bilibili.com/video/BV1134y1g7VC/?spm_id_from=333.337.search-card.all
 - API Key
 - cookie session
 
-# [15. JWT——JSON Web Token](https://www.bilibili.com/video/BV1tJ411B7yJ?p=1&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+# [15.JWT——JSON Web Token](https://www.bilibili.com/video/BV1tJ411B7yJ?p=1&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 一般用于用户认证（前后端分离的项目）
 
-## [15.1 基于传统Token实现用户认证](https://www.bilibili.com/video/BV1tJ411B7yJ?p=2&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+## [15.1基于传统Token实现用户认证](https://www.bilibili.com/video/BV1tJ411B7yJ?p=2&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-- 用户登录，服务端给客户端返回token，并将token保存在服务端
+- 用户登录，服务端给客户端返回token，并将token保存在服务端（该token可使用uuid生成）
 - 以后用户再来访问时，需要携带token，服务端获取token后，再去数据库中获取token进行校验
 
-## [15.2 基于JWT实现用户认证](https://www.bilibili.com/video/BV1tJ411B7yJ?p=2&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+## [15.2基于JWT实现用户认证](https://www.bilibili.com/video/BV1tJ411B7yJ?p=2&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 - 用户登录，服务端给客户端返回token，服务端不保存token
 - 以后用户再来访问时，需要携带token，服务端获取token后，再对token进行校验
@@ -285,7 +285,22 @@ https://www.bilibili.com/video/BV1134y1g7VC/?spm_id_from=333.337.search-card.all
 
 - 优势：相较于传统的token，无需在服务端保存token
 
-## [15.3 JWT实现原理](https://www.bilibili.com/video/BV1tJ411B7yJ?p=3&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+## [15.3JWT实现原理](https://www.bilibili.com/video/BV1tJ411B7yJ?p=3&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+https://jwt.io/
+
+- 用户提交用户名和密码给服务端，如果登录成功，使用jwt创建一个token，并给用户返回
+
+<img src="03 session和cookie和JWT.assets/image-20240329214334435.png" alt="image-20240329214334435" style="zoom: 50%;" />
+
+<img src="03 session和cookie和JWT.assets/image-20240329215002971.png" alt="image-20240329215002971" style="zoom:55%;" />
+
+- 以后用户再来访问的时候，需要携带token，后端需要对token进行校验
+  - 获取token
+  -  <img src="03 session和cookie和JWT.assets/image-20240329215444152.png" alt="image-20240329215444152" style="zoom:67%;" />
+  - 22min处
+
+
 
 
 

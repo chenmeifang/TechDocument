@@ -112,7 +112,7 @@ nvm install 20.9.0
 
 怎么查看是否安装了lerna？
 
-# 6. 在wsl中安装Redis
+# 6. wsl中安装Redis
 
 ![image-20240326235045416](07 WSL.assets/image-20240326235045416.png)
 
@@ -210,13 +210,33 @@ apt-get install make
 apt-get install g++
 ```
 
-# 12.WSL中卸载ubuntu
+luoshu-webresource 跑npm run dev : server的时候遇到问题：
+
+<img src="07 WSL.assets/image-20240329210358313.png" alt="image-20240329210358313" style="zoom:50%;" />
+
+解决：
+
+```
+// 1.查找libjvm.so
+sudo find / -name libjvm.so
+// 一般是这个目录: /usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/amd64/server
+// 2.添加相关路径到ld.so.conf
+sudo vim /etc/ld.so.conf
+// 文件末尾添加: /usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/amd64/server
+// 3.配置生效
+sudo /sbin/ldconfig
+重新npm run dev:server
+```
+
+# 12. WSL中卸载ubuntu
 
 ```shell
 wsl --unregister Ubuntu
 ```
 
+# 13. WSL中修改hosts文件
 
+/etc/hosts
 
 
 
