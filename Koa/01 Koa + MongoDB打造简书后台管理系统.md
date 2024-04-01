@@ -207,17 +207,34 @@ await next() 执行下一个中间件
 
 # 35.使用koa-parameter校验参数
 
-# 36.NoSQL数据库介绍
+# [36.NoSQL数据库介绍](https://www.bilibili.com/video/BV1v5411T7Ez?p=36&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# 37.MongoDB介绍与安装
+- NoSQL：<img src="01 Koa + MongoDB打造简书后台管理系统.assets/image-20240331151438303.png" alt="image-20240331151438303" style="zoom: 33%;" />
 
-# 38.MongoDBCompass让数据清晰可见
+# [37.MongoDB介绍与安装](https://www.bilibili.com/video/BV1v5411T7Ez?p=37&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# 39.使用mongoose连接数据库
+<img src="01 Koa + MongoDB打造简书后台管理系统.assets/image-20240331210633081.png" alt="image-20240331210633081" style="zoom: 30%;" />
 
-# 40.设计用户模块的schema
+## 为什么要用MongoDB
 
-# 41.用MongoDB实现用户的增删查改
+<img src="01 Koa + MongoDB打造简书后台管理系统.assets/image-20240331210741811.png" alt="image-20240331210741811" style="zoom:33%;" />
+
+
+
+## MongoDB下载
+
+https://www.mongodb.com/download-center/community
+
+下载4.4.29版本 
+
+下载过高版本会有问题
+
+## 相关命令
+
+```
+mongo
+show dbs
+```
 
 # 42.封装业务逻辑层
 
