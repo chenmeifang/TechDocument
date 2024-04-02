@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Props, Key, Ref } from 'shared/ReactTypes';
 import { WorkTag } from './workTags';
-import { Flags, Noflags } from './fiberFlags';
+import { Flags, NoFlags } from './fiberFlags';
 
 export class FiberNode {
 	type: any;
@@ -18,9 +18,9 @@ export class FiberNode {
 
 	memoizedProps: Props | null;
 	alternate: FiberNode | null;
-	flags: Flags;
+	flags: Flags; // 各种操作标记
 
-	// tag: fiberNode是什么类型的节点
+	// tag: WorkTag————fiberNode是什么类型的节点
 	// pendingProps: 当前fiberNode接下来有哪些props需要改变
 	constructor(tag: WorkTag, pendingProps: Props, key: Key) {
 		// 实例
@@ -32,7 +32,7 @@ export class FiberNode {
 		this.type = null;
 
 		// 构成树状结构
-		this.return = null;
+		this.return = null; // 指向父fiberNode
 		this.sibling = null;
 		this.child = null;
 		this.index = 0;
@@ -45,6 +45,6 @@ export class FiberNode {
 
 		this.alternate = null;
 		// 副作用
-		this.flags = Noflags;
+		this.flags = NoFlags;
 	}
 }
