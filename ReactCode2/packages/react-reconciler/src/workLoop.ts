@@ -8,6 +8,9 @@ function prepareFreshStack(fiber: FiberNode) {
 	workInProgress = fiber;
 }
 
+// renderRoot是谁调用的？
+// renderRoot接下来会执行更新的过程
+// 那么可以推测：触发更新的那些api会调用renderRoot
 function renderRoot(root: FiberNode) {
 	// 初始化:让当前workInProgress指向我们需要遍历的第一个FiberNode
 	prepareFreshStack(root);
