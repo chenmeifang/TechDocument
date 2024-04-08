@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type Key = any;
 export type Ref = any;
 export type Props = any;
@@ -12,4 +13,4 @@ export interface ReactElementType {
 	__mark: string;
 }
 
-export type Action<State> = State | ((prevState: State) => State)
+export type Action<State> = State | ((prevState: State) => State);

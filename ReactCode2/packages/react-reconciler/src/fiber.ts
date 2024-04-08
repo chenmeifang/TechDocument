@@ -2,6 +2,7 @@
 import { Props, Key, Ref } from 'shared/ReactTypes';
 import { WorkTag } from './workTags';
 import { Flags, NoFlags } from './fiberFlags';
+import { Container } from 'hostConfig';
 
 export class FiberNode {
 	type: any;
@@ -16,22 +17,31 @@ export class FiberNode {
 	child: FiberNode | null;
 	index: number;
 
-	memoizedProps: Props | null;
+	memoizedProps: Props | null; // 上一次组件更新后的props（即 旧的props）
+	memoizedState: any;
 	alternate: FiberNode | null;
 	flags: Flags; // 各种操作标记
+	updateQueue: unknown;
 
 	// tag: WorkTag————fiberNode是什么类型的节点
 	// pendingProps: 当前fiberNode接下来有哪些props需要改变
 	constructor(tag: WorkTag, pendingProps: Props, key: Key) {
-		// 实例
+		// 在Fiber对象中,有很多属性,主要分为四类:
+		// 1.和dom实例对象相关的属性
 		this.tag = tag;
 		this.key = key;
 		// HostComponent <div> div DOM
 		this.stateNode = null;
+		// 如果当前fiber表示的是普通dom节点，stateNode属性当中存储的就是节点对应的真实dom对象
+		// 如果当前fiber表示的是类组件，stateNode属性当中存储的就是类组件的实例对象
+		// 如果当前fiber表示的是函数组件，stateNode属性当中存储的就是null，因为函数组件没有实例
 		// FunctionComponent () => {}
 		this.type = null;
+		// type: createElement方法的第一个参数，表示节点的类型
+		// 如果当前节点是div或者span，type属性存储的就是字符类型的div，span
+		// 如果当前元素是组件，type属性当中存储的就是组件的构造函数
 
-		// 构成树状结构
+		// 2.和构建fiber树相关的属性
 		this.return = null; // 指向父fiberNode
 		this.sibling = null;
 		this.child = null;
@@ -39,12 +49,55 @@ export class FiberNode {
 
 		this.ref = null;
 
-		// 作为工作单元
-		this.pendingProps = pendingProps;
-		this.memoizedProps = null;
+		// 3.和组件状态相关的属性
+		this.pendingProps = pendingProps; // 组件中即将更新的props
+		this.memoizedProps = null; // 上一次组件更新后的props（即 旧的props）
+		this.memoizedState = null; // 上一次组件更新后的state (即 旧的state)
+		this.updateQueue = null; // 该Fiber对应的组件产生的状态更新会存放在这个这个队列里面
 
 		this.alternate = null;
-		// 副作用
+		// 4.和副作用相关的属性————可触发dom操作的属性
 		this.flags = NoFlags;
 	}
 }
+
+export class FiberRootNode {
+	// ReactDOM.createRoot(rootElement).render(<App/>)
+	container: Container; // 保存对应的宿主环境挂载的节点————rootElement节点
+	current: FiberNode; // current指向hostRootFiber
+	finishedWork: FiberNode | null; // 指向整个更新完成以后的hostRootFiber
+	constructor(container: Container, hostRootFiber: FiberNode) {
+		this.container = container;
+		this.current = hostRootFiber;
+		hostRootFiber.stateNode = this;
+		this.finishedWork = null;
+	}
+}
+
+export const createWorkInProgress = (
+	current: FiberNode,
+	pendingProps: Props
+): FiberNode => {
+	let wip = current.alternate;
+
+	if (wip === null) {
+		// mount 首屏渲染
+		wip = new FiberNode(current.tag, pendingProps, current.key);
+		wip.stateNode = current.stateNode;
+
+		wip.alternate = current;
+		current.alternate = wip;
+	} else {
+		// update
+		wip.pendingProps = pendingProps;
+		wip.flags = NoFlags;
+	}
+	wip.type = current.type;
+	wip.updateQueue = current.updateQueue;
+	wip.child = current.child;
+	wip.memoizedProps = current.memoizedProps;
+	wip.memoizedState = current.memoizedState;
+
+	// 每次传进来一个FiberNode，经过一堆操作以后，返回FiberNode的alternate
+	return wip;
+};
