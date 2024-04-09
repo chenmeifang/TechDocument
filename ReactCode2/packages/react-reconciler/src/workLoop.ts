@@ -10,10 +10,16 @@ let workInProgress: FiberNode | null = null;
 // 	workInProgress = fiber;
 // }
 
+/**
+ * 构建workInProgress Fiber树以及里面的rootFiber对象
+ * @param root 
+ */
 function prepareFreshStack(root: FiberRootNode) {
 	// FiberRootNode不是一个普通的Fiber，不能直接拿来当workInProgress
 	// 所以需要一个方法来创建workInProgress
 	// workInProgress = root;
+
+    // workInProgress：全局变量。表示每次为react元素构建的fiber对象
 	workInProgress = createWorkInProgress(root.current, {});
 }
 
@@ -42,9 +48,13 @@ function markUpdateFromFiberToRoot(fiber: FiberNode) {
 	return null;
 }
 
-// renderRoot是谁调用的？
-// renderRoot接下来会执行更新的过程
-// 那么可以推测：触发更新的那些api会调用renderRoot
+/**
+ * performSyncWorkOnRoot
+ * renderRoot是谁调用的？
+ * renderRoot接下来会执行更新的过程
+ * 那么可以推测：触发更新的那些api会调用renderRoot
+ * @param root 
+ */
 function renderRoot(root: FiberRootNode) {
 	// 初始化:让当前workInProgress指向我们需要遍历的第一个FiberNode
 	prepareFreshStack(root);
@@ -60,12 +70,32 @@ function renderRoot(root: FiberRootNode) {
 	} while (true);
 }
 
+/**
+ * workLoopSync
+ * 开启一个循环，以同步的方式开始去构建Fiber对象
+ * 构建其他react元素对应的fiber对象
+ * 当该方法被调用完成以后，
+ * 就说明workInProgress Fiber树当中的每一个Fiber节点就都已经构建完成了
+ */
 function workLoop() {
+    // workInProgress是一个fiber对象
+    // 它的值不为null意味着该fiber对象上仍然有更新要执行偶fiber
+    // while方法支撑render阶段所有fiber节点的构建
 	while (workInProgress !== null) {
 		performUnitOfWork(workInProgress);
 	}
 }
 
+// function workLoop() { 
+// 	while (workInProgress !== null) {
+// 		workInProgress = performUnitOfWork(workInProgress);
+// 	}
+// }
+
+/**
+ * 
+ * @param fiber 
+ */
 function performUnitOfWork(fiber: FiberNode) {
 	const next = beginWork(fiber);
 	fiber.memoizedProps = fiber.pendingProps;
