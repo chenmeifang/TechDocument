@@ -74,6 +74,16 @@ export class FiberRootNode {
 	}
 }
 
+/**
+ * 构建workInProgress Fiber树中的rootFiber
+ * 构建完成后会替换current fiber
+ * 初始渲染pendingProps为null
+ * @param current FiberRootNode.current 即 rootFiber
+ * 				 current是currentFiber树中的rootFiber
+ * current.alternate：表示workInProgress Fiber树里面的rootFiber
+ * @param pendingProps 
+ * @returns 
+ */
 export const createWorkInProgress = (
 	current: FiberNode,
 	pendingProps: Props
