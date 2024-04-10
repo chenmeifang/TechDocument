@@ -23,14 +23,18 @@ function prepareFreshStack(root: FiberRootNode) {
 	workInProgress = createWorkInProgress(root.current, {});
 }
 
+/**
+ * 对应源码中的scheduleWork方法和scheduleUpdateOnFiber方法
+ * 在fiber中调度Update
+ * 1.对于首屏渲染，传进来的fiber是hostRootFiber；
+ * 2.对于其他流程，例如：this.setState，传进来的就是class component对应的fiber
+ * 				要从当前的fiber一直向上遍历到我们的根节点————FiberRootNode
+ * @param fiber
+ */
 export function scheduleUpdateOnFiber(fiber: FiberNode) {
-	// 在fiber中调度Update
-	// 1.对于首屏渲染，传进来的fiber是hostRootFiber；
-	// 2.对于其他流程，例如：this.setState，传进来的就是class component对应的fiber
-	//					要从当前的fiber一直向上遍历到我们的根节点————FiberRootNode
 	// TODO 调度功能
 
-	// fiberRootNode
+	// root：fiberRootNode
 	const root = markUpdateFromFiberToRoot(fiber);
 	renderRoot(root);
 }
@@ -43,7 +47,8 @@ function markUpdateFromFiberToRoot(fiber: FiberNode) {
 		parent = node.return;
 	}
 	if (node.tag === HostRoot) {
-		return node.stateNode;
+		// hostRootFiber
+		return node.stateNode; // fiberRootNode
 	}
 	return null;
 }

@@ -10,11 +10,17 @@ import {
 import { scheduleUpdateOnFiber } from './workLoop';
 import { HostRoot } from './workTags';
 
-// ReactDOM.createRoot(rootElement).render(<App/>)
-// 当执行ReactDOM.createRoot()之后，
-// createRoot方法内部就会执行createContainer
-// 而当我们在执行updateContainer以后，
-// 在render方法内部就会执行updateContainer
+/**
+ * ReactDOM.createRoot(rootElement).render(<App/>)
+ * 当执行ReactDOM.createRoot()之后，
+ * createRoot方法内部就会执行createContainer
+ * 而当我们在执行render以后，
+ * 在render方法内部就会执行updateContainer
+ *
+ * 创建hostFiberRoot和fiberRootNode
+ * @param container
+ * @returns
+ */
 export function createContainer(container: Container) {
 	const hostRootFiber = new FiberNode(HostRoot, {}, null); // WorkTag, pendingProps, key
 	const root = new FiberRootNode(container, hostRootFiber); // FiberRootNode：当前应用统一的根节点
