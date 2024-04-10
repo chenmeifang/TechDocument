@@ -10,24 +10,11 @@ export interface UpdateQueue<State> {
 	};
 }
 
-// export const createUpdate2 = <State>(action: Action<State>) => {
-//     return {
-//         action
-//     }
-// }
 export const createUpdate = <State>(action: Action<State>): Update<State> => {
 	return {
 		action
 	};
 };
-
-// export const createUpdateQueue = <Action>() => {
-// 	return {
-// 		shared: {
-// 			pending: null
-// 		}
-// 	} as UpdateQueue<Action>;
-// };
 
 export const createUpdateQueue = <State>() => {
 	return {
@@ -36,13 +23,6 @@ export const createUpdateQueue = <State>() => {
 		}
 	} as UpdateQueue<State>;
 };
-
-// export const enqueueUpdate = <Action>(
-// 	updateQueue: UpdateQueue<Action>,
-// 	update: Update<Action>
-// ) => {
-// 	updateQueue.shared.pending = update;
-// };
 
 export const enqueueUpdate = <State>(
 	updateQueue: UpdateQueue<State>,
