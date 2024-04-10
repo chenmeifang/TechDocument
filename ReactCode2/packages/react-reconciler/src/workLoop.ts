@@ -12,14 +12,14 @@ let workInProgress: FiberNode | null = null;
 
 /**
  * 构建workInProgress Fiber树以及里面的rootFiber对象
- * @param root 
+ * @param root
  */
 function prepareFreshStack(root: FiberRootNode) {
 	// FiberRootNode不是一个普通的Fiber，不能直接拿来当workInProgress
 	// 所以需要一个方法来创建workInProgress
 	// workInProgress = root;
 
-    // workInProgress：全局变量。表示每次为react元素构建的fiber对象
+	// workInProgress：全局变量。表示每次为react元素构建的fiber对象
 	workInProgress = createWorkInProgress(root.current, {});
 }
 
@@ -53,7 +53,7 @@ function markUpdateFromFiberToRoot(fiber: FiberNode) {
  * renderRoot是谁调用的？
  * renderRoot接下来会执行更新的过程
  * 那么可以推测：触发更新的那些api会调用renderRoot
- * @param root 
+ * @param root
  */
 function renderRoot(root: FiberRootNode) {
 	// 初始化:让当前workInProgress指向我们需要遍历的第一个FiberNode
@@ -78,41 +78,52 @@ function renderRoot(root: FiberRootNode) {
  * 就说明workInProgress Fiber树当中的每一个Fiber节点就都已经构建完成了
  */
 function workLoop() {
-    // workInProgress是一个fiber对象
-    // 它的值不为null意味着该fiber对象上仍然有更新要执行偶fiber
-    // while方法支撑render阶段所有fiber节点的构建
+	// workInProgress是一个fiber对象
+	// 它的值不为null意味着该fiber对象上仍然有更新要执行偶fiber
+	// while方法支撑render阶段所有fiber节点的构建
 	while (workInProgress !== null) {
 		performUnitOfWork(workInProgress);
 	}
 }
 
-// function workLoop() { 
+// function workLoop() {
 // 	while (workInProgress !== null) {
 // 		workInProgress = performUnitOfWork(workInProgress);
 // 	}
 // }
 
 /**
- * 
- * @param fiber 
+ * 构建Fiber对象
+ * @param fiber
  */
 function performUnitOfWork(fiber: FiberNode) {
+	// beginWork：从父到子，构建Fiber节点对象
+	// 返回值next：为当前节点的子节点
 	const next = beginWork(fiber);
 	fiber.memoizedProps = fiber.pendingProps;
 
 	if (next === null) {
 		// 说明没有子fiber，已经递归到最深层了，接下来需要开始‘归’了
+		// completeUnitOfWork：从子到父，构建其余节点Fiber对象
 		completeUnitOfWork(fiber);
 	} else {
 		workInProgress = next;
 	}
 }
 
+/**
+ * 从子级到父级，构建fiber节点对象
+ * 1.在从子级到父级的过程中，会经过每一个Fiber节点对象，在经过每一个Fiber节点对象的过程中，
+ *   为Fiber节点对象构建其对应的DOM节点对象，并且把dom对象添加到stateNode属性当中
+ * 2.收集要执行DOM操作的Fiber节点，组件effect链表结构
+ * @param fiber
+ * @returns
+ */
 function completeUnitOfWork(fiber: FiberNode) {
 	let node: FiberNode | null = fiber;
 
 	do {
-		completeWork(node);
+		completeWork(node); // 创建节点真实DOM对象并将其添加到stateNode属性中
 		const sibling = node.sibling;
 
 		if (sibling !== null) {
