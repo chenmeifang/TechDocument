@@ -43,16 +43,21 @@ function updateHostComponent(wip: FiberNode) {
 	return wip.child;
 }
 
+/**
+ * 真正构建子级Fiber节点的方法
+ * @param wip 父级Fiber
+ * @param children
+ */
 function reconcileChildren(wip: FiberNode, children?: ReactElementType) {
 	const current = wip.alternate;
 
 	// ？？？？
 	if (current !== null) {
-		// update
+		// 更新
 		// 追踪副作用？？
 		wip.child = reconcileChildFibers(wip, current?.child, children);
 	} else {
-		// mount
+		// 初始渲染
 		// 不追踪副作用？？
 		wip.child = mountChildFibers(wip, null, children);
 	}

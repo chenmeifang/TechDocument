@@ -61,6 +61,11 @@ export class FiberNode {
 	}
 }
 
+/**
+ * 根据vdom创建Fiber对象
+ * @param element
+ * @returns
+ */
 export function createFiberFromElement(element: ReactElementType): FiberNode {
 	const { type, key, props } = element;
 	let fiberTag: WorkTag = FunctionComponent;
