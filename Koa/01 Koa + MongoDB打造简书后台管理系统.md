@@ -219,8 +219,6 @@ await next() 执行下一个中间件
 
 <img src="01 Koa + MongoDB打造简书后台管理系统.assets/image-20240331210741811.png" alt="image-20240331210741811" style="zoom:33%;" />
 
-
-
 ## MongoDB下载
 
 https://www.mongodb.com/download-center/community
@@ -235,6 +233,18 @@ https://www.mongodb.com/download-center/community
 mongo
 show dbs
 ```
+
+# [38.MongoDBCompass让数据清晰可见](https://www.bilibili.com/video/BV1v5411T7Ez?p=38&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+# [39.使用mongoose连接数据库](https://www.bilibili.com/video/BV1v5411T7Ez?p=39&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+```
+cnpm i mongoose --save
+```
+
+# [40.设计用户模块的schema](https://www.bilibili.com/video/BV1v5411T7Ez?p=40&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+
 
 # 42.封装业务逻辑层
 
