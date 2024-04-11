@@ -54,7 +54,7 @@ function markUpdateFromFiberToRoot(fiber: FiberNode) {
 }
 
 /**
- * performSyncWorkOnRoot
+ * 对应源码中的performSyncWorkOnRoot
  * renderRoot是谁调用的？
  * renderRoot接下来会执行更新的过程
  * 那么可以推测：触发更新的那些api会调用renderRoot

@@ -33,7 +33,7 @@ export function createContainer(container: Container) {
 }
 
 /**
- * 所做的最核心的事情：创建一个任务对象,将其放在任务队列中
+ * 所做的最核心的事情：创建一个任务对象,将其放在RootFiber的任务队列中
  * 当前所做的事情是初始化渲染，它会把初始化渲染当做一个任务去执行
  * @param element 要渲染的React元素
  * @param root Fiber Root对象
