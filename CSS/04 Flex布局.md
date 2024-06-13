@@ -43,3 +43,51 @@ flex-direction是决定了主轴的方向
 
 # 10.item-slign-self
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```javascript
+checkbox:{
+	checked: { val: "1" },
+	checkedState: {
+		val: "0052",
+		font: "Wingdings 2"
+	},
+	uncheckedState： {
+		val: "2610",
+		font: "MS Gothic"
+	}
+}
+```
+

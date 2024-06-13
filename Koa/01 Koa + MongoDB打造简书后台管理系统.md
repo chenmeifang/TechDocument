@@ -33,14 +33,19 @@ NodeJS的特性：
   - 一个NodeJs的应用，无法利用多核资源
   - NodeJs采用的是事件驱动和异步IO的方式，实现了一个单线程高并发的运行环境
   - 单线程意味着同一时间只能做一件事情
-  - NodeJS其实只是关于’JS的部分‘执行是单线程的，IO操作显然是由其他线程来完成的
+  - ==NodeJS其实只是关于’JS的部分‘执行是单线程的，IO操作显然是由其他线程来完成的==
   - JS执行线程是单线程的，把需要做的IO交给底层来完成，自己马上返回去做别的事情，然后底层在指定的时通过事件驱动进行回调就可以了
   - node会先通过**node-bindings**调用c++代码，然后通过c++代码封装一个叫请求对象（包括需要执行的功能）的东西，交给底层去处理
 - 一个异步IO的大致流程：
-  - 用户通过JS代码，调用Node核心模块，将参数和回调函数传入到核心模块中，node核心模块会将传入的参数和回调函数封装成一个请求对象，然后将这个请求对象推入到IO线程池中等待执行，此时javascript发起的异步调用结束，javascript的线程呢还会继续进行后续的操作
+  - 用户通过JS代码，调用Node核心模块，将参数和回调函数传入到核心模块中，node核心模块会将传入的参数和回调函数封装成一个请求对象，然后将这个请求对象推入到==IO线程池==中等待执行，此时javascript发起的异步调用结束，javascript的线程呢还会继续进行后续的操作
   - 当IO操作完成后，会取出之前封装在请求对象中的回调函数，执行这个回调函数，告诉JS主线程执行的结果
 - Node的另一个功能：本地代码的构建
   - webpack是用Node写的
+
+
+
+- Node在处理高并发方面与Java相比有哪些独特的优势？
+- 
 
 # 4.Node.js的安装
 
@@ -61,11 +66,26 @@ npm怎么查看全局安装了哪些包？
 | -g        | 指全局安装过的包 |
 | --depth 0 | 限制输出模块层级 |
 
-# 7.nodemon
+# 7.nodemon 热部署
 
-热部署
+https://www.bilibili.com/video/BV1v5411T7Ez?p=7&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+
+```json
+node index.js
+--->
+// 安装nodemon 因为nodemon需要在全局使用，所以进行全局安装
+cnpm i -g nodemon
+// 使用nodemon
+nodemon index.js
+```
 
 # 8.Node中的模块化
+
+https://www.bilibili.com/video/BV1v5411T7Ez?p=8&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+
+向外抛出：module.exports = xxx具体的方法名
+
+引入：require('文件的相对路径')
 
 # 9.系统模块
 
@@ -122,9 +142,11 @@ path.dirname('/foo/bar/baz/asdf/quux');
 // Returns: '/foo/bar/baz/asdf' 
 ```
 
+# 11. fs模块 文件系统
 
+![image-20240613181020709](01 Koa + MongoDB打造简书后台管理系统.assets/image-20240613181020709.png)
 
-# 11. fs模块
+![image-20240613181717972](01 Koa + MongoDB打造简书后台管理系统.assets/image-20240613181717972.png)
 
 # 12. buffer模块
 
