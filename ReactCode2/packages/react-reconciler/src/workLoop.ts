@@ -121,7 +121,8 @@ function performUnitOfWork(fiber: FiberNode) {
  * 1.从子级到父级，构建fiber节点对象
  * 2.在从子级到父级的过程中，会经过每一个Fiber节点对象，在经过每一个Fiber节点对象的过程中，
  *   为Fiber节点对象构建其对应的DOM节点对象，并且把dom对象添加到stateNode属性当中
- * 3.收集要执行DOM操作的Fiber节点，组件effect链表结构
+ * 3.从子到父的过程中，不断的收集当前Fiber的子Fiber，
+ * 	收集当前Fiber要执行DOM操作的子Fiber节点，组件effect链表结构
  * @param fiber
  * @returns
  */

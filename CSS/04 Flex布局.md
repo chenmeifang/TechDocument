@@ -78,3 +78,51 @@ https://www.bilibili.com/video/BV1pK411X7sn?p=12&spm_id_from=pageDriver&vd_sourc
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```javascript
+checkbox:{
+	checked: { val: "1" },
+	checkedState: {
+		val: "0052",
+		font: "Wingdings 2"
+	},
+	uncheckedState： {
+		val: "2610",
+		font: "MS Gothic"
+	}
+}
+```
+

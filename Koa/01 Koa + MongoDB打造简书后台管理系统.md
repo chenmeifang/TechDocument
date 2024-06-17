@@ -33,14 +33,19 @@ NodeJS的特性：
   - 一个NodeJs的应用，无法利用多核资源
   - NodeJs采用的是事件驱动和异步IO的方式，实现了一个单线程高并发的运行环境
   - 单线程意味着同一时间只能做一件事情
-  - NodeJS其实只是关于’JS的部分‘执行是单线程的，IO操作显然是由其他线程来完成的
+  - ==NodeJS其实只是关于’JS的部分‘执行是单线程的，IO操作显然是由其他线程来完成的==
   - JS执行线程是单线程的，把需要做的IO交给底层来完成，自己马上返回去做别的事情，然后底层在指定的时通过事件驱动进行回调就可以了
   - node会先通过**node-bindings**调用c++代码，然后通过c++代码封装一个叫请求对象（包括需要执行的功能）的东西，交给底层去处理
 - 一个异步IO的大致流程：
-  - 用户通过JS代码，调用Node核心模块，将参数和回调函数传入到核心模块中，node核心模块会将传入的参数和回调函数封装成一个请求对象，然后将这个请求对象推入到IO线程池中等待执行，此时javascript发起的异步调用结束，javascript的线程呢还会继续进行后续的操作
+  - 用户通过JS代码，调用Node核心模块，将参数和回调函数传入到核心模块中，node核心模块会将传入的参数和回调函数封装成一个请求对象，然后将这个请求对象推入到==IO线程池==中等待执行，此时javascript发起的异步调用结束，javascript的线程呢还会继续进行后续的操作
   - 当IO操作完成后，会取出之前封装在请求对象中的回调函数，执行这个回调函数，告诉JS主线程执行的结果
 - Node的另一个功能：本地代码的构建
   - webpack是用Node写的
+
+
+
+- Node在处理高并发方面与Java相比有哪些独特的优势？
+- 
 
 # 4.Node.js的安装
 
@@ -61,11 +66,26 @@ npm怎么查看全局安装了哪些包？
 | -g        | 指全局安装过的包 |
 | --depth 0 | 限制输出模块层级 |
 
-# 7.nodemon
+# 7.nodemon 热部署
 
-热部署
+https://www.bilibili.com/video/BV1v5411T7Ez?p=7&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+
+```json
+node index.js
+--->
+// 安装nodemon 因为nodemon需要在全局使用，所以进行全局安装
+cnpm i -g nodemon
+// 使用nodemon
+nodemon index.js
+```
 
 # 8.Node中的模块化
+
+https://www.bilibili.com/video/BV1v5411T7Ez?p=8&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+
+向外抛出：module.exports = xxx具体的方法名
+
+引入：require('文件的相对路径')
 
 # 9.系统模块
 
@@ -122,9 +142,11 @@ path.dirname('/foo/bar/baz/asdf/quux');
 // Returns: '/foo/bar/baz/asdf' 
 ```
 
+# 11. fs模块 文件系统
 
+![image-20240613181020709](01 Koa + MongoDB打造简书后台管理系统.assets/image-20240613181020709.png)
 
-# 11. fs模块
+![image-20240613181717972](01 Koa + MongoDB打造简书后台管理系统.assets/image-20240613181717972.png)
 
 # 12. buffer模块
 
@@ -144,14 +166,27 @@ path.dirname('/foo/bar/baz/asdf/quux');
 
 # 18.安装Koa
 
-- 初始化：npm init -y
-- 安装：npm install koa2 --save
-  - --save: 代表生产环境安装
-  - 简写：cnpm i koa2 -S
+- 初始化：
+  - mkdir koa-app
+  - cd koa-app
+  - npm init -y
+
+- 安装：npm install koa --save
+  - ==--save: 代表生产环境安装==
+  - 简写：cnpm i koa -S
+
+
+
+- npm init -y和npm init有什么区别？
+  - npm init -y会直接生成package.json文件
+  - npm init 会逐步询问，然后生成package.json文件
 
 # 19.使用脚手架搭建Koa应用程序
 
+https://www.bilibili.com/video/BV1v5411T7Ez?p=19&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+
 - npm i -g koa-generator
+- koa2 --version
 - koa2 myApp
 
 # 20.路由简介
@@ -169,19 +204,87 @@ path.dirname('/foo/bar/baz/asdf/quux');
   - 处理不同的http方法
   - 解析URL上的参数
 
-# 21.Koa中间件
+# 21.Koa中间件 middleware
 
-<img src="01 Koa + MongoDB打造简书后台管理系统.assets/image-20240317212510413.png" alt="image-20240317212510413" style="zoom:67%;" />
+- 如何理解Koa中间件？
 
-await next() 执行下一个中间件
+  - 在Koa中，中间件（middleware）是一个在请求与响应之间运行的函数。它们可以对请求进行处理、修改响应，甚至可以决定是否将请求传递给下一个中间件。Koa的中间件机制使得它的扩展性和灵活性非常强大
 
-<img src="01 Koa + MongoDB打造简书后台管理系统.assets/image-20240317212604016.png" alt="image-20240317212604016" style="zoom:67%;" />
+- 为什么叫中间件？
+
+  - "中间件"这个名字来源于它们在请求处理过程中的位置。一个HTTP请求从客户端到服务器，再到响应返回给客户端，中间件就像一个个“中间”环节，它们可以在这些环节之间进行处理操作
+
+-  Koa中间件的特性
+
+  - **洋葱模型（Onion Model）**：Koa的中间件机制是基于“洋葱模型”的。每个中间件函数都会在控制权传递给下一个中间件之前执行一些操作（如日志记录、认证），然后调用`await next()`将控制权交给下一个中间件。处理完成后，控制权会返回到当前中间件，继续执行后续操作
+  - **异步函数**：Koa使用现代的async/await语法，这使得编写异步中间件变得非常简洁和清晰
+
+- 中间件示例
+
+  - ```javascript
+    const Koa = require('koa');
+    const app = new Koa();
+    
+    // 第一个中间件：日志记录
+    // 它在处理请求前记录开始时间，然后调用`await next()`将控制权传递给下一个中间件。请求处理完成后，它计算处理时间并记录日志。
+    app.use(async (ctx, next) => {
+      const start = Date.now();
+      await next();
+      const ms = Date.now() - start;
+      console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
+    });
+    
+    // 第二个中间件：处理响应
+    app.use(async (ctx, next) => {
+      ctx.body = 'Hello Koa';
+      await next();
+    });
+    
+    // 第三个中间件：修改响应
+    app.use(async (ctx, next) => {
+      ctx.body += ' with Middleware';
+      await next();
+    });
+    
+    // 启动服务器
+    app.listen(3000, () => {
+      console.log('Server running on http://localhost:3000');
+    });
+    ```
+
+- 总结：==Koa的中间件提供了灵活且强大的请求处理机制，通过洋葱模型和异步函数，你可以轻松地控制请求的流转和处理过程==。这也是为什么Koa在Web开发中具有广泛应用的原因之一
+
+- 
+
+- Koa中间件常见面试题
+
+  - **Koa 与 Express 的中间件有什么不同？**
+    -  \- Koa 的中间件基于 `async/await` 和 ES6 Generator，而 Express 的中间件基于回调函数。这使得 Koa 中间件在处理异步操作时更加直观和简洁。Koa 中没有内置的中间件，所有的功能都需要通过第三方中间件实现，而 Express 提供了很多内置的中间件
+
 
 # 22.自己编写一个Koa路由中间件
 
 <img src="01 Koa + MongoDB打造简书后台管理系统.assets/image-20240317213532885.png" alt="image-20240317213532885" style="zoom: 67%;" />
 
 # 23.使用koa-router实现路由
+
+```javascript
+const Router = require('koa-router');
+const router = new Router();
+
+// 路由定义
+router.get('/', (ctx, next) => {
+    ctx.body = 'Hello Koa!';
+});
+
+router.post('/data', (ctx, next) => {
+    ctx.body = {
+      message: 'Data received',
+      data: ctx.request.body, // ctx.request.body是啥？
+    };
+});
+module.exports = router;
+```
 
 # 24.RESTful是什么
 
@@ -192,6 +295,8 @@ await next() 执行下一个中间件
 # 27.RESTful API设计最佳实践
 
 # 28.控制器简介
+
+https://www.bilibili.com/video/BV1v5411T7Ez?p=28&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
 
 # 29.获取http请求参数
 
