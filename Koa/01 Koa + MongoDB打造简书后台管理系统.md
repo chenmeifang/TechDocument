@@ -298,7 +298,22 @@ module.exports = router;
 
 https://www.bilibili.com/video/BV1v5411T7Ez?p=28&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
 
+- 什么是控制器
+  - 拿到路由分配的任务，并执行
+- 为什么要使用控制器
+  - 获取http请求参数
+    - ![image-20240617082753545](01 Koa + MongoDB打造简书后台管理系统.assets/image-20240617082753545.png)
+  - 处理业务逻辑
+  - 发送http响应
+    - ![image-20240617083125575](01 Koa + MongoDB打造简书后台管理系统.assets/image-20240617083125575.png)
+
+
+
+![image-20240617083207254](01 Koa + MongoDB打造简书后台管理系统.assets/image-20240617083207254.png)
+
 # 29.获取http请求参数
+
+https://www.bilibili.com/video/BV1v5411T7Ez/?p=29&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
 
 # 30.发送http响应
 
