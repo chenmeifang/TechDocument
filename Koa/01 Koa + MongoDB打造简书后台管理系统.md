@@ -317,7 +317,13 @@ https://www.bilibili.com/video/BV1v5411T7Ez/?p=29&spm_id_from=pageDriver&vd_sour
 
 # 30.发送http响应
 
+https://www.bilibili.com/video/BV1v5411T7Ez?p=30&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+
+![image-20240617122739366](01 Koa + MongoDB打造简书后台管理系统.assets/image-20240617122739366.png)
+
 # 31.错误处理简介
+
+https://www.bilibili.com/video/BV1v5411T7Ez?p=31&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
 
 # 32.Koa自带的错误处理机制
 
@@ -363,8 +369,6 @@ cnpm i mongoose --save
 ```
 
 # [40.设计用户模块的schema](https://www.bilibili.com/video/BV1v5411T7Ez?p=40&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
-
-
 
 # 42.封装业务逻辑层
 
