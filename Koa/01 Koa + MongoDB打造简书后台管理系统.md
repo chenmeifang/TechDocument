@@ -185,9 +185,11 @@ path.dirname('/foo/bar/baz/asdf/quux');
 
 https://www.bilibili.com/video/BV1v5411T7Ez?p=19&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
 
-- npm i -g koa-generator
-- koa2 --version
-- koa2 myApp
+```
+npm i -g koa-generator
+koa2 --version
+koa2 myApp
+```
 
 # 20.路由简介
 
@@ -327,15 +329,43 @@ https://www.bilibili.com/video/BV1v5411T7Ez?p=31&spm_id_from=pageDriver&vd_sourc
 
 # 32.Koa自带的错误处理机制
 
+https://www.bilibili.com/video/BV1v5411T7Ez/?p=32&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+
+![image-20240617212434667](01 Koa + MongoDB打造简书后台管理系统.assets/image-20240617212434667.png)
+
 # 33.自己编写一个错误处理中间件
 
-# 34.使用koa-json-error处理错误
+https://www.bilibili.com/video/BV1v5411T7Ez/?p=33&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
 
-# 35.使用koa-parameter校验参数
+![image-20240617212933531](01 Koa + MongoDB打造简书后台管理系统.assets/image-20240617212933531.png)
+
+
+
+![image-20240617213059769](01 Koa + MongoDB打造简书后台管理系统.assets/image-20240617213059769.png)
+
+# [34.使用koa-json-error处理错误](https://www.bilibili.com/video/BV1v5411T7Ez/?p=34&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+```
+cnpm i koa-json-error --save // 安装
+```
+
+![image-20240617213251252](01 Koa + MongoDB打造简书后台管理系统.assets/image-20240617213251252.png)
+
+# [35.使用koa-parameter校验参数](https://www.bilibili.com/video/BV1v5411T7Ez/?p=35&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+```
+cnpm i koa-parameter --save // 安装
+```
+
+![image-20240617213638966](01 Koa + MongoDB打造简书后台管理系统.assets/image-20240617213638966.png)
+
+![image-20240617213735288](01 Koa + MongoDB打造简书后台管理系统.assets/image-20240617213735288.png)
 
 # [36.NoSQL数据库介绍](https://www.bilibili.com/video/BV1v5411T7Ez?p=36&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 - NoSQL：<img src="01 Koa + MongoDB打造简书后台管理系统.assets/image-20240331151438303.png" alt="image-20240331151438303" style="zoom: 33%;" />
+- <img src="01 Koa + MongoDB打造简书后台管理系统.assets/image-20240617214003889.png" alt="image-20240617214003889" style="zoom: 50%;" />
+- <img src="01 Koa + MongoDB打造简书后台管理系统.assets/image-20240617214034795.png" alt="image-20240617214034795" style="zoom:50%;" />
 
 # [37.MongoDB介绍与安装](https://www.bilibili.com/video/BV1v5411T7Ez?p=37&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
@@ -369,6 +399,8 @@ cnpm i mongoose --save
 ```
 
 # [40.设计用户模块的schema](https://www.bilibili.com/video/BV1v5411T7Ez?p=40&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+# 41.用mongoDB实现用户的增删改查
 
 # 42.封装业务逻辑层
 
