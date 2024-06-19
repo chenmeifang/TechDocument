@@ -420,17 +420,264 @@ module.exports = {
 
 # [41.用mongoDB实现用户的增删改查](https://www.bilibili.com/video/BV1v5411T7Ez/?p=41&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
+```javascript
+const router = require('koa-router')()
+const { User } = require('../models')
+router.prefix('/users')
 
+// 添加系统用户
+router.post('/add', async (ctx) => {
+  // let { username, pwd } = ctx.request.query;
+  // post请求不能用query接收参数，要用body接收参数
+  let { username, pwd } = ctx.request.body;
+  // User.create是一个异步的操作
+  // 注意：不加await的话，请求会出现Not Found的结果
+  await User.create({ username, pwd }).then(rel => {
+    if (rel) {
+      ctx.body = {
+        code: 200,
+        msg: '添加成功',
+        data: rel
+      }
+    } else {
+      ctx.body = {
+        code: 300,
+        msg: '添加失败',
+      }
+    }
+  }).catch(err => {
+    ctx.body = {
+      code: 400,
+      msg: '添加时出现异常',
+    }
+    console.log(err)
+  })
+})
 
-# 42.封装业务逻辑层
+// 修改系统用户
+router.post('/update', async (ctx) => {
+  let params = ctx.request.body;
+  await User.updateOne({
+    _id: params._id
+  }, {
+    username: params.username,
+    pwd: params.pwd
+  }).then(rel => {
+    ctx.body = {
+      result: rel
+    }
+  }).catch(err => {
+    ctx.body = {
+      code: 400,
+      msg: '修改时出现异常',
+    }
+  })
+})
 
-# 43.封装CRUD的方法
+// 删除系统用户
+router.post('/del', async (ctx) => {
+  let { _id } = ctx.request.body;
+  await User.findOneAndDelete({ _id }).then(rel => {
+    ctx.body = {
+      result: rel
+    }
+  }).catch(err => {
+    ctx.body = {
+      code: 400,
+      msg: '删除时出现异常',
+    }
+    console.log(err)
+  })
+})
+
+// 查询所有系统用户
+router.get('/find', async (ctx) => {
+  await User.find().then(rel => {
+    ctx.body = {
+      result: rel
+    }
+  }).catch(err => {
+    ctx.body = {
+      code: 400,
+      msg: '查询时出现异常',
+    }
+    console.log(err)
+  })
+})
+
+// 查询单个系统用户
+router.get('/find:id', async (ctx) => {
+  await User.findOne({
+    _id: ctx.params.id
+  }).then(rel => {
+    ctx.body = {
+      result: rel
+    }
+  }).catch(err => {
+    ctx.body = {
+      code: 400,
+      msg: '查询时出现异常',
+    }
+    console.log(err)
+  })
+})
+
+module.exports = router
+
+```
+
+# [42.封装业务逻辑层](https://www.bilibili.com/video/BV1v5411T7Ez/?p=43&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+增加controller业务逻辑层，主要是为了简化routes层
+
+```javascript
+// Koa\jianshu\controller\user.js
+const { User } = require('../models')
+
+// 添加系统用户
+const userAdd = async (ctx) => {
+    // let { username, pwd } = ctx.request.query;
+    // post请求不能用query接收参数，要用body接收参数
+    // User.create是一个异步的操作
+    // 注意：不加await的话，请求会出现Not Found的结果
+    let { username, pwd } = ctx.request.body;
+    await User.create({ username, pwd }).then(rel => {
+        if (rel) {
+            ctx.body = {
+                code: 200,
+                msg: '添加成功',
+                data: rel
+            }
+        } else {
+            ctx.body = {
+                code: 300,
+                msg: '添加失败',
+            }
+        }
+    }).catch(err => {
+        ctx.body = {
+            code: 400,
+            msg: '添加时出现异常',
+        }
+        console.log(err)
+    })
+}
+
+// 修改系统用户
+const userUpdate = async (ctx) => {
+    let params = ctx.request.body;
+    await User.updateOne({
+        _id: params._id
+    }, {
+        username: params.username,
+        pwd: params.pwd
+    }).then(rel => {
+        ctx.body = {
+            result: rel
+        }
+    }).catch(err => {
+        ctx.body = {
+            code: 400,
+            msg: '修改时出现异常',
+        }
+    })
+}
+
+// 删除系统用户
+const userDel = async (ctx) => {
+    let { _id } = ctx.request.body;
+    await User.findOneAndDelete({ _id }).then(rel => {
+        ctx.body = {
+            result: rel
+        }
+    }).catch(err => {
+        ctx.body = {
+            code: 400,
+            msg: '删除时出现异常',
+        }
+        console.log(err)
+    })
+}
+
+// 查询所有系统用户
+const userFind = async (ctx) => {
+    await User.find().then(rel => {
+        ctx.body = {
+            result: rel
+        }
+    }).catch(err => {
+        ctx.body = {
+            code: 400,
+            msg: '查询时出现异常',
+        }
+        console.log(err)
+    })
+}
+
+// 查询单个系统用户
+const userFindOne = async (ctx) => {
+    await User.findOne({
+        _id: ctx.params.id
+    }).then(rel => {
+        ctx.body = {
+            result: rel
+        }
+    }).catch(err => {
+        ctx.body = {
+            code: 400,
+            msg: '查询时出现异常',
+        }
+        console.log(err)
+    })
+}
+
+module.exports = {
+    userAdd,
+    userUpdate,
+    userDel,
+    userFind,
+    userFindOne
+}
+```
+
+```javascript
+// Koa\jianshu\routes\users.js
+const router = require('koa-router')()
+const UserController = require('../controller/user')
+router.prefix('/users')
+
+// 添加系统用户
+router.post('/add', UserController.userAdd)
+
+// 修改系统用户
+router.post('/update', UserController.userUpdate)
+
+// 删除系统用户
+router.post('/del', UserController.userDel)
+
+// 查询所有系统用户
+router.get('/find', UserController.userFind)
+
+// 查询单个系统用户
+router.get('/find:id', UserController.userFindOne)
+
+module.exports = router
+```
+
+# [43.封装CRUD的方法](https://www.bilibili.com/video/BV1v5411T7Ez/?p=43&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+- create
+- read 读取
+- update
+- delete
 
 # 44.使用Vue Cli创建Vue.js项目
 
 # 45.配置Element UI组件库
 
-# 46.使用axios发送异步请求
+# [46.使用axios发送异步请求](https://www.bilibili.com/video/BV1v5411T7Ez/?p=46&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+
 
 # 47.axios的进一步封装
 
