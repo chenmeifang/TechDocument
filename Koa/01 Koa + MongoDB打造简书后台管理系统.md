@@ -400,7 +400,27 @@ cnpm i mongoose --save
 
 # [40.设计用户模块的schema](https://www.bilibili.com/video/BV1v5411T7Ez?p=40&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# 41.用mongoDB实现用户的增删改查
+```javascript
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
+// 系统用户模型对象
+const userSchema = new Schema({
+    username: String,
+    pwd: String,
+});
+
+// 对应数据库里面的集合
+const User = mongoose.model("users", userSchema);
+
+module.exports = {
+    User,
+};
+```
+
+# [41.用mongoDB实现用户的增删改查](https://www.bilibili.com/video/BV1v5411T7Ez/?p=41&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+
 
 # 42.封装业务逻辑层
 

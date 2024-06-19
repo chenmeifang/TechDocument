@@ -1,16 +1,14 @@
-https://www.shangmayuan.com/a/bd164402956540cca2c6268b.html
-
-# Generator对象：https://es6.ruanyifeng.com/#docs/generator
+# [Generator对象](https://es6.ruanyifeng.com/#docs/generator)
 
 Async函数是Generator函数的语法糖。
 
 相较于 Generator，Async函数的改进在于下面几点：
 
-1. Generator 函数的执行必须依靠执行器，而 `Async（）` 函数自带执行器，调用方式跟普通函数的调用同样。？？？？
+1. Generator 函数的执行必须依靠执行器，而 `Async（）` 函数自带执行器，调用方式跟普通函数的调用同样。？
 2. `Async` 和 await相较于 `*` 和 `yield` 更加语义化
 3. `async` 函数返回值是 Promise 对象，比 Generator函数返回的 Iterator 对象方便，能够直接使用 `then（）`方法进行调用。
 
-#### 1. Generator基本概念：
+## 1. Generator基本概念：
 
 1. Generator 函数是 ==ES6 提供的一种异步编程解决方案==，语法行为与传统函数完全不同。
 
@@ -92,8 +90,6 @@ Async函数是Generator函数的语法糖。
 
 # 百度笔试题：
 
-![async await](/Users/chenmeifang/Desktop/typora/图片/async await.png)
-
 ```js
 (async () => {
     console.log('1');
@@ -114,11 +110,7 @@ await到底是wait多少不确定！！！！！！！
 
 ！！！！！！5不会打印，只会打印1，3，2！！！！！！！！！！！！！！
 
----
 
-![async](/Users/chenmeifang/Desktop/typora/图片/async1.png)
-
-![async](/Users/chenmeifang/Desktop/typora/图片/async2.png)
 
 我选的是c 错了！！！！
 
@@ -229,11 +221,11 @@ https://www.bilibili.com/video/BV1xW411J7K6?from=search&seid=1051244903373218717
 
 ==async和await让我们把异步的代码写的更加简洁==
 
-![截屏2021-03-15 上午8.28.23](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-15 上午8.28.23.png)
+
 
 把上面的异步代码改的更加扁平一些：
 
-![截屏2021-03-15 上午8.30.28](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-15 上午8.30.28.png)
+
 
 第6行代码也要加await吗？？？？？？
 
@@ -271,15 +263,9 @@ console.log(result);
 //   [[PromiseValue]]: 1		
 ````
 
-
-
-![截屏2021-03-15 上午8.34.58](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-15 上午8.34.58.png)
-
-getZhihuColumn函数返回一个promise。也就意味着我们可以利用promisechain把多个async函数串起来。也可以调用promise的catch方法。
+getZhiuColumn函数返回一个promise。也就意味着我们可以利用promisechain把多个async函数串起来。也可以调用promise的catch方法。
 
 进一步简化：
-
-![截屏2021-03-15 上午8.35.54](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-15 上午8.35.54.png)
 
 ## 第三节：把任意类型的函数转成async风格
 
@@ -290,35 +276,35 @@ async关键字理论上可以适用于js中所有的函数形态。
 * 用到箭头函数
 * 用到方法上面
 
-函数表达式：![ ](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-23 下午2.38.36.png)
+函数表达式：
 
-箭头函数：![截屏2021-03-15 上午8.38.44](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-15 上午8.38.44.png)
+箭头函数：
 
 ==无论是在nodejs还是在浏览器里面，在全局作用域下面，代码的顶级作用域下面，使用async关键字是非法的？？？？==
 
 我们需要声明一个匿名的函数表达式，并且把它设置成async的。
 
-![截屏2021-03-15 上午8.42.07](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-15 上午8.42.07.png)
 
-在类的函数上面使用async和await：![截屏2021-03-15 上午8.43.22](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-15 上午8.43.22.png)
+
+在类的函数上面使用async和await：
 
 ## 第四节： 处理async函数中的错误
 
-![截屏2021-03-15 上午8.49.24](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-15 上午8.49.24.png)
+
 
 # 第五节：正确处理多个await操作的并行串行
 
 第10行和第11行这两个请求是串行的：等待第一个请求完成之后，然后发起第二个请求。
 
-![截屏2021-03-15 上午9.06.58](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-15 上午9.06.58.png) 
+
 
 如何使用async和await，但同时保证这两个请求是并行的呢？？
 
-![截屏2021-03-15 上午9.09.03](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-15 上午9.09.03.png)
+
 
 # 第六节：使用Promise.all( )让多个await操作==并行==
 
-![截屏2021-03-15 上午10.00.20](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-15 上午10.00.20.png)
+
 
 # 第七节：结合await和任意兼容.then()的代码
 
@@ -338,17 +324,13 @@ await操作符后面通常会跟一个promise
 
 # 第八节：在for循环中正确使用await
 
-![截屏2021-03-15 上午10.07.38](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-15 上午10.07.38.png)
+
 
 上面这种写法是串行的！！！！！
 
 如何把循环里面的串行改成并行，让代码运行的更快？？？
 
 思路：先触发所有的请求，然后拿到一个promise的数组，然后遍历这个数组，等待里面的结果。
-
-![截屏2021-03-15 上午10.11.31](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-15 上午10.11.31.png)
-
-![截屏2021-03-23 下午3.18.08](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-23 下午3.18.08.png)
 
 
 
