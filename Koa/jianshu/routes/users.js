@@ -18,3 +18,7 @@ router.get('/find', UserController.userFind)
 router.get('/find:id', UserController.userFindOne)
 
 module.exports = router
+// npm install -g create-react-app
+// create-react-app jianshu
+// cd jianshu
+// npm start

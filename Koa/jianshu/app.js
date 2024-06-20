@@ -6,6 +6,7 @@ const onerror = require("koa-onerror");
 const bodyparser = require("koa-bodyparser");
 const logger = require("koa-logger");
 const MongoConnect = require("./db");
+const cors = require('koa2-cors');
 
 // 连接数据库
 MongoConnect();
@@ -25,6 +26,7 @@ app.use(
 app.use(json());
 app.use(logger());
 app.use(require("koa-static")(__dirname + "/public"));
+app.use(cors())
 
 app.use(
   views(__dirname + "/views", {
