@@ -2,6 +2,146 @@
 
 # 1. 如何用session保持登录状态
 
+# 2. session和cookie的区别
+
+Session和Cookie是用于在客户端和服务器之间传递信息的两种不同机制。它们的主要区别在于存储位置、生命周期、数据容量和安全性等方面。以下是详细解释：
+
+### 存储位置
+
+- **Cookie**：
+  - 存储在客户端（浏览器）中。每个Cookie是一个小的文本文件，由浏览器管理。
+  - 浏览器在每次发送请求时，会自动携带相关的Cookie发送给服务器。
+
+- **Session**：
+  - 存储在服务器端。服务器为每个会话生成一个唯一的会话ID，并将会话ID存储在客户端的Cookie中。
+  - 客户端只保存会话ID，而实际的会话数据保存在服务器端。
+
+### 生命周期
+
+- **Cookie**：
+  - Cookie可以设置过期时间（`Expires`或`Max-Age`属性）。持久性Cookie在过期前保留在客户端，而会话Cookie（不设置过期时间）会在浏览器关闭时删除。
+  - 持久性Cookie可以跨浏览器会话（浏览器关闭和重新打开）保存。
+
+- **Session**：
+  - 会话通常在用户关闭浏览器或会话超时时（服务器设置的会话超时时间）失效。
+  - 会话数据在服务器端存储，默认情况下会在会话超时后自动删除。
+
+### 数据容量
+
+- **Cookie**：
+  - 每个Cookie的大小通常限制在4KB左右。浏览器对每个域名下的Cookie数量和总大小也有限制。
+  - 由于容量限制，Cookie只能存储少量信息。
+
+- **Session**：
+  - 服务器端存储会话数据，因此不受客户端存储限制。服务器可以存储大量数据，具体取决于服务器的存储能力和配置。
+
+### 安全性
+
+- **Cookie**：
+  - Cookie容易受到跨站脚本（XSS）攻击，如果攻击者能够注入恶意脚本，就可以读取Cookie中的信息。
+  - 可以设置`HttpOnly`和`Secure`属性来提高安全性。`HttpOnly`属性使Cookie无法通过JavaScript访问，`Secure`属性使Cookie只能通过HTTPS传输。
+
+- **Session**：
+  - 会话ID存储在客户端的Cookie中，但实际数据保存在服务器端，增加了数据安全性。
+  - 会话ID如果被窃取，攻击者可以伪装成用户进行操作。为了防止这种情况，应该使用HTTPS和其他安全措施（如频繁更新会话ID）。
+
+### 适用场景
+
+- **Cookie**：
+  - 适用于需要在客户端存储少量信息的场景，如用户偏好设置、跟踪用户行为等。
+  - 可用于跨页面和跨会话持久化数据，但要注意容量和安全性限制。
+
+- **Session**：
+  - 适用于需要在服务器端存储大量信息的场景，如用户认证和授权、临时数据存储等。
+  - 由于数据存储在服务器端，适合对数据安全性要求较高的应用。
+
+### 示例代码（Koa）
+
+以下示例展示了如何在Koa中使用Session和Cookie：
+
+**使用Session**：
+
+```javascript
+const Koa = require('koa');
+const Router = require('koa-router');
+const bodyParser = require('koa-bodyparser');
+const session = require('koa-session');
+
+const app = new Koa();
+const router = new Router();
+
+app.keys = ['your-session-secret'];
+const sessionConfig = {
+  key: 'koa:sess',
+  maxAge: 86400000,
+  httpOnly: true,
+  signed: true
+};
+
+app.use(session(sessionConfig, app));
+app.use(bodyParser());
+
+router.post('/login', ctx => {
+  const { username } = ctx.request.body;
+  ctx.session.username = username;
+  ctx.body = { message: 'Logged in' };
+});
+
+router.get('/profile', ctx => {
+  if (ctx.session.username) {
+    ctx.body = { message: `Hello, ${ctx.session.username}` };
+  } else {
+    ctx.status = 401;
+    ctx.body = { message: 'Not authenticated' };
+  }
+});
+
+app.use(router.routes()).use(router.allowedMethods());
+
+app.listen(3000);
+```
+
+**使用Cookie**：
+
+```javascript
+const Koa = require('koa');
+const Router = require('koa-router');
+const bodyParser = require('koa-bodyparser');
+
+const app = new Koa();
+const router = new Router();
+
+app.use(bodyParser());
+
+router.post('/login', ctx => {
+  const { username } = ctx.request.body;
+  ctx.cookies.set('username', username, { httpOnly: true, maxAge: 86400000 });
+  ctx.body = { message: 'Logged in' };
+});
+
+router.get('/profile', ctx => {
+  const username = ctx.cookies.get('username');
+  if (username) {
+    ctx.body = { message: `Hello, ${username}` };
+  } else {
+    ctx.status = 401;
+    ctx.body = { message: 'Not authenticated' };
+  }
+});
+
+app.use(router.routes()).use(router.allowedMethods());
+
+app.listen(3000);
+```
+
+### 参考资料
+
+- [MDN Web Docs - HTTP Cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies)
+- [OWASP - Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)
+- [Koa.js 官方文档](https://koajs.com/)
+
+通过理解Session和Cookie的区别，可以根据具体应用场景选择合适的方案来管理用户的登录状态和会话信息。
+
 # ---------------------------------
 
 # [0. Cookie，Session，Token的区别](https://www.bilibili.com/video/BV1ob4y1Y7Ep/?spm_id_from=333.880.my_history.page.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
