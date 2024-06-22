@@ -1,5 +1,108 @@
 # 0. 如何用cookie保持登录状态
 
+早期使用Cookie维护登录状态的方法主要包括生成会话ID（Session ID），将其存储在客户端的Cookie中，并在每次请求时验证该会话ID。下面是一个用Koa实现这一过程的示例，并详细解释其原理。
+
+### 安装依赖
+
+首先，安装Koa及其相关中间件：
+
+```bash
+npm install koa koa-router koa-bodyparser koa-cookie
+```
+
+### Koa服务器示例
+
+```javascript
+const Koa = require('koa');
+const Router = require('koa-router');
+const bodyParser = require('koa-bodyparser');
+const cookie = require('koa-cookie').default;
+const crypto = require('crypto');
+
+const app = new Koa();
+const router = new Router();
+
+app.use(bodyParser());
+app.use(cookie());
+
+const users = { 'user1': 'password1' };  // 示例用户
+const sessions = {};  // 存储会话信息
+
+// 登录路由
+router.post('/login', ctx => {
+    const { username, password } = ctx.request.body;
+    if (users[username] && users[username] === password) {
+        const sessionId = crypto.randomBytes(16).toString('hex');
+        sessions[sessionId] = username;
+        ctx.cookies.set('sessionId', sessionId, { httpOnly: true });
+        ctx.body = { message: 'Logged in' };
+    } else {
+        ctx.status = 401;
+        ctx.body = { message: 'Invalid credentials' };
+    }
+});
+
+// 受保护路由
+router.get('/protected', ctx => {
+    const sessionId = ctx.cookies.get('sessionId');
+    if (sessionId && sessions[sessionId]) {
+        ctx.body = { message: `Hello, ${sessions[sessionId]}` };
+    } else {
+        ctx.status = 401;
+        ctx.body = { message: 'Not authenticated' };
+    }
+});
+
+// 注销路由
+router.post('/logout', ctx => {
+    const sessionId = ctx.cookies.get('sessionId');
+    if (sessionId) {
+        delete sessions[sessionId];
+        ctx.cookies.set('sessionId', null);
+    }
+    ctx.body = { message: 'Logged out' };
+});
+
+app.use(router.routes()).use(router.allowedMethods());
+
+app.listen(3000, () => {
+    console.log('Server running on port 3000');
+});
+```
+
+### 原理解释
+
+1. **用户登录**：
+   - 用户在客户端提交用户名和密码。
+   - 服务器验证用户凭据是否正确。
+   - 如果验证成功，服务器生成一个唯一的会话ID，并将其与用户名关联存储在服务器的会话存储（这里是一个简单的对象`sessions`）。
+   - 服务器通过`Set-Cookie`头将会话ID发送到客户端，并在客户端设置Cookie。
+
+2. **客户端请求**：
+   - 客户端每次向服务器发送请求时，浏览器会自动附带Cookie。
+   - 服务器从请求的Cookie中读取会话ID，并在服务器的会话存储中查找该会话ID。
+   - 如果会话ID存在且有效，服务器认为用户已登录，并处理请求。
+
+3. **受保护的资源**：
+   - 对受保护的资源进行请求时，服务器会检查请求中的会话ID。
+   - 如果会话ID有效，服务器返回相应的资源。
+   - 如果会话ID无效或不存在，服务器返回未认证的响应（如401状态码）。
+
+4. **注销**：
+   - 用户请求注销时，服务器删除会话存储中的会话ID，并清除客户端的Cookie。
+   - 这样，客户端后续的请求将不会被视为已登录。
+
+### 安全注意事项
+
+- **使用HTTPS**：确保所有通信都是加密的，以防止会话ID被窃取。
+- **设置HttpOnly属性**：防止客户端JavaScript访问Cookie，提高安全性。
+- **使用Secure属性**：确保Cookie仅通过HTTPS传输（在生产环境中应启用）。
+- **管理会话生命周期**：设置会话过期时间，定期清理过期会话。
+
+### 总结
+
+通过上述步骤和示例代码，可以看到如何在Koa框架中使用Cookie维护登录状态。这种方法在早期Web开发中非常常见，尽管现代应用中可能会使用更复杂的方案，如JWT（JSON Web Token）或OAuth来处理认证和授权。
+
 # 1. 如何用session保持登录状态
 
 # 2. session和cookie的区别

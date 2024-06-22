@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function App() {
-  // useState这里都看不懂！
   // 定义状态变量
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
