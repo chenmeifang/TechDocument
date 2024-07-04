@@ -2,6 +2,8 @@ https://www.bilibili.com/video/BV13g41157hK?p=14&vd_source=a7089a0e007e4167b4a61
 
 ![image-20240701113212608](12 基础提升 Manacher算法等.assets/image-20240701113212608.png)
 
+https://www.bilibili.com/video/BV13g41157hK/?p=14&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+
 # 1. 最长回文子串经典解法
 
 ![image-20240701114203419](12 基础提升 Manacher算法等.assets/image-20240701114203419.png)
@@ -41,6 +43,62 @@ https://www.bilibili.com/video/BV13g41157hK?p=14&vd_source=a7089a0e007e4167b4a61
 <img src="12 基础提升 Manacher算法等.assets/image-20240701190522583.png" alt="image-20240701190522583" style="zoom:50%;" />
 
 <img src="12 基础提升 Manacher算法等.assets/image-20240701190743395.png" alt="image-20240701190743395" style="zoom:50%;" />
+
+# 3. 滑动窗口
+
+1小时40min处
+
+<img src="12 基础提升 Manacher算法等.assets/image-20240701204330167.png" alt="image-20240701204330167" style="zoom: 50%;" />
+
+双端队列
+
+<img src="12 基础提升 Manacher算法等.assets/image-20240701211446359.png" alt="image-20240701211446359" style="zoom: 33%;" />
+
+<img src="12 基础提升 Manacher算法等.assets/image-20240701212559064.png" alt="image-20240701212559064" style="zoom: 50%;" />
+
+
+
+# 4. 单调栈结构
+
+2小时11min处
+
+<img src="12 基础提升 Manacher算法等.assets/image-20240701212807305.png" alt="image-20240701212807305" style="zoom: 33%;" />
+
+
+
+<img src="12 基础提升 Manacher算法等.assets/image-20240701213135222.png" alt="image-20240701213135222" style="zoom: 33%;" />
+
+
+
+![image-20240701214634487](12 基础提升 Manacher算法等.assets/image-20240701214634487.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
