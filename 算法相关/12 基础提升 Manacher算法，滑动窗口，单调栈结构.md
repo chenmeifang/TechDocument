@@ -8,7 +8,7 @@ https://www.bilibili.com/video/BV13g41157hK?p=14&vd_source=a7089a0e007e4167b4a61
 
 # 2. 最长回文子串解法
 
-## 2.1 暴力解法 leetcode
+## 2.1 暴力解法 leetcode O(N^3)
 
 从开头开始循环
 
@@ -46,9 +46,7 @@ var longestPalindrome = function (s) {
 };
 ```
 
-![image-20240708112550778](算法相关图片/image-20240708112550778.png)
-
-## 2.2 中心扩散法 leetcode
+## 2.2 中心扩散法 leetcode 经典解法 O(N^2)
 
 leetcode：区分奇数偶数了
 
@@ -56,19 +54,59 @@ b站：扩充字符串
 
 <img src="12 基础提升 Manacher算法等.assets/image-20240701114203419.png" alt="image-20240701114203419" style="zoom: 33%;" />
 
+时间复杂度：O(N*N)
+
+```javascript
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var longestPalindrome = function (s) {
+    if (s.length < 2) return s;
+    let charArray = Array.from(s);
+    let begin = 0;
+    let left = 0;
+    let right = 0;
+    let tempMaxLen = 1;
+    let maxLen = 1;
+    let tempS = '#';
+    // 中心扩散法
+    for (let i = 0; i < s.length; i++) {
+        tempS += s[i];
+        tempS += '#'
+    }
+    for (let j = 0; j < tempS.length; j++) {
+        left = j - 1;
+        right = j + 1;
+        while (left >= 0 && right <= tempS.length - 1 && tempS[left] == tempS[right]) {
+            tempMaxLen = right - left + 1;
+            left--;
+            right++;
+
+        }
+        if (tempMaxLen > maxLen) {
+            begin = left + 1;
+            maxLen = tempMaxLen;
+        }
+    }
+    begin = Math.floor(begin / 2);
+    maxLen = Math.floor(maxLen / 2);
+    console.log(begin, ' ', maxLen);
+    return s.substring(begin, begin + maxLen);
+};
+```
+
 ## 2.3 动态规划
 
-## 2.4 Manacher算法
+## 2.4 Manacher算法 O(N)
 
-时间复杂度：O(n*n)
+时间复杂度：O(N)
 
-# 3. 相关重要概念
+和经典解法的处理流程是一样的，只是有**加速**
 
 - 回文直径
 - 回文半径
 - 之前扩的所有位置中，所到达的最右回文右边界
-
-
 
 
 
@@ -96,7 +134,7 @@ b站：扩充字符串
 
 <img src="12 基础提升 Manacher算法等.assets/image-20240701190743395.png" alt="image-20240701190743395" style="zoom:50%;" />
 
-# 4. 滑动窗口
+# 3. 滑动窗口
 
 1小时40min处
 
@@ -110,7 +148,7 @@ b站：扩充字符串
 
 
 
-# 5. 单调栈结构
+# 4. 单调栈结构
 
 2小时11min处
 
