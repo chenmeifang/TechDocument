@@ -677,9 +677,12 @@ module.exports = router
 
 # [46.使用axios发送异步请求](https://www.bilibili.com/video/BV1v5411T7Ez/?p=46&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-处理跨域
+```
+npm install axios
+```
 
 ```
+// 处理跨域
 npm i koa2-cors --save
 ```
 
