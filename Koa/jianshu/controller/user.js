@@ -1,5 +1,6 @@
 const { User } = require('../models')
 const crud = require('./crudUtil');
+let jwt = require('jsonwebtoken');
 
 // 添加系统用户
 const userAdd = async (ctx) => {
@@ -38,10 +39,26 @@ const userFindOne = async (ctx) => {
     }, ctx)
 }
 
+// 具体的登录相关的业务逻辑
+const login = async (ctx) => {
+    let user = {
+        username: 'admin',
+        pwd: '1234'
+    }
+    // 第二个参数应该是自定义密钥
+    let token = jwt.sign({
+        username: user.username
+    }, 'zidingyimiyao')
+    ctx.body = {
+        token
+    }
+}
+
 module.exports = {
     userAdd,
     userUpdate,
     userDel,
     userFind,
-    userFindOne
+    userFindOne,
+    login
 }

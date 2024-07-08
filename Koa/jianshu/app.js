@@ -26,7 +26,7 @@ app.use(
 app.use(json());
 app.use(logger());
 app.use(require("koa-static")(__dirname + "/public"));
-app.use(cors())
+app.use(cors()); // 注意：一定要写在路由的前面
 
 app.use(
   views(__dirname + "/views", {

@@ -754,7 +754,13 @@ app.listen(3001, () => {
 
 # [47.axios的进一步封装](https://www.bilibili.com/video/BV1v5411T7Ez/?p=47&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
+拦截器相关
+
 [axios中文文档](https://www.axios-http.cn/docs/interceptors)
+
+<img src="jianshu相关图片/image-20240708155630802.png" alt="image-20240708155630802" style="zoom: 67%;" />
+
+看到5min30s处
 
 # [48.规划前端的目录结构](https://www.bilibili.com/video/BV1v5411T7Ez/?p=48&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
@@ -767,15 +773,31 @@ app.listen(3001, () => {
 
 # 49.后台系统界面设计
 
-![image-20240620082010541](01 Koa + MongoDB打造简书后台管理系统.assets/image-20240620082010541.png)
+| ![image-20240620082010541](jianshu相关图片/image-20240620082010541.png) | ![image-20240708155804335](jianshu相关图片/image-20240708155804335.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
 
-# 50.前端路由设计
+# [50.前端路由设计](https://www.bilibili.com/video/BV1v5411T7Ez?p=50&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+| <img src="jianshu相关图片/image-20240708161732383.png" alt="image-20240708161732383" style="zoom:50%;" /> | <img src="jianshu相关图片/image-20240708163036833.png" alt="image-20240708163036833" style="zoom:50%;" /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
 
 # [51.什么是JWT](https://www.bilibili.com/video/BV1v5411T7Ez/?p=51&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-- JSON Web Token——是一个开发标准 RFC7519
+- JSON Web Token——是一个开发标准 RFC7519  （RFC 请求意见稿——Request for Comments）
+
 - https://rfc2cn.com/rfc7519.html
+
 - https://www.rfc-editor.org/info/rfc7519
+
+- JWT的构成：
+
+  - 头部
+  - 有效载荷
+  - 签名
+
+- | <img src="jianshu相关图片/image-20240708163607933.png" alt="image-20240708163607933" style="zoom:50%;" /> | <img src="jianshu相关图片/image-20240708163623478.png" alt="image-20240708163623478" style="zoom:50%;" /> |
+  | ------------------------------------------------------------ | ------------------------------------------------------------ |
+  | <img src="jianshu相关图片/image-20240708163643725.png" alt="image-20240708163643725" style="zoom:50%;" /> |                                                              |
 
 # [52.在Koa框架中使用JWT](https://www.bilibili.com/video/BV1v5411T7Ez/?p=52&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
