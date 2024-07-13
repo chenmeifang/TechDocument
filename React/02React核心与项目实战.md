@@ -2348,7 +2348,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 }
 ```
 
-# 数据Mock实现
+# Day4-11.数据Mock实现
 
 > 在前后端分类的开发模式下，前端可以在没有实际后端接口的支持下先进行接口数据的模拟，进行正常的业务功能开发
 
@@ -2369,27 +2369,27 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 4.  访问接口进行测试 
 
-# 整体路由设计
+# Day4-12.整体路由设计
 
-![image.png](02React核心与项目实战.assets/16-172075358591316.png)
+<img src="02React核心与项目实战.assets/16-172075358591316.png" alt="image.png" style="zoom: 50%;" />
 
 1. 俩个一级路由 （Layout / new）2. 俩个二级路由 （Layout - mouth/year）
 
-# antD主题定制
+# Day4-13.antD主题定制
 
 ## 1. 定制方案
 
-![image.png](02React核心与项目实战.assets/17-172075358591318.png)
+<img src="02React核心与项目实战.assets/17-172075358591318.png" alt="image.png" style="zoom: 67%;" />
 
 ## 2. 实现方式
 
 1. 全局定制
 
-![image.png](02React核心与项目实战.assets/18-172075358591319.png)
+<img src="02React核心与项目实战.assets/18-172075358591319.png" alt="image.png" style="zoom: 60%;" />
 
 2. 局部定制
 
-![image.png](02React核心与项目实战.assets/19-172075358591320.png)
+<img src="02React核心与项目实战.assets/19-172075358591320.png" alt="image.png" style="zoom:60%;" />
 
 ## 3. 记账本主题色
 
@@ -2399,9 +2399,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 }
 ```
 
-# Redux管理账目列表
+# Day4-14.Redux管理账目列表
 
-![image.png](02React核心与项目实战.assets/20-172075358591321.png)
+<img src="02React核心与项目实战.assets/20-172075358591321.png" alt="image.png" style="zoom:50%;" />
 
 ```javascript
 // 账单列表相关store
@@ -2470,7 +2470,7 @@ root.render(
 )
 ```
 
-# TabBar功能实现
+# Day4-15.TabBar功能实现
 
 ![image.png](02React核心与项目实战.assets/21.png)
 
