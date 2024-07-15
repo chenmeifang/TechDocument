@@ -2312,8 +2312,65 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 > 1. 路径解析配置（webpack），把 @/ 解析为 src/
 > 2. 路径联想配置（VsCode），VsCode 在输入 @/ 时，自动联想出来对应的 src/下的子级目录
 
-
 ![image.png](02React核心与项目实战.assets/12-172075358591213.png)
+
+在使用 Webpack 时，可以通过配置别名路径来简化模块的引用。使用 `@` 符号作为别名路径是一种常见的做法，这样可以方便地引用项目中的特定目录（例如 `src` 目录）。以下是如何在 Webpack 中配置别名路径使用 `@` 符号的具体步骤。
+
+1. **安装必要的依赖项**： 确保你已经安装了必要的依赖项，比如 `webpack` 和 `webpack-cli`。
+
+2. **更新 Webpack 配置文件**：在你的项目根目录下的 `webpack.config.js` 文件中，添加 `resolve.alias` 配置，如下所示：
+
+```javascript
+const path = require('path');
+
+module.exports = {
+    // 其他配置选项
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, 'src')
+        }
+    },
+    // 其他配置选项
+};
+```
+
+这里使用 `path.resolve(__dirname, 'src')` 将 `@` 符号映射到项目根目录下的 `src` 目录。你可以根据实际的项目结构调整路径。
+
+3. **使用别名路径**：配置完成后，你可以在你的代码中使用 `@` 符号别名来引用模块。例如：
+
+```javascript
+import MyComponent from '@/components/MyComponent';
+```
+
+这会被解析为 `src/components/MyComponent`。
+
+这种方式可以使你的模块引用更加简洁和易于维护，特别是在大型项目中有明显的优势。
+
+### 完整示例
+
+假设你的项目结构如下：
+
+```
+project-root/
+├── src/
+│   ├── components/
+│   │   └── MyComponent.js
+│   └── index.js
+├── webpack.config.js
+└── package.json
+```
+
+在 `src/index.js` 中，你可以这样引用 `MyComponent`：
+
+```javascript
+import MyComponent from '@/components/MyComponent';
+
+// 使用 MyComponent
+```
+
+通过以上步骤，你已经成功在 Webpack 中配置了别名路径 `@`，并且可以在代码中简洁地引用 `src` 目录下的模块了。
+这条消息由Nova生成 - 免费下载:
+https://novaappai.page.link/Jh7fZuEbeHN2u7qA7
 
 ## 2. 路径解析配置
 
@@ -2405,7 +2462,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 ```javascript
 // 账单列表相关store
-
 import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
@@ -2571,9 +2627,9 @@ export default Layout
   )
 ```
 
-# 月度账单-统计区域
+# Day5-01.月度账单-统计区域
 
-![image.png](02React核心与项目实战.assets/22.png)
+<img src="02React核心与项目实战.assets/22.png" alt="image.png" style="zoom:67%;" />
 
 ## 1. 准备静态结构
 

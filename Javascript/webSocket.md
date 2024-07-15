@@ -10,11 +10,7 @@
 
 ## 二： 什么是websocket？
 
-![截屏2020-12-13 下午3.30.05](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2020-12-13 下午3.30.05.png)
-
 为什么在http请求下， 服务器无法给浏览器主动发送数据？
-
-![截屏2020-12-13 下午3.49.10](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2020-12-13 下午3.49.10.png)
 
 ### websocket允许服务器给浏览器发送消息。
 
@@ -32,25 +28,9 @@ websocket维基百科：https://zh.wikipedia.org/wiki/WebSocket
 
 https://developer.mozilla.org/zh-cn/docs/Web/API/WebSocket
 
-![截屏2021-02-02 下午1.42.23](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-02 下午1.42.23.png)
-
-
-
-![截屏2021-02-02 下午1.48.29](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-02 下午1.48.29.png)
-
-![截屏2021-02-02 下午1.52.28](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-02 下午1.52.28.png)
-
 # 3 nodejs开发自己的websocket服务
 
 第三方包：https://github.com/sitegui/nodejs-websocket#readme
-
-![截屏2021-02-02 下午2.04.25](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-02 下午2.04.25.png)
-
-![截屏2021-02-02 下午2.08.24](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-02 下午2.08.24.png)
-
- ![截屏2021-02-02 下午2.11.00](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-02 下午2.11.00.png)
-
-![截屏2021-02-02 下午2.17.57](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-02 下午2.17.57.png)
 
 
 
