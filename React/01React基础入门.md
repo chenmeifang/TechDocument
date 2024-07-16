@@ -1,16 +1,16 @@
 https://www.bilibili.com/video/BV1wy4y1D7JT?from=search&seid=1655099700202851743#
 
-# 一 React简介
+# 1 React简介
 
 ![image-20231218230829292](01.assets/image-20231218230829292.png)
 
-# 二 Hello React案例
+# 2 Hello React案例
 
  ![image-20231218233120866](01.assets/image-20231218233120866.png)
 
 React工具：https://fb.me/react-devtools
 
-# 三 虚拟DOM的两种创建方式
+# 3 虚拟DOM的两种创建方式
 
 - [ ] 为什么不用原生的js，非要用jsx？
 
@@ -26,11 +26,11 @@ React工具：https://fb.me/react-devtools
 
 ![image-20231219220604031](01.assets/image-20231219220604031.png)
 
-# 五 JSX语法规则
+# 5 JSX语法规则
 
 ![image-20231224100600235](01.assets/image-20231224100600235.png)
 
-# 六 jsx小练习
+# 6 jsx小练习
 
 ![image-20231224213832492](01.assets/image-20231224213832492.png)
 
@@ -42,13 +42,13 @@ React工具：https://fb.me/react-devtools
 
 ![image-20231224214653111](01.assets/image-20231224214653111.png)
 
-# 七 组件与模块
+# 7 组件与模块
 
 ![image-20231224214945867](01.assets/image-20231224214945867.png)
 
-# 八 开发者工具的安装
+# 8 开发者工具的安装
 
-# 九 函数式组件
+# 9 函数式组件
 
 两种：
 
@@ -99,7 +99,7 @@ Warning:The tag <demo> is unrecognized in this browser.If you meant to render a 
 
 ![image-20210815212641423](01.assets/image-20210815212641423.png)
 
-# 十 复习类相关的基本知识
+# 10 复习类相关的基本知识
 
 ![image-20231225200353158](01.assets/image-20231225200353158.png)
 
@@ -885,29 +885,121 @@ https://www.bilibili.com/video/BV1wy4y1D7JT/?p=72&spm_id_from=pageDriver&vd_sour
 
 # 73 总结github搜索案例
 
-# 74 对SPA应用的理解
+# [74 对SPA应用的理解](https://www.bilibili.com/video/BV1wy4y1D7JT?p=74&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 single page application
 
-<img src="01.assets/image-20240225212131905.png" alt="image-20240225212131905" style="zoom:60%;" />
+<img src="01.assets/image-20240225212131905.png" alt="image-20240225212131905" style="zoom: 80%;" />
 
-# 75 对路由的理解
+# [75 对路由的理解](https://www.bilibili.com/video/BV1wy4y1D7JT?p=75&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-<img src="01.assets/image-20240225215732820.png" alt="image-20240225215732820" style="zoom: 60%;" />
+<img src="01.assets/image-20240225215732820.png" alt="image-20240225215732820" style="zoom: 80%;" />
 
 浏览器的路径怎么变成/test呢？
 
-# 76 前端路由原理
+# [76 前端路由原理](https://www.bilibili.com/video/BV1wy4y1D7JT?p=76&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 前端路由依赖浏览器的历史记录history
 
-<img src="01.assets/image-20240225220842006.png" alt="image-20240225220842006" style="zoom:60%;" />
-
-<img src="01.assets/image-20240225224118553.png" alt="image-20240225224118553" style="zoom:67%;" />
+| <img src="01.assets/image-20240225220842006.png" alt="image-20240225220842006" style="zoom: 80%;" /> | <img src="01.assets/image-20240225224118553.png" alt="image-20240225224118553" style="zoom: 80%;" /> |
+| :----------------------------------------------------------: | ------------------------------------------------------------ |
 
 浏览器的历史记录是一个栈的结构
 
 <img src="01.assets/image-20240225224956005.png" alt="image-20240225224956005" style="zoom:60%;" />
+
+
+
+前端路由在单页面应用程序（SPA）中起着关键作用。它使用户在浏览器中导航不同页面时，不需要向服务器发送新的HTTP请求，而是通过JavaScript在客户端更新视图。以下是前端路由不会向后端发送请求的原理：
+
+### 核心原理
+
+#### 1. **单页面应用程序（SPA）**
+
+SPA应用程序加载一个单独的HTML页面，并通过JavaScript动态更新页面内容，而不是从服务器请求新的页面。这种架构利用了浏览器的`history` API来管理URL和用户的浏览历史。
+
+#### 2. **客户端路由**
+
+客户端路由由JavaScript库（如React Router、Vue Router、Angular Router等）管理。这些库拦截浏览器的URL变化，并根据URL变化动态加载或切换组件，而不发出新的HTTP请求。
+
+### 实现机制
+
+#### 1. **Browser History API**
+
+浏览器的`history` API允许开发者控制浏览器会话历史记录，包括以下主要方法：
+
+- **`history.pushState()`**：添加新的历史记录条目。
+- **`history.replaceState()`**：替换当前的历史记录条目。
+- **`popstate` 事件**：监听浏览器前进或后退按钮事件。
+
+#### 2. **Hash-based Routing**
+
+早期的前端路由主要依赖于URL的哈希部分（即`#`后面的部分）来控制导航。这种方式简单且无需服务器支持：
+
+- **URL 示例**：`http://example.com/#/home`
+- **特点**：哈希部分的变化不会触发页面重新加载，且浏览器会将哈希值传递给JavaScript处理。
+
+#### 3. **History API Routing**
+
+现代前端路由使用`history` API来实现更干净的URL：
+
+- **URL 示例**：`http://example.com/home`
+- **特点**：通过`history.pushState()`和`history.replaceState()`方法管理URL，不会导致页面重新加载。
+
+### 工作流程
+
+1. **初始加载**：当用户首次访问应用程序时，服务器会返回一个静态HTML文件以及相关的CSS和JavaScript文件。
+2. **前端路由初始化**：JavaScript加载后，前端路由库会初始化并监听URL的变化。
+3. **URL 变化**：
+   - 用户点击链接或浏览器地址栏发生变化时，路由库会拦截事件。
+   - 使用`history.pushState()`或`history.replaceState()`更新URL，触发URL变化的监听器。
+4. **视图更新**：根据当前URL，路由库加载相应的组件或视图，更新页面内容。
+
+### 示例代码
+
+下面是一个使用React Router的简单示例：
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+
+const Home = () => <h2>Home</h2>;
+const About = () => <h2>About</h2>;
+const Contact = () => <h2>Contact</h2>;
+
+const App = () => (
+  <Router>
+    <div>
+      <nav>
+        <ul>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/about">About</Link></li>
+          <li><Link to="/contact">Contact</Link></li>
+        </ul>
+      </nav>
+
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
+      </Switch>
+    </div>
+  </Router>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+### 优势
+
+- **提高性能**：减少了不必要的HTTP请求，提升了应用程序的响应速度。
+- **更好的用户体验**：无刷新导航提供了更流畅的用户体验。
+- **增强的控制**：开发者可以更好地控制应用程序的状态和过渡效果。
+
+### 结论
+
+前端路由通过利用浏览器的`history` API和JavaScript框架或库来拦截URL变化，动态更新视图，从而避免了向服务器发送新的请求。这种机制是实现单页面应用程序的关键，使得Web应用程序具有更快的响应速度和更流畅的用户体验。
 
 # 77 路由的基本使用
 
@@ -987,7 +1079,7 @@ https://www.bilibili.com/video/BV1wy4y1D7JT/?p=80&spm_id_from=pageDriver&vd_sour
 
 # 90 push与replace
 
-# 91 编程式路由导航
+# [91 编程式路由导航](https://www.bilibili.com/video/BV1wy4y1D7JT?p=91&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 # 92 withRouter的使用
 

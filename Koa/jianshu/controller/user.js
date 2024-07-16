@@ -41,15 +41,18 @@ const userFindOne = async (ctx) => {
 
 // 具体的登录相关的业务逻辑
 const login = async (ctx) => {
+    // post请求不能用query接收参数，要用body接收参数
     // ctx.request.body.username
     // ctx.request.body.pwd
-    let user = {
-        username: 'admin',
-        pwd: '1234'
-    }
+
+    // let user = {
+    //     username: 'admin',
+    //     pwd: '1234'
+    // }
+
     // 第二个参数应该是自定义密钥
     let token = jwt.sign({
-        username: user.username
+        username: ctx.request.body.username,
     }, 'zidingyimiyao')
     ctx.body = {
         token

@@ -665,7 +665,272 @@ app.listen(3000);
 
 通过理解Session和Cookie的区别，可以根据具体应用场景选择合适的方案来管理用户的登录状态和会话信息。
 
-# 1. JWT——JSON Web Token
+# 15. js-cookie库
+
+`js-cookie` 是一个轻量级的 JavaScript 库，用于简化操作浏览器 Cookies。它提供了简单的方法来创建、读取和删除 Cookies，可以用于存储和管理用户的会话信息、偏好设置等数据。`js-cookie` 的 API 设计简洁直观，适合在前端项目中使用。
+
+> 原理：操作document.cookie对象
+
+### 安装
+
+可以通过 npm、yarn 或直接在 HTML 文件中引用 CDN 链接来安装 `js-cookie`。
+
+#### 使用 npm 安装
+
+```bash
+npm install js-cookie
+```
+
+#### 使用 yarn 安装
+
+```bash
+yarn add js-cookie
+```
+
+#### 使用 CDN
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+```
+
+### 基本用法
+
+#### 导入库
+
+```javascript
+// 使用 ES6 模块导入
+import Cookies from 'js-cookie';
+
+// 或者使用 CommonJS 导入
+const Cookies = require('js-cookie');
+```
+
+#### 设置 Cookie
+
+```javascript
+// 设置一个名为 'token' 的 Cookie，值为 'your_token_here'
+Cookies.set('token', 'your_token_here');
+
+// 设置一个带有过期时间的 Cookie，过期时间为 7 天
+Cookies.set('token', 'your_token_here', { expires: 7 });
+
+// 设置一个带有路径的 Cookie，路径为根路径
+Cookies.set('token', 'your_token_here', { path: '/' });
+
+// 设置一个带有 HttpOnly 和 Secure 标志的 Cookie（这些标志需要在服务器端设置）
+Cookies.set('token', 'your_token_here', { secure: true });
+```
+
+#### 获取 Cookie
+
+```javascript
+// 获取名为 'token' 的 Cookie 的值
+const token = Cookies.get('token');
+console.log(token); // 输出：'your_token_here'
+```
+
+#### 删除 Cookie
+
+```javascript
+// 删除名为 'token' 的 Cookie
+Cookies.remove('token');
+
+// 删除名为 'token' 并且路径为根路径的 Cookie
+Cookies.remove('token', { path: '/' });
+```
+
+### 示例：在 React 项目中使用 `js-cookie`
+
+以下是一个在 React 项目中使用 `js-cookie` 管理认证 Token 的示例。
+
+#### 安装 `js-cookie`
+
+```bash
+npm install js-cookie
+```
+
+#### 创建一个简单的认证管理器
+
+```javascript
+// src/auth.js
+import Cookies from 'js-cookie';
+
+const TOKEN_KEY = 'auth_token';
+
+export const setToken = (token) => {
+  Cookies.set(TOKEN_KEY, token, { expires: 7 });
+};
+
+export const getToken = () => {
+  return Cookies.get(TOKEN_KEY);
+};
+
+export const removeToken = () => {
+  Cookies.remove(TOKEN_KEY);
+};
+```
+
+#### 在 React 组件中使用
+
+```javascript
+// src/App.js
+import React, { useState, useEffect } from 'react';
+import { setToken, getToken, removeToken } from './auth';
+
+const App = () => {
+  const [token, setTokenState] = useState(null);
+
+  useEffect(() => {
+    const token = getToken();
+    setTokenState(token);
+  }, []);
+
+  const handleLogin = () => {
+    const token = 'sample_token';
+    setToken(token);
+    setTokenState(token);
+  };
+
+  const handleLogout = () => {
+    removeToken();
+    setTokenState(null);
+  };
+
+  return (
+    <div>
+      <h1>{token ? 'Logged In' : 'Logged Out'}</h1>
+      <button onClick={handleLogin}>Login</button>
+      <button onClick={handleLogout}>Logout</button>
+    </div>
+  );
+};
+
+export default App;
+```
+
+通过 `js-cookie`，你可以轻松地在浏览器中管理 Cookie，提高代码的可读性和可维护性。
+
+# 16. document.cookie对象
+
+在 JavaScript 中，可以通过 `document.cookie` 对象来管理 cookies。`document.cookie` 提供了设置、获取和删除 cookies 的基本方法。以下是详细的解释和示例：
+
+## 1. 设置 Cookie
+
+要设置一个 cookie，可以直接向 `document.cookie` 写入一个字符串。这个字符串必须包含键值对，并且可以包含可选的属性，如 `expires`、`path`、`domain` 和 `secure`。
+
+#### 示例：
+
+```javascript
+// 设置一个简单的 cookie
+document.cookie = "username=JohnDoe";
+
+// 设置一个带有过期时间的 cookie
+const date = new Date();
+date.setTime(date.getTime() + (7 * 24 * 60 * 60 * 1000)); // 7 天后过期
+const expires = "expires=" + date.toUTCString();
+document.cookie = "username=JohnDoe; " + expires;
+
+// 设置一个带有路径的 cookie
+document.cookie = "username=JohnDoe; path=/";
+
+// 设置一个带有域和安全属性的 cookie
+document.cookie = "username=JohnDoe; domain=example.com; path=/; secure";
+```
+
+## 2. 获取 Cookie
+
+要获取一个 cookie，可以读取 `document.cookie`。`document.cookie` 返回一个包含所有 cookies 的字符串，这些 cookies 之间用分号和空格分隔。需要自己解析这个字符串来获取特定的 cookie。
+
+#### 示例：
+
+```javascript
+function getCookie(name) {
+    const cookies = document.cookie.split('; ');
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i];
+        const [cookieName, cookieValue] = cookie.split('=');
+        if (cookieName === name) {
+            return cookieValue;
+        }
+    }
+    return null;
+}
+
+// 获取名为 "username" 的 cookie
+const username = getCookie('username');
+console.log(username);
+```
+
+## 3. 删除 Cookie
+
+要删除一个 cookie，可以将其过期时间设置为一个过去的日期。
+
+#### 示例：
+
+```javascript
+// 删除名为 "username" 的 cookie
+document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+```
+
+## 4. 更新 Cookie
+
+更新一个 cookie 实际上就是重新设置这个 cookie，只需在新的设置中覆盖旧的值即可。
+
+#### 示例：
+
+```javascript
+// 更新名为 "username" 的 cookie
+document.cookie = "username=JaneDoe; path=/;";
+```
+
+## 5. 处理 Cookie 的完整示例
+
+以下是一个完整的示例，包括设置、获取、删除和更新 cookies 的函数：
+
+```javascript
+// 设置 cookie
+function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+// 获取 cookie
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+// 删除 cookie
+function eraseCookie(name) {
+    document.cookie = name + '=; Max-Age=-99999999;';
+}
+
+// 使用示例
+setCookie("username", "JohnDoe", 7); // 设置 7 天过期的 cookie
+console.log(getCookie("username")); // 获取 cookie
+eraseCookie("username"); // 删除 cookie
+```
+
+### 注意事项
+
+- **路径和域**：设置 cookie 时可以指定路径和域。如果没有指定，默认是当前路径和域。
+- **安全性**：在传输敏感数据时，请确保使用 HTTPS 并设置 `secure` 标志。
+- **跨站脚本攻击（XSS）**：确保应用程序防范 XSS 攻击，以防止恶意脚本窃取 cookies。
+
+通过这些方法和示例，你可以在 JavaScript 中有效地管理 cookies。
+
+# 16. JWT——JSON Web Token
 
 https://www.bilibili.com/video/BV1134y1g7VC/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
 
@@ -686,7 +951,7 @@ https://www.bilibili.com/video/BV1134y1g7VC/?spm_id_from=333.337.search-card.all
 - API Key
 - cookie session
 
-# [2. JWT——JSON Web Token](https://www.bilibili.com/video/BV1tJ411B7yJ?p=1&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+# [17. JWT——JSON Web Token](https://www.bilibili.com/video/BV1tJ411B7yJ?p=1&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 一般用于用户认证（前后端分离的项目）
 
@@ -755,7 +1020,7 @@ let temp = JSON.stringify({
   - <img src="03 session和cookie和JWT.assets/image-20240329215444152.png" alt="image-20240329215444152" style="zoom:67%;" />
   - 22min处
 
-# 3. HS256加密——HMAC-SHA256
+# 18. HS256加密——HMAC-SHA256
 
 - signing algorithm——签名算法
 - signature——签名
@@ -769,7 +1034,7 @@ let temp = JSON.stringify({
 - symmetric means two parties share the secret key
 - the key is used for both generating the signature and validating the signatur
 
-# 4. 代码实践
+# 19. 代码实践
 
 在JavaScript中，可以使用`crypto-js`库来对一段字符串进行HS256加密（实际上是进行HMAC-SHA256签名）。以下是具体步骤：
 
@@ -841,142 +1106,83 @@ console.log('HMAC-SHA256加密后的Base64字符串:', hashInBase64);
 
 通过以上代码，你可以在Node.js和浏览器环境中对字符串进行HS256加密（签名），并得到Base64编码的结果。
 
-# [0.预备知识](https://app.pluralsight.com/ilx/video-courses/ae8db6a7-8781-4022-8fe5-3af32fa0caf0/db2d63cb-f9c9-4b29-b96a-e3c3497dc385/6ce4d3af-095c-4635-bdb2-44a94dc2f68e)
+# [20.预备知识](https://app.pluralsight.com/ilx/video-courses/ae8db6a7-8781-4022-8fe5-3af32fa0caf0/db2d63cb-f9c9-4b29-b96a-e3c3497dc385/6ce4d3af-095c-4635-bdb2-44a94dc2f68e)
 
-# 0. js-cookie库
+# 21. 第一方cookie和第三方Cookie
 
-`js-cookie` 是一个轻量级的 JavaScript 库，用于简化操作浏览器 Cookies。它提供了简单的方法来创建、读取和删除 Cookies，可以用于存储和管理用户的会话信息、偏好设置等数据。`js-cookie` 的 API 设计简洁直观，适合在前端项目中使用。
+在理解Cookie和第三方Cookie之前，先简单了解一下Cookie的基本概念：
 
-### 安装
+### 什么是Cookie？
 
-可以通过 npm、yarn 或直接在 HTML 文件中引用 CDN 链接来安装 `js-cookie`。
+**Cookie**是由Web服务器在用户的浏览器上存储的一小段数据。它们通常用于记住用户会话信息、偏好设置、购物车内容等。在HTTP请求中，浏览器会将Cookie发送回服务器，以便服务器可以识别用户并恢复之前的状态。
 
-#### 使用 npm 安装
-```bash
-npm install js-cookie
+### 第一方Cookie与第三方Cookie的区别
+
+**第一方Cookie**和**第三方Cookie**的主要区别在于它们的创建和访问方式，以及它们的作用域。
+
+#### 第一方Cookie
+
+- **定义**：第一方Cookie是由用户当前访问的域名设置的Cookie。
+- **用途**：通常用于会话管理、用户偏好设置、登录状态等。
+- **作用域**：只能在设置它们的域名及其子域中访问。
+- **安全性**：通常比较安全，因为它们只能在用户访问的域名中被使用。
+
+**示例**：用户访问 `example.com`，服务器返回一个Set-Cookie头设置Cookie。这个Cookie就是第一方Cookie。
+
+```http
+HTTP/1.1 200 OK
+Set-Cookie: sessionId=abc123; Path=/; Domain=example.com
 ```
 
-#### 使用 yarn 安装
-```bash
-yarn add js-cookie
-```
+#### 第三方Cookie
 
-#### 使用 CDN
+- **定义**：第三方Cookie是由用户当前访问的页面以外的其他域名设置的Cookie。
+- **用途**：通常用于广告、跨站跟踪、分析等。
+- **作用域**：可以在第三方内容（如广告、嵌入式小工具等）所在的域名中访问。
+- **隐私问题**：因为它们可以在多个网站之间跟踪用户，所以第三方Cookie经常被用于广告和分析，这引起了隐私问题。
+
+**示例**：用户访问 `example.com`，页面中包含了一个来自 `adtracker.com` 的广告脚本。这个脚本设置了一个Cookie，这个Cookie就是第三方Cookie。
+
 ```html
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+<script src="https://adtracker.com/tracking.js"></script>
 ```
 
-### 基本用法
+在 `tracking.js` 中，广告脚本设置了一个Cookie：
 
-#### 导入库
-```javascript
-// 使用 ES6 模块导入
-import Cookies from 'js-cookie';
-
-// 或者使用 CommonJS 导入
-const Cookies = require('js-cookie');
+```http
+HTTP/1.1 200 OK
+Set-Cookie: trackId=xyz789; Path=/; Domain=adtracker.com
 ```
 
-#### 设置 Cookie
-```javascript
-// 设置一个名为 'token' 的 Cookie，值为 'your_token_here'
-Cookies.set('token', 'your_token_here');
+### 示例解析
 
-// 设置一个带有过期时间的 Cookie，过期时间为 7 天
-Cookies.set('token', 'your_token_here', { expires: 7 });
+假设用户正在访问 `example.com`，页面包含一个来自 `adnetwork.com` 的广告。
 
-// 设置一个带有路径的 Cookie，路径为根路径
-Cookies.set('token', 'your_token_here', { path: '/' });
+1. **第一方Cookie**：
+   - 用户访问 `example.com`，服务器设置一个Cookie。
+   - 这个Cookie只能被 `example.com` 访问。
 
-// 设置一个带有 HttpOnly 和 Secure 标志的 Cookie（这些标志需要在服务器端设置）
-Cookies.set('token', 'your_token_here', { secure: true });
-```
+   ```http
+   HTTP/1.1 200 OK
+   Set-Cookie: sessionId=abc123; Path=/; Domain=example.com
+   ```
 
-#### 获取 Cookie
-```javascript
-// 获取名为 'token' 的 Cookie 的值
-const token = Cookies.get('token');
-console.log(token); // 输出：'your_token_here'
-```
+2. **第三方Cookie**：
+   - 页面包含一个来自 `adnetwork.com` 的广告脚本。
+   - `adnetwork.com` 的服务器设置了一个Cookie。
+   - 这个Cookie可以在其他包含 `adnetwork.com` 内容的网页中被访问，用于跨站跟踪用户。
 
-#### 删除 Cookie
-```javascript
-// 删除名为 'token' 的 Cookie
-Cookies.remove('token');
+   ```http
+   HTTP/1.1 200 OK
+   Set-Cookie: trackId=xyz789; Path=/; Domain=adnetwork.com
+   ```
 
-// 删除名为 'token' 并且路径为根路径的 Cookie
-Cookies.remove('token', { path: '/' });
-```
+### 总结
 
-### 示例：在 React 项目中使用 `js-cookie`
+- **第一方Cookie**：由用户正在访问的域名设置，用于会话管理、用户偏好等。它们只能在该域名中被访问，通常比较安全。
+- **第三方Cookie**：由用户访问的页面以外的其他域名设置，通常用于广告和跨站跟踪。它们可以在多个网站之间跟踪用户，引起隐私问题。
 
-以下是一个在 React 项目中使用 `js-cookie` 管理认证 Token 的示例。
-
-#### 安装 `js-cookie`
-```bash
-npm install js-cookie
-```
-
-#### 创建一个简单的认证管理器
-```javascript
-// src/auth.js
-import Cookies from 'js-cookie';
-
-const TOKEN_KEY = 'auth_token';
-
-export const setToken = (token) => {
-  Cookies.set(TOKEN_KEY, token, { expires: 7 });
-};
-
-export const getToken = () => {
-  return Cookies.get(TOKEN_KEY);
-};
-
-export const removeToken = () => {
-  Cookies.remove(TOKEN_KEY);
-};
-```
-
-#### 在 React 组件中使用
-```javascript
-// src/App.js
-import React, { useState, useEffect } from 'react';
-import { setToken, getToken, removeToken } from './auth';
-
-const App = () => {
-  const [token, setTokenState] = useState(null);
-
-  useEffect(() => {
-    const token = getToken();
-    setTokenState(token);
-  }, []);
-
-  const handleLogin = () => {
-    const token = 'sample_token';
-    setToken(token);
-    setTokenState(token);
-  };
-
-  const handleLogout = () => {
-    removeToken();
-    setTokenState(null);
-  };
-
-  return (
-    <div>
-      <h1>{token ? 'Logged In' : 'Logged Out'}</h1>
-      <button onClick={handleLogin}>Login</button>
-      <button onClick={handleLogout}>Logout</button>
-    </div>
-  );
-};
-
-export default App;
-```
-
-通过 `js-cookie`，你可以轻松地在浏览器中管理 Cookie，提高代码的可读性和可维护性。
-
-
+理解这两种Cookie的区别有助于更好地管理网站的安全和隐私策略，尤其是在需要处理用户数据时。
 
 
 
