@@ -41,6 +41,8 @@ const userFindOne = async (ctx) => {
 
 // 具体的登录相关的业务逻辑
 const login = async (ctx) => {
+    // ctx.request.body.username
+    // ctx.request.body.pwd
     let user = {
         username: 'admin',
         pwd: '1234'

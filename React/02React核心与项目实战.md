@@ -2827,7 +2827,7 @@ export default Month
 
 ## 3. 切换时间显示
 
-![image.png](02React核心与项目实战.assets/23.png)
+<img src="02React核心与项目实战.assets/23.png" alt="image.png" style="zoom:67%;" />
 
 > 实现思路：
 >
@@ -2986,9 +2986,9 @@ const Month = () => {
 export default Month
 ```
 
-# 月度账单-单日统计列表实现
+# Day5-07.月度账单-单日统计列表实现
 
-![image.png](02React核心与项目实战.assets/24.png)
+<img src="02React核心与项目实战.assets/24.png" alt="image.png" style="zoom: 50%;" />
 
 ## 1. 准备组件和配套样式
 
@@ -3166,7 +3166,7 @@ export default DailyBill
 
 ## 2. 按日分组账单数据
 
-![image.png](02React核心与项目实战.assets/25.png)
+<img src="02React核心与项目实战.assets/25.png" alt="image.png" style="zoom:50%;" />
 
 ```javascript
 // 把当前月按日分组账单数据
@@ -3231,9 +3231,9 @@ const DailyBill = ({ date, billList }) => {
 export default DailyBill
 ```
 
-# 月度账单-单日账单列表展示
+# Day5-08.月度账单-单日账单列表展示（看到这一节处）
 
-![image.png](02React核心与项目实战.assets/26.png)
+<img src="02React核心与项目实战.assets/26.png" alt="image.png" style="zoom:50%;" />
 
 ## 1. 渲染基础列表
 
@@ -3343,7 +3343,7 @@ export const billTypeToName = Object.keys(billListData).reduce((prev, key) => {
  <div className="billType">{billTypeToName[item.useFor]}</div>
 ```
 
-# 月度账单-切换打开关闭
+# Day5-08.月度账单-切换打开关闭
 
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/274425/1680169396175-a10287d1-cc4a-4464-b295-aea0becb3805.png#averageHue=%23fcfcfc&clientId=u4bda8888-0a67-4&from=paste&height=98&id=u1d780ff6&name=image.png&originHeight=196&originWidth=736&originalType=binary&ratio=2&rotation=0&showTitle=false&size=15931&status=done&style=none&taskId=uc682e670-0453-45ac-9d64-b891c330814&title=&width=368)
 
@@ -3362,7 +3362,7 @@ const [visible, setVisible] = useState(false)
 <div className="billList" style={{ display: !visible && 'none' }}></div>
 ```
 
-# 月度账单-Icon组件封装
+# Day5-08.月度账单-Icon组件封装
 
 ![image.png](02React核心与项目实战.assets/28.png)
 
@@ -3420,7 +3420,7 @@ export default Icon
   </div>
 ```
 
-# 记账功能
+# Day5-08.记账功能
 
 ## 记账 - 结构渲染
 
@@ -3849,7 +3849,1791 @@ const New = () => {
 export default New
 ```
 
+# Day6-01.项目搭建
+
+## 基于CRA创建项目
+
+> CRA是一个底层基于webpack快速创建React项目的脚手架工具
+
+```bash
+# 使用npx创建项目
+npx create-react-app react-jike
+
+# 进入到项
+cd react-jike
+
+# 启动项目
+npm start
+```
+
+<img src="02React核心与项目实战.assets/01-17210196519621.png" alt="image.png" style="zoom: 25%;" />
+
+## 调整项目目录结构 
+
+```bash
+-src
+  -apis           项目接口函数
+  -assets         项目资源文件，比如，图片等
+  -components     通用组件
+  -pages          页面组件
+  -store          集中状态管理
+  -utils          工具，比如，token、axios 的封装等
+  -App.js         根组件
+  -index.css      全局样式
+  -index.js       项目入口
+```
+
+<img src="02React核心与项目实战.assets/image-20240715132849797.png" alt="image-20240715132849797" style="zoom: 67%;" />
+
+`src/index.js`
+
+```jsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.scss'
+import './App.js'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App/>
+  </React.StrictMode>
+)
+```
+
+`src/App.js`
+
+```jsx
+const App = () => {
+  return <div>this is app</div>
+}
+
+export default App
+```
+
+# Day6-02.使用scss预处理器
+
+> `SASS` 是一种预编译的 CSS，支持一些比较高级的语法，可以提高编写样式的效率，CRA接入scss非常简单只需要我们装一个sass工具
+
+
+**实现步骤**
+
+1.  安装解析 sass 的包：`npm i sass -D` 
+2.  创建全局样式文件：`index.scss` 
+
+```css
+body {
+  margin: 0;
+  div {
+    color: blue;
+  }
+}
+```
+
+# Day6-03.组件库antd使用
+
+> 我们的项目是一个传统的PC管理后台，有现成的组件库可以使用，帮助我们提升开发效率，其中使用最广的就是antD
+
+[Ant Design of React - Ant Design](https://ant.design/docs/react/introduce-cn)
+**实现步骤**
+
+1. 安装 antd 组件库：`npm i antd`
+2. 导入 Button 组件
+3. 在 Login 页面渲染 Button 组件进行测试
+
+**测试Button**
+`pages/Login/index.jsx`
+
+```jsx
+import { Button } from 'antd'
+
+const Login = () => {
+  return <div>this is login<Button type='primary'>test</Button></div>
+}
+export default Login
+```
+
+![image.png](02React核心与项目实战.assets/02-17210196519632.png)
+
+# Day6-03.配置基础路由
+
+> 单页应用需要对应的路由支持，我们使用 `react-router-dom` 最新版本
+>
+> `react-router-dom` 是 React 的一个库，用于在 React 应用程序中实现客户端路由。它提供了一组组件和钩子，帮助你在单页应用程序（SPA）中实现导航和路由。
+>
+> [React Router 中文文档](https://react-guide.github.io/react-router-cn/)
+
+**实现步骤**
+
+1. 安装路由包  `npm i react-router-dom`
+2. 准备 `Layout`和 `Login`俩个基础组件
+3. 配置路由
+
+**代码实现**
+`pages/Layout/index.js`
+
+```jsx
+const Layout = () => {
+  return <div>this is layout</div>
+}
+export default Layout
+```
+
+`pages/Login/index.js`
+
+```jsx
+const Login = () => {
+  return <div>this is login</div>
+}
+export default Login
+```
+
+`router/index.js`
+
+```jsx
+import { createBrowserRouter } from 'react-router-dom'
+
+import Login from '../pages/Login'
+import Layout from '../pages/Layout'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+])
+
+export default router
+```
+
+`index.js`
+
+```jsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.scss'
+import router from './router'
+import { RouterProvider } from 'react-router-dom'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <RouterProvider router={router} />
+)
+```
+
+> react-router-dom和react-router有什么区别？
+>
+> `react-router-dom` 和 `react-router` 是 React 应用程序中实现路由功能的两个不同的包，它们之间有一些区别和用途上的不同。下面是它们的主要区别和使用场景：
+>
+> ### 1. `react-router`
+>
+> `react-router` 是一个核心库，它提供了所有路由的基础功能。它可以用于任何 React 项目，无论是 Web 端还是原生应用（React Native）。`react-router` 包含了所有实现路由功能所需的基本组件和钩子，但它不包含任何与浏览器或平台相关的功能。
+>
+> **主要组件和钩子**：
+>
+> - `<Router>`
+> - `<Route>`
+> - `<Switch>`
+> - `<Redirect>`
+> - `useHistory`
+> - `useLocation`
+> - `useParams`
+> - `useRouteMatch`
+>
+> ### 2. `react-router-dom`
+>
+> `react-router-dom` 是基于 `react-router` 的一个扩展包，专门为 Web 应用程序提供路由功能。它在 `react-router` 的基础上添加了一些特定于 DOM（Document Object Model）的功能和组件，例如 `<BrowserRouter>` 和 `<Link>`。这些组件和功能是为了与浏览器环境配合使用而设计的。
+>
+> **主要组件**：
+>
+> - `<BrowserRouter>`：使用 HTML5 的 History API 实现客户端路由。
+> - `<HashRouter>`：使用 URL 哈希部分（window.location.hash）实现客户端路由。
+> - `<Link>`：用于创建导航链接，避免使用 `<a>` 标签引起的页面刷新。
+> - `<NavLink>`：类似于 `<Link>`，但可以添加样式或标记当前活动的链接。
+>
+> ### 示例对比
+>
+> #### 使用 `react-router` 的基本示例：
+>
+> ```jsx
+> import React from 'react';
+> import { Router, Route, Switch } from 'react-router';
+> import { createBrowserHistory } from 'history';
+> 
+> const history = createBrowserHistory();
+> 
+> const Home = () => <h2>Home</h2>;
+> const About = () => <h2>About</h2>;
+> 
+> function App() {
+>   return (
+>     <Router history={history}>
+>       <Switch>
+>         <Route path="/about">
+>           <About />
+>         </Route>
+>         <Route path="/">
+>           <Home />
+>         </Route>
+>       </Switch>
+>     </Router>
+>   );
+> }
+> 
+> export default App;
+> ```
+>
+> #### 使用 `react-router-dom` 的基本示例：
+>
+> ```jsx
+> import React from 'react';
+> import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+> 
+> const Home = () => <h2>Home</h2>;
+> const About = () => <h2>About</h2>;
+> 
+> function App() {
+>   return (
+>     <Router>
+>       <div>
+>         <nav>
+>           <ul>
+>             <li>
+>               <Link to="/">Home</Link>
+>             </li>
+>             <li>
+>               <Link to="/about">About</Link>
+>             </li>
+>           </ul>
+>         </nav>
+> 
+>         <Switch>
+>           <Route path="/about">
+>             <About />
+>           </Route>
+>           <Route path="/">
+>             <Home />
+>           </Route>
+>         </Switch>
+>       </div>
+>     </Router>
+>   );
+> }
+> 
+> export default App;
+> ```
+>
+> ### 选择使用哪个包？
+>
+> - 如果你在开发一个 Web 应用程序，那么你应该使用 `react-router-dom`。它提供了所有 `react-router` 的核心功能，并且增加了一些专门为浏览器环境设计的组件。
+> - 如果你在开发一个非 Web 应用程序，例如 React Native 应用程序，那么你应该使用 `react-router` 或者其他适用于该平台的路由库（例如 `react-navigation`）。
+>
+> ### 总结
+>
+> `react-router` 是基础路由库，适用于任何 React 应用程序。`react-router-dom` 是 `react-router` 的扩展，专门为 Web 应用程序提供路由功能。如果你在开发 Web 应用，使用 `react-router-dom` 是更合适的选择
+
+# Day6-04.配置别名路径
+
+> 项目背景：在业务开发过程中文件夹的嵌套层级可能会比较深，通过传统的路径选择会比较麻烦也容易出错，设置路径别名可以简化这个过程
+
+## 路径编译配置
+
+1. 安装 `craco` 工具包
+2. 增加 `craco.config.js` 配置文件
+3. 修改 `scripts 命令`
+4. 测试是否生效
+
+```bash
+npm i @craco/craco -D
+```
+
+```javascript
+const path = require('path')
+
+module.exports = {
+  // webpack 配置
+  webpack: {
+    // 配置别名
+    alias: {
+      // 约定：使用 @ 表示 src 文件所在路径
+      '@': path.resolve(__dirname, 'src')
+    }
+  }
+}
+```
+
+```json
+"scripts": {
+  "start": "craco start",
+  "build": "craco build",
+  "test": "craco test",
+  "eject": "react-scripts eject"
+}
+```
+
+```javascript
+import { createBrowserRouter } from 'react-router-dom'
+
+import Login from '@/pages/Login'
+import Layout from '@/pages/Layout'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+])
+
+export default router
+```
+
+## VsCode提示配置
+
+**实现步骤**
+
+1. 在项目根目录创建 `jsconfig.json` 配置文件
+2. 在配置文件中添加以下配置
+
+**代码实现**
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}
+```
+
+:::warning
+说明：VSCode会自动读取`jsconfig.json` 中的配置，让vscode知道@就是src目录
+:::
+
+# 使用gitee管理项目
+
+# Day6-07.基本结构搭建
+
+<img src="02React核心与项目实战.assets/03-17210300976863.png" alt="image.png" style="zoom:50%;" />
+
+**实现步骤**
+
+1. 在 `Login/index.js` 中创建登录页面基本结构
+2. 在 Login 目录中创建 index.scss 文件，指定组件样式
+3. 将 `logo.png` 和 `login.png` 拷贝到 assets 目录中
+
+**代码实现**
+`pages/Login/index.js`
+
+```jsx
+import './index.scss'
+import { Card, Form, Input, Button } from 'antd'
+import logo from '@/assets/logo.png'
+
+const Login = () => {
+  return (
+    <div className="login">
+      <Card className="login-container">
+        <img className="login-logo" src={logo} alt="" />
+        {/* 登录表单 */}
+        <Form>
+          <Form.Item>
+            <Input size="large" placeholder="请输入手机号" />
+          </Form.Item>
+          <Form.Item>
+            <Input size="large" placeholder="请输入验证码" />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" size="large" block>
+              登录
+            </Button>
+          </Form.Item>
+        </Form>
+      </Card>
+    </div>
+  )
+}
+
+export default Login
+```
+
+`pages/Login/index.scss`
+
+```css
+.login {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: center/cover url('~@/assets/login.png');
+
+  .login-logo {
+    width: 200px;
+    height: 60px;
+    display: block;
+    margin: 0 auto 20px;
+  }
+
+  .login-container {
+    width: 440px;
+    height: 360px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 50px rgb(0 0 0 / 10%);
+  }
+
+  .login-checkbox-label {
+    color: #1890ff;
+  }
+}
+
+```
+
+# Day6-08.表单校验实现
+
+<img src="02React核心与项目实战.assets/04-17210300976874.png" alt="image.png" style="zoom: 43%;" />
+
+**实现步骤**
+
+1. 为 Form 组件添加 `validateTrigger` 属性，指定校验触发时机的集合
+2. **为 Form.Item 组件添加 name 属性**
+3. 为 Form.Item 组件添加 `rules` 属性，用来添加表单校验规则对象
+
+**代码实现**
+`page/Login/index.js`
+
+```jsx
+const Login = () => {
+  return (
+    <Form validateTrigger={['onBlur']}>
+      <Form.Item
+        name="mobile"
+        rules={[
+          { required: true, message: '请输入手机号' },
+          {
+            pattern: /^1[3-9]\d{9}$/,
+            message: '手机号码格式不对'
+          }
+        ]}
+      >
+        <Input size="large" placeholder="请输入手机号" />
+      </Form.Item>
+      <Form.Item
+        name="code"
+        rules={[
+          { required: true, message: '请输入验证码' },
+        ]}
+      >
+        <Input size="large" placeholder="请输入验证码" maxLength={6} />
+      </Form.Item>
+    
+      <Form.Item>
+        <Button type="primary" htmlType="submit" size="large" block>
+          登录
+        </Button>
+      </Form.Item>
+    </Form>
+  )
+}
+```
+
+# Day6-09.获取登录表单数据
+
+**实现步骤**
+
+1. 为 Form 组件添加 `onFinish` 属性，该事件会在点击登录按钮时触发
+2. 创建 onFinish 函数，通过函数参数 values 拿到表单值
+3. Form 组件添加 `initialValues` 属性，来初始化表单值
+
+**代码实现**
+`pages/Login/index.js`
+
+```jsx
+// 点击登录按钮时触发 参数values即是表单输入数据
+const onFinish = formValue => {
+  console.log(formValue)
+}
+
+<Form
+  onFinish={ onFinish }
+>...</Form>
+```
+
+<img src="02React核心与项目实战.assets/05-17210300976875.png" alt="image.png" style="zoom: 50%;" />
+
+# Day6-10.封装request工具模块
+
+> 业务背景: 前端需要和后端拉取接口数据，axios是使用最广的工具插件，针对于项目中的使用，我们需要做一些简单的封装
+
+<img src="02React核心与项目实战.assets/image-20240715162821026.png" alt="image-20240715162821026" style="zoom:67%;" />
+
+**实现步骤**
+
+1. 安装 axios 到项目  
+2. 创建 utils/request.js 文件
+3. 创建 axios 实例，配置 `baseURL，请求拦截器，响应拦截器` 
+4. 在 utils/index.js 中，统一导出request
+
+```bash
+npm i axios
+```
+
+```javascript
+import axios from 'axios'
+
+const http = axios.create({
+  baseURL: 'http://geek.itheima.net/v1_0',
+  timeout: 5000
+})
+
+// 添加请求拦截器
+http.interceptors.request.use((config)=> {
+    return config
+  }, (error)=> {
+    return Promise.reject(error)
+})
+
+// 添加响应拦截器
+http.interceptors.response.use((response)=> {
+    // 2xx 范围内的状态码都会触发该函数。
+    // 对响应数据做点什么
+    return response.data
+  }, (error)=> {
+    // 超出 2xx 范围的状态码都会触发该函数。
+    // 对响应错误做点什么
+    return Promise.reject(error)
+})
+
+export { http }
+```
+
+```javascript
+import { request } from './request'
+export { request }
+```
+
+[Axios](https://axios-http.com/zh/)
+
+# Day6-11.使用Redux管理token
+
+## 安装Redux相关工具包 
+
+```bash
+npm i react-redux @reduxjs/toolkit
+```
+
+## 配置Redux
+
+```javascript
+// src/store/modules/user.js
+import { createSlice } from '@reduxjs/toolkit'
+import { http } from '@/utils'
+const userStore = createSlice({
+  name: 'user',
+  // 数据状态
+  initialState: {
+    token:''
+  },
+  // 同步修改方法
+  reducers: {
+    setUserInfo (state, action) {
+      state.userInfo = action.payload
+    }
+     setToken (state, action) {
+      state.token = action.payload
+    }
+  }
+})
+
+// 解构出actionCreater
+const { setUserInfo, setToken } = userStore.actions
+
+// 获取reducer函数
+const userReducer = userStore.reducer
+
+// 异步方法封装
+const fetchLogin = (loginForm) => {
+  return async (dispatch) => {
+    const res = await http.post('/authorizations', loginForm)
+    dispatch(setUserInfo(res.data.token))
+  }
+}
+
+export { fetchLogin }
+
+export default userReducer
+```
+
+```javascript
+// src/store/index.js
+import { configureStore } from '@reduxjs/toolkit'
+
+import userReducer from './modules/user'
+
+export default configureStore({
+  reducer: {
+    // 注册子模块
+    user: userReducer
+  }
+})
+```
+
+# Day6-13.实现登录逻辑
+
+> 业务逻辑：
+>
+> 1. 跳转到首页
+> 2. 提示用户登录成功
+
+```jsx
+import { message } from 'antd'
+import useStore from '@/store'
+import { fetchLogin } from '@/store/modules/user'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
+
+const Login = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const onFinish = async formValue => {
+    await dispatch(fetchLogin(formValue))
+    navigate('/')
+    message.success('登录成功')
+  }
+  return (
+    <div className="login">
+     <!-- 省略... -->
+    </div>
+  )
+}
+
+export default Login
+```
+
+# Day6-14.token持久化
+
+> 业务背景: Token数据具有一定的时效时间，通常在几个小时，有效时间内无需重新获取，而基于Redux的存储方式又是基于内存的，刷新就会丢失，为了保持持久化，我们需要单独做处理
+
+<img src="02React核心与项目实战.assets/image-20240715171318028.png" alt="image-20240715171318028" style="zoom:50%;" />
+
+## 封装存取方法
+
+```javascript
+// 封装存取方法
+const TOKENKEY = 'token_key'
+
+function setToken (token) {
+  return localStorage.setItem(TOKENKEY, token)
+}
+
+function getToken () {
+  return localStorage.getItem(TOKENKEY)
+}
+
+function clearToken () {
+  return localStorage.removeItem(TOKENKEY)
+}
+
+export {
+  setToken,
+  getToken,
+  clearToken
+}
+```
+
+## 实现持久化逻辑
+
+```javascript
+import { getToken, setToken } from '@/utils'
+const userStore = createSlice({
+  name: 'user',
+  // 数据
+  initialState: {
+    token: getToken() || ''
+  },
+  // 同步修改方法
+  reducers: {
+    setUserInfo (state, action) {
+      state.token = action.payload
+      // 存入本地
+      setToken(state.token)
+    }
+  }
+})
+```
+
+刷新浏览器，通过Redux调试工具查看token数据
+![image.png](02React核心与项目实战.assets/06-17210300976876.png)
+
+# Day7-01.请求拦截器注入token
+
+> 业务背景: Token作为用户的数据标识，在接口层面起到了接口权限控制的作用，也就是说后端有很多接口都需要通过查看当前请求头信息中是否含有token数据，来决定是否正常返回数据
+
+<img src="02React核心与项目实战.assets/image-20240715174140983.png" alt="image-20240715174140983" style="zoom:50%;" />
+
+<img src="02React核心与项目实战.assets/07-17210300976877.png" alt="token.png" style="zoom:50%;" />
+
+> 拼接方式：config.headers.Authorization = `Bearer ${token}}`
+
+
+`utils/request.js`
+
+```javascript
+// 添加请求拦截器
+request.interceptors.request.use(config => {
+  // if not login add token
+  const token = getToken()
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
+```
+
+![image-20240715174610354](02React核心与项目实战.assets/image-20240715174610354.png)
+
+> headers.Authorization
+>
+> 在Web开发中，`headers.Authorization` 通常用于在HTTP请求中传递身份验证信息。这个头部（header）字段通常包含一个令牌（token），该令牌用来验证请求的合法性。最常见的用法是在使用Bearer Token的身份验证机制中。以下是一些常见的用法和示例：
+>
+> ### 1. 使用 Fetch API 发送带有 Authorization 头部的请求
+>
+> ```javascript
+> const token = 'your-token-here';
+> 
+> fetch('https://api.example.com/protected-resource', {
+>   method: 'GET', // 或者 'POST', 'PUT', 'DELETE', 等等
+>   headers: {
+>     'Authorization': `Bearer ${token}`,
+>     'Content-Type': 'application/json'
+>   }
+> })
+> .then(response => response.json())
+> .then(data => console.log(data))
+> .catch(error => console.error('Error:', error));
+> ```
+>
+> ### 2. 使用 Axios 发送带有 Authorization 头部的请求
+>
+> ```javascript
+> const axios = require('axios');
+> 
+> const token = 'your-token-here';
+> 
+> axios.get('https://api.example.com/protected-resource', {
+>   headers: {
+>     'Authorization': `Bearer ${token}`
+>   }
+> })
+> .then(response => console.log(response.data))
+> .catch(error => console.error('Error:', error));
+> ```
+>
+> ### 3. 使用 XMLHttpRequest 发送带有 Authorization 头部的请求
+>
+> ```javascript
+> const token = 'your-token-here';
+> 
+> const xhr = new XMLHttpRequest();
+> xhr.open('GET', 'https://api.example.com/protected-resource', true);
+> xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+> xhr.setRequestHeader('Content-Type', 'application/json');
+> 
+> xhr.onload = function() {
+>   if (xhr.status >= 200 && xhr.status < 300) {
+>     console.log(JSON.parse(xhr.responseText));
+>   } else {
+>     console.error('Error:', xhr.statusText);
+>   }
+> };
+> 
+> xhr.send();
+> ```
+>
+> ### Authorization 头部的格式
+>
+> - **Basic Authentication**：使用基本身份验证时，`Authorization` 头部包含 `Basic` 关键字，后面跟着一个Base64编码的用户名和密码的组合。
+>   
+>   ```javascript
+>   const username = 'your-username';
+>   const password = 'your-password';
+>   const base64Credentials = btoa(`${username}:${password}`);
+>   
+>   const headers = new Headers();
+>   headers.append('Authorization', `Basic ${base64Credentials}`);
+>   ```
+>
+> - **Bearer Token Authentication**：使用 Bearer Token 时，`Authorization` 头部包含 `Bearer` 关键字，后面跟着Token。
+>   
+>   ```javascript
+>   const token = 'your-token-here';
+>   const headers = new Headers();
+>   headers.append('Authorization', `Bearer ${token}`);
+>   ```
+>
+> ### 示例应用场景
+>
+> #### 1. 访问受保护的API端点
+> 许多API提供商要求在请求中包含`Authorization`头部来访问受保护的资源。例如，GitHub的API要求在请求头中包含OAuth令牌。
+>
+> #### 2. 验证用户身份
+> 在应用程序中，可以使用JWT（JSON Web Token）来验证用户身份。服务器在用户登录时生成一个JWT，并在后续请求中将该JWT包含在`Authorization`头部，以验证用户身份。
+>
+> 通过使用 `headers.Authorization`，你可以在HTTP请求中传递必要的身份验证信息，从而确保请求的安全性和合法性。
+
+# Day7-02.路由鉴权实现
+
+> 业务背景：封装 `AuthRoute` 路由鉴权高阶组件，实现未登录拦截，并跳转到登录页面
+> 实现思路：判断本地是否有token，如果有，就返回子组件，否则就重定向到登录Login
+
+| <img src="02React核心与项目实战.assets/image-20240715185757793.png" alt="image-20240715185757793" style="zoom:50%;" /> | <img src="02React核心与项目实战.assets/image-20240715185941443.png" alt="image-20240715185941443" style="zoom: 67%;" /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+**实现步骤**
+
+1. 在 components 目录中，创建 `AuthRoute/index.jsx` 文件
+2. 登录时，直接渲染相应页面组件
+3. 未登录时，重定向到登录页面
+4. 将需要鉴权的页面路由配置，替换为 AuthRoute 组件渲染
+
+**代码实现**
+`components/AuthRoute/index.jsx`
+
+```jsx
+import { getToken } from '@/utils'
+import { Navigate } from 'react-router-dom'
+
+const AuthRoute = ({ children }) => {
+  const isToken = getToken()
+  if (isToken) {
+    return <>{children}</>
+  } else {
+    // 重定向组件
+    return <Navigate to="/login" replace />
+  }
+}
+
+export default AuthRoute
+```
+
+`src/router/index.jsx`
+
+```jsx
+import { createBrowserRouter } from 'react-router-dom'
+
+import Login from '@/pages/Login'
+import Layout from '@/pages/Layout'
+import AuthRoute from '@/components/Auth'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <AuthRoute><Layout /></AuthRoute>,
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+])
+
+export default router
+```
+
+# Day7-03.基本结构和样式reset（看到此处。。。。。。。）
+
+## 结构创建
+
+<img src="02React核心与项目实战.assets/08-17210417197488.png" alt="image.png" style="zoom: 33%;" />
+
+**实现步骤**
+
+1. 打开 `antd/Layout` 布局组件文档，找到示例：顶部-侧边布局-通栏
+2. 拷贝示例代码到我们的 Layout 页面中
+3. 分析并调整页面布局
+
+**代码实现**
+`pages/Layout/index.js`
+
+```jsx
+import { Layout, Menu, Popconfirm } from 'antd'
+import {
+  HomeOutlined,
+  DiffOutlined,
+  EditOutlined,
+  LogoutOutlined,
+} from '@ant-design/icons'
+import './index.scss'
+
+const { Header, Sider } = Layout
+
+const items = [
+  {
+    label: '首页',
+    key: '1',
+    icon: <HomeOutlined />,
+  },
+  {
+    label: '文章管理',
+    key: '2',
+    icon: <DiffOutlined />,
+  },
+  {
+    label: '创建文章',
+    key: '3',
+    icon: <EditOutlined />,
+  },
+]
+
+const GeekLayout = () => {
+  return (
+    <Layout>
+      <Header className="header">
+        <div className="logo" />
+        <div className="user-info">
+          <span className="user-name">柴柴老师</span>
+          <span className="user-logout">
+            <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消">
+              <LogoutOutlined /> 退出
+            </Popconfirm>
+          </span>
+        </div>
+      </Header>
+      <Layout>
+        <Sider width={200} className="site-layout-background">
+          <Menu
+            mode="inline"
+            theme="dark"
+            defaultSelectedKeys={['1']}
+            items={items}
+            style={{ height: '100%', borderRight: 0 }}></Menu>
+        </Sider>
+        <Layout className="layout-content" style={{ padding: 20 }}>
+          内容
+        </Layout>
+      </Layout>
+    </Layout>
+  )
+}
+export default GeekLayout
+```
+
+`pages/Layout/index.scss`
+
+```css
+.ant-layout {
+  height: 100%;
+}
+
+.header {
+  padding: 0;
+}
+
+.logo {
+  width: 200px;
+  height: 60px;
+  background: url('~@/assets/logo.png') no-repeat center / 160px auto;
+}
+
+.layout-content {
+  overflow-y: auto;
+}
+
+.user-info {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding-right: 20px;
+  color: #fff;
+  
+  .user-name {
+    margin-right: 20px;
+  }
+  
+  .user-logout {
+    display: inline-block;
+    cursor: pointer;
+  }
+}
+.ant-layout-header {
+  padding: 0 !important;
+}
+```
+
+## 样式reset
+
+```bash
+npm install normalize.css
+```
+
+```css
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+```
+
+# 二级路由配置
+
+**使用步骤**
+
+1. 在 pages 目录中，分别创建：Home（数据概览）/Article（内容管理）/Publish（发布文章）页面文件夹
+2. 分别在三个文件夹中创建 index.jsx 并创建基础组件后导出
+3. 在`router/index.js` 中配置嵌套子路由，在`Layout`中配置二级路由出口
+4. 使用 Link 修改左侧菜单内容，与子路由规则匹配实现路由切换
+
+**代码实现**
+`pages/Home/index.js`
+
+```jsx
+const Home = () => {
+  return <div>Home</div>
+}
+export default Home
+```
+
+`pages/Article/index.js`
+
+```jsx
+const Article = () => {
+  return <div>Article</div>
+}
+export default Article
+```
+
+`pages/Publish/index.js`
+
+```jsx
+const Publish = () => {
+  return <div>Publish</div>
+}
+export default Publish
+```
+
+`router/index.js`
+
+```jsx
+import { createBrowserRouter } from 'react-router-dom'
+
+import Login from '@/pages/Login'
+import Layout from '@/pages/Layout'
+import Publish from '@/pages/Publish'
+import Article from '@/pages/Article'
+import Home from '@/pages/Home'
+import { AuthRoute } from '@/components/Auth'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: (
+      <AuthRoute>
+        <Layout />
+      </AuthRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: 'article',
+        element: <Article />,
+      },
+      {
+        path: 'publish',
+        element: <Publish />,
+      },
+    ],
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+])
+
+export default router
+```
+
+配置二级路由出口
+
+```jsx
+<Layout className="layout-content" style={{ padding: 20 }}>
+  <Outlet />
+</Layout>
+```
+
+# 路由菜单点击交互实现
+
+![image.png](02React核心与项目实战.assets/09-17210417197489.png)
+
+## 点击菜单跳转路由
+
+```jsx
+import { Outlet, useNavigate } from 'react-router-dom'
+
+const items = [
+  {
+    label: '首页',
+    key: '/',
+    icon: <HomeOutlined />,
+  },
+  {
+    label: '文章管理',
+    key: '/article',
+    icon: <DiffOutlined />,
+  },
+  {
+    label: '创建文章',
+    key: '/publish',
+    icon: <EditOutlined />,
+  },
+]
+
+const GeekLayout = () => {
+  const navigate = useNavigate()
+  const menuClick = (route) => {
+    navigate(route.key)
+  }
+  return (
+      <Menu
+        mode="inline"
+        theme="dark"
+        selectedKeys={selectedKey}
+        items={items}
+        style={{ height: '100%', borderRight: 0 }}
+        onClick={menuClick}
+      /> 
+  )
+}
+export default GeekLayout
+```
+
+## 菜单反向高亮
+
+```tsx
+const GeekLayout = () => {
+  // 省略部分代码
+  const location = useLocation()
+  const selectedKey = location.pathname
+  
+  return (
+    <Layout>
+      <Header className="header">
+        <div className="logo" />
+        <div className="user-info">
+          <span className="user-name">{name}</span>
+          <span className="user-logout">
+            <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消">
+              <LogoutOutlined /> 退出
+            </Popconfirm>
+          </span>
+        </div>
+      </Header>
+      <Layout>
+        <Sider width={200} className="site-layout-background">
+          <Menu
+            mode="inline"
+            theme="dark"
+            selectedKeys={selectedKey}
+            items={items}
+            style={{ height: '100%', borderRight: 0 }}
+            onClick={menuClickHandler}></Menu>
+        </Sider>
+        <Layout className="layout-content" style={{ padding: 20 }}>
+          <Outlet />
+        </Layout>
+      </Layout>
+    </Layout>
+  )
+}
+```
+
+# 展示个人信息
+
+![image.png](02React核心与项目实战.assets/10-172104171974810.png)
+**实现步骤**
+
+1. 在Redux的store中编写获取用户信息的相关逻辑
+2. 在Layout组件中触发action的执行
+3. 在Layout组件使用使用store中的数据进行用户名的渲染
+
+**代码实现**
+`store/userStore.js`
+
+```javascript
+import { createSlice } from '@reduxjs/toolkit'
+import { http } from '@/utils/request'
+import { getToken, setToken } from '@/utils'
+const userStore = createSlice({
+  name: 'user',
+  // 数据
+  initialState: {
+    token: getToken() || '',
+    userInfo: {}
+  },
+  // 同步修改方法
+  reducers: {
+    setUserToken (state, action) {
+      state.token = action.payload
+      // 存入本地
+      setToken(state.token)
+    },
+    setUserInfo (state, action) {
+      state.userInfo = action.payload
+    }
+  }
+})
+
+// 解构出actionCreater
+const { setUserToken, setUserInfo } = userStore.actions
+
+// 获取reducer函数
+const userReducer = userStore.reducer
+
+const fetchLogin = (loginForm) => {
+  return async (dispatch) => {
+    const res = await http.post('/authorizations', loginForm)
+    dispatch(setUserToken(res.data.token))
+  }
+}
+
+
+const fetchUserInfo = () => {
+  return async (dispatch) => {
+    const res = await http.get('/user/profile')
+    dispatch(setUserInfo(res.data))
+  }
+}
+
+export { fetchLogin, fetchUserInfo }
+
+export default userReducer
+```
+
+`pages/Layout/index.js`
+
+```jsx
+// 省略部分代码
+import { fetchUserInfo } from '@/store/modules/user'
+import { useDispatch, useSelector } from 'react-redux'
+
+
+const GeekLayout = () => {
+  const dispatch = useDispatch()
+  const name = useSelector(state => state.user.userInfo.name)
+  useEffect(() => {
+    dispatch(fetchUserInfo())
+  }, [dispatch])
+  return (
+    <Layout>
+      <Header className="header">
+        <div className="logo" />
+        <div className="user-info">
+          <span className="user-name">{name}</span>
+          <span className="user-logout">
+            <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消">
+              <LogoutOutlined /> 退出
+            </Popconfirm>
+          </span>
+        </div>
+      </Header>
+      <Layout>
+        <Sider width={200} className="site-layout-background">
+          <Menu
+            mode="inline"
+            theme="dark"
+            defaultSelectedKeys={['1']}
+            items={items}
+            style={{ height: '100%', borderRight: 0 }}></Menu>
+        </Sider>
+        <Layout className="layout-content" style={{ padding: 20 }}>
+          <Outlet />
+        </Layout>
+      </Layout>
+    </Layout>
+  )
+}
+export default GeekLayout
+```
+
+# 退出登录实现
+
+![image.png](C:/Users/chaipeng/Desktop/md/assets/11.png)
+**实现步骤**
+
+1. 为气泡确认框添加确认回调事件
+2. 在`store/userStore.js` 中新增退出登录的action函数，在其中删除token
+3. 在回调事件中，调用userStore中的退出action
+4. 清除用户信息，返回登录页面
+
+**代码实现**
+`store/modules/user.js`
+
+```javascript
+import { createSlice } from '@reduxjs/toolkit'
+import { http } from '@/utils/request'
+import { clearToken, getToken, setToken } from '@/utils'
+const userStore = createSlice({
+  name: 'user',
+  // 数据
+  initialState: {
+    token: getToken() || '',
+    userInfo: {}
+  },
+  // 同步修改方法
+  reducers: {
+    setUserToken (state, action) {
+      state.token = action.payload
+      // 存入本地
+      setToken(state.token)
+    },
+    setUserInfo (state, action) {
+      state.userInfo = action.payload
+    },
+    clearUserInfo (state) {
+      state.token = ''
+      state.userInfo = {}
+      clearToken()
+    }
+  }
+})
+
+// 解构出actionCreater
+const { setUserToken, setUserInfo, clearUserInfo } = userStore.actions
+
+// 获取reducer函数
+const userReducer = userStore.reducer
+
+
+export { fetchLogin, fetchUserInfo, clearUserInfo }
+
+export default userReducer
+```
+
+`pages/Layout/index.js`
+
+```jsx
+const GeekLayout = () => {
+  // 退出登录
+  const loginOut = () => {
+    dispatch(clearUserInfo())
+    navigator('/login')
+  }
+
+  return (
+    <Layout>
+      <Header className="header">
+        <div className="logo" />
+        <div className="user-info">
+          <span className="user-name">{name}</span>
+          <span className="user-logout">
+            <Popconfirm 
+              title="是否确认退出？" 
+              okText="退出" 
+              cancelText="取消" 
+              onConfirm={loginOut}>
+              <LogoutOutlined /> 退出
+            </Popconfirm>
+          </span>
+        </div>
+      </Header>
+      <Layout>
+        <Sider width={200} className="site-layout-background">
+          <Menu
+            mode="inline"
+            theme="dark"
+            selectedKeys={selectedKey}
+            items={items}
+            style={{ height: '100%', borderRight: 0 }}
+            onClick={menuClickHandler}></Menu>
+        </Sider>
+        <Layout className="layout-content" style={{ padding: 20 }}>
+          <Outlet />
+        </Layout>
+      </Layout>
+    </Layout>
+  )
+}
+```
+
+![image.png](02React核心与项目实战.assets/12-172104171974811.png)
+
+# 处理Token失效
+
+> 业务背景：如果用户一段时间不做任何操作，到时之后应该清除所有过期用户信息跳回到登录
+
+
+```javascript
+http.interceptors.response.use((response) => {
+  // 2xx 范围内的状态码都会触发该函数。
+  // 对响应数据做点什么
+  return response.data
+}, (error) => {
+  // 超出 2xx 范围的状态码都会触发该函数。
+  // 对响应错误做点什么
+  console.dir(error)
+  if (error.response.status === 401) {
+    clearToken()
+    router.navigate('/login')
+    window.location.reload()
+  }
+
+  return Promise.reject(error)
+})
+```
+
+# 首页Home图表展示
+
+![home.png](02React核心与项目实战.assets/13-172104171974812.png)
+
+## 图表基础Demo实现
+
+> 图表类业务渲染，我们可以通过下面的顺序来实现
+>
+> 1. 跑通基础DEMO
+> 2. 按照实际业务需求进行修改
 
 
 
+**安装echarts**
+
+```bash
+npm i echarts
+```
+
+**实现基础Demo**
+
+```jsx
+import { useEffect, useRef } from 'react'
+import * as echarts from 'echarts'
+
+const Home = () => {
+  const chartRef = useRef(null)
+  useEffect(() => {
+    // 1. 生成实例
+    const myChart = echarts.init(chartRef.current)
+    // 2. 准备图表参数
+    const option = {
+      xAxis: {
+        type: 'category',
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: [120, 200, 150, 80, 70, 110, 130],
+          type: 'bar'
+        }
+      ]
+    }
+    // 3. 渲染参数
+    myChart.setOption(option)
+  }, [])
+
+  return (
+    <div>
+      <div ref={chartRef} style={{ width: '400px', height: '300px' }} />
+    </div >
+  )
+}
+
+export default Home
+```
+
+![image.png](02React核心与项目实战.assets/14-172104171974813.png)
+
+## 组件封装
+
+基础抽象
+
+```jsx
+import { useRef, useEffect } from 'react'
+import * as echarts from 'echarts'
+
+const BarChart = () => {
+  const chartRef = useRef(null)
+  useEffect(() => {
+    // 1. 生成实例
+    const myChart = echarts.init(chartRef.current)
+    // 2. 准备图表参数
+    const option = {
+      xAxis: {
+        type: 'category',
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: [120, 200, 150, 80, 70, 110, 130],
+          type: 'bar'
+        }
+      ]
+    }
+    // 3. 渲染参数
+    myChart.setOption(option)
+  }, [])
+  return <div ref={chartRef} style={{ width: '400px', height: '300px' }}></div>
+}
+
+export { BarChart }
+```
+
+抽象可变参数
+
+```tsx
+import { useRef, useEffect } from 'react'
+import * as echarts from 'echarts'
+
+const BarChart = ({ xData, sData, style = { width: '400px', height: '300px' } }) => {
+  const chartRef = useRef(null)
+  useEffect(() => {
+    // 1. 生成实例
+    const myChart = echarts.init(chartRef.current)
+    // 2. 准备图表参数
+    const option = {
+      xAxis: {
+        type: 'category',
+        data: xData
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: sData,
+          type: 'bar'
+        }
+      ]
+    }
+    // 3. 渲染参数
+    myChart.setOption(option)
+  }, [sData, xData])
+  return <div ref={chartRef} style={style}></div>
+}
+
+export { BarChart }
+```
+
+```jsx
+import { BarChart } from './BarChart'
+
+const Home = () => {
+  return (
+    <div>
+      <BarChart
+        xData={['Vue', 'React', 'Angular']}
+        sData={[2000, 5000, 1000]} />
+
+      <BarChart
+        xData={['Vue', 'React', 'Angular']}
+        sData={[200, 500, 100]}
+        style={{ width: '500px', height: '400px' }} />
+    </div >
+  )
+}
+
+export default Home
+```
+
+# Day9-09.项目打包
+
+```bash
+npm run build
+```
+
+<img src="02React核心与项目实战.assets/25-172104194976414.png" alt="image.png" style="zoom:50%;" />
+
+# Day9-09.项目本地预览
+
+> 本地预览是指在本地通过静态服务器模拟生产服务器运行项目的过程
+
+**实现步骤**
+
+1. 全局安装本地服务包 `npm i -g serve`  该包提供了serve命令，用来启动本地服务器
+2. 在项目根目录中执行命令 `serve -s ./build`  在build目录中开启服务器
+3. 在浏览器中访问：`http://localhost:3000/` 预览项目
+
+<img src="02React核心与项目实战.assets/26-172104194976415.png" alt="image.png" style="zoom:50%;" />
+
+# 优化-路由懒加载（看到此处）
+
+**使用步骤**
+
+1. 使用 lazy 方法导入路由组件
+2. 使用内置的 Suspense 组件渲染路由组件
+
+**代码实现**
+`router/index.js`
+
+```jsx
+import { createBrowserRouter } from 'react-router-dom'
+import { lazy, Suspense } from 'react'
+import Login from '@/pages/Login'
+import Layout from '@/pages/Layout'
+
+import AuthRoute from '@/components/Auth'
+
+const Publish = lazy(() => import('@/pages/Publish'))
+const Article = lazy(() => import('@/pages/Article'))
+const Home = lazy(() => import('@/pages/Article'))
+
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: (
+      <AuthRoute>
+        <Layout />
+      </AuthRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: (
+          <Suspense fallback={'加载中'}>
+            <Home />
+          </Suspense>
+        )
+      },
+      {
+        path: 'article',
+        element: (
+          <Suspense fallback={'加载中'}>
+            <Article />
+          </Suspense>
+        )
+      },
+      {
+        path: 'publish',
+        element: (
+          <Suspense fallback={'加载中'}>
+            <Publish />
+          </Suspense>
+        )
+      },
+    ],
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+])
+
+export default router
+```
+
+**查看效果**
+我们可以在打包之后，通过切换路由，监控network面板资源的请求情况，验证是否分隔成功
+
+# 打包-打包体积分析
+
+**业务背景**
+通过分析打包体积，才能知道项目中的哪部分内容体积过大，方便知道哪些包如何来优化
+**使用步骤**
+
+1. 安装分析打包体积的包：`npm i source-map-explorer`
+2. 在 package.json 中的 scripts 标签中，添加分析打包体积的命令
+3. 对项目打包：`npm run build`（如果已经打过包，可省略这一步）
+4. 运行分析命令：`npm run analyze`
+5. 通过浏览器打开的页面，分析图表中的包体积
+
+**核心代码**：
+
+```json
+"scripts": {
+  "analyze": "source-map-explorer 'build/static/js/*.js'",
+}
+```
+
+![image.png](02React核心与项目实战.assets/27-172104194976516.png)
+
+# 优化-配置CDN
+
+**分析说明**：通过 craco 来修改 webpack 配置，从而实现 CDN 优化
+**核心代码**
+`craco.config.js`
+
+```javascript
+// 添加自定义对于webpack的配置
+
+const path = require('path')
+const { whenProd, getPlugin, pluginByName } = require('@craco/craco')
+
+module.exports = {
+  // webpack 配置
+  webpack: {
+    // 配置别名
+    alias: {
+      // 约定：使用 @ 表示 src 文件所在路径
+      '@': path.resolve(__dirname, 'src')
+    },
+    // 配置webpack
+    // 配置CDN
+    configure: (webpackConfig) => {
+      let cdn = {
+        js:[]
+      }
+      whenProd(() => {
+        // key: 不参与打包的包(由dependencies依赖项中的key决定)
+        // value: cdn文件中 挂载于全局的变量名称 为了替换之前在开发环境下
+        webpackConfig.externals = {
+          react: 'React',
+          'react-dom': 'ReactDOM'
+        }
+        // 配置现成的cdn资源地址
+        // 实际开发的时候 用公司自己花钱买的cdn服务器
+        cdn = {
+          js: [
+            'https://cdnjs.cloudflare.com/ajax/libs/react/18.1.0/umd/react.production.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.1.0/umd/react-dom.production.min.js',
+          ]
+        }
+      })
+
+      // 通过 htmlWebpackPlugin插件 在public/index.html注入cdn资源url
+      const { isFound, match } = getPlugin(
+        webpackConfig,
+        pluginByName('HtmlWebpackPlugin')
+      )
+
+      if (isFound) {
+        // 找到了HtmlWebpackPlugin的插件
+        match.userOptions.files = cdn
+      }
+
+      return webpackConfig
+    }
+  }
+}
+```
+
+`public/index.html`
+
+```html
+<body>
+  <div id="root"></div>
+  <!-- 加载第三发包的 CDN 链接 -->
+  <% htmlWebpackPlugin.options.files.js.forEach(cdnURL => { %>
+    <script src="<%= cdnURL %>"></script>
+  <% }) %>
+</body>
+```
 
