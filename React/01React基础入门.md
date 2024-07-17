@@ -1001,77 +1001,80 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 前端路由通过利用浏览器的`history` API和JavaScript框架或库来拦截URL变化，动态更新视图，从而避免了向服务器发送新的请求。这种机制是实现单页面应用程序的关键，使得Web应用程序具有更快的响应速度和更流畅的用户体验。
 
-# 77 路由的基本使用
+# [77 路由的基本使用](https://www.bilibili.com/video/BV1wy4y1D7JT?p=77&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-<img src="01.assets/image-20240226230156273.png" alt="image-20240226230156273" style="zoom:55%;" />
+**react-router-dom**
 
-<img src="01.assets/image-20240226230236716.png" alt="image-20240226230236716" style="zoom:60%;" />
+> 注意：由于react-router-dom在2021年11月份升级到了6版本，我们在此处学的是5版本，要执行: npm i react-router-dom@5
+>
+> 关于react-router-dom的最新6版本，在本教程的127集开始进行讲解
 
-<img src="01.assets/image-20240226230319365.png" alt="image-20240226230319365" style="zoom:60%;" />
+| ![image-20240717183713403](01React基础入门.assets/image-20240717183713403.png) | <img src="01.assets/image-20240226230236716.png" alt="image-20240226230236716" style="zoom: 67%;" /><br>这里的报错不是很精准，Router分为BrowserRouter和HashRouter |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <img src="01.assets/image-20240226230319365.png" alt="image-20240226230319365"  /> | <img src="01.assets/image-20240226230703193.png" alt="image-20240226230703193"  /> |
+| <img src="01.assets/image-20240226231457996.png" alt="image-20240226231457996"  /> | <img src="01.assets/image-20240226231549228.png" alt="image-20240226231549228"  /> |
 
-<img src="01.assets/image-20240226230703193.png" alt="image-20240226230703193" style="zoom:55%;" />
+# [78 路由组件与一般组件](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=78&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-<img src="01.assets/image-20240226231457996.png" alt="image-20240226231457996" style="zoom:55%;" />
+| <img src="01.assets/image-20240226231700039.png" alt="image-20240226231700039"  /> | <img src="01.assets/image-20240227210633781.png" alt="image-20240227210633781"  /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
 
-<img src="01.assets/image-20240226231549228.png" alt="image-20240226231549228" style="zoom:60%;" />
+<img src="01.assets/image-20240227210949493.png" alt="image-20240227210949493" style="zoom: 80%;" />
 
-# 78 路由组件与一般组件
+# [79 NavLink的使用](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=79&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-<img src="01.assets/image-20240226231700039.png" alt="image-20240226231700039" style="zoom:60%;" />
+| <img src="01React基础入门.assets/image-20240311191825087.png" alt="image-20240311191825087" style="zoom:67%;" /><br>如果用Link，就意味着你所写的路由链接不带有高亮效果；<br>如果想高亮，用Link的升级版，NavLink | <img src="01.assets/image-20240311191902400.png" alt="image-20240311191902400" style="zoom:67%;" /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
 
-<img src="01.assets/image-20240227210633781.png" alt="image-20240227210633781" style="zoom:60%;" />
+<img src="01.assets/image-20240311191944909.png" alt="image-20240311191944909" style="zoom: 80%;" />
 
-<img src="01.assets/image-20240227210949493.png" alt="image-20240227210949493" style="zoom:60%;" />
+<img src="01.assets/image-20240311192143762.png" alt="image-20240311192143762" style="zoom: 80%;" />
 
-# 79 NavLink的使用
+# [80 封装NavLink组件](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=80&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-https://www.bilibili.com/video/BV1wy4y1D7JT/?p=79&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+| <img src="01.assets/image-20240311192539740.png" alt="image-20240311192539740"  /> | <img src="01.assets/image-20240311192551722.png" alt="image-20240311192551722"  /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 传递属性增多后的升级写法：                                   |                                                              |
+| <img src="01.assets/image-20240311193301037.png" alt="image-20240311193301037"  /> | <img src="01.assets/image-20240311193343709.png" alt="image-20240311193343709"  /><br>有开闭两个标签 |
+| 再升级：标签自闭合                                           |                                                              |
+| <img src="01.assets/image-20240311193452397.png" alt="image-20240311193452397"  /> | <img src="01.assets/image-20240311193531640.png" alt="image-20240311193531640"  /> |
 
-<img src="01.assets/image-20240311191825087.png" alt="image-20240311191825087" style="zoom:67%;" />
+# [81 Switch的使用](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=81&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-如果用Link，就意味着你所写的路由链接不带有高亮效果；
+![image-20240717212308240](01React基础入门.assets/image-20240717212308240.png)
 
-如果想高亮，用Link的升级版，NavLink
+# [82 解决样式丢失的问题](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=82&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e) 
 
-<img src="01.assets/image-20240311191902400.png" alt="image-20240311191902400" style="zoom:67%;" />
+%PUBLIC_URL%
 
-<img src="01.assets/image-20240311191944909.png" alt="image-20240311191944909" style="zoom:67%;" />
+![image-20240717214502896](01React基础入门.assets/image-20240717214502896.png)
 
-<img src="01.assets/image-20240311192143762.png" alt="image-20240311192143762" style="zoom:67%;" />
+# [83 路由的模糊匹配与严格匹配](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=83&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# 80 封装NavLink组件
+<img src="01React基础入门.assets/image-20240717220146329.png" alt="image-20240717220146329" style="zoom:80%;" />
 
-https://www.bilibili.com/video/BV1wy4y1D7JT/?p=80&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
 
-<img src="01.assets/image-20240311192539740.png" alt="image-20240311192539740" style="zoom:67%;" />
 
-<img src="01.assets/image-20240311192551722.png" alt="image-20240311192551722" style="zoom:67%;" />
+<img src="01React基础入门.assets/image-20240717220343634.png" alt="image-20240717220343634" style="zoom:80%;" />
 
-升级写法：
+# [84 Redirect的使用](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=84&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-<img src="01.assets/image-20240311193301037.png" alt="image-20240311193301037" style="zoom:67%;" />
+<img src="01React基础入门.assets/image-20240717220743322.png" alt="image-20240717220743322" style="zoom: 67%;" />
 
-<img src="01.assets/image-20240311193343709.png" alt="image-20240311193343709" style="zoom:67%;" />
+<img src="01React基础入门.assets/image-20240717220837921.png" alt="image-20240717220837921" style="zoom: 67%;" />
 
-再升级：
+# [85 嵌套路由(二级路由)](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=85&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-<img src="01.assets/image-20240311193452397.png" alt="image-20240311193452397" style="zoom:67%;" />
+<img src="01React基础入门.assets/image-20240717222522702.png" alt="image-20240717222522702" style="zoom:67%;" />
 
-<img src="01.assets/image-20240311193531640.png" alt="image-20240311193531640" style="zoom:80%;" />
+# [86 向路由组件传递params参数](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=86&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# 81 Switch的使用
+| <img src="01React基础入门.assets/image-20240717223707674.png" alt="image-20240717223707674" style="zoom: 50%;" /> | <img src="01React基础入门.assets/image-20240717224026708.png" alt="image-20240717224026708" style="zoom:50%;" /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
 
-# 82 解决样式丢失的问题
+<img src="01React基础入门.assets/image-20240717224651806.png" alt="image-20240717224651806" style="zoom:67%;" />
 
-# 83 路由的模糊匹配与严格匹配
-
-# 84 Redirect的使用
-
-# 85 嵌套路由
-
-# 86 向路由组件传递params
-
-# 87 向路由组件传递search参数
+# [87 向路由组件传递search参数](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=87&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 # 88 向路由组件传递state参数
 

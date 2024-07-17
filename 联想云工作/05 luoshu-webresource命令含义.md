@@ -968,3 +968,111 @@ mkdir -p ../zdocs/dist/taskserver/plugins/cl/ && cp -f $localArtifactsDir/ooxmlc
 3. `--concurrency` 选项控制并发运行的任务数量，以充分利用系统资源并加快构建过程。
 
 这种命令通常用于自动化构建和部署过程中，确保所有包在生产环境下被正确地构建并准备部署。
+
+# 17. npm run dev sw
+
+找不到这个命令
+
+# 18. npm run dev
+
+```json
+"dev": "npm run dev_ -- --scope lsbase-* & npm run dev_ -- --scope ",
+```
+
+这行命令是一个复杂的 npm 脚本，它结合了 `npm run` 命令、参数传递和并行运行来实现特定的开发任务。
+
+### 解析命令
+
+```sh
+"dev": "npm run dev_ -- --scope lsbase-* & npm run dev_ -- --scope "
+```
+
+#### 分为两部分：
+
+1. **`npm run dev_ -- --scope lsbase-*`**
+2. **`npm run dev_ -- --scope `**
+
+#### 并行运行：
+`&` 符号用于在命令行中并行执行多个命令。
+
+### 各部分的含义
+
+1. **`npm run dev_`**：
+   - 这是一个自定义的 npm 脚本，名字为 `dev_`。你需要在 `package.json` 的 `scripts` 部分找到这个脚本的定义，来了解它具体做了什么。
+
+2. **`--`**：
+   - 这是一个分隔符，用于将参数传递给 npm 脚本。在 `npm run` 命令中，`--` 后面的内容会作为参数传递给被运行的脚本。
+
+3. **`--scope lsbase-*`**：
+   - `--scope` 是一个假定的参数，可能用于指定某个工具（如 Lerna 或类似的工具）中的项目范围。
+   - `lsbase-*` 是一个通配符，表示所有名称以 `lsbase-` 开头的项目。
+
+### 总结
+
+结合以上两部分的解释：
+
+- **`npm run dev_ -- --scope lsbase-*`**：
+  - 运行 `dev_` 脚本，并将 `--scope lsbase-*` 参数传递给它。这可能会让 `dev_` 脚本在所有以 `lsbase-` 开头的项目中执行一些操作。
+
+- **`npm run dev_ -- --scope `**：
+  - 运行 `dev_` 脚本，并将 `--scope` 参数传递给它，但没有指定具体范围。这可能会让 `dev_` 脚本在默认范围或所有项目中执行一些操作。
+
+### 并行运行
+
+`&` 符号表示这两个命令将被并行运行，而不是顺序运行。因此，这个命令行在执行时，会同时运行两个 `dev_` 脚本实例，每个实例使用不同的 `--scope` 参数。
+
+### 实际用途
+
+要了解这个脚本的实际用途，需要查看 `package.json` 中 `dev_` 脚本的定义：
+
+```json
+{
+  "scripts": {
+    "dev_": "your-command-here"
+  }
+}
+```
+
+`your-command-here` 会是你需要关注的部分，确定它在 `--scope` 参数下具体执行了什么操作。常见的场景包括：
+
+- 使用工具如 Lerna 或 Nx 来管理 monorepo 项目
+- 在特定范围内启动开发服务器、构建项目或运行测试
+
+通过这种方式，你可以实现对多个项目或模块的并行开发、构建和测试。
+
+# 19. npm run dev_
+
+```json
+"dev_": "env-cmd -e development lerna run dev --parallel",
+```
+
+这行命令是一个 npm 脚本，用于在开发环境 (`development` 环境) 下并行运行 `lerna` 管理的所有项目的 `dev` 脚本。
+
+### 解析命令
+
+```json
+"dev_": "env-cmd -e development lerna run dev --parallel"
+```
+
+#### 各部分的含义
+
+1. **`env-cmd -e development`**：
+   - `env-cmd` 是一个工具，用于运行在特定环境变量下的命令。
+   - `-e development` 指定了环境变量为 `development`，因此接下来运行的命令将在 `development` 环境中执行。
+
+2. **`lerna run dev --parallel`**：
+   - `lerna` 是一个工具，用于管理具有多个包的 JavaScript 项目。
+   - `run dev` 命令告诉 `lerna` 在所有包中运行名为 `dev` 的脚本或任务。
+   - `--parallel` 参数告诉 `lerna` 在所有包中并行运行 `dev` 脚本，而不是依次顺序运行。
+
+### 总结
+
+这个命令的作用是：
+
+- 使用 `env-cmd` 设置环境变量为 `development`。
+- 使用 `lerna` 运行所有项目（即所有 `lerna` 管理的包）中名为 `dev` 的脚本。
+- 通过 `--parallel` 参数，所有 `dev` 脚本将同时并行运行，加快整体的构建或开发过程。
+
+### 实际用途
+
+这种命令通常在使用 `lerna` 管理的 monorepo（多包仓库）中非常有用。它允许同时启动多个项目的开发服务器或构建流程，提高开发效率和并行处理能力。
