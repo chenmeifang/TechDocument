@@ -1,18 +1,16 @@
 https://www.bilibili.com/video/BV1m54y1q7hc?from=search&seid=8833365694111867782
 
-# 实现call:
+# 1. call
 
 call的使用：
 
-![image-20231225111025430](02 call bind apply实现.assets/image-20231225111025430.png)
+```js
+const arr = [1, 2, 3];
+console.log(Object.prototype.toString.call(arr)); // [object Array]
+```
 
-要模仿call首先要思考call是从哪里来的——Function对象
-
-Function对象是构造函数，构造函数是有原型对象（Function.prototype）的
-
-这个原型对象里面就有很多属性可以使用，比如call就是在这个原型对象属性里面来的。
-
-因此我们要模仿就必须在原型对象里面添加新的和call一样的属性
+| 1.要模仿call首先要思考call是从哪里来的——Function对象<br>2.Function对象是构造函数，构造函数是有原型对象（Function.prototype）的<br>3.这个原型对象里面就有很多属性可以使用，比如call就是在这个原型对象属性里面来的。<br>4.因此我们要模仿就必须在原型对象里面添加新的和call一样的属性 | ![image-20231225111025430](02 call bind apply实现.assets/image-20231225111025430.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
 
 ==要把newCall加在函数原型上==
 
@@ -84,7 +82,89 @@ newArguments = ['arguments[1]', 'arguments[2]', 'arguments[3]', 'arguments[4]']
 "obj.p(arguments[1], arguments[2], arguments[3], arguments[4])"
 ```
 
-# 实现apply:
+在JavaScript中，`call` 方法是 `Function.prototype` 上的方法，它允许你调用一个函数，并在调用时指定 `this` 的值和参数。与 `apply` 方法类似，但 `call` 方法的参数是逐个传递的，而 `apply` 方法的参数是以数组的形式传递的。
+
+## 语法
+
+```javascript
+function.call(thisArg, arg1, arg2, ...)
+```
+
+- `thisArg`：调用函数时用于 `this` 的值。
+- `arg1, arg2, ...`：要传递给函数的参数列表。
+
+## 基本示例
+
+```javascript
+function greet(greeting, punctuation) {
+  console.log(greeting + ', ' + this.name + punctuation);
+}
+
+const person = {
+  name: 'Alice'
+};
+
+greet.call(person, 'Hello', '!'); // 输出: Hello, Alice!
+```
+
+在这个示例中，`greet` 函数被调用时，`this` 的值被设置为 `person` 对象，结果输出了 `Hello, Alice!`。
+
+## 用于继承和借用方法
+
+`call` 方法常用于实现继承和借用方法。例如：
+
+### 借用方法
+
+```javascript
+const person1 = {
+  name: 'Alice',
+  greet: function(greeting) {
+    console.log(greeting + ', ' + this.name);
+  }
+};
+
+const person2 = {
+  name: 'Bob'
+};
+
+person1.greet.call(person2, 'Hi'); // 输出: Hi, Bob
+```
+
+在这个示例中，`person1` 的 `greet` 方法被 `person2` 借用，`this` 指向了 `person2`。
+
+### 模拟类继承
+
+```javascript
+function Animal(name) {
+  this.name = name;
+}
+
+Animal.prototype.speak = function() {
+  console.log(this.name + ' makes a noise.');
+};
+
+function Dog(name) {
+  Animal.call(this, name); // 继承 Animal 的属性
+}
+
+Dog.prototype = Object.create(Animal.prototype);
+Dog.prototype.constructor = Dog;
+
+Dog.prototype.speak = function() {
+  console.log(this.name + ' barks.');
+};
+
+const dog = new Dog('Rover');
+dog.speak(); // 输出: Rover barks.
+```
+
+在这个示例中，`Dog` 构造函数使用 `Animal.call(this, name)` 继承了 `Animal` 的属性。然后通过设置 `Dog.prototype` 为 `Animal.prototype` 的一个新对象，`Dog` 继承了 `Animal` 的方法。
+
+## 总结
+
+`call` 方法是一个强大的工具，可以灵活地指定函数调用时的 `this` 值，并传递参数。它在许多高级 JavaScript 技巧中都有应用，如方法借用和模拟类继承。
+
+# 实现apply
 
 ```js
 function test(param1, param2) {
@@ -108,7 +188,7 @@ Function.prototype.myApply = function(newThis, arguments) {
 test.myApply(obj, ['param1', 'param2'])
 ```
 
-# 实现bind:
+# 实现bind
 
 ```JS
 function test (param1,param2,param3) {
