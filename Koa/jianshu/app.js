@@ -1,20 +1,27 @@
 const Koa = require("koa");
-const app = new Koa();
 const views = require("koa-views");
 const json = require("koa-json");
 const onerror = require("koa-onerror");
 const bodyparser = require("koa-bodyparser");
 const logger = require("koa-logger");
-const MongoConnect = require("./db");
 const cors = require('koa2-cors');
+const socketIo = require('socket.io');
+const http = require('http');
+
+// 创建koa应用
+const app = new Koa();
+const server = http.createServer(app.callback());
+
+const MongoConnect = require("./db");
 
 // 连接数据库
 MongoConnect();
 
+app.use(cors()); // 注意：一定要写在路由的前面
+
 const index = require("./routes/index");
 const users = require("./routes/users");
 const file = require("./routes/file");
-
 
 // error handler
 onerror(app);
@@ -28,7 +35,7 @@ app.use(
 app.use(json());
 app.use(logger());
 app.use(require("koa-static")(__dirname + "/public"));
-app.use(cors()); // 注意：一定要写在路由的前面
+
 
 app.use(
   views(__dirname + "/views", {
@@ -53,5 +60,23 @@ app.use(file.routes(), file.allowedMethods());
 app.on("error", (err, ctx) => {
   console.error("server error", err, ctx);
 });
+
+const io = socketIo(server, {
+  cors: {
+    origin: 'http://localhost:8080',
+    methods: ["GET", "POST"]
+  }
+});
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  socket.on('edit', (msg) => {
+    console.log('message:', msg);
+    // 此外，还需要通知其他client端
+    socket.broadcast.emit('edit', msg)
+  })
+});
+
+// todo: 为什么这里监听3000端口就不行？？？
+server.listen(4000);
 
 module.exports = app;
