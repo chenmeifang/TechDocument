@@ -1076,17 +1076,47 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 # [87 向路由组件传递search参数](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=87&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# 88 向路由组件传递state参数
+| <img src="01React基础入门.assets/image-20240718120710331.png" alt="image-20240718120710331" style="zoom: 50%;" /> | <img src="01React基础入门.assets/image-20240718121121650.png" alt="image-20240718121121650" style="zoom:50%;" /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <img src="01React基础入门.assets/image-20240718121005562.png" alt="image-20240718121005562" style="zoom: 50%;" /> | <img src="01React基础入门.assets/image-20240718121304279.png" alt="image-20240718121304279" style="zoom:50%;" /> |
+| <img src="01React基础入门.assets/image-20240718121407505.png" alt="image-20240718121407505" style="zoom:50%;" /> | <img src="01React基础入门.assets/image-20240718121526048.png" alt="image-20240718121526048" style="zoom: 67%;" /><br><img src="01React基础入门.assets/image-20240718121653984.png" alt="image-20240718121653984" style="zoom:60%;" /> |
 
-# 89 总结路由参数
+# [88 向路由组件传递state参数](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=88&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# 90 push与replace
+![image-20240718122322622](01React基础入门.assets/image-20240718122322622.png)
+
+| ![image-20240718122439494](01React基础入门.assets/image-20240718122439494.png) | <img src="01React基础入门.assets/image-20240718122919387.png" alt="image-20240718122919387" style="zoom:95%;" /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+# [89 总结路由参数](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=89&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+![image-20240718123015450](01React基础入门.assets/image-20240718123015450.png)
+
+# [90 push与replace](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=90&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+![image-20240718123314490](01React基础入门.assets/image-20240718123314490.png)
 
 # [91 编程式路由导航](https://www.bilibili.com/video/BV1wy4y1D7JT?p=91&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# 92 withRouter的使用
+<img src="01React基础入门.assets/image-20240718130320599.png" alt="image-20240718130320599" style="zoom: 50%;" />
 
-# 93 BrowserRouter与HashRouter
+<img src="01React基础入门.assets/image-20240718130506017.png" alt="image-20240718130506017" style="zoom: 80%;" />
+
+ 
+
+<img src="01React基础入门.assets/image-20240718131038308.png" alt="image-20240718131038308" style="zoom:67%;" />
+
+
+
+<img src="01React基础入门.assets/image-20240718134859090.png" alt="image-20240718134859090" style="zoom:67%;" />
+
+# [92 withRouter的使用](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=92&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+<img src="01React基础入门.assets/image-20240718140208224.png" alt="image-20240718140208224" style="zoom: 67%;" />
+
+# [93 BrowserRouter与HashRouter](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=93&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+![image-20240718140454355](01React基础入门.assets/image-20240718140454355.png)
 
 # 94 antd的基本使用
 
@@ -1094,9 +1124,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 # 96 antd自定义主题
 
-# 97 redux简介
-
-https://www.bilibili.com/video/BV1wy4y1D7JT?p=97&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+# [97 redux简介](https://www.bilibili.com/video/BV1wy4y1D7JT?p=97&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 <img src="01.assets/image-20240311200214782.png" alt="image-20240311200214782" style="zoom:67%;" />
 
