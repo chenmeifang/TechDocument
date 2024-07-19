@@ -1,0 +1,9 @@
+/* 需要在webpack中配置css相关的loader */
+.editor {
+  border: 1px solid red;
+  padding: 10px;
+  height: 400px;
+  width: 400px;
+  /* min-height: 200px; */
+  margin-top: 10px;
+}
