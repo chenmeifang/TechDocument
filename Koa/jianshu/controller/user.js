@@ -1,6 +1,6 @@
 const { User } = require('../models')
 const crud = require('./crudUtil');
-let jwt = require('jsonwebtoken');
+const { generateToken } = require('../auth');
 
 // 添加系统用户
 const userAdd = async (ctx) => {
@@ -42,20 +42,24 @@ const userFindOne = async (ctx) => {
 // 具体的登录相关的业务逻辑
 const login = async (ctx) => {
     // post请求不能用query接收参数，要用body接收参数
-    // ctx.request.body.username
-    // ctx.request.body.pwd
-
-    // let user = {
-    //     username: 'admin',
-    //     pwd: '1234'
-    // }
-
-    // 第二个参数应该是自定义密钥
-    let token = jwt.sign({
-        username: ctx.request.body.username,
-    }, 'zidingyimiyao')
-    ctx.body = {
-        token
+    const { username, pwd } = ctx.request.body;
+    const user = await User.findOne({ username });
+    if (user && user.pwd === pwd) {
+        // 第二个参数应该是自定义密钥
+        // todo: 封装成generateToken方法
+        let token = generateToken({
+            username,
+            pwd
+        })
+        ctx.body = {
+            code: 200,
+            token
+        }
+    } else {
+        ctx.body = {
+            code: 401,
+            message: 'Invalid username or password'
+        }
     }
 }
 

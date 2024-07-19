@@ -7,10 +7,8 @@ https://www.bilibili.com/video/BV11A411J7z5
 后端安装处理跨域的依赖：
 
 ```javascript
-npm i koa2-cors -S // 在生产环境下是需要的
+npm i koa2-cors -S // 在生产环境下是需要的 
 ```
-
-![截屏2021-02-21 下午5.35.47](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-21 下午5.35.47.png) 
 
 # 2 vue路由hash模式实现原理
 
@@ -30,10 +28,6 @@ https://www.bilibili.com/video/BV13i4y1L7Qn?from=search&seid=1560845452829302209
 * hash模式就是加#，可以理解成页面里的锚。切换页面只是进行锚的修改，切换显示的div而已。通过onhashchange来监听hash的改变，没有发生页面跳转行为。
 
 > window.onhashchange  !!!!
-
-![截屏2021-02-21 下午9.25.05](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-21 下午9.25.05.png)
-
-![截屏2021-02-21 下午9.26.20](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-21 下午9.26.20.png)
 
 简易实现：
 
@@ -106,8 +100,6 @@ history模式基于`window.history`对象(包含浏览器的历史)的方法
 
 history模式原理可以这样理解，首先我们要改造我们的超链接，给每个超链接增加onclick方法，阻止默认的超链接跳转，改用`history.pushState`或`history.replaceState`来更改浏览器中的url，并修改页面内容。由于通过history的api调整，并不会向后端发起请求，所以也就达到了前端路由的目的。？？？？
 
-![截屏2021-02-25 下午9.45.21](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-25 下午9.45.21.png)
-
 关键：21行和25行
 
 pushState方法接收三个参数：
@@ -132,13 +124,9 @@ hash模式下url变化的时候页面不会被加载，**页面不会被加载�
 
 （2）hash模式背后的原理是`onhashchange`事件,可以在window对象上监听这个事件:
 
-<img src="/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-25 下午9.51.49.png" alt="截屏2021-02-25 下午9.51.49" style="zoom:95%;" />
-
 https://www.jianshu.com/p/bfffb4b8c9fa
 
 随着history api的到来，前端路由开始进化了,前面的hashchange，你只能改变#后面的url片段，而history api则给了前端完全的自由
-
-![截屏2021-02-25 下午9.56.08](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-25 下午9.56.08.png)
 
 history模式的问题：
 

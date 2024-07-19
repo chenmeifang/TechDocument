@@ -686,71 +686,7 @@ npm install axios
 npm i koa2-cors --save
 ```
 
-CORS（跨源资源共享，Cross-Origin Resource Sharing）是一种浏览器安全机制，用于控制跨域请求。它允许服务器告诉浏览器允许来自其他域（源）的请求，从而解决同源策略（Same-Origin Policy）带来的限制。
-
-### 同源策略
-同源策略是一种安全措施，用于防止恶意网站读取其他网站的敏感信息。根据同源策略，只有当协议、域名和端口号都相同时，浏览器才允许 JavaScript 进行跨域请求。
-
-### CORS 的作用
-CORS 通过在服务器端设置 HTTP 头部，允许浏览器发送和接收跨域请求，从而突破同源策略的限制。具体来说，CORS 主要通过以下几个 HTTP 头部来实现：
-
-1. **`Access-Control-Allow-Origin`**：指定哪些域名可以访问资源。例如，`Access-Control-Allow-Origin: *` 表示允许任何域名访问资源，`Access-Control-Allow-Origin: https://example.com` 仅允许指定的域名访问资源。
-
-2. **`Access-Control-Allow-Methods`**：指定允许的 HTTP 请求方法（如 GET、POST、PUT、DELETE）。例如，`Access-Control-Allow-Methods: GET, POST, PUT`。
-
-3. **`Access-Control-Allow-Headers`**：指定哪些 HTTP 头部可以用于实际请求。例如，`Access-Control-Allow-Headers: Content-Type, Authorization`。
-
-4. **`Access-Control-Allow-Credentials`**：指示是否允许发送凭据（如 Cookies 和 HTTP 认证信息）。例如，`Access-Control-Allow-Credentials: true`。
-
-5. **`Access-Control-Expose-Headers`**：指定哪些头部可以公开给浏览器，以便 JavaScript 代码访问。例如，`Access-Control-Expose-Headers: Content-Length, X-Kuma-Revision`。
-
-### CORS 工作原理
-1. **简单请求**：
-   - 浏览器直接发送请求，附加 `Origin` 头部，指明请求来源。
-   - 服务器根据请求头中的 `Origin` 判断是否允许请求，并在响应头中设置相应的 CORS 头部。
-   - 浏览器根据响应头中的 CORS 信息决定是否允许前端 JavaScript 访问响应数据。
-
-2. **预检请求**：
-   - 对于复杂请求（如使用非简单方法或自定义头部），浏览器会在发送实际请求之前，先发送一个 OPTIONS 请求，称为“预检请求”。
-   - 服务器在响应预检请求时，返回允许的 CORS 头部。
-   - 浏览器根据预检响应决定是否发送实际请求。
-
-### 示例
-假设你有一个前端应用，向 `https://api.example.com/data` 发送请求。服务器端需要设置 CORS 头部，允许来自 `http://localhost:3000` 的请求：
-
-```http
-HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: GET, POST
-Access-Control-Allow-Headers: Content-Type
-```
-
-### 配置 CORS 示例
-
-**在 Express.js 中配置 CORS**：
-
-```javascript
-const express = require('express');
-const cors = require('cors');
-const app = express();
-
-app.use(cors({
-  origin: 'http://localhost:3000', // 允许的域名
-  methods: ['GET', 'POST'], // 允许的方法
-  allowedHeaders: ['Content-Type'], // 允许的头部
-  credentials: true, // 允许发送凭据
-}));
-
-app.get('/data', (req, res) => {
-  res.json({ message: 'Hello World' });
-});
-
-app.listen(3001, () => {
-  console.log('Server running on port 3001');
-});
-```
-
-通过正确配置 CORS，可以使得前端应用和后端服务器在不同域名下安全地进行交互。
+[koa处理跨域问题](E:\TechDocument\Javascript\19 跨域问题.md)
 
 # [47.axios的进一步封装](https://www.bilibili.com/video/BV1v5411T7Ez/?p=47&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 

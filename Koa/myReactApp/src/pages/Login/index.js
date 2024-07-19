@@ -13,17 +13,20 @@ const Login = () => {
 
     const login = () => {
         // 1.发送请求到后台，获取token
-        console.log('login');
         http.post('/users/login', {
-            userName,
+            username: userName,
             pwd: password
         }).then(function (response) {
             console.log(response);
-            const token = response.data.token;
-            document.cookie = `zdocs_token=${token}`;
-            // 2.跳转到fileList页面
-            // navigate('/fileList', { replace: true });
-            history.replace('/fileList')
+            if (response.data.code == 200) {
+                const token = response.data.token;
+                // document.cookie = `zdocs_token=${token}`;
+                document.cookie = `${token}`;
+                // 2.跳转到fileList页面
+                history.replace('/fileList')
+            } else {
+                alert('Invalid credentials');
+            }
         }).catch(function (error) {
             console.log(error);
         });

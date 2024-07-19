@@ -1,14 +1,21 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { http } from '../../utils/request'
 
 const FileList = () => {
-    const [fileList, setFileList] = useState([])
+    const [fileList, setFileList] = useState([]);
+    const history = useHistory();
     useEffect(() => {
         // 向数据库请求文件列表
         http.get('/file/myList').then(res => {
             console.log('res:', res);
-            setFileList(res.data.data);
+            if (res.data.code === 200) {
+                setFileList(res.data.data);
+            } else {
+                // 无效Token，跳转到登录页
+                history.replace('/login');
+            }
         }).catch(err => {
             console.log('err:', err);
         })
