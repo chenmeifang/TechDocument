@@ -72,8 +72,8 @@ io.on('connection', (socket) => {
   console.log('a user connected');
   socket.on('edit', (msg) => {
     console.log('message:', msg);
-    // 此外，还需要通知其他client端
-    socket.broadcast.emit('edit', msg)
+    // 通知除发送者外的所有连接的客户端
+    socket.broadcast.emit('edit', msg);
   })
 });
 
