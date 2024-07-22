@@ -7,7 +7,7 @@
 
 import getComponentName from 'shared/getComponentName';
 import invariant from 'shared/invariant';
-import {REACT_ELEMENT_TYPE} from 'shared/ReactSymbols';
+import { REACT_ELEMENT_TYPE } from 'shared/ReactSymbols';
 
 import ReactCurrentOwner from './ReactCurrentOwner';
 
@@ -53,15 +53,15 @@ function hasValidKey(config) {
 }
 
 function defineKeyPropWarningGetter(props, displayName) {
-  const warnAboutAccessingKey = function() {
+  const warnAboutAccessingKey = function () {
     if (__DEV__) {
       if (!specialPropKeyWarningShown) {
         specialPropKeyWarningShown = true;
         console.error(
           '%s: `key` is not a prop. Trying to access it will result ' +
-            'in `undefined` being returned. If you need to access the same ' +
-            'value within the child component, you should pass it as a different ' +
-            'prop. (https://fb.me/react-special-props)',
+          'in `undefined` being returned. If you need to access the same ' +
+          'value within the child component, you should pass it as a different ' +
+          'prop. (https://fb.me/react-special-props)',
           displayName,
         );
       }
@@ -75,15 +75,15 @@ function defineKeyPropWarningGetter(props, displayName) {
 }
 
 function defineRefPropWarningGetter(props, displayName) {
-  const warnAboutAccessingRef = function() {
+  const warnAboutAccessingRef = function () {
     if (__DEV__) {
       if (!specialPropRefWarningShown) {
         specialPropRefWarningShown = true;
         console.error(
           '%s: `ref` is not a prop. Trying to access it will result ' +
-            'in `undefined` being returned. If you need to access the same ' +
-            'value within the child component, you should pass it as a different ' +
-            'prop. (https://fb.me/react-special-props)',
+          'in `undefined` being returned. If you need to access the same ' +
+          'value within the child component, you should pass it as a different ' +
+          'prop. (https://fb.me/react-special-props)',
           displayName,
         );
       }
@@ -109,11 +109,11 @@ function warnIfStringRefCannotBeAutoConverted(config) {
       if (!didWarnAboutStringRefs[componentName]) {
         console.error(
           'Component "%s" contains the string ref "%s". ' +
-            'Support for string refs will be removed in a future major release. ' +
-            'This case cannot be automatically converted to an arrow function. ' +
-            'We ask you to manually fix this case by using useRef() or createRef() instead. ' +
-            'Learn more about using refs safely here: ' +
-            'https://fb.me/react-strict-mode-string-ref',
+          'Support for string refs will be removed in a future major release. ' +
+          'This case cannot be automatically converted to an arrow function. ' +
+          'We ask you to manually fix this case by using useRef() or createRef() instead. ' +
+          'Learn more about using refs safely here: ' +
+          'https://fb.me/react-strict-mode-string-ref',
           getComponentName(ReactCurrentOwner.current.type),
           config.ref,
         );
@@ -143,19 +143,19 @@ function warnIfStringRefCannotBeAutoConverted(config) {
  * indicating filename, line number, and/or other information.
  * @internal
  */
-const ReactElement = function(type, key, ref, self, source, owner, props) {
+const ReactElement = function (type, key, ref, self, source, owner, props) {
   const element = {
     // This tag allows us to uniquely identify this as a React Element
     $$typeof: REACT_ELEMENT_TYPE,
 
     // Built-in properties that belong on the element
-    type: type,
-    key: key,
-    ref: ref,
+    type: type, // div/span/组件
+    key: key, // 元素的唯一标识, 用作内部vdom比对 提升DOM操作性能
+    ref: ref, // 存储的是真实的DOM对象或者是组件的实例对象
     props: props,
 
     // Record the component responsible for creating this element.
-    _owner: owner,
+    _owner: owner, // 记录当前元素所属的组件
   };
 
   if (__DEV__) {
@@ -196,6 +196,7 @@ const ReactElement = function(type, key, ref, self, source, owner, props) {
     }
   }
 
+  // 这个element就是最终jsx转换后的react元素
   return element;
 };
 
@@ -345,8 +346,19 @@ export function jsxDEV(type, config, maybeKey, source, self) {
  * Create and return a new ReactElement of the given type.
  * See https://reactjs.org/docs/react-api.html#createelement
  */
+/**
+ * 创建react元素
+ * @param {*} type 元素类型 div/span/app组件
+ * @param {*} config {} | null 配置属性 包含了元素的props属性/特殊的react源码内部需要的一些特殊属性--ref属性/key属性
+ * @param {*} children 子元素
+ * 1.分离props属性和特殊属性
+ * 2.将子元素挂载到props.children中
+ * 3.为props属性赋默认值(defaultProps)
+ * 4.创建并返回ReactElement
+ * @returns 
+ */
 export function createElement(type, config, children) {
-  let propName;
+  let propName; // 用于后面的两次 for in循环
 
   // Reserved names are extracted
   const props = {};
@@ -373,6 +385,7 @@ export function createElement(type, config, children) {
     // Remaining properties are added to a new props object
     for (propName in config) {
       if (
+        // 判断在config对象中是否有propName属性
         hasOwnProperty.call(config, propName) &&
         !RESERVED_PROPS.hasOwnProperty(propName)
       ) {
@@ -383,6 +396,10 @@ export function createElement(type, config, children) {
 
   // Children can be more than one argument, and those are transferred onto
   // the newly allocated props object.
+
+  // 将第三个及之后的参数挂载到 props.children属性中
+  // 如果子元素是多个 props.children是数组
+  // 如果子元素是一个 props.children是对象
   const childrenLength = arguments.length - 2;
   if (childrenLength === 1) {
     props.children = children;
