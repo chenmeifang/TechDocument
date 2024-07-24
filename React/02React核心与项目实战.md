@@ -1206,7 +1206,9 @@ function App () {
 export default App
 ```
 
-# Day2-11.跨层组件通信
+# [Day2-11.跨层组件通信](https://www.bilibili.com/video/BV1ZB4y1Z7o8?p=29&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+> 使用Context机制实现跨层级组件通信
 
 <img src="02React核心与项目实战.assets/09-17205765786939.png" alt="image.png" style="zoom: 50%;" />
 **实现步骤：**
@@ -1217,11 +1219,9 @@ export default App
 
 ```jsx
 // App -> A -> B
-
 import { createContext, useContext } from "react"
 
 // 1. createContext方法创建一个上下文对象
-
 const MsgContext = createContext()
 
 function A () {
@@ -4691,7 +4691,7 @@ request.interceptors.request.use(config => {
 >
 > 通过使用 `headers.Authorization`，你可以在HTTP请求中传递必要的身份验证信息，从而确保请求的安全性和合法性。
 
-# Day7-02.路由鉴权实现
+# [Day7-02.路由鉴权实现——高阶组件](https://www.bilibili.com/video/BV1ZB4y1Z7o8?p=97&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 > 业务背景：封装 `AuthRoute` 路由鉴权高阶组件，实现未登录拦截，并跳转到登录页面
 > 实现思路：判断本地是否有token，如果有，就返回子组件，否则就重定向到登录Login
@@ -4710,9 +4710,11 @@ request.interceptors.request.use(config => {
 `components/AuthRoute/index.jsx`
 
 ```jsx
+// 高阶组件
 import { getToken } from '@/utils'
 import { Navigate } from 'react-router-dom'
 
+// 传过来的children是路由组件
 const AuthRoute = ({ children }) => {
   const isToken = getToken()
   if (isToken) {

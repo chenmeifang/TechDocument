@@ -1454,17 +1454,149 @@ function Component() {
 
 # 121 扩展6——Fragment
 
-# 122 扩展7——Context
+# [122 扩展7——Context](https://www.bilibili.com/video/BV1wy4y1D7JT?p=122&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+React Context（上下文）是一种用于在React应用中共享数据的机制，无需通过组件树的显式传递。它可以用于在组件树中传递数据，而不必通过层层传递props来实现。这在传递需要在多个组件间共享的全局数据（如主题、用户信息、语言设置等）时非常有用。
+
+### 主要概念
+
+1. **Context对象**：
+   - `React.createContext()` 方法用于创建一个Context对象。这个对象包含两个组件：`Provider` 和 `Consumer`。
+
+2. **Provider**：
+   - `Provider` 组件是Context的提供者，负责传递Context的值。`Provider` 组件接受一个 `value` 属性，该属性值将被传递给Context的所有消费者。
+
+3. **Consumer**：
+   - `Consumer` 组件是Context的消费者，它订阅Context的变化，并在Context的值发生变化时重新渲染。
+
+4. **useContext**：
+   - 在函数组件中，你可以使用 `useContext` Hook 来消费Context的值，避免了使用 `Consumer` 组件。
+
+### 使用示例
+
+#### 1. 创建Context
+
+```javascript
+import React from 'react';
+const MyContext = React.createContext();
+```
+
+#### 2. 使用Provider提供Context值
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import MyContext from './MyContext';
+
+const App = () => {
+  return (
+    <MyContext.Provider value={{ name: 'John Doe', age: 30 }}>
+      <Child />
+    </MyContext.Provider>
+  );
+};
+
+const Child = () => {
+  return (
+    <div>
+      <Grandchild />
+    </div>
+  );
+};
+
+const Grandchild = () => {
+  return (
+    <MyContext.Consumer>
+      {context => (
+        <div>
+          Name: {context.name}, Age: {context.age}
+        </div>
+      )}
+    </MyContext.Consumer>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+#### 3. 使用`useContext` Hook消费Context值（函数组件）
+
+```javascript
+import React, { useContext } from 'react';
+import MyContext from './MyContext';
+
+const Grandchild = () => {
+  const context = useContext(MyContext);
+
+  return (
+    <div>
+      Name: {context.name}, Age: {context.age}
+    </div>
+  );
+};
+```
+
+### 高级用法
+
+1. **动态更新Context**：
+   - Context的值是可以动态更新的。如果你需要更新Context的值，可以将 `Provider` 组件的 `value` 属性设为一个包含状态和更新方法的对象。
+
+```javascript
+import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
+import MyContext from './MyContext';
+
+const App = () => {
+  const [user, setUser] = useState({ name: 'John Doe', age: 30 });
+
+  const updateUser = () => {
+    setUser({ name: 'Jane Doe', age: 25 });
+  };
+
+  return (
+    <MyContext.Provider value={{ user, updateUser }}>
+      <Child />
+      <button onClick={updateUser}>Update User</button>
+    </MyContext.Provider>
+  );
+};
+
+const Child = () => {
+  return <Grandchild />;
+};
+
+const Grandchild = () => {
+  const { user, updateUser } = useContext(MyContext);
+
+  return (
+    <div>
+      Name: {user.name}, Age: {user.age}
+      <button onClick={updateUser}>Update User</button>
+    </div>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+2. **Context与性能**：
+   - 当Context的值发生变化时，所有消费该Context的组件都会重新渲染。为了优化性能，确保Context的值不频繁变化，并仅在必要时更新Context。
+
+### 总结
+
+React Context 提供了一种简便的方式来在组件树中共享数据，而无需通过props进行逐层传递。它适用于共享全局数据，但不适合用于频繁变化的数据。对于那些只需要在较小范围内传递数据的场景，传统的props传递可能更合适。
+
+![image-20240723154224580](01React基础入门.assets/image-20240723154224580.png)
 
 # 123 扩展8——PureComponent
 
 # 124 扩展9——renderProps
 
-# 125 扩展10——ErrorBoundary
+# [125 扩展10——ErrorBoundary](https://www.bilibili.com/video/BV1wy4y1D7JT?p=125&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
+<img src="01React基础入门.assets/image-20240723192650940.png" alt="image-20240723192650940" style="zoom:80%;" />
 
-
-
+<img src="01React基础入门.assets/image-20240723194221070.png" alt="image-20240723194221070" style="zoom: 67%;" />
 
 
 

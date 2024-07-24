@@ -555,6 +555,7 @@ export function cloneElement(element, config, children) {
 }
 
 /**
+ * 验证object是否是ReactElement
  * Verifies the object is a ReactElement.
  * See https://reactjs.org/docs/react-api.html#isvalidelement
  * @param {?object} object
