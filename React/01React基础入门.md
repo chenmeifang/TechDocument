@@ -556,51 +556,41 @@ https://www.bilibili.com/video/BV1wy4y1D7JT/?p=36&spm_id_from=pageDriver&vd_sour
 
 ![img](01.assets/企业微信截图_16307286316391.png)
 
-# 37 引出生命周期
-
-https://www.bilibili.com/video/BV1wy4y1D7JT?p=37&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+# [37 引出生命周期](https://www.bilibili.com/video/BV1wy4y1D7JT?p=37&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 <img src="01.assets/企业微信截图_16307304929595.png" alt="img" style="zoom:80%;" />
 
 <img src="01.assets/image-20210904124217072.png" alt="image-20210904124217072" style="zoom:80%;" />
 
-解法1:
+| 解法1:                                                       | 解法2：                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <img src="01.assets/企业微信截图_16307306267836.png" alt="img"  /> | <img src="01.assets/image-20210904124511368.png" alt="image-20210904124511368"  /> |
 
-<img src="01.assets/企业微信截图_16307306267836.png" alt="img" style="zoom:80%;" />
+# [38 生命周期(旧)_组件挂载流程](https://www.bilibili.com/video/BV1wy4y1D7JT?p=38&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-解法2：
+> 图中的‘父组件render’其实指的是‘更新’
 
-<img src="01.assets/image-20210904124511368.png" alt="image-20210904124511368" style="zoom:80%;" />
+| <img src="01.assets/企业微信截图_1630735971821.png" alt="img"  /> | 1,2,3共三条线: <br><img src="01React基础入门.assets/image-20210904141456619.png" alt="image-20210904141456619"  /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 1. <br>2. shouldComponentUpdate：组件是否应该被更新。该钩子如果不写，默认返回true<br>3. componentWillUpdate：组件将要更新<br>4. componentDidUpdate：组件更新完毕 | <img src="01React基础入门.assets/image-20240725132027261.png" alt="image-20240725132027261" style="zoom:67%;" /> |
 
-# 38 生命周期(旧)_组件挂载流程
+# [39 生命周期(旧)_setState流程](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=39&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-https://www.bilibili.com/video/BV1wy4y1D7JT?p=38&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+见上节的图
 
-**react生命周期(旧)**
+# [40 生命周期(旧)_forceUpdate流程](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=40&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-<img src="01.assets/企业微信截图_1630735971821.png" alt="img" style="zoom:80%;" />
+见上上节的图
 
-# 39 生命周期(旧)_setState流程
+> 强制更新：不对状态做出任何的修改，组件也能进行更新
+>
 
-1,2,3共三条线
+# [41 生命周期(旧)——父组件render流程](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=41&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-<img src="01.assets/image-20210904141456619.png" alt="image-20210904141456619" style="zoom:80%;" />
+> 父组件一旦重新render，子组件就会响应**componentWillReceiveProps**钩子
 
-# 40 生命周期(旧)_forceUpdate流程
-
-https://www.bilibili.com/video/BV1wy4y1D7JT?p=40&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
-
-强制更新：不对状态做出任何的修改，组件也能进行更新
-
-https://www.bilibili.com/video/BV1wy4y1D7JT?p=43
-
-# 41 生命周期(旧)——父组件render流程
-
-<img src="01.assets/企业微信截图_16307380143814.png" alt="img" style="zoom:80%;" />
-
-<img src="01.assets/image-20210904144728469.png" alt="image-20210904144728469" style="zoom: 80%;" />
-
-父组件一旦重新render，子组件就会响应**componentWillReceiveProps**钩子
+| <img src="01.assets/企业微信截图_16307380143814.png" alt="img"  /> | <img src="01.assets/image-20210904144728469.png" alt="image-20210904144728469"  /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
 
 # 42 总结生命周期（旧）
 
