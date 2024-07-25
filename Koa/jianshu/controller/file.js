@@ -44,7 +44,13 @@ const myList = async (ctx) => {
     })
 }
 
+// 上传文件
+const upload = () => {
+
+}
+
 module.exports = {
     addFile,
-    myList
+    myList,
+    upload
 }
