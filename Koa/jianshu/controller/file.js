@@ -1,4 +1,5 @@
 const { File } = require('../models');
+const { storeInGridFS } = require("../db");
 
 // 新建文件
 const addFile = async (ctx) => {
@@ -45,12 +46,24 @@ const myList = async (ctx) => {
 }
 
 // 上传文件
-const upload = () => {
-
+const uploadFiles = async (ctx) => {
+    const file = ctx.files[0];
+    // buffer要写到gridFs openUploadStream创建的流里面去
+    await storeInGridFS(file.buffer).then(res => {
+        ctx.body = {
+            code: 200,
+            msg: '上传文件成功',
+        }
+    }).catch(err => {
+        ctx.body = {
+            code: 400,
+            msg: '上传文件失败'
+        }
+    })
 }
 
 module.exports = {
     addFile,
     myList,
-    upload
+    uploadFiles
 }

@@ -18,7 +18,7 @@ const upload = multer({
   storage: multer.memoryStorage
 })
 
-const MongoConnect = require("./db");
+const { MongoConnect } = require("./db");
 
 // 连接数据库
 MongoConnect();
