@@ -84,50 +84,50 @@
 // regardless of priority. Intermediate state may vary according to system
 // resources, but the final state is always the same.
 
-import type {Fiber} from './ReactFiber';
-import type {ExpirationTime} from './ReactFiberExpirationTime';
-import type {SuspenseConfig} from './ReactFiberSuspenseConfig';
-import type {ReactPriorityLevel} from './SchedulerWithReactIntegration';
+import type { Fiber } from './ReactFiber';
+import type { ExpirationTime } from './ReactFiberExpirationTime';
+import type { SuspenseConfig } from './ReactFiberSuspenseConfig';
+import type { ReactPriorityLevel } from './SchedulerWithReactIntegration';
 
-import {NoWork, Sync} from './ReactFiberExpirationTime';
+import { NoWork, Sync } from './ReactFiberExpirationTime';
 import {
   enterDisallowedContextReadInDEV,
   exitDisallowedContextReadInDEV,
 } from './ReactFiberNewContext';
-import {Callback, ShouldCapture, DidCapture} from 'shared/ReactSideEffectTags';
+import { Callback, ShouldCapture, DidCapture } from 'shared/ReactSideEffectTags';
 
-import {debugRenderPhaseSideEffectsForStrictMode} from 'shared/ReactFeatureFlags';
+import { debugRenderPhaseSideEffectsForStrictMode } from 'shared/ReactFeatureFlags';
 
-import {StrictMode} from './ReactTypeOfMode';
+import { StrictMode } from './ReactTypeOfMode';
 import {
   markRenderEventTimeAndConfig,
   markUnprocessedUpdateTime,
 } from './ReactFiberWorkLoop';
 
 import invariant from 'shared/invariant';
-import {getCurrentPriorityLevel} from './SchedulerWithReactIntegration';
+import { getCurrentPriorityLevel } from './SchedulerWithReactIntegration';
 
 export type Update<State> = {|
   expirationTime: ExpirationTime,
-  suspenseConfig: null | SuspenseConfig,
+    suspenseConfig: null | SuspenseConfig,
 
-  tag: 0 | 1 | 2 | 3,
-  payload: any,
-  callback: (() => mixed) | null,
+      tag: 0 | 1 | 2 | 3,
+        payload: any,
+          callback: (() => mixed) | null,
 
-  next: Update<State>,
+            next: Update < State >,
 
-  // DEV only
-  priority?: ReactPriorityLevel,
+              // DEV only
+              priority ?: ReactPriorityLevel,
 |};
 
-type SharedQueue<State> = {|pending: Update<State> | null|};
+type SharedQueue<State> = {| pending: Update < State > | null |};
 
 export type UpdateQueue<State> = {|
   baseState: State,
-  baseQueue: Update<State> | null,
-  shared: SharedQueue<State>,
-  effects: Array<Update<State>> | null,
+    baseQueue: Update < State > | null,
+      shared: SharedQueue < State >,
+        effects: Array < Update < State >> | null,
 |};
 
 export const UpdateState = 0;
@@ -210,7 +210,7 @@ export function enqueueUpdate<State>(fiber: Fiber, update: Update<State>) {
   }
 
   const sharedQueue = updateQueue.shared;
-  const pending = sharedQueue.pending;
+  const pending = sharedQueue.pending; // pending中存储的是待执行的任务
   if (pending === null) {
     // This is the first update. Create a circular list.
     update.next = update;
@@ -227,9 +227,9 @@ export function enqueueUpdate<State>(fiber: Fiber, update: Update<State>) {
     ) {
       console.error(
         'An update (setState, replaceState, or forceUpdate) was scheduled ' +
-          'from inside an update function. Update functions should be pure, ' +
-          'with zero side-effects. Consider using componentDidUpdate or a ' +
-          'callback.',
+        'from inside an update function. Update functions should be pure, ' +
+        'with zero side-effects. Consider using componentDidUpdate or a ' +
+        'callback.',
       );
       didWarnUpdateInsideUpdate = true;
     }
@@ -510,7 +510,7 @@ function callCallback(callback, context) {
   invariant(
     typeof callback === 'function',
     'Invalid argument passed as callback. Expected a function. Instead ' +
-      'received: %s',
+    'received: %s',
     callback,
   );
   callback.call(context);

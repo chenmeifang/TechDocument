@@ -175,7 +175,7 @@ function warnOnInvalidCallback(callback: mixed, callerName: string): void {
 /**
  * 将子树渲染到容器当中
  * @param {*} parentComponent 
- * @param {*} element 要渲染的ReactElement(react元素)
+ * @param {*} children 要渲染的ReactElement(react元素)
  * @param {*} container 渲染容器：id为root的div
  * @param {*} forceHydrate 
  * @param {*} callback 渲染完成后执行的回调函数

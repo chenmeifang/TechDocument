@@ -594,40 +594,29 @@ https://www.bilibili.com/video/BV1wy4y1D7JT/?p=36&spm_id_from=pageDriver&vd_sour
 
 # 42 总结生命周期（旧）
 
-# 43 对比新旧生命周期
+# [43 对比新旧生命周期](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=43&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-https://www.bilibili.com/video/BV1wy4y1D7JT/?p=43&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+16.8.4 vs 
 
-<img src="01.assets/image-20240308001018832.png" alt="image-20240308001018832" style="zoom: 67%;" />
-
-在新版react中使用旧版react中的生命周期钩子：
-
-<img src="01.assets/image-20210904150811465.png" alt="image-20210904150811465" style="zoom:80%;" />
-
-* componentWillMount -->UNSAFE_componentWillMount
-
-* componentWillReceiveProps -->UNSAFE_componentWillReceiveProps 
-
-* componentWillUpdate-->UNSAFE_componentWillUpdate
-
-
-<img src="01.assets/image-20210904151255259.png" alt="image-20210904151255259" style="zoom:80%;" />
+| <img src="01.assets/image-20240308001018832.png" alt="image-20240308001018832" style="zoom:80%;" /> | <img src="01.assets/image-20210904144728469.png" alt="image-20210904144728469" style="zoom:;" /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 在新版react中使用旧版react中的生命周期钩子：<br><img src="01React基础入门.assets/image-20210904150811465.png" alt="image-20210904150811465"  /> | <img src="01.assets/image-20210904151255259.png" alt="image-20210904151255259" style="zoom:80%;" /> |
+|                                                              | componentWillMount -->UNSAFE_componentWillMount <br/>componentWillReceiveProps -->UNSAFE_componentWillReceiveProps  componentWillUpdate-->UNSAFE_componentWillUpdate |
 
 **为什么要加UNSAFE？**
 
-<img src="01.assets/image-20240308121923001.png" alt="image-20240308121923001" style="zoom:80%;" />
+<img src="01.assets/image-20240308121923001.png" alt="image-20240308121923001"  />
 
-# 44 getDerivedStateFromProps
+# [44 getDerivedStateFromProps](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=44&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-https://www.bilibili.com/video/BV1wy4y1D7JT/?p=44&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+> derived：导出的，衍生的，派生的
 
-<img src="01.assets/企业微信截图_1709871958620.png" alt="img" style="zoom: 67%;" />
-
-![image-20240308123758449](01.assets/image-20240308123758449.png)
+| <img src="01.assets/企业微信截图_1709871958620.png" alt="img"  /> | <img src="01React基础入门.assets/image-20240726165809750.png" alt="image-20240726165809750" style="zoom:50%;" /><br><br><img src="01React基础入门.assets/image-20240726165930741.png" alt="image-20240726165930741" style="zoom:80%;" /><br><img src="01React基础入门.assets/image-20240726170111837.png" alt="image-20240726170111837" style="zoom:50%;" /><br><br><img src="01React基础入门.assets/image-20240726170206593.png" alt="image-20240726170206593" style="zoom: 67%;" /><<img src="01React基础入门.assets/image-20240308123758449.png" alt="image-20240308123758449" style="zoom: 80%;" /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
 
 设计getDerivedStateFromProps有什么用？
 
-<img src="01.assets/image-20240308123918225.png" alt="image-20240308123918225" style="zoom:80%;" />
+<img src="01.assets/image-20240308123918225.png" alt="image-20240308123918225"  />
 
 # 45 getSnapshotBeforeUpdate
 

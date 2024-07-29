@@ -1,3 +1,43 @@
+# [1. csrf介绍--跨站请求伪造](https://www.bilibili.com/video/BV1HE421N79e/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+> cross-site request forgery 跨站请求伪造
+>
+> forgery: 伪造
+
+# 2. csrf原理
+
+![image-20240726143138679](04 CSRF和SSR.assets/image-20240726143138679.png)
+
+<img src="04 CSRF和SSR.assets/image-20240726143233940.png" alt="image-20240726143233940" style="zoom:50%;" />
+
+
+
+![image-20240726144150190](04 CSRF和SSR.assets/image-20240726144150190.png)
+
+# 3. csrf分类
+
+![image-20240726143403978](04 CSRF和SSR.assets/image-20240726143403978.png)
+
+# 4. csrf漏洞检测
+
+![image-20240726144033709](04 CSRF和SSR.assets/image-20240726144033709.png)
+
+# [5. csrf攻击实验](https://www.bilibili.com/video/BV1HE421N79e/?p=2&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+## 5.1 利用自解压包删除网络数据
+
+<img src="04 CSRF和SSR.assets/image-20240726145945990.png" alt="image-20240726145945990" style="zoom: 80%;" />
+
+## [5.2 dz数据库备份](https://www.bilibili.com/video/BV1HE421N79e/?p=3&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+![image-20240726153943111](04 CSRF和SSR.assets/image-20240726153943111.png)
+
+## [5.3 通过crsf漏洞添加账号](https://www.bilibili.com/video/BV1HE421N79e/?p=5&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+
+
+
+
 # 1. SSR攻击
 
 SSR（Server-Side Rendering，服务器端渲染）攻击通常指的是通过在服务器端渲染的应用中注入恶意代码，以执行未授权的操作或窃取敏感信息的攻击。这类攻击可能利用服务器端渲染特有的漏洞或配置问题，以下是一些常见的SSR攻击类型及其防护措施：
