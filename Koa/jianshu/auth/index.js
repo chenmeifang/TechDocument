@@ -1,6 +1,13 @@
 let jwt = require('jsonwebtoken');
 
-const generateToken = (params) => {
+type User = {
+  username: string,
+  pwd: number
+}
+
+const generateToken = (params: User) => {
+  // 第一个参数：载荷 payload
+  // 第二个参数：签名 ？verify signature
   let token = jwt.sign(params, process.env.JWT_SECRET);
   return token;
 }

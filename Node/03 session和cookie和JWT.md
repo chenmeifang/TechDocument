@@ -1,6 +1,6 @@
 # 1. 如何用cookie保持登录状态
 
-早期使用Cookie维护登录状态的方法主要包括生成会话ID（Session ID），将其存储在客户端的Cookie中，并在每次请求时验证该会话ID。下面是一个用Koa实现这一过程的示例，并详细解释其原理。
+早期使用Cookie维护登录状态的方法主要包括生成会话ID（Session ID），将其存储在客户端的Cookie中，并在每次请求时验证该会话ID。
 
 ## 安装依赖
 
@@ -79,7 +79,7 @@ app.listen(3000, () => {
    - 服务器通过`Set-Cookie`头将会话ID发送到客户端，并在客户端设置Cookie。
 
 2. **客户端请求**：
-   - 客户端每次向服务器发送请求时，浏览器会自动附带Cookie。
+   - 客户端每次向服务器发送请求时，**浏览器会自动附带Cookie**。
    - 服务器从请求的Cookie中读取会话ID，并在服务器的会话存储中查找该会话ID。
    - 如果会话ID存在且有效，服务器认为用户已登录，并处理请求。
 
@@ -99,19 +99,132 @@ app.listen(3000, () => {
 - **使用Secure属性**：确保Cookie仅通过HTTPS传输（在生产环境中应启用）。
 - **管理会话生命周期**：设置会话过期时间，定期清理过期会话。
 
-## 总结
+# 2. 使用cookie保持登录状态有什么缺点和漏洞
 
-通过上述步骤和示例代码，可以看到如何在Koa框架中使用Cookie维护登录状态。这种方法在早期Web开发中非常常见，尽管现代应用中可能会使用更复杂的方案，如JWT（JSON Web Token）或OAuth来处理认证和授权。
+使用cookie来保持登录状态有几个潜在的缺点和漏洞：
 
-# 2. 如何用session保持登录状态
+1. **安全性问题**：如果cookie未加密或未使用安全标志（如`Secure`和`HttpOnly`），攻击者可能通过中间人攻击（MITM）或XSS（跨站脚本攻击）获取cookie，从而劫持用户会话。
 
-# [0. Cookie，Session，Token的区别](https://www.bilibili.com/video/BV1ob4y1Y7Ep/?spm_id_from=333.880.my_history.page.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+2. **跨站请求伪造（CSRF）**：攻击者可以诱使用户点击恶意链接或提交伪造请求，这样用户的cookie就会被用来执行未经授权的操作。
 
-# [0. Cookie，Session，Token的区别](https://www.bilibili.com/video/BV1at421G7YC/?spm_id_from=333.880.my_history.page.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+3. **持久性问题**：如果cookie的有效期过长或没有设置适当的过期时间，一旦用户的设备丢失或被盗，攻击者可能利用这些过期的cookie访问用户账户。
 
-![image-20240620224743413](03 session和cookie和JWT.assets/image-20240620224743413.png)
+4. **用户隐私问题**：cookie可以被用于跟踪用户行为和偏好，可能会侵犯用户的隐私。如果处理不当，可能会收集过多的用户数据。
 
-![image-20240620225056253](03 session和cookie和JWT.assets/image-20240620225056253.png)
+5. **cookie劫持**：如果攻击者能够获取到cookie，他们可能会伪造用户的身份，进行恶意操作。
+
+6. **浏览器存储限制**：浏览器对cookie的存储量和数量有一定限制，如果网站需要存储大量信息，可能会面临存储限制的问题。
+
+为了提高安全性，建议：
+- 使用加密的cookie（`Secure`标志）和设置`HttpOnly`标志以防止客户端脚本访问。
+- 实施CSRF保护机制，例如使用CSRF token。
+- 定期更新和设置合理的cookie过期时间。
+- 确保网站在传输过程中使用HTTPS来防止中间人攻击。
+
+# 3. 如何用session保持登录状态
+
+下面是一个使用Koa框架和`koa-session`中间件来保持登录状态的示例：
+
+### 1. 安装依赖
+
+首先，确保安装了必要的npm包：
+
+```bash
+npm install koa koa-session koa-router koa-bodyparser
+```
+
+### 2. 创建Koa应用
+
+创建一个`app.js`文件，内容如下：
+
+```javascript
+const Koa = require('koa');
+const session = require('koa-session');
+const Router = require('koa-router');
+const bodyParser = require('koa-bodyparser');
+
+const app = new Koa();
+const router = new Router();
+
+// 配置koa-session中间件
+app.keys = ['some secret key'];  // 用于签名会话cookie
+app.use(session(app));
+
+// 解析请求体
+app.use(bodyParser());
+
+// 登录路由
+router.post('/login', async (ctx) => {
+  const { username } = ctx.request.body;
+  // 实际的用户验证逻辑
+  if (username) {
+    ctx.session.username = username;  // 保存用户名到会话
+    ctx.redirect('/profile');
+  } else {
+    ctx.body = 'Invalid username';
+  }
+});
+
+// 个人资料路由
+router.get('/profile', async (ctx) => {
+  if (ctx.session.username) {
+    ctx.body = `Logged in as ${ctx.session.username}`;
+  } else {
+    ctx.redirect('/login');
+  }
+});
+
+// 登出路由
+router.get('/logout', async (ctx) => {
+  ctx.session = null;  // 清除会话
+  ctx.redirect('/login');
+});
+
+// 登录页面
+router.get('/login', async (ctx) => {
+  ctx.body = `
+    <form action="/login" method="post">
+      <input name="username" placeholder="Username" required>
+      <button type="submit">Login</button>
+    </form>
+  `;
+});
+
+app.use(router.routes()).use(router.allowedMethods());
+
+app.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});
+```
+
+### 3. 运行应用
+
+启动应用：
+
+```bash
+node app.js
+```
+
+### 4. 功能说明
+
+- **`app.keys`**: 用于签名会话cookie，确保其不被篡改。
+- **`koa-session`**: 用于管理会话数据，存储在内存中（默认）。在生产环境中，您可能需要使用其他存储机制（如Redis）。
+- **登录路由**: 用户提交用户名后，将用户名存储到会话中，并重定向到个人资料页面。
+- **个人资料路由**: 检查会话中是否有用户名，如果有，显示用户信息；否则重定向到登录页面。
+- **登出路由**: 清除会话数据，重定向到登录页面。
+- **登录页面**: 提供一个简单的登录表单。
+
+这样，通过使用Koa和`koa-session`，你可以轻松地管理用户的会话状态，实现登录保持功能。
+
+# [4. Cookie，Session，Token的区别](https://www.bilibili.com/video/BV1ob4y1Y7Ep/?spm_id_from=333.880.my_history.page.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+# [5. Cookie，Session，Token的区别](https://www.bilibili.com/video/BV1at421G7YC/?spm_id_from=333.880.my_history.page.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+| ![image-20240730094012360](03 session和cookie和JWT.assets/image-20240730094012360.png) | <img src="03 session和cookie和JWT.assets/image-20240620224743413.png" alt="image-20240620224743413" style="zoom:90%;" /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![image-20240730094225488](03 session和cookie和JWT.assets/image-20240730094225488.png) | <img src="03 session和cookie和JWT.assets/image-20240620225056253.png" alt="image-20240620225056253" style="zoom:90%;" /> |
+
+<img src="03 session和cookie和JWT.assets/image-20240730095026954.png" alt="image-20240730095026954" style="zoom: 33%;" />
 
 # 0. Cookie
 
@@ -930,184 +1043,6 @@ eraseCookie("username"); // 删除 cookie
 
 通过这些方法和示例，你可以在 JavaScript 中有效地管理 cookies。
 
-# 16. JWT——JSON Web Token
-
-https://www.bilibili.com/video/BV1134y1g7VC/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
-
-## 1.1 什么是JWT及其特点
-
-<img src="03 session和cookie和JWT.assets/image-20240325221127729.png" alt="image-20240325221127729" style="zoom:50%;" />
-
-- JWT是一种用于在网络应用之间安全传递信息的开放标准，通常JWT用于身份验证和非敏感数据的传递
-- 设计JWT的主要目标：在不需要服务器端存储状态的情况下，安全地传递**非敏感信息**给受信任的实体
-- ![image-20240325222909629](03 session和cookie和JWT.assets/image-20240325222909629.png)‘
-- 解码后：<img src="03 session和cookie和JWT.assets/image-20240325223209714.png" alt="image-20240325223209714" style="zoom:50%;" />
-- <img src="03 session和cookie和JWT.assets/image-20240325223229215.png" alt="image-20240325223229215" style="zoom:50%;" />
-
-## 1.2 JWT的应用场景
-
-## 1.3 与其他认证方式的对比
-
-- API Key
-- cookie session
-
-# [17. JWT——JSON Web Token](https://www.bilibili.com/video/BV1tJ411B7yJ?p=1&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
-
-一般用于用户认证（前后端分离的项目）
-
-## [2.1 基于传统Token实现用户认证](https://www.bilibili.com/video/BV1tJ411B7yJ?p=2&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
-
-- 用户登录，服务端给客户端返回token，并将token保存在服务端（该token可使用uuid生成）
-- 以后用户再来访问时，需要携带token，服务端获取token后，再去数据库中获取token进行校验
-
-## [2.2 基于JWT实现用户认证](https://www.bilibili.com/video/BV1tJ411B7yJ?p=2&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
-
-- 用户登录，服务端给客户端返回token，服务端不保存token
-- 以后用户再来访问时，需要携带token，服务端获取token后，再对token进行校验
-
-- 优势：相较于传统的token，无需在服务端保存token
-
-## [2.3 JWT实现原理](https://www.bilibili.com/video/BV1tJ411B7yJ?p=3&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
-
-https://jwt.io/
-
-- 用户提交用户名和密码给服务端，如果登录成功，使用jwt创建一个token，并给用户返回
-
-<img src="03 session和cookie和JWT.assets/image-20240329214334435.png" alt="image-20240329214334435" style="zoom: 50%;" />
-
-### 2.3.1 JWT第一段字符串
-
-```javascript
-let temp = JSON.stringify({
-  "alg": "HS256",
-  "typ": "JWT"
-})
-// temp: '{"alg":"HS256","typ":"JWT"}'
-// 注意：btoa函数只能处理ASCII字符串，如果你需要编码的字符串包含非ASCII字符，需要先将字符串转换为UTF-8编码的字节，再进行Base64编码
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
-```
-
-https://base64.us/
-
-<img src="03 session和cookie和JWT.assets/image-20240620211647939.png" alt="image-20240620211647939" style="zoom: 67%;" />
-
-### 2.3.2 JWT第二段字符串
-
-```javascript
-let temp = JSON.stringify({
-  "sub": "1234567890",
-  "name": "John Doe",
-  "iat": 1516239022
-})
-// temp: '{"sub":"1234567890","name":"John Doe","iat":1516239022}'
-// eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ==
-```
-
-### 2.3.3 JWT第三段字符串
-
-- eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
-- eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ==
-- eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ==
-
-- HS256加密——HMAC-SHA256
-- SHA——Secure Hash Algorithm
-- 
-
-<img src="03 session和cookie和JWT.assets/image-20240329215002971.png" alt="image-20240329215002971" style="zoom:55%;" />
-
-- 以后用户再来访问的时候，需要携带token，后端需要对token进行校验
-  - 获取token
-  - <img src="03 session和cookie和JWT.assets/image-20240329215444152.png" alt="image-20240329215444152" style="zoom:67%;" />
-  - 22min处
-
-# 18. HS256加密——HMAC-SHA256
-
-- signing algorithm——签名算法
-- signature——签名
-- encryption——加密
-- signatures are not encryptions
-- signing jwt doesn't make the data unreadable, signatures only allow verification that the content of the jwt hasn't changed 
-- what are jwt signatures?
-  - <img src="03 session和cookie和JWT.assets/image-20240620215246400.png" alt="image-20240620215246400" style="zoom: 33%;" />
-  - <img src="03 session和cookie和JWT.assets/image-20240620215318718.png" alt="image-20240620215318718" style="zoom: 50%;" />
-- HMAC-SHA256：a symmetric keyed hashing algorithm(对称密钥哈希算法) that uses one secret key
-- symmetric means two parties share the secret key
-- the key is used for both generating the signature and validating the signatur
-
-# 19. 代码实践
-
-在JavaScript中，可以使用`crypto-js`库来对一段字符串进行HS256加密（实际上是进行HMAC-SHA256签名）。以下是具体步骤：
-
-1. **安装`crypto-js`库**：
-
-如果你使用Node.js环境，请先安装`crypto-js`库：
-
-```bash
-npm install crypto-js
-```
-
-2. **使用`crypto-js`进行HS256加密**：
-
-以下是一个示例代码，展示如何使用`crypto-js`库对一段字符串进行HS256加密：
-
-```javascript
-// 引入crypto-js库
-const CryptoJS = require('crypto-js');
-
-// 要签名的字符串
-const message = "Hello, world!";
-
-// 签名密钥
-const secretKey = 'your-256-bit-secret';
-
-// 进行HMAC-SHA256签名
-const hash = CryptoJS.HmacSHA256(message, secretKey);
-
-// 转换为Base64字符串
-const hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
-
-console.log('HMAC-SHA256加密后的Base64字符串:', hashInBase64);
-```
-
-### 解释
-- `CryptoJS.HmacSHA256`：使用HMAC-SHA256算法对消息进行签名。
-- `CryptoJS.enc.Base64.stringify`：将签名结果转换为Base64编码的字符串。
-
-### 浏览器环境使用
-如果你在浏览器环境中使用，可以直接引入`crypto-js`库：
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>HS256 Encryption</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-</head>
-<body>
-    <script>
-        // 要签名的字符串
-        const message = "Hello, world!";
-
-        // 签名密钥
-        const secretKey = 'your-256-bit-secret';
-
-        // 进行HMAC-SHA256签名
-        const hash = CryptoJS.HmacSHA256(message, secretKey);
-
-        // 转换为Base64字符串
-        const hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
-
-        console.log('HMAC-SHA256加密后的Base64字符串:', hashInBase64);
-    </script>
-</body>
-</html>
-```
-
-通过以上代码，你可以在Node.js和浏览器环境中对字符串进行HS256加密（签名），并得到Base64编码的结果。
-
-# [20.预备知识](https://app.pluralsight.com/ilx/video-courses/ae8db6a7-8781-4022-8fe5-3af32fa0caf0/db2d63cb-f9c9-4b29-b96a-e3c3497dc385/6ce4d3af-095c-4635-bdb2-44a94dc2f68e)
-
 # 21. 第一方cookie和第三方Cookie
 
 在理解Cookie和第三方Cookie之前，先简单了解一下Cookie的基本概念：
@@ -1184,7 +1119,11 @@ Set-Cookie: trackId=xyz789; Path=/; Domain=adtracker.com
 
 理解这两种Cookie的区别有助于更好地管理网站的安全和隐私策略，尤其是在需要处理用户数据时。
 
+# 22. 为什么Cookie无法防止CSRF攻击，而token可以？
 
+https://www.bilibili.com/video/BV1KV4y1A7C4/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+
+![image-20240729225546336](03 session和cookie和JWT.assets/image-20240729225546336.png)
 
 
 
