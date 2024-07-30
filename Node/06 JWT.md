@@ -109,27 +109,7 @@ let temp = JSON.stringify({
 
 - 22min处
 
-# 3. HS256加密——HMAC_SHA256
-
-> 是一种对称加密算法——用一个密钥来加密解密的算法
->
-> 另一种说法：SHA算法是hash算法，不是加密算法？？
-
-<img src="06 JWT.assets/image-20240730114518536.png" alt="image-20240730114518536" style="zoom:50%;" />
-
-- signing algorithm——签名算法
-- signature——签名
-- encryption——加密
-- signatures are not encryptions
-- signing jwt doesn't make the data unreadable, signatures only allow verification that the content of the jwt hasn't changed 
-- what are jwt signatures?
-  - <img src="06 JWT.assets/image-20240620215246400.png" alt="image-20240620215246400" style="zoom: 33%;" />
-  - <img src="06 JWT.assets/image-20240620215318718.png" alt="image-20240620215318718" style="zoom: 50%;" />
-- HMAC-SHA256：a symmetric keyed hashing algorithm(对称密钥哈希算法) that uses one secret key
-- symmetric means two parties share the secret key
-- the key is used for both generating the signature and validating the signatur
-
-# 4. 代码实践
+# 3. 代码实践
 
 在JavaScript中，可以使用`crypto-js`库来对一段字符串进行HS256加密（实际上是进行HMAC-SHA256签名）。以下是具体步骤：
 
@@ -203,7 +183,7 @@ console.log('HMAC-SHA256加密后的Base64字符串:', hashInBase64);
 
 通过以上代码，你可以在Node.js和浏览器环境中对字符串进行HS256加密（签名），并得到Base64编码的结果。
 
-# [5. 预备知识](https://app.pluralsight.com/ilx/video-courses/ae8db6a7-8781-4022-8fe5-3af32fa0caf0/db2d63cb-f9c9-4b29-b96a-e3c3497dc385/6ce4d3af-095c-4635-bdb2-44a94dc2f68e)
+# [4. 预备知识](https://app.pluralsight.com/ilx/video-courses/ae8db6a7-8781-4022-8fe5-3af32fa0caf0/db2d63cb-f9c9-4b29-b96a-e3c3497dc385/6ce4d3af-095c-4635-bdb2-44a94dc2f68e)
 
 > courses on OAuth
 >

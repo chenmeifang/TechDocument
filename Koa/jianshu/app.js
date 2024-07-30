@@ -23,7 +23,11 @@ const { MongoConnect } = require("./db");
 // 连接数据库
 MongoConnect();
 
-app.use(cors()); // 注意：一定要写在路由的前面
+// 注意：一定要写在路由的前面
+app.use(cors({
+  // origin: '*', // 相当于设置'Access-Control-Allow-Origin'
+  credentials: true // 允许携带凭据，相当于设置'Access-Control-Allow-Credentials'为true
+}));
 
 const index = require("./routes/index");
 const users = require("./routes/users");
