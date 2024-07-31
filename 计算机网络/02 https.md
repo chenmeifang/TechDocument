@@ -1,13 +1,39 @@
-https://www.bilibili.com/video/BV1KY411x7Jp/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+# [1. HTTPS](https://www.bilibili.com/video/BV1KY411x7Jp/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 - http协议的请求和响应的报文都是明文的
 - https：在http的基础上用TLS/SSL进行加密，这样通信就不容易受到拦截和攻击
 
-# 1. TLS/SSL
+## 1.1 TLS/SSL
 
 - SSL是TLS的前身，都是加密安全协议
 
-# 2. SSL证书
+## 1.2 对称加密
+
+## 1.3 非对称加密
+
+<img src="02 https.assets/image-20240731191158604.png" alt="image-20240731191158604" style="zoom: 33%;" />
+
+> 数据经过公钥加密就只能被私钥解密
+>
+> 数据经过私钥加密就只能被公钥解密
+
+## 1.4. SSL证书
+
+> SSL证书是保存在源服务器的数据文件
+>
+> 要让SSl证书生效，需要向CA（Certificate Authority 证书授权中心）申请
+>
+> CA是第三方的机构，这样大家都来信任这个机构颁发的证书
+>
+> 这个证书处理表明域名是属于谁的，日期等等信息以外，重要的是这个证书里面还包括了特定的公钥和私钥
+>
+> 简单来说，就是服务器安装了SSL证书以后，用户就可以通过HTTPS来访问服务器了。当然浏览器也会把HTTP的默认端口80改成HTTPS的默认端口443
+>
+> certificate：n 证明，证明书，文凭，结业证书，合格证书
+>
+> authority：
+
+9min处
 
 # 3. 申请15年SSL免费证书
 
