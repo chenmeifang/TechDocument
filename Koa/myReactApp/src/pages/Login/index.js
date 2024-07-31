@@ -20,8 +20,11 @@ const Login = () => {
             console.log(response);
             if (response.data.code == 200) {
                 const token = response.data.token;
+                // console.log('cookie0：', document.cookie);
                 // document.cookie = `zdocs_token=${token}`;
                 document.cookie = `${token}`;
+                // console.log('cookie1：', document.cookie);
+
                 // 2.跳转到fileList页面
                 history.replace('/fileList')
             } else {

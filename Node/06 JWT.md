@@ -193,3 +193,90 @@ console.log('HMAC-SHA256加密后的Base64字符串:', hashInBase64);
 
 - fundamental 基本原理
 - affectionately 亲切地 挚爱地
+
+# 5. token在koa中一般是作为body传给前端还是放在响应头传给前端
+
+在Koa中，处理令牌（token）时，可以选择将其作为响应体的一部分或作为响应头传给前端。这两种方法各有优缺点，通常取决于你的应用需求和安全考虑。
+
+### 1. **作为响应体（Body）传递**
+
+将令牌作为响应体的一部分返回给前端是一种常见的做法。前端在收到响应后，从响应体中提取令牌并存储在本地存储（localStorage）或 cookie 中。
+
+#### 示例：将令牌作为响应体的一部分返回
+
+```javascript
+const Koa = require('koa');
+const app = new Koa();
+const Router = require('koa-router');
+const router = new Router();
+
+router.post('/login', async (ctx) => {
+  // 模拟生成令牌
+  const token = 'generated-token';
+
+  // 将令牌作为响应体的一部分返回
+  ctx.body = {
+    message: 'Login successful',
+    token: token
+  };
+});
+
+app.use(router.routes());
+app.use(router.allowedMethods());
+
+app.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});
+```
+
+**优点**：
+- 简单明了，前端可以很容易地解析响应体中的数据。
+- 适用于无需额外安全措施的简单应用。
+
+**缺点**：
+- 令牌在本地存储（如 `localStorage`）中存储时可能面临 XSS 攻击的风险。
+- 需要确保前端代码正确处理令牌存储和发送。
+
+### 2. **作为响应头传递**
+
+将令牌放在响应头中是另一种常见做法。前端在收到响应后，从响应头中提取令牌并存储在适当的位置。
+
+#### 示例：将令牌作为响应头的一部分返回
+
+```javascript
+const Koa = require('koa');
+const app = new Koa();
+const Router = require('koa-router');
+const router = new Router();
+
+router.post('/login', async (ctx) => {
+  // 模拟生成令牌
+  const token = 'generated-token';
+
+  // 将令牌作为响应头的一部分返回
+  ctx.set('Authorization', `Bearer ${token}`);
+  ctx.body = { message: 'Login successful' };
+});
+
+app.use(router.routes());
+app.use(router.allowedMethods());
+
+app.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});
+```
+
+**优点**：
+- 提高安全性，因为令牌不会暴露在响应体中，且浏览器的安全策略可能会限制对响应头的访问。
+- 可以利用标准的 `Authorization` 头部格式，符合许多现有的身份验证标准。
+
+**缺点**：
+- 需要前端从响应头中提取令牌，并确保正确处理。
+- 可能需要额外的处理来存储和管理令牌。
+
+### 总结
+
+- **作为响应体**：适用于简单应用或不需要额外安全措施的场景。前端需要从响应体中提取和存储令牌。
+- **作为响应头**：适用于需要更高安全性和符合标准身份验证的场景。前端需要从响应头中提取令牌，并进行存储和管理。
+
+无论选择哪种方法，都需要在前端代码中妥善处理令牌存储和使用，确保应用的安全性。

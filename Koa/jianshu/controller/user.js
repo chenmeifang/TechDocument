@@ -51,6 +51,10 @@ const login = async (ctx) => {
             username,
             pwd
         })
+        // ctx.cookies.set('sessionId', 'sessionId123', {
+        //     httpOnly: false, // 使cookie只能通过http请求访问
+        // })
+        // ctx.cookies.set('sessionId', 'sessionId123')
         ctx.body = {
             code: 200,
             token

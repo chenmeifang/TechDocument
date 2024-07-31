@@ -1,4 +1,10 @@
-# 1. react函数组件和类组件有什么区别？
+# 1. React函数组件和类组件的区别
+
+|      | 函数组件            | 类组件       |
+| ---- | ------------------- | ------------ |
+|      | 没有生命周期        | 有生命周期   |
+|      | 没有this上下文      | 有this上下文 |
+|      | 使用Hooks来管理状态 |              |
 
 # [2. Hooks](https://www.bilibili.com/video/BV1iV411b7L1/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
@@ -8,9 +14,19 @@
 
 ## 2.3 Hooks的源码
 
-# 3. React优化
+# [3. React性能优化上](https://www.bilibili.com/video/BV1Yr4y1J7oc/?spm_id_from=333.999.0.0&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-https://www.bilibili.com/video/BV1Yr4y1J7oc/?spm_id_from=333.999.0.0&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+## 1. 为什么React需要性能优化API
+
+<img src="09React面试题.assets/image-20240731103439334.png" alt="image-20240731103439334" style="zoom:50%;" />
+
+## 2. React性能优化应该遵循的法则
+
+> 将**变的部分**与**不变的部分**分离
+
+重看吧！
+
+## 3. 性能优化背后的源码运行机制
 
 # 4. 如何捕获React全局的报错
 

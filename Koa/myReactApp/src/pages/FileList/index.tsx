@@ -13,6 +13,7 @@ const FileList = () => {
       .get("/file/myList")
       .then((res) => {
         console.log("res:", res);
+        console.log("document.cookie:", document.cookie);
         if (res.data.code === 200) {
           setFileList(res.data.data);
         } else {
