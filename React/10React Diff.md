@@ -1,10 +1,65 @@
-https://www.bilibili.com/video/BV1bK4y1a7f2/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+# [1. 虚拟DOM是什么](https://www.bilibili.com/video/BV1bK4y1a7f2/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 | <img src="10React Diff.assets/image-20240801100829651.png" alt="image-20240801100829651" style="zoom: 33%;" /> | <img src="10React Diff.assets/image-20240801100939167.png" alt="image-20240801100939167" style="zoom: 33%;" /> |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | <img src="10React Diff.assets/image-20240801101248597.png" alt="image-20240801101248597" style="zoom: 67%;" /> | ![image-20240801101107059](10React Diff.assets/image-20240801101107059.png) |
 | 上图中的第一点有问题：不使用虚拟DOM，也可以将多次操作合并为一次操作 |                                                              |
 | <img src="10React Diff.assets/image-20240801102042289.png" alt="image-20240801102042289" style="zoom:50%;" /> | <img src="10React Diff.assets/image-20240801102231319.png" alt="image-20240801102231319" style="zoom: 50%;" /> |
+
+# [2. 真实DOM和虚拟DOM谁更慢](https://www.bilibili.com/video/BV1bK4y1a7f2?p=2&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+<img src="10React Diff.assets/image-20240801140836808.png" alt="image-20240801140836808" style="zoom:50%;" />
+
+# [3. DOM Diff是什么](https://www.bilibili.com/video/BV1bK4y1a7f2?p=3&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+> 虚拟DOM的对比算法
+
+# 4. DOM Diff
+
+> React 的 Diff 算法（差异算法）是**为了优化虚拟DOM更新过程而设计的**一种算法。它的主要目的**是通过最小化DOM操作来提升性能**。
+>
+
+### 1. **Diff 算法的基本概念**
+
+Diff 算法用于比较两个虚拟DOM树，并找出它们之间的差异。React 使用这个算法来确定哪些部分的实际DOM需要更新，以优化渲染性能。算法的核心思想是通过减少DOM操作的次数，提升页面的响应速度。
+
+### 2. **Diff 算法的主要步骤**
+
+1. **树的对比**：
+   - **相同类型的节点**：如果两个节点的类型相同（如都是 `div` 或 `span`），React 会进行深入的比较，以找出子节点的差异。
+   - **不同类型的节点**：如果两个节点的类型不同，React 会认为旧的节点不再需要，新的节点将替代它。
+
+2. **节点的标识**：
+   - React 通过 `key` 属性来优化列表的更新。当列表中的元素有唯一的 `key` 时，React 可以更高效地找到哪些元素被移动、添加或删除。
+
+### 3. **Diff 算法的关键优化点**
+
+1. **分层对比**：
+   - **树的结构**：React 通过将虚拟DOM树的对比过程分为多个层次进行处理，避免了对整个树的全面对比，提升了效率。
+   - **节点的比较**：相同类型的节点会进行子节点的逐层比较，而不同类型的节点则直接替换，避免了不必要的比较。
+
+2. **组件的更新**：
+   - **函数组件**：对于函数组件，React 会比较其返回的虚拟DOM与之前的虚拟DOM，并对变化进行处理。
+   - **类组件**：对于类组件，React 会调用组件的生命周期方法（如 `shouldComponentUpdate`）来决定是否需要更新组件。
+
+3. **列表的优化**：
+   - **`key` 属性**：在列表中，`key` 属性帮助 React 确定哪些项是被添加、删除或重新排序的，从而提高了列表的更新效率。
+
+### 4. **Diff 算法的实际应用**
+
+1. **更新策略**：
+   - **最小化 DOM 操作**：React 通过计算差异只更新实际发生变化的部分，避免了不必要的全量更新。
+   - **异步渲染**：React 还使用了异步渲染策略（如 `React Concurrent Mode`），以进一步优化更新的效率和响应速度。
+
+2. **实践中的优化**：
+   - **合理使用 `key`**：在列表中尽量使用唯一且稳定的 `key` 值，以帮助 React 更准确地跟踪每个元素。
+   - **避免不必要的渲染**：通过 `React.memo`、`useMemo`、`useCallback` 等优化手段，减少不必要的重新渲染。
+
+### 5. **React 18 及以后的进展**
+
+在 React 18 中，Diff 算法得到了进一步的优化，特别是在处理并发模式下的更新时，React 引入了更多的异步渲染技术。这些改进使得 React 更加高效地处理复杂的 UI 更新，并提供了更好的用户体验。
+
+总结来说，React 的 Diff 算法通过优化虚拟DOM的更新过程，大大提升了应用的性能。它的核心在于通过高效的对比和更新机制，最小化对真实DOM的操作。
 
 # React中虚拟DOM的优点
 

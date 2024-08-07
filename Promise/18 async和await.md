@@ -312,15 +312,13 @@ await操作符后面通常会跟一个promise
 
 如果后面跟的不是promise，会怎么样？？？
 
-![截屏2021-03-15 上午10.02.14](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-15 上午10.02.14.png)
-
 ==**await有一个隐式的调用！！！**==
 
 如果await右边跟的是promise，它就会用这个promise。
 
 如果不是，它就会把后面跟的值包在Promise.resolve( )里面。
 
-![截屏2021-03-15 上午10.03.09](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-15 上午10.03.09.png)
+
 
 # 第八节：在for循环中正确使用await
 
