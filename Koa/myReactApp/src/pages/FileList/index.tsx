@@ -14,17 +14,34 @@ const FileList = () => {
       .then((res) => {
         console.log("res:", res);
         console.log("document.cookie:", document.cookie);
-        if (res.data.code === 200) {
-          setFileList(res.data.data);
-        } else {
-          // 无效Token，跳转到登录页
-          history.replace("/login");
-        }
+        // if (res.data.code === 200) {
+        //   // setFileList(res.data.data);
+        // } else {
+        //   // 无效Token，跳转到登录页
+        //   history.replace("/login");
+        // }
       })
       .catch((err) => {
         console.log("err:", err);
       });
   }, []);
+  const fileListRequest = () => {
+    http
+      .get("/file/myList")
+      .then((res) => {
+        console.log("res:", res);
+        // console.log("document.cookie:", document.cookie);
+        // if (res.data.code === 200) {
+        //   setFileList(res.data.data);
+        // } else {
+        //   // 无效Token，跳转到登录页
+        //   history.replace("/login");
+        // }
+      })
+      .catch((err) => {
+        console.log("err:", err);
+      });
+  };
   const createNewFile = () => {
     // 发送请求，新建一个文件
     http
@@ -69,6 +86,7 @@ const FileList = () => {
 
   return (
     <div>
+      <button onClick={fileListRequest}>fileList请求</button>
       <button onClick={createNewFile}>新建一个文件</button>
       <button onClick={onUploadClick}>上传一个文件</button>
       <input type="file" ref={inputRef} onChange={upload}></input>

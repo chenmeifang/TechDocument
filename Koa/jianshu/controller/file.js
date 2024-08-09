@@ -31,11 +31,14 @@ const addFile = async (ctx) => {
 const myList = async (ctx) => {
     await File.find().then(res => {
         console.log('res:', res);
-        ctx.body = {
-            code: 200,
-            msg: '查询成功',
-            data: res
-        }
+        // ctx.set('Cache-Control', 'no-store')
+        // ctx.set('Cache-Control', 'no-cache')
+        // ctx.body = {
+        //     code: 200,
+        //     msg: '查询成功',
+        //     data: '文件列表'
+        // }
+        ctx.body = '文件列表'
     }).catch(err => {
         console.log('err:', err);
         ctx.body = {

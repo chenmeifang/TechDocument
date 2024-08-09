@@ -9,9 +9,12 @@ const cors = require('koa2-cors');
 const socketIo = require('socket.io');
 const http = require('http');
 const multer = require('@koa/multer');
+const etag = require('koa-etag');
 
 // 创建koa应用
 const app = new Koa();
+app.use(etag());
+
 const server = http.createServer(app.callback());
 
 const upload = multer({
