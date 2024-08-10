@@ -14,12 +14,12 @@ const FileList = () => {
       .then((res) => {
         console.log("res:", res);
         console.log("document.cookie:", document.cookie);
-        // if (res.data.code === 200) {
-        //   // setFileList(res.data.data);
-        // } else {
-        //   // 无效Token，跳转到登录页
-        //   history.replace("/login");
-        // }
+        if (res.data.code === 200) {
+          setFileList(res.data.data);
+        } else {
+          // 无效Token，跳转到登录页
+          history.replace("/login");
+        }
       })
       .catch((err) => {
         console.log("err:", err);
@@ -83,9 +83,23 @@ const FileList = () => {
         console.log("err:", err);
       });
   };
+  // let eTag =
+  const staticRequest = () => {
+    fetch("http://localhost:3000/file/image.jpg", {
+      headers: {
+        // "Cache-Control": "no-cache", // 根据需要设置 Cache-Control 的值
+      },
+    }).then((res) => {
+      console.log("图片请求：", res);
+    });
+    // http.get("/file/image.jpg").then((res) => {
+    //   console.log("res:", res);
+    // });
+  };
 
   return (
     <div>
+      <button onClick={staticRequest}>发送一个静态文件请求</button>
       <button onClick={fileListRequest}>fileList请求</button>
       <button onClick={createNewFile}>新建一个文件</button>
       <button onClick={onUploadClick}>上传一个文件</button>

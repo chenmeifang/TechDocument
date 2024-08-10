@@ -9,11 +9,10 @@ const cors = require('koa2-cors');
 const socketIo = require('socket.io');
 const http = require('http');
 const multer = require('@koa/multer');
-const etag = require('koa-etag');
+// const etag = require('koa-etag');
 
 // 创建koa应用
 const app = new Koa();
-app.use(etag());
 
 const server = http.createServer(app.callback());
 
@@ -25,6 +24,8 @@ const { MongoConnect } = require("./db");
 
 // 连接数据库
 MongoConnect();
+// app.use(etag());
+
 
 // 注意：一定要写在路由的前面
 app.use(cors({

@@ -16,5 +16,6 @@ router.post('/addFile', fileController.addFile);
 router.get('/myList', authorizeByToken, fileController.myList);
 // 上传一个文件
 router.post('/upload', authorizeByToken, upload.array('file'), fileController.uploadFiles);
-
+// 处理图片静态资源
+router.get('/image.jpg', fileController.staticRequest);
 module.exports = router;

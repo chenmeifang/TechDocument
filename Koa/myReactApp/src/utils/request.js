@@ -19,6 +19,7 @@ http.interceptors.request.use(function (config) {
     // The credentials mode of requests initiated by the XMLHttpRequest is controlled by the withCredentials attribute.
     // 错误解释：如果在发起请求时设置了'withCredentials: true', 服务器必须在响应中设置'Access-Control-Allow-Credentials'为true。(表明服务器端允许客户端发送过来的请求中包含cookie)
     // 验证结果：前端设置withCredential属性为true，以及后端设置'Access-Control-Allow-Credentials'为true后, 请求头中会携带cookie
+    // config.headers['Cache-Control'] = 'no-cache'; // 你可以根据需要设置具体的值
     return config;
 }, function (error) {
     // 对请求错误做些什么
@@ -26,14 +27,14 @@ http.interceptors.request.use(function (config) {
 });
 
 // 添加响应拦截器
-http.interceptors.response.use(function (response) {
-    // 2xx 范围内的状态码都会触发该函数。
-    // 对响应数据做点什么
-    return response;
-}, function (error) {
-    // 超出 2xx 范围的状态码都会触发该函数。
-    // 对响应错误做点什么
-    return Promise.reject(error);
-});
+// http.interceptors.response.use(function (response) {
+//     // 2xx 范围内的状态码都会触发该函数。
+//     // 对响应数据做点什么
+//     return response;
+// }, function (error) {
+//     // 超出 2xx 范围的状态码都会触发该函数。
+//     // 对响应错误做点什么
+//     return Promise.reject(error);
+// });
 
 export { http }
