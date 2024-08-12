@@ -1,94 +1,168 @@
+# 在函数前面加async意味着什么
+
+- async函数的返回值是Promise对象
+
 # [Generator对象](https://es6.ruanyifeng.com/#docs/generator)
 
-Async函数是Generator函数的语法糖。
+Async函数是Generator函数的语法糖
 
 相较于 Generator，Async函数的改进在于下面几点：
 
-1. Generator 函数的执行必须依靠执行器，而 `Async（）` 函数自带执行器，调用方式跟普通函数的调用同样。？
+1. Generator 函数的执行必须依靠执行器，而 `Async（）` 函数自带执行器，调用方式跟普通函数的调用同样
 2. `Async` 和 await相较于 `*` 和 `yield` 更加语义化
-3. `async` 函数返回值是 Promise 对象，比 Generator函数返回的 Iterator 对象方便，能够直接使用 `then（）`方法进行调用。
+3. **`async` 函数返回值是 Promise 对象**，比 Generator函数返回的 Iterator 对象方便，能够直接使用 `then（）`方法进行调用
 
-## 1. Generator基本概念：
+## 1. Generator基本概念
 
-1. Generator 函数是 ==ES6 提供的一种异步编程解决方案==，语法行为与传统函数完全不同。
+Generator 函数是 **ES6 提供的一种异步编程解决方案**，语法行为与传统函数完全不同
 
-2. Generator 函数是一个状态机，封装了多个内部状态。
+Generator 函数是一个状态机，封装了多个内部状态
 
-3. 执行 Generator 函数会返回一个[遍历器对象](https://es6.ruanyifeng.com/#docs/async-iterator)。
+执行 Generator 函数会返回一个[遍历器对象](https://es6.ruanyifeng.com/#docs/async-iterator)
 
-4. 形式上，Generator 函数是一个普通函数，但是有两个特征
+形式上，Generator 函数是一个普通函数，但有两个特征
 
-   1. 一是，`function`关键字与函数名之间有一个星号；
+1. `function`关键字与函数名之间有一个星号
+2. 函数体内部使用`yield`表达式，定义不同的内部状态
 
-   2. 二是，函数体内部使用`yield`表达式，定义不同的内部状态
+```js
+function* helloWorldGenerator() {
+  yield 'hello';
+  yield 'world';
+  return 'ending';
+}
 
-   3. ```javascript
-      function* helloWorldGenerator() {
-        yield 'hello';
-        yield 'world';
-        return 'ending';
-      }
-      
-      var hw = helloWorldGenerator();
-      ```
+var hw = helloWorldGenerator();
+```
 
-      上面代码定义了一个 Generator 函数`helloWorldGenerator`，它内部有两个`yield`表达式（`hello`和`world`），即该函数有三个状态：hello，world 和 return 语句（结束执行）。
+上面代码定义了一个 Generator 函数`helloWorldGenerator`，它内部有两个`yield`表达式（`hello`和`world`），即该函数有三个状态：hello，world 和 return 语句（结束执行）
 
-5. Generator 函数的调用方法与普通函数一样，也是在函数名后面加上一对圆括号。
+Generator 函数的调用方法与普通函数一样，也是在函数名后面加上一对圆括号
 
-6. ==调用 Generator 函数后，该函数并不执行==，返回的也不是函数运行结果，而是一个指向内部状态的指针对象，也就是[遍历器对象（Iterator Object）](https://es6.ruanyifeng.com/#docs/iterator)。
+**但调用 Generator 函数后，该函数并不执行**，返回的也不是函数运行结果，而是一个指向内部状态的指针对象，也就是[遍历器对象（Iterator Object）](https://es6.ruanyifeng.com/#docs/iterator)
 
-7. 下一步，必须调用遍历器对象的`next`方法，使得指针移向下一个状态。也就是说，每次调用`next`方法，内部指针就从函数头部或上一次停下来的地方开始执行，直到遇到下一个`yield`表达式（或`return`语句）为止。换言之，Generator 函数是分段执行的，`yield`表达式是暂停执行的标记，而`next`方法可以恢复执行。
+下一步，必须调用遍历器对象的`next`方法，使得指针移向下一个状态。也就是说，每次调用`next`方法，内部指针就从函数头部或上一次停下来的地方开始执行，直到遇到下一个`yield`表达式（或`return`语句）为止。换言之，Generator 函数是分段执行的，`yield`表达式是暂停执行的标记，而`next`方法可以恢复执行
 
-8. Generator 函数可以不用`yield`表达式，这时就变成了一个==单纯的暂缓执行函数==。
+## 2. yield表达式
 
-#### 2. yield表达式：
+`yield`表达式只能用在 Generator 函数里面，用在其他地方都会报错
 
-1. `yield`表达式只能用在 Generator 函数里面，用在其他地方都会报错。
+Generator 函数可以不用`yield`表达式，这时就变成了一个单纯的暂缓执行函数
 
-2. `yield`表达式如果用在另一个表达式之中，必须放在圆括号里面。
+```js
+function* f() {
+  console.log('执行了！')
+}
 
-   ```js
-   function* demo() {
-     console.log('Hello' + yield); // SyntaxError
-     console.log('Hello' + yield 123); // SyntaxError
-   
-     console.log('Hello' + (yield)); // OK
-     console.log('Hello' + (yield 123)); // OK
-   }
-   ```
+var generator = f();
 
-3. `yield`表达式用作函数参数或放在赋值表达式的右边，可以不加括号。??????
+setTimeout(function () {
+  generator.next()
+}, 2000);
+```
 
-#### 3. 与Iterator接口的关系：==???????==
+上面代码中，函数`f`如果是普通函数，在为变量`generator`赋值时就会执行。但是，函数`f`是一个 Generator 函数，就变成只有调用`next`方法时，函数`f`才会执行
 
-任意一个对象的`Symbol.iterator`方法，等于该对象的遍历器生成函数，调用该函数会返回该对象的一个遍历器对象.
+`yield`表达式如果用在另一个表达式之中，必须放在圆括号里面
 
-#### 4. next方法的参数：
+```js
+function* demo() {
+  console.log('Hello' + yield); // SyntaxError
+  console.log('Hello' + yield 123); // SyntaxError
 
-1. `yield`表达式本身没有返回值，或者说总是返回`undefined`。`next`方法可以带一个参数，该参数就会被当作上一个`yield`表达式的返回值。
+  console.log('Hello' + (yield)); // OK
+  console.log('Hello' + (yield 123)); // OK
+}
+```
 
-# Generator 函数的异步应用:
+`yield`表达式用作函数参数或放在赋值表达式的右边，可以不加括号
 
- https://es6.ruanyifeng.com/#docs/generator-async
+```javascript
+function* demo() {
+  foo(yield 'a', yield 'b'); // OK
+  let input = yield; // OK
+}
+```
 
+## 3. 与Iterator接口的关系
 
+任意一个对象的`Symbol.iterator`方法，等于该对象的遍历器生成函数，调用该函数会返回该对象的一个遍历器对象
 
-# 面试题：
+由于 Generator 函数就是遍历器生成函数，因此可以把 Generator 赋值给对象的`Symbol.iterator`属性，从而使得该对象具有 Iterator 接口
 
-#### async和await用过吗？是做了什么呢？async的返回值是啥？
+```js
+var myIterable = {};
+myIterable[Symbol.iterator] = function* () {
+  yield 1;
+  yield 2;
+  yield 3;
+};
 
-1. ==async函数的返回值为promise对象==
-2. promise对象的结果由async函数执行的返回值决定
-3. await右侧的表达式一般为promise对象，但也可以是其他的值
+[...myIterable] // [1, 2, 3]
+```
+
+上面代码中，Generator 函数赋值给`Symbol.iterator`属性，从而使得`myIterable`对象具有了 Iterator 接口，可以被`...`运算符遍历了
+
+Generator 函数执行后，返回一个遍历器对象。该对象本身也具有`Symbol.iterator`属性，执行后返回自身
+
+```js
+function* gen(){
+  // some code
+}
+
+var g = gen();
+
+g[Symbol.iterator]() === g
+// true
+```
+
+上面代码中，`gen`是一个 Generator 函数，调用它会生成一个遍历器对象`g`。它的`Symbol.iterator`属性，也是一个遍历器对象生成函数，执行后返回它自己
+
+## 4. next方法的参数
+
+`yield`表达式本身没有返回值，或者说总是返回`undefined`。`next`方法可以带一个参数，该参数就会被当作上一个`yield`表达式的返回值
+
+```js
+function* f() {
+  for(var i = 0; true; i++) {
+    var reset = yield i;
+    if(reset) { i = -1; }
+  }
+}
+
+var g = f();
+
+g.next() // { value: 0, done: false }
+g.next() // { value: 1, done: false }
+g.next(true) // { value: 0, done: false }
+```
+
+上面代码先定义了一个可以无限运行的 Generator 函数`f`，如果`next`方法没有参数，每次运行到`yield`表达式，变量`reset`的值总是`undefined`。当`next`方法带一个参数`true`时，变量`reset`就被重置为这个参数（即`true`），因此`i`会等于`-1`，下一轮循环就会从`-1`开始递增。
+
+这个功能有很重要的语法意义。Generator 函数从暂停状态到恢复运行，它的上下文状态（context）是不变的。通过`next`方法的参数，就有办法在 Generator 函数开始运行之后，继续向函数体内部注入值。也就是说，可以在 Generator 函数运行的不同阶段，从外部向内部注入不同的值，从而调整函数行为
+
+...
+
+## 5. for..of循环
+
+## 6.  Generator.prototype.throw()
+
+# [Generator 函数的异步应用](https://es6.ruanyifeng.com/#docs/generator-async)
+
+# 面试题
+
+async和await用过吗？是做了什么呢？async的返回值是啥？
+
+1. promise对象的结果由async函数执行的返回值决定
+2. await右侧的表达式一般为promise对象，但也可以是其他的值
    1. 如果表达式是promise对象，await返回的是promise成功的值。
    2. 如果表达式是其他值，直接将此值作为await的返回值。
-4. 注意：
+3. 注意：
    1. await必须写在async函数中，但async函数中可以没有await
    2. 如果await的promise失败了，就会抛出异常，需要通过try...catch来捕获处理
-5. 使用async和await可以彻底的摆脱回调地狱
+4. 使用async和await可以彻底的摆脱回调地狱
 
-# 百度笔试题：
+# 百度笔试题
 
 ```js
 (async () => {
