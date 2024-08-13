@@ -72,16 +72,40 @@ const FileList = () => {
 
   const _upload = (file: File) => {
     const form: FormData = new FormData();
-    form.append("file", file);
+    // form.append("file", file);
     // /api/local/entries
-    http
-      .post("/file/upload", form)
-      .then((res) => {
-        console.log("res:", res);
-      })
-      .catch((err) => {
-        console.log("err:", err);
-      });
+    console.log("开始上传文档：", new Date());
+    // 文档分块上传，自定义每个块的大小
+    const chunkSize = 1024 * 1024 * 1000; // 1024*1024=1MB
+    // 块数
+    const totalChunks = Math.ceil(file.size / chunkSize);
+    const promises = [];
+    const uploadChunk = (chunk, chunkNumber, totalChunks) => {
+      const formData = new FormData();
+      formData.append("file", chunk, file.name);
+      formData.append("chunkNumber", chunkNumber);
+      formData.append("totalChunks", totalChunks);
+      return http.post("/file/upload2", formData);
+    };
+    for (let start = 0; start < file.size; start += chunkSize) {
+      const end = Math.min(start + chunkSize, file.size);
+      const chunk = file.slice(start, end);
+      const chunkNumber = start / chunkSize + 1;
+      promises.push(uploadChunk(chunk, chunkNumber, totalChunks));
+    }
+    Promise.all(promises).then((res) => {
+      console.log("文件分片上传的结果：", res);
+      console.log("文档上传结束：", new Date());
+    });
+    // http
+    //   .post("/file/upload2", form)
+    //   .then((res) => {
+    //     console.log("文件上传的结果res:", res);
+    //     console.log("文档上传结束：", new Date());
+    //   })
+    //   .catch((err) => {
+    //     console.log("文件上传的结果err:", err);
+    //   });
   };
   // let eTag =
   const staticRequest = () => {

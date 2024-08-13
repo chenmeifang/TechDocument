@@ -1,5 +1,5 @@
 const { File } = require('../models');
-const { storeInGridFS } = require("../db");
+const { storeInGridFS, storeInGridFS2 } = require("../db");
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
@@ -81,6 +81,70 @@ const uploadFiles = async (ctx) => {
         }
     })
 }
+// 上传文件 分片处理
+const uploadFiles2 = async (ctx) => {
+    const chunkNumber = parseInt(ctx.request.body.chunkNumber);
+    const totalChunks = parseInt(ctx.request.body.totalChunks);
+    const file = ctx.files[0];
+
+    // 1.确保上传目录存在
+    const uploadDir = path.join(__dirname, 'uploads');
+    // existsSync是Node.js的fs模块提供的一个同步方法，用于检查指定路径的文件或目录是否存在
+    if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir)
+    }
+
+    // 2.保存分块
+    const chunkPath = path.join(uploadDir, `${file.originalname}.part${chunkNumber}`)
+    fs.renameSync(file.path, chunkPath);
+
+    // 3.检查所有分块是否都已上传
+    const chunks = [];
+    for (let i = 1; i <= totalChunks; i++) {
+        const chunkFilePath = path.join(uploadDir, `${file.originalname}.part${i}`);
+        if (fs.existsSync(chunkFilePath)) {
+            chunks.push(chunkFilePath);
+        }
+    }
+
+    // 4.所有分块上传完成，合并文件
+    if (chunks.length === totalChunks) {
+        const finalFilePath = path.join(uploadDir, file.originalname);
+        // createWriteStream: 用于创建一个可写的流(Writable 流)，允许你以流的形式将数据写入文件
+        // 使用流可以避免一次性加载大量数据到内存中，从而提高效率和降低内存消耗
+        const finalWriteStream = fs.createWriteStream(finalFilePath);
+
+        for (const chunkPath of chunks) {
+            // readFileSync的返回值类型是Buffer，如果没有指定编码格式
+            // Buffer是Node.js中用于处理二进制数据的类
+            // 如果需要以字符串的形式获取文件内容，可以传递编码格式作为第二个参数，比如‘utf8’
+            const chunkData = fs.readFileSync(chunkPath);
+            finalWriteStream.write(chunkData);
+            // fs.unlinkSync(chunkPath); // 上传完成后删除分块文件
+        }
+        finalWriteStream.end();
+        // finalWriteStream是一个Writable流，不是Buffer
+        const fileStream = fs.createReadStream(finalFilePath);
+
+        // buffer要写到gridFs openUploadStream创建的流里面去
+        await storeInGridFS2(fileStream, finalWriteStream, file.originalname).then(res => {
+            ctx.body = {
+                code: 200,
+                msg: '上传文件成功',
+            }
+        }).catch(err => {
+            ctx.body = {
+                code: 400,
+                msg: '上传文件失败'
+            }
+        })
+    } else {
+        ctx.body = {
+            code: 200,
+            msg: 'Chunks received, waiting for more chunks'
+        }
+    }
+}
 
 const staticRequest = async (ctx) => {
     const filePath = path.join(__dirname, '../public', '/images/image.png');
@@ -120,5 +184,6 @@ module.exports = {
     addFile,
     myList,
     uploadFiles,
+    uploadFiles2,
     staticRequest
 }

@@ -37,7 +37,25 @@ const storeInGridFS = (buffer) => {
   })
 }
 
+// 分片上传
+const storeInGridFS2 = (fileStream, buffer, originFileName) => {
+  return new Promise((resolve, reject) => {
+    // openUploadStream(filename, options) 创建一个上传流，用于将文件上传到GridFS
+    const writeStream = gridFS.openUploadStream(originFileName);
+    fileStream.pipe(writeStream);
+    writeStream.on('finish', (res) => {
+      console.log('res:', res);
+      resolve();
+    })
+    writeStream.on('error', (err) => {
+      console.log('err:', err);
+      reject()
+    })
+  })
+}
+
 module.exports = {
   MongoConnect,
-  storeInGridFS
+  storeInGridFS,
+  storeInGridFS2
 }

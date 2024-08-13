@@ -3,22 +3,19 @@ const Koa = require("koa");
 const views = require("koa-views");
 const json = require("koa-json");
 const onerror = require("koa-onerror");
+// koa-body曾经是一个流行的中间件，用于处理请求体
+// koa-bodyparser:功能类似于koa-body，用于解析JSON，表单数据和文本请求体
 const bodyparser = require("koa-bodyparser");
 const logger = require("koa-logger");
 const cors = require('koa2-cors');
 const socketIo = require('socket.io');
 const http = require('http');
-const multer = require('@koa/multer');
 // const etag = require('koa-etag');
 
 // 创建koa应用
 const app = new Koa();
 
 const server = http.createServer(app.callback());
-
-const upload = multer({
-  storage: multer.memoryStorage
-})
 
 const { MongoConnect } = require("./db");
 
