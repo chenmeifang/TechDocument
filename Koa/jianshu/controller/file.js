@@ -3,6 +3,7 @@ const { storeInGridFS, storeInGridFS2 } = require("../db");
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
+const Speedtest = require('fast-speedtest-api');
 
 // 新建文件
 const addFile = async (ctx) => {
@@ -67,6 +68,16 @@ const myList = async (ctx) => {
 
 // 上传文件
 const uploadFiles = async (ctx) => {
+    // maxTime：测试的最大时间（毫秒）
+    // const speedtest = new Speedtest({
+    //     maxTime: 50000
+    // })
+    // mbps: Megabits per second 每秒传输的百万比特（bits）数量
+    // const result = await speedtest.getResults();
+    // console.log('download网速：', result.download.mbps);
+    // console.log('upload网速：', result.upload.mbps);
+    // console.log('ping网速：', result.ping.mbps);
+
     const file = ctx.files[0];
     // buffer要写到gridFs openUploadStream创建的流里面去
     await storeInGridFS(file.buffer).then(res => {
@@ -115,12 +126,12 @@ const uploadFiles2 = async (ctx) => {
         const finalWriteStream = fs.createWriteStream(finalFilePath);
 
         for (const chunkPath of chunks) {
-            // readFileSync的返回值类型是Buffer，如果没有指定编码格式
+            // readFileSync的返回值类型是Buffer（如果没有指定编码格式）
             // Buffer是Node.js中用于处理二进制数据的类
             // 如果需要以字符串的形式获取文件内容，可以传递编码格式作为第二个参数，比如‘utf8’
             const chunkData = fs.readFileSync(chunkPath);
             finalWriteStream.write(chunkData);
-            // fs.unlinkSync(chunkPath); // 上传完成后删除分块文件
+            fs.unlinkSync(chunkPath); // 上传完成后删除分块文件
         }
         finalWriteStream.end();
         // finalWriteStream是一个Writable流，不是Buffer
