@@ -6,7 +6,8 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js'
+        // filename: 'bundle.js'
+        filename: 'js/[name].[contenthash:10].js'
     },
     module: {
         rules: [
@@ -37,5 +38,10 @@ module.exports = {
     // devtool: 'inline-source-map',
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    },
+    optimization: {
+        splitChunks: {
+            chunks: 'all'
+        }
     }
 };
