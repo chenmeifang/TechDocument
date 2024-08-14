@@ -36,6 +36,10 @@ https://www.bilibili.com/video/BV1pK411X7sn/?p=2&spm_id_from=333.880.my_history.
 
 <img src="04 Flex布局.assets/image-20240306194144737.png" alt="image-20240306194144737" style="zoom: 80%;" />
 
+> `justify-content:center`居中对齐时，每一个item之间有空隙吗？——没有
+>
+> ![image-20240814165751180](04 Flex布局.assets/image-20240814165751180.png)
+
 # 7. container   align-items 决定交叉轴上item的分布方式
 
 <img src="04 Flex布局.assets/image-20240306195238828.png" alt="image-20240306195238828" style="zoom: 80%;" />
@@ -48,15 +52,46 @@ https://www.bilibili.com/video/BV1pK411X7sn/?p=2&spm_id_from=333.880.my_history.
 
 # 10. item align-self
 
-# [11.item flex-grow  flex-shrink](https://www.bilibili.com/video/BV1pK411X7sn?p=11&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+# [11. item flex-grow  flex-shrink](https://www.bilibili.com/video/BV1pK411X7sn?p=11&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-<img src="04 Flex布局.assets/image-20240428145853626.png" alt="image-20240428145853626" style="zoom: 67%;" />
+| <img src="04 Flex布局.assets/image-20240428145853626.png" alt="image-20240428145853626"  /> | ![image-20240814180655213](04 Flex布局.assets/image-20240814180655213.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
 
-# 12. item flex-basis
+# [12. item flex-basis](https://www.bilibili.com/video/BV1pK411X7sn?p=12&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-https://www.bilibili.com/video/BV1pK411X7sn?p=12&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+| <img src="04 Flex布局.assets/image-20240814181143362.png" alt="image-20240814181143362"  /> | ![image-20240814181338489](04 Flex布局.assets/image-20240814181338489.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+ # [13. item flex](https://www.bilibili.com/video/BV1pK411X7sn/?p=13&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+![image-20240814190341844](04 Flex布局.assets/image-20240814190341844.png)
 
 
+
+> `flex: 1` 相当于：
+>
+> ```css
+> flex-grow: 1;
+> flex-shrink: 1; // (默认值)
+> flex-basis: 0%;
+> ```
+>
+> 假设你有一个水平排列的容器，其中包含三个子元素：
+>
+> ```html
+> <div style="display: flex;">
+>   <div style="flex: 1; background-color: lightcoral;">Box 1</div>
+>   <div style="flex: 2; background-color: lightblue;">Box 2</div>
+>   <div style="flex: 1; background-color: lightgreen;">Box 3</div>
+> </div>
+> ```
+>
+> 在这个例子中：
+>
+> - `Box 1` 和 `Box 3` 的 `flex` 值都是 1，所以它们会占据相同的空间。
+> - `Box 2` 的 `flex` 值为 2，所以它会占据比 `Box 1` 和 `Box 3` 多一倍的空间。
+>
+> 这个布局的结果是，`Box 1` 和 `Box 3` 占据容器宽度的四分之一，而 `Box 2` 占据容器宽度的一半。
 
 
 
