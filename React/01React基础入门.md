@@ -1162,9 +1162,35 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 # [105 react-redux基本使用](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=105&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
+<img src="01React基础入门.assets/image-20240815174033212.png" alt="image-20240815174033212" style="zoom: 67%;" />
 
 
-# 106 优化1——简写mapDispatch
+
+<img src="01React基础入门.assets/image-20240815174711510.png" alt="image-20240815174711510" style="zoom: 67%;" />
+
+
+
+<img src="01React基础入门.assets/image-20240815175640751.png" alt="image-20240815175640751" style="zoom:67%;" />
+
+  
+
+<img src="01React基础入门.assets/image-20240815180229894.png" alt="image-20240815180229894" style="zoom:67%;" />
+
+
+
+![image-20240815180526121](01React基础入门.assets/image-20240815180526121.png)
+
+
+
+![image-20240815180638813](01React基础入门.assets/image-20240815180638813.png)
+
+
+
+<img src="01React基础入门.assets/image-20240815182027329.png" alt="image-20240815182027329" style="zoom:67%;" />
+
+# [106 优化1——简写mapDispatch](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=106&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+
 
 # 107 优化2——Provider组件的使用
 
