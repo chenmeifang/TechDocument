@@ -1,4 +1,4 @@
-https://www.bilibili.com/video/BV13A411v7co/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+https://www.bilibili.com/video/BV13A411v7co/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e（这个视频有点啰嗦）
 
 # 1. 什么情况下使用vuex/redux
 
@@ -12,11 +12,11 @@ https://www.bilibili.com/video/BV13A411v7co/?spm_id_from=333.337.search-card.all
 
 <img src="02React核心与项目实战.assets/3.png" alt="1" style="zoom: 40%;" />
 
-为了职责清晰，Redux代码被分为三个核心的概念，我们学redux，其实就是学这三个核心概念之间的配合，三个概念分别是:
+为了职责清晰，Redux代码被分为三个核心的概念，学redux，其实就是学这三个核心概念之间的配合：
 
 1. **state**:  一个对象 存放着我们管理的数据
 2. **action**:  一个对象 用来描述你想怎么改数据
-3. **reducer**:  ==一个函数 根据action的描述更新state==
+3. **reducer**:  一个函数 根据action的描述更新state
 
 # 4. reducer为什么叫做reducer
 
@@ -48,13 +48,11 @@ console.log(sum); // 输出 10
 
 1h17min处
 
-# ——————————————————————————————————————————————————————————————————————————
-
-https://www.bilibili.com/video/BV1La4y1S7qY?p=2&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
-
-# 2.用普通思想和方法完成案例
+# [1. 数据传递的概念和核心思想](https://www.bilibili.com/video/BV1La4y1S7qY?p=1&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 
+
+# [2.用普通思想和方法完成案例](https://www.bilibili.com/video/BV1La4y1S7qY?p=2&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 | <img src="03Redux.assets/image-20240711172006940.png" alt="image-20240711172006940" style="zoom: 45%;" /> | <img src="03Redux.assets/image-20240711172046808.png" alt="image-20240711172046808" style="zoom:50%;" /> |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |

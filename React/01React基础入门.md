@@ -1107,73 +1107,62 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 <img src="01.assets/image-20240311200214782.png" alt="image-20240311200214782" style="zoom:67%;" />
 
-# 98 redux工作流程
+# [98 redux工作流程](https://www.bilibili.com/video/BV1wy4y1D7JT?p=98&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-https://www.bilibili.com/video/BV1wy4y1D7JT?p=98&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+| ![image-20240815115817980](01React基础入门.assets/image-20240815115817980.png) | <img src="01.assets/image-20240311202152313.png" alt="image-20240311202152313"  /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <img src="01.assets/image-20240311200325757.png" alt="image-20240311200325757"  /> | <img src="02React核心与项目实战.assets/3.png" alt="1" style="zoom: 40%;" /> |
+| 疑问1：action指向的到底是Store还是Reducer？是谁在接收处理操作action？？ | 疑问2：状态的初始化是谁处理的？——Reducer                     |
 
-<img src="01.assets/image-20240311200325757.png" alt="image-20240311200325757" style="zoom:80%;" />
+# [99 求和案例 纯react版](https://www.bilibili.com/video/BV1wy4y1D7JT?p=99&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+| ![image-20240815120652858](01React基础入门.assets/image-20240815120652858.png) | <img src="01.assets/image-20240311215718557.png" alt="image-20240311215718557"  /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+# [100 求和案例 redux精简版](https://www.bilibili.com/video/BV1wy4y1D7JT?p=100&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+安装redux
+
+| 目录结构                                                     | ![image-20240815123700583](01React基础入门.assets/image-20240815123700583.png) |
+| ------------------------------------------------------------ | :----------------------------------------------------------: |
+| ![image-20240815132429242](01React基础入门.assets/image-20240815132429242.png) | <img src="01React基础入门.assets/image-20240815133738288.png" alt="image-20240815133738288" style="zoom:80%;" /><br>第六行加上export default |
+| 初始化时 store会帮我们调用一次reducer。其preState和action值见右图。后几个字符是随机字符 | ![image-20240815140220506](01React基础入门.assets/image-20240815140220506.png) |
+| <img src="01React基础入门.assets/image-20240815134513565.png" alt="image-20240815134513565" style="zoom:80%;" /> | ![image-20240815141352580](01React基础入门.assets/image-20240815141352580.png) |
+|                                                              | subscribe执行时机优化：<br>![image-20240815141655635](01React基础入门.assets/image-20240815141655635.png) |
+
+# [101 求和案例 redux完整版](https://www.bilibili.com/video/BV1wy4y1D7JT?p=101&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+| <img src="01.assets/image-20240311221256582.png" alt="image-20240311221256582" style="zoom: 67%;" /> | <img src="01React基础入门.assets/image-20240815143613194.png" alt="image-20240815143613194" style="zoom: 67%;" /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+<img src="01.assets/image-20240311221943457.png" alt="image-20240311221943457" style="zoom: 67%;" />
+
+# [102 求和案例 异步action版](https://www.bilibili.com/video/BV1wy4y1D7JT?p=102&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+| action除了是对象，还可以是函数<br>一般对象action是同步action<br>函数类型action是异步action | <img src="01React基础入门.assets/image-20240815144211954.png" alt="image-20240815144211954" style="zoom:50%;" /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![image-20240815144754724](01React基础入门.assets/image-20240815144754724.png) | ![image-20240815145011728](01React基础入门.assets/image-20240815145011728.png) |
+| <img src="01React基础入门.assets/image-20240815150133816.png" alt="image-20240815150133816" style="zoom:90%;" /><br>有问题，会报右图的错 | ![image-20240815150547316](01React基础入门.assets/image-20240815150547316.png) |
+| ![image-20240815152625427](01React基础入门.assets/image-20240815152625427.png) | ![image-20240815152300241](01React基础入门.assets/image-20240815152300241.png) |
+
+> **store如果收到了函数类型的action，不要把action给reducer，直接自己执行就行**
+
+<img src="01.assets/image-20240311225059849.png" alt="image-20240311225059849" style="zoom:80%;" />
+
+# [103 对react-redux的理解](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=103&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+> redux和react-redux是两个东西
+
+<img src="01.assets/image-20240311225626258.png" alt="image-20240311225626258" style="zoom: 67%;" />
+
+# [104 连接容器组件与UI组件](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=104&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+| ![image-20240815160949208](01React基础入门.assets/image-20240815160949208.png)<br>第四行要删掉，否则报错 | ![image-20240815163540632](01React基础入门.assets/image-20240815163540632.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+# [105 react-redux基本使用](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=105&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 
-
-<img src="01.assets/image-20240311202110942.png" alt="image-20240311202110942" style="zoom:60%;" />
-
-
-
-<img src="01.assets/image-20240311202152313.png" alt="image-20240311202152313" style="zoom:67%;" />
-
-# 99 求和案例 纯react版
-
-https://www.bilibili.com/video/BV1wy4y1D7JT?p=99&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
-
-<img src="01.assets/image-20240311202729798.png" alt="image-20240311202729798" style="zoom:67%;" />
-
-<img src="01.assets/image-20240311215718557.png" alt="image-20240311215718557" style="zoom:67%;" />
-
-# 100 求和案例 redux精简版
-
-https://www.bilibili.com/video/BV1wy4y1D7JT?p=100&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
-
-<img src="01.assets/image-20240311214538004.png" alt="image-20240311214538004" style="zoom:67%;" />
-
-<img src="01.assets/image-20240311215201011.png" alt="image-20240311215201011" style="zoom:67%;" />
-
-<img src="01.assets/image-20240311220334875.png" alt="image-20240311220334875" style="zoom:67%;" />
-
-<img src="01.assets/image-20240311220713703.png" alt="image-20240311220713703" style="zoom:67%;" />
-
-# 101 求和案例 redux完整版
-
-https://www.bilibili.com/video/BV1wy4y1D7JT?p=101&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
-
-<img src="01.assets/image-20240311221256582.png" alt="image-20240311221256582" style="zoom: 67%;" />
-
-<img src="01.assets/image-20240311221758535.png" alt="image-20240311221758535" style="zoom:67%;" />
-
-<img src="01.assets/image-20240311221943457.png" alt="image-20240311221943457" style="zoom: 55%;" />
-
-# 102 求和案例 异步action版
-
-https://www.bilibili.com/video/BV1wy4y1D7JT?p=102&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
-
-<img src="01.assets/image-20240311224655121.png" alt="image-20240311224655121" style="zoom:67%;" />
-
-<img src="01.assets/image-20240311224857914.png" alt="image-20240311224857914" style="zoom:67%;" />
-
-<img src="01.assets/image-20240311224938043.png" alt="image-20240311224938043" style="zoom:67%;" />
-
-<img src="01.assets/image-20240311225059849.png" alt="image-20240311225059849" style="zoom:67%;" />
-
-# 103 对react-redux的理解
-
-https://www.bilibili.com/video/BV1wy4y1D7JT/?p=103&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
-
-<img src="01.assets/image-20240311225626258.png" alt="image-20240311225626258" style="zoom:55%;" />
-
-# 104 连接容器组件与UI组件
-
-https://www.bilibili.com/video/BV1wy4y1D7JT/?p=104&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
-
-# 105 react-redux基本使用
 
 # 106 优化1——简写mapDispatch
 
