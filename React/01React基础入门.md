@@ -1190,11 +1190,30 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 # [106 优化1——简写mapDispatch](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=106&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
+<img src="01React基础入门.assets/image-20240816144528378.png" alt="image-20240816144528378" style="zoom:67%;" />
 
 
-# 107 优化2——Provider组件的使用
 
-# 108 整合UI组件与容器组件
+<img src="01React基础入门.assets/image-20240816143418446.png" alt="image-20240816143418446" style="zoom:80%;" />
+
+
+
+<img src="01React基础入门.assets/image-20240816144038511.png" alt="image-20240816144038511" style="zoom: 67%;" />
+
+> 不需要写dispatch了，react-redux会帮忙去做自动分发（即dispatch）
+
+# [107 优化2——Provider组件的使用](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=107&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+|                            优化前                            |                            优化后                            |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
+| <img src="01React基础入门.assets/image-20240816192058798.png" alt="image-20240816192058798" style="zoom: 67%;" /> | <img src="01React基础入门.assets/image-20240816192654786.png" alt="image-20240816192654786" style="zoom: 67%;" /> |
+
+# [108 整合UI组件与容器组件](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=108&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+<img src="01.assets/image-20240311225626258.png" alt="image-20240311225626258" style="zoom: 67%;" />
+
+| <img src="01React基础入门.assets/image-20240816193923183.png" alt="image-20240816193923183" style="zoom:67%;" /> | ![image-20240816194158004](01React基础入门.assets/image-20240816194158004.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
 
 # 109 数据共享——编写Person组件
 
