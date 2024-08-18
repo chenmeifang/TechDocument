@@ -82,8 +82,10 @@ io.on('connection', (socket) => {
   console.log('a user connected');
   socket.on('edit', (msg) => {
     console.log('message:', msg);
+    // 只发送给当前的客户端
+    socket.emit('edit', msg);
     // 通知除发送者外的所有连接的客户端
-    socket.broadcast.emit('edit', msg);
+    // socket.broadcast.emit('edit', msg);
   })
 });
 

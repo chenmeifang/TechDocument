@@ -72,6 +72,9 @@ const sendOutMsg = (msgList: Array<Message>, rMsgList: Array<Message>) => {
   addUndo(msgList, rMsgList);
 };
 
+// socket.emit和socket.broadcast.emit的区别：
+// socket.emit: 只发送给当前的客户端
+// socket.broadcast.emit: 发送给除当前客户端以外的所有其他客户端
 export const sendOutMsgWithoutDealUndoRedo = (msgList: Array<Message>) => {
   socket.emit("edit", msgList);
 };
