@@ -2,7 +2,7 @@
 /**
  * 1.reducer函数中：
  *   return {count: state.count + 1}
- *   说明： state变化了，需要执行那些订阅的函数
+ *   说明：state变化了，需要执行那些订阅的函数
  * 2.在Redux中，会使用reducer函数生成store实例：const store = Redux.createStore(reducer)
  */
 export function createStore(reducer) {
@@ -17,8 +17,7 @@ export function createStore(reducer) {
     }
 }
 
-// todo: 监测state的变化，执行收集的订阅函数
-// 使用劫持
+// 使用劫持监测state的变化，执行收集的订阅函数
 const redux = {}
 function createReduxState(reducer) {
     let _state = reducer();

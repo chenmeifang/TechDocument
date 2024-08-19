@@ -50,23 +50,29 @@ console.log(sum); // 输出 10
 
 # [1. 数据传递的概念和核心思想](https://www.bilibili.com/video/BV1La4y1S7qY?p=1&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
+<img src="03Redux.assets/image-20240819111903265.png" alt="image-20240819111903265" style="zoom:80%;" />
 
+# [2. 用普通思想和方法完成案例](https://www.bilibili.com/video/BV1La4y1S7qY?p=2&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# [2.用普通思想和方法完成案例](https://www.bilibili.com/video/BV1La4y1S7qY?p=2&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
-
-| <img src="03Redux.assets/image-20240711172006940.png" alt="image-20240711172006940" style="zoom: 45%;" /> | <img src="03Redux.assets/image-20240711172046808.png" alt="image-20240711172046808" style="zoom:50%;" /> |
+| <img src="03Redux.assets/image-20240819114345200.png" alt="image-20240819114345200"  /> | <img src="03Redux.assets/image-20240711172006940.png" alt="image-20240711172006940" style="zoom:80%;" /> |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| <img src="03Redux.assets/image-20240711173345704.png" alt="image-20240711173345704" style="zoom:50%;" /> | <img src="03Redux.assets/image-20240711172131276.png" alt="image-20240711172131276" style="zoom:50%;" /> |
+| <img src="03Redux.assets/image-20240711172046808.png" alt="image-20240711172046808"  /> | <img src="03Redux.assets/image-20240819115035526.png" alt="image-20240819115035526" style="zoom: 67%;" /> |
 
-# 3.用redux的思想和方案完成案例 
+问题分析：
 
-1.需要一个store，存放state
+- handleBtnClick 完成了两个任务：修改 && render。而这两个任务实际上是没有相关性的
+- 希望handleBtnClick仅仅是修改数据，修改数据后去触发一次render
 
-2.
+<img src="03Redux.assets/image-20240711173345704.png" alt="image-20240711173345704" style="zoom: 50%;" />
+
+# [3. 用redux的思想和方案完成案例](https://www.bilibili.com/video/BV1La4y1S7qY/?p=3&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+1. 需要一个store，存放state
 
 | <img src="03Redux.assets/image-20240711113020705.png" alt="image-20240711113020705" style="zoom: 67%;" /> | <img src="03Redux.assets/image-20240711113427461.png" alt="image-20240711113427461" style="zoom: 67%;" /> |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| <img src="03Redux.assets/image-20240711113632626.png" alt="image-20240711113632626" style="zoom: 67%;" /> |                                                              |
+
+<img src="03Redux.assets/image-20240711113632626.png" alt="image-20240711113632626" style="zoom: 80%;" />
 
 # Redux
 

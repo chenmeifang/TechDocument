@@ -3,7 +3,7 @@ import { MINUS, PLUS } from './store/actionType';
 
 const oPlusBtn = document.getElementById('plusBtn');
 const oMinusBtn = document.getElementById('minusBtn');
-const oCount = document.getElementById('count')
+const oCount = document.getElementById('count');
 
 const init = () => {
     render();
@@ -11,14 +11,14 @@ const init = () => {
 }
 
 // 只要每次count一更新，就执行render
-// 是不是说明只要count一更新，就需要publish一个事件，使这里的render能正常执行
+// 说明只要count一更新，就需要publish一个事件，使这里的render能正常执行
 // 订阅数据变化
 store.subscribe(() => {
     render();
 })
 
 function render() {
-    const state = store.getState()
+    const state = store.getState();
     oCount.innerText = state.count;
 }
 

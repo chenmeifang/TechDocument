@@ -9,6 +9,8 @@ import initialState from './state';
 export default function reducer(state = initialState, action = {}) {
     switch (action.type) {
         case PLUS:
+            // state.count += 1;
+            // redux的思想是：希望每次返回一个新的state
             return {
                 count: state.count + 1
             }
