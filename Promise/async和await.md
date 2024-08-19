@@ -1,5 +1,3 @@
-- 
-
 # [Generator对象](https://es6.ruanyifeng.com/#docs/generator)
 
 Async函数是Generator函数的语法糖
@@ -417,9 +415,9 @@ Promise 的最大问题是代码冗余，原来的任务被 Promise 包装了一
 
 ### 协程
 
-传统的编程语言，早有异步编程的解决方案（其实是多任务的解决方案）。其中有一种叫做"协程"（coroutine），意思是多个线程互相协作，完成异步任务。
+传统的编程语言，早有异步编程的解决方案（其实是多任务的解决方案）。其中有一种叫做"协程"（coroutine），意思是多个线程互相协作，完成异步任务
 
-协程有点像函数，又有点像线程。它的运行流程大致如下。
+协程有点像函数，又有点像线程。它的运行流程大致如下
 
 - 第一步，协程`A`开始执行。
 - 第二步，协程`A`执行到一半，进入暂停，执行权转移到协程`B`。
@@ -504,7 +502,7 @@ g.throw('出错了');
 
 ### 异步任务的封装
 
-下面看看如何使用 Generator 函数，执行一个真实的异步任务。
+使用 Generator 函数，执行一个真实的异步任务
 
 ```javascript
 var fetch = require('node-fetch');
@@ -518,7 +516,7 @@ function* gen(){
 
 上面代码中，Generator 函数封装了一个异步操作，该操作先读取一个远程接口，然后从 JSON 格式的数据解析信息。就像前面说过的，这段代码非常像同步操作，除了加上了`yield`命令。
 
-执行这段代码的方法如下。
+执行这段代码的方法如下
 
 ```javascript
 var g = gen();
@@ -537,11 +535,13 @@ result.value.then(function(data){
 
 ## Thunk 函数
 
-Thunk 函数是自动执行 Generator 函数的一种方法。
+> thunk：形实转换程序
+>
+> Thunk 函数是自动执行 Generator 函数的一种方法
 
 ### 参数的求值策略
 
-Thunk 函数早在上个世纪 60 年代就诞生了。
+Thunk 函数在上个世纪 60 年代就诞生了
 
 那时，编程语言刚刚起步，计算机学家还在研究，编译器怎么写比较好。一个争论的焦点是"求值策略"，即函数的参数到底应该何时求值。
 
@@ -615,7 +615,7 @@ function f(thunk) {
 
 ### JavaScript 语言的 Thunk 函数
 
-JavaScript 语言是传值调用，它的 Thunk 函数含义有所不同。在 JavaScript 语言中，Thunk 函数替换的不是表达式，而是多参数函数，将其替换成一个只接受回调函数作为参数的单参数函数。
+**JavaScript 语言是传值调用**，它的 Thunk 函数含义有所不同。**在 JavaScript 语言中，Thunk 函数替换的不是表达式，而是多参数函数，将其替换成一个只接受回调函数作为参数的单参数函数**。
 
 ```javascript
 // 正常版本的readFile（多参数版本）
@@ -634,13 +634,17 @@ readFileThunk(callback);
 
 上面代码中，`fs`模块的`readFile`方法是一个多参数函数，两个参数分别为文件名和回调函数。经过转换器处理，它变成了一个单参数函数，只接受回调函数作为参数。这个单参数版本，就叫做 Thunk 函数。
 
-任何函数，只要参数有回调函数，就能写成 Thunk 函数的形式。下面是一个简单的 Thunk 函数转换器。
+**任何函数，只要参数有回调函数，就能写成 Thunk 函数的形式**。下面是一个简单的 Thunk 函数转换器。
 
 ```javascript
 // ES5版本
 var Thunk = function(fn){
   return function (){
+    // 将arguments对象转换为一个数组
     var args = Array.prototype.slice.call(arguments);
+    // slice:是数组的一个方法，用于从数组中提取一部分元素，并返回一个新数组
+    // slice可以接收两个参数：起始索引和结束索引，如果没有参数，slice会返回原数组的浅拷贝
+    // Array.prototype.slice.call的作用是让slice方法能够处理非数组的arguments对象
     return function (callback){
       args.push(callback);
       return fn.apply(this, args);
@@ -678,7 +682,11 @@ ft(1)(console.log) // 1
 
 ### Thunkify 模块
 
-生产环境的转换器，建议使用 Thunkify 模块。
+> `Thunkify`模块用于将一个多参数的函数转换为只接受一个回调函数作为参数的thunk函数
+>
+> 这种技术可以用来简化异步编程，特别是在使用回调的场景中
+
+生产环境的转换器，建议使用 Thunkify 模块
 
 首先是安装。
 
@@ -783,9 +791,9 @@ var gen = function* (){
 };
 ```
 
-上面代码中，`yield`命令用于将程序的执行权移出 Generator 函数，那么就需要一种方法，将执行权再交还给 Generator 函数。
+上面代码中，**`yield`命令用于将程序的执行权移出 Generator 函数**，那么就**需要一种方法，将执行权再交还给 Generator 函数**。
 
-这种方法就是 Thunk 函数，因为它可以在回调函数里，将执行权交还给 Generator 函数。为了便于理解，我们先看如何手动执行上面这个 Generator 函数。
+**这种方法就是 Thunk 函数，因为它可以在回调函数里，将执行权交还给 Generator 函数**。为便于理解，我们先看如何手动执行上面这个 Generator 函数。
 
 ```javascript
 var g = gen();
@@ -888,7 +896,7 @@ co(gen).then(function (){
 
 为什么 co 可以自动执行 Generator 函数？
 
-前面说过，Generator 就是一个异步操作的容器。它的自动执行需要一种机制，当异步操作有了结果，能够自动交回执行权。
+前面说过，**Generator 就是一个异步操作的容器**。**它的自动执行需要一种机制，当异步操作有了结果，能够自动交回执行权**。
 
 两种方法可以做到这一点。
 
@@ -898,7 +906,7 @@ co(gen).then(function (){
 
 co 模块其实就是将两种自动执行器（Thunk 函数和 Promise 对象），包装成一个模块。使用 co 的前提条件是，Generator 函数的`yield`命令后面，只能是 Thunk 函数或 Promise 对象。如果数组或对象的成员，全部都是 Promise 对象，也可以使用 co，详见后文的例子。
 
-上一节已经介绍了基于 Thunk 函数的自动执行器。下面来看，基于 Promise 对象的自动执行器。这是理解 co 模块必须的。
+上一节已经介绍了**基于 Thunk 函数的自动执行器**。下面来看，**基于 Promise 对象的自动执行器**。这是理解 co 模块必须的。
 
 ### 基于 Promise 对象的自动执行
 
@@ -1122,7 +1130,7 @@ co(function*() {
 
 在函数前面加async意味着什么: `async`表示函数里有异步操作
 
-async函数的返回值是Promise对象
+**async函数的返回值是Promise对象**
 
 ## 含义
 
@@ -1150,6 +1158,14 @@ const gen = function* () {
   console.log(f1.toString());
   console.log(f2.toString());
 };
+
+var g = gen();
+
+g.next().value.then(function(data){
+  g.next(data).value.then(function(data){
+    g.next(data);
+  });
+});
 ```
 
 > `return new Promise`实际返回的是一个Promise实例对象
@@ -1195,11 +1211,11 @@ asyncReadFile();
 
 `async`函数的返回值是 Promise 对象，这比 Generator 函数的返回值是 Iterator 对象方便多了。你可以用`then`方法指定下一步的操作。
 
-进一步说，`async`函数完全可以看作多个异步操作，包装成的一个 Promise 对象，而`await`命令就是内部`then`命令的语法糖。
+进一步说，**`async`函数完全可以看作多个异步操作，包装成的一个 Promise 对象，而`await`命令就是内部`then`命令的语法糖**。
 
 ## 基本用法
 
-`async`函数返回一个 Promise 对象，可以使用`then`方法添加回调函数。当函数执行的时候，一旦遇到`await`就会先返回，等到异步操作完成，再接着执行函数体内后面的语句。
+**`async`函数返回一个 Promise 对象**，可以使用`then`方法添加回调函数。当函数执行的时候，一旦遇到`await`就会先返回，等到异步操作完成，再接着执行函数体内后面的语句。
 
 下面是一个例子。
 
@@ -1552,7 +1568,7 @@ async function myFunction() {
 }
 ```
 
-第二点，多个`await`命令后面的异步操作，如果不存在继发关系，最好让它们同时触发。
+第二点，**多个`await`命令后面的异步操作，如果不存在继发关系，最好让它们同时触发**。
 
 ```javascript
 let foo = await getFoo();
@@ -1773,7 +1789,7 @@ function spawn(genF) {
 
 ## 与其他异步处理方法的比较
 
-我们通过一个例子，来看 async 函数与 Promise、Generator 函数的比较。
+通过一个例子，来看 async 函数与 Promise、Generator 函数的比较
 
 假定某个 DOM 元素上面，部署了一系列的动画，前一个动画结束，才能开始后一个。如果当中有一个动画出错，就不再往下执行，返回上一个成功执行的动画的返回值。
 
@@ -2042,19 +2058,6 @@ console.log("Z");
 
 顶层的`await`命令有点像，交出代码的执行权给其他的模块加载，等异步操作完成后，再拿回执行权，继续向下执行。
 
-# 面试题
-
-async和await用过吗？是做了什么呢？async的返回值是啥？
-
-1. promise对象的结果由async函数执行的返回值决定
-2. await右侧的表达式一般为promise对象，但也可以是其他的值
-   1. 如果表达式是promise对象，await返回的是promise成功的值。
-   2. 如果表达式是其他值，直接将此值作为await的返回值。
-3. 注意：
-   1. await必须写在async函数中，但async函数中可以没有await
-   2. 如果await的promise失败了，就会抛出异常，需要通过try...catch来捕获处理
-4. 使用async和await可以彻底的摆脱回调地狱
-
 # 百度笔试题
 
 ```js
@@ -2071,15 +2074,6 @@ async和await用过吗？是做了什么呢？async的返回值是啥？
     console.log('5')
 })()
 ```
-
-不确定5到底会不会打印出来！！
-await到底是wait多少不确定！！！！！！！
-
-！！！！！！5不会打印，只会打印1，3，2！！！！！！！！！！！！！！
-
-
-
-我选的是c 错了！！！！
 
 ```js
 function log(msg, time) {
@@ -2129,10 +2123,66 @@ function log(msg, time) {
     })
 })()
 // => 隔1s后同时输出1，2，3，4
-// ???? 同步的执行了四个异步函数
 ```
 
-只是使用的遍历方式不一样，为什么会出现这样的情况？？？
+> 为什么js中forEach不会等待await，但是普通for循环会等待await
+>
+> JavaScript 中的 `forEach` 方法不会等待 `await`，而普通的 `for` 循环可以等待 `await`，这主要是因为它们在处理异步操作时的行为和设计不同。让我们详细分析原因：
+>
+> ### `forEach` 与 `await`
+>
+> `forEach` 是数组的一个迭代方法，它会对数组中的每个元素执行给定的回调函数，但它自身不处理异步操作，也不等待回调函数的完成。
+>
+> ```javascript
+> [1, 2, 3, 4].forEach(async (i) => {
+>     await someAsyncFunction(i);
+> });
+> ```
+>
+> - 在上面的代码中，`forEach` 方法会立即开始对数组元素调用异步函数，但 `forEach` 不会等待这些异步操作完成。
+> - `forEach` 不会等待回调函数中的 `await` 操作完成，也不会知道 `await` 操作的结果。它只是触发回调函数的执行，并继续进行下一个迭代。
+>
+> ### 普通 `for` 循环与 `await`
+>
+> 普通的 `for` 循环可以等待 `await`，因为在每次迭代中，你可以使用 `await` 来确保异步操作完成后再继续下一次迭代。
+>
+> ```javascript
+> for (let i of [1, 2, 3, 4]) {
+>     await someAsyncFunction(i);
+> }
+> ```
+>
+> - 在这个 `for...of` 循环中，每次迭代都会等待 `someAsyncFunction(i)` 执行完成，即 `await` 使得循环在每次迭代中都等待 `Promise` 解决后再继续执行下一次迭代。
+>
+> ### 为什么 `forEach` 不会等待 `await`
+>
+> 1. **设计目的**:
+>    - `forEach` 的设计目的并不是为了处理异步操作。它的回调函数是同步的，**`forEach` 设计时没有考虑到 `await` 的处理**。
+>
+> 2. **`forEach` 的回调函数**:
+>    - `forEach` 的回调函数不会处理异步代码。即使回调函数是异步的（比如使用 `async`），`forEach` 不会等待这些异步操作完成，它只是触发了这些操作。
+>
+> 3. **回调函数的执行**:
+>    - 当 `forEach` 调用回调函数时，回调函数的执行是独立的。即使回调函数中包含 `await`，`forEach` 不会等待回调函数的完成就继续执行下一个迭代。
+>
+> ### 使用 `for...of` 循环处理异步操作
+>
+> 为了按顺序执行异步操作并等待每次操作完成，推荐使用 `for...of` 循环结合 `await`，如下所示：
+>
+> ```javascript
+> (async () => {
+>     for (let i of [1, 2, 3, 4]) {
+>         await someAsyncFunction(i);
+>     }
+> })();
+> ```
+>
+> - 这里的 `for...of` 循环会在每次迭代中等待 `await` 的操作完成，然后继续到下一个迭代。
+>
+> ### 总结
+>
+> - `forEach` 不等待 `await` 是因为它的设计目的不包括处理异步操作。它对回调函数的执行没有等待机制。
+> - 普通的 `for` 循环（包括 `for...of`）能等待 `await`，因为每次迭代可以使用 `await` 等待异步操作完成，从而实现按顺序执行异步操作。
 
 ```js
 Array.prototype.forEach = function (callback) {
