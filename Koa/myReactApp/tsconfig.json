@@ -1,9 +1,14 @@
 {
   "compilerOptions": {
     // "jsx": "react" // 对于 React 16 及之前版本
-    "jsx": "react-jsx" // 对于 React 17 及以上版本
+    "jsx": "react-jsx", // 对于 React 17 及以上版本
     // "noEmit": true,
     // "allowImportingTsExtensions": true
+    "strict": true, // 开启严格模式
+    // "baseUrl": "./",
+    // "typeRoots": ["./node_modules/@types"]
+    // "types": ["react", "react-dom"]
+    "esModuleInterop": true
   },
   "include": ["src"]
 }

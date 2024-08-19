@@ -1,9 +1,4 @@
-type Message = {
-  idx: number;
-  len: number;
-  cnt: string;
-  type: string;
-};
+import { Message } from "../types/type";
 
 export const receiveMessage = (msg: Message, originText: string): string => {
   return processMessage(msg, originText);

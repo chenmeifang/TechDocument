@@ -1,14 +1,13 @@
 import socket from "./socket";
 import { addUndo } from "../undoRedoManager/undoRedoManager";
+import { Message } from "../types/type";
 
-type Message = {
-  idx: number;
-  len: number;
-  cnt: string;
-  type: string;
-};
+type MsgPair = { msg: Array<Message>; rMsg: Array<Message> };
 
-let prevCompressed = {
+// 如果 prevCompressed 中的 msg 和 rMsg 被推断为 never[]，通常是因为 TypeScript 无法推断出这些属性的具体类型，或者你没有给它们赋予一个初始值
+// 要避免 never 类型的出现，可以通过以下几种方法：
+// 1. 明确声明数组的类型
+let prevCompressed: MsgPair = {
   msg: [],
   rMsg: [],
 };
@@ -81,14 +80,22 @@ export const sendOutMsgWithoutDealUndoRedo = (msgList: Array<Message>) => {
 
 /**
  * 供外部使用
- * @param msgPairList
+ * @param msgPairList:[{msg:xxx, rMsg: xxx}]
+ * type MsgPair = { msg: Array<Message>; rMsg: Array<Message> };
  */
-export const sendMsg = (msgPairList) => {
+export const sendMsg = (
+  msgPairList: Array<{
+    msg: Message;
+    rMsg: Message;
+  }>
+) => {
   let msgList: Array<Message> = [];
   let rMsgList: Array<Message> = [];
+  let msg: Message;
+  let rMsg: Message;
   for (let i = 0; i < msgPairList.length; i++) {
-    let msg = msgPairList[i].msg;
-    let rMsg = msgPairList[i].rMsg;
+    msg = msgPairList[i].msg;
+    rMsg = msgPairList[i].rMsg;
     msgList.push(msg);
     rMsgList.push(rMsg);
   }

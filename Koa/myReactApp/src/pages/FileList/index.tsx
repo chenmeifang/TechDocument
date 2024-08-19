@@ -4,9 +4,11 @@ import { useHistory } from "react-router-dom";
 import { http } from "../../utils/request";
 
 const FileList = () => {
-  const [fileList, setFileList] = useState([]);
-  const inputRef = useRef();
-  const inputRef2 = useRef();
+  const [fileList, setFileList] = useState<
+    Array<{ docId: string; title: string }>
+  >([]);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef2 = useRef<HTMLInputElement>(null);
   const history = useHistory();
   useEffect(() => {
     // 向数据库请求文件列表
@@ -65,22 +67,24 @@ const FileList = () => {
    * @param isSlice 是否采用分片上传的形式
    */
   const onUploadClick = (isSlice: boolean) => {
+    // 'inputRef2.current' is possibly 'undefined'.ts(18048)
+    // (property) React.MutableRefObject<undefined>.current: undefined
     if (isSlice) {
-      inputRef2.current.click();
+      inputRef2?.current?.click();
     } else {
-      inputRef.current.click();
+      inputRef?.current?.click();
     }
   };
 
   // 选择了一个文件的时候触发
   const upload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files[0];
-    _upload(file);
+    const file = event.target.files?.[0];
+    file && _upload(file);
   };
 
   const upload2 = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files[0];
-    _upload2(file);
+    const file = event.target.files?.[0];
+    file && _upload2(file);
   };
 
   // 普通上传
@@ -108,7 +112,12 @@ const FileList = () => {
     // 块数
     const totalChunks = Math.ceil(file.size / chunkSize);
     const promises = [];
-    const uploadChunk = (chunk, chunkNumber, totalChunks) => {
+    const uploadChunk = (
+      chunk: Blob,
+      chunkNumber: string,
+      totalChunks: string
+    ) => {
+      // append(name: string, value: string | Blob, filename?: string): void;
       const formData = new FormData();
       formData.append("file", chunk, file.name);
       formData.append("chunkNumber", chunkNumber);
@@ -119,7 +128,9 @@ const FileList = () => {
       const end = Math.min(start + chunkSize, file.size);
       const chunk = file.slice(start, end);
       const chunkNumber = start / chunkSize + 1;
-      promises.push(uploadChunk(chunk, chunkNumber, totalChunks));
+      promises.push(
+        uploadChunk(chunk, chunkNumber.toString(), totalChunks.toString())
+      );
     }
     Promise.all(promises).then((res) => {
       console.log("文件分片上传的结果：", res);
