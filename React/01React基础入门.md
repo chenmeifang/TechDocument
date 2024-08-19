@@ -1215,15 +1215,24 @@ ReactDOM.render(<App />, document.getElementById('root'));
 | <img src="01React基础入门.assets/image-20240816193923183.png" alt="image-20240816193923183" style="zoom:67%;" /> | ![image-20240816194158004](01React基础入门.assets/image-20240816194158004.png) |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 
-# 109 数据共享——编写Person组件
+# [109 数据共享——编写Person组件](https://www.bilibili.com/video/BV1wy4y1D7JT?p=109&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# 110 数据共享——编写Person的Reducer
+# [110 数据共享——编写Person的Reducer](https://www.bilibili.com/video/BV1wy4y1D7JT?p=110&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# 111 数据共享——完成数据共享
+# [111 数据共享——完成数据共享](https://www.bilibili.com/video/BV1wy4y1D7JT?p=111&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# 112 纯函数
+| ![image-20240818231106753](01React基础入门.assets/image-20240818231106753.png) | ![image-20240818232743999](01React基础入门.assets/image-20240818232743999.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+![image-20240819094538785](01React基础入门.assets/image-20240819094538785.png)
+
+# [112 纯函数](https://www.bilibili.com/video/BV1wy4y1D7JT?p=112&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+<img src="01React基础入门.assets/image-20240819100139446.png" alt="image-20240819100139446" style="zoom: 80%;" />
 
 # 113 redux开发者工具
+
+<img src="01React基础入门.assets/image-20240819104124563.png" alt="image-20240819104124563" style="zoom:67%;" />
 
 # 114 最终版
 
