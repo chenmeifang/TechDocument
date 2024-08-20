@@ -298,19 +298,20 @@ div.addEventListener('click', handleClick, true);
 
 ### 实际注册的目标DOM元素不同
 
-这一点其实并不影响合成事件处理接口的使用，更多是在讲底层实现。
+|                         原生DOM事件                          |                        React合成事件                         |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
+|                                                              | <img src="09React面试题.assets/image-20240820144754938.png" alt="image-20240820144754938"  /> |
+| <img src="09React面试题.assets/image-20240820150002386.png" alt="image-20240820150002386"  /> | <img src="09React面试题.assets/image-20240820145302579.png" alt="image-20240820145302579"  /> |
 
-对于下面这个原生DOM事件，它的当前目标（ `event.currentTarget` ）是很明确的，就是ID为 `btn` 的按钮：
+这一点不影响合成事件处理接口的使用，更多是在讲底层实现
+
+对于下面这个原生DOM事件， `event.currentTarget` 是ID为 `btn` 的按钮：
 
 ```javascript
 document.getElementById('btn').addEventListener('click', handleClick);
 ```
 
-但合成事件就不一样了！
-
-我们在 `oh-my-kanban` 的代码，“添加新卡片”的 `onClick` 事件处理函数 `handleAdd` 中设个断点，传入的 `evt` 参数就是一个合成事件，已知通过 `evt.nativeEvent` 属性，可以得到这个合成事件所包装的原生事件。
-
-看一下这几个值：
+但合成事件不一样
 
 ```javascript
 evt.currentTarget
@@ -319,15 +320,11 @@ evt.nativeEvent.currentTarget
 evt.nativeEvent.target
 ```
 
-可以看到，不出意外地，两种事件的 `target` 都是按钮元素本身，合成事件的 `currentTarget` 也是按钮元素，这是符合W3c规范的；但原生事件的 `currentTarget` 不再是按钮，而是React应用的根容器DOM元素 `<div id="root"></div>` ：
+两种事件的 `target` 都是按钮元素本身，合成事件的 `currentTarget` 也是按钮元素，这是符合W3c规范的；但原生事件的 `currentTarget` 不再是按钮，而是React应用的根容器DOM元素 `<div id="root"></div>` ：
 
-![图片](09React面试题.assets/48132e6d34958fd33632ac62aaa0f205.png)
+![图片](09React面试题.assets/48132e6d34958fd33632ac62aaa0f205.png)这是因为React使用了 **事件代理模式**。React在创建根（ `createRoot` ）的时候，会在容器上监听所有自己支持的原生DOM事件。当原生事件被触发时，React会根据事件的类型和目标元素，找到对应的FiberNode和事件处理函数，创建相应的合成事件并调用事件处理函数。
 
-nativeEvent？？？？？？？？？
-
-这是因为React使用了 **事件代理模式**。React在创建根（ `createRoot` ）的时候，会在容器上监听所有自己支持的原生DOM事件。当原生事件被触发时，React会根据事件的类型和目标元素，找到对应的FiberNode和事件处理函数，创建相应的合成事件并调用事件处理函数。
-
-从表层接口上看，合成事件的属性是符合W3C事件规范的，这就屏蔽了不同浏览器原生DOM事件可能产生的不一致。
+从表层接口上看，合成事件的属性是符合W3C事件规范的，这就屏蔽了不同浏览器原生DOM事件可能产生的不一致。？？？？？？
 
 ## 受控组件与表单
 

@@ -45,8 +45,12 @@ const FileList = () => {
         console.log("err:", err);
       });
   };
-  const createNewFile = () => {
-    // 发送请求，新建一个文件
+  /**
+   * 发送请求，新建一个文件
+   * @param event
+   */
+  const createNewFile = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log("event:", event);
     http
       .post("/file/addFile")
       .then((res) => {
