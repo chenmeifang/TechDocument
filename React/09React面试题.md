@@ -657,5 +657,70 @@ useEffect(() => {
 
 # [7. React事件机制](https://www.bilibili.com/video/BV1xT4y1b7gB/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
+# 8. useState和useRef的区别
+
+```jsx
+const App = () => {
+    const [count, setCount] = useState(0);
+    setCount(5);
+    return (
+        <div>{count}</div>
+    )
+}
+```
+
+报错：
+
+<img src="09React面试题.assets/image-20240821165644468.png" alt="image-20240821165644468" style="zoom: 67%;" />
+
+分析：
+
+- 每次调用`setCount`更新状态时，React都会重新渲染组件。上面代码中，由于`setCount(5)`是在组件渲染期间直接调用的，React会进入一个无限循环渲染的状态。
+
+解决：
+
+- 通常在`useEffect`中使用`setCount`以避免在渲染时直接修改状态，防止无限循环
+
+```jsx
+const App = () => {
+    const count = useRef(0);
+    count.current = 5
+
+    return (
+        <div>{count.current}</div>
+    )
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
