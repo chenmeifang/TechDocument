@@ -328,6 +328,44 @@ NodeJS特点：非阻塞异步IO，单线程，事件驱动，事件循环
 
 # [10. 全局变量-process-1](https://www.bilibili.com/video/BV1sA41137qw?p=10&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
+- 获取进程信息
+  - 帮助获取当前正在执行脚本的一些信息：例如当前进程在工作的时候，对CPU或内存会产生一定的消耗。利用process所提供的一些属性和方法就可以得到这些数据
+- 执行进行操作
+  - 监听进程在执行的过程中所存在的一些内置的事件；
+  - 创建一些子进程，然后让两者进行通信，从而来完成更多的操作
+
+```javascript
+console.log(process.memoryUsage());
+// 输出值：
+{
+  rss: 35123200, // 当前的常驻内存。本机是有内存条的，但是这个内存条的所有空间并不是完全交给我们的应用程序去使用的。所以有一个常驻内存的概念
+  heapTotal: 4079616, // 当前脚本在刚开始执行时所申请的总的内存大小
+  heapUsed: 3176280, // 当前脚本在执行过程中实际使用的内存大小
+  external: 1097184, // 存放或表示底层C或C++的核心模块所占据的空间大小
+  arrayBuffers: 10519 // 代表一片独立的空间，不占据v8所占用的内存。（缓冲区的大小）
+}
+```
+
+
+
+```js
+Buffer.alloc(1001);
+console.log(process.memoryUsage());
+```
+
+
+
+```js
+console.log(process.cpuUsage());
+// 输出值：
+{ user: 15000, system: 31000 }
+```
+
+
+
+```
+```
+
 
 
 # 11. 全局变量-process-2
