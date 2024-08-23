@@ -334,6 +334,8 @@ NodeJS特点：非阻塞异步IO，单线程，事件驱动，事件循环
   - 监听进程在执行的过程中所存在的一些内置的事件；
   - 创建一些子进程，然后让两者进行通信，从而来完成更多的操作
 
+`内存相关`：
+
 ```javascript
 console.log(process.memoryUsage());
 // 输出值：
@@ -346,14 +348,14 @@ console.log(process.memoryUsage());
 }
 ```
 
-
+`内存相关`：
 
 ```js
 Buffer.alloc(1001);
 console.log(process.memoryUsage());
 ```
 
-
+`CPU相关`：
 
 ```js
 console.log(process.cpuUsage());
@@ -361,16 +363,71 @@ console.log(process.cpuUsage());
 { user: 15000, system: 31000 }
 ```
 
-
+`当前运行目录：`
 
 ```
+console.log(process.cwd())
 ```
 
+`node版本：`
+
+```
+console.log(process.version)
+```
+
+`更多的版本信息,如v8版本，libuv版本等：`
+
+```
+console.log(process.versions)
+```
+
+`cpu架构：`
+
+```js
+console.log(process.arch) // 输出：x64
+```
+
+`用户环境：`
+
+```js
+console.log(process.env)
+console.log(process.env.NODE_ENV) // 生产环境 or 开发环境
+console.log(process.env.PATH) // 本机配置的系统环境变量
+console.log(process.env.USERPROFILE) // 用户管理员目录 MAC:HOME
+console.log(process.platform) // 输出：win32
+// 输出
+```
+
+`运行状态：启动参数，PID，运行时间`
+
+```js
+console.log(process.argv)
+console.log(process.argv0)
+console.log(process.execArgv)
+console.log(process.pid)
+console.log(process.ppid)
+console.log(process.uptime()) // 程序运行的时间
+```
+
+# [11. 全局变量-process-2](https://www.bilibili.com/video/BV1sA41137qw/?p=11&spm_id_from=pageDriver&vd_source=621212910e87e7f002ade9ffe06be4be)
+
+| ![image-20240823080514237](02 高级Node.assets/image-20240823080514237.png) | 注意：<br>exit事件的回调函数里面只能写一些同步的代码,<br>不能写异步代码。<br>beforeExit事件的回调函数里面能写异步的代码 |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+```js
+process.exit()
+```
+
+| ![image-20240823081432363](02 高级Node.assets/image-20240823081432363.png) | ![image-20240823081653321](02 高级Node.assets/image-20240823081653321.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![image-20240823082039980](02 高级Node.assets/image-20240823082039980.png) | ![image-20240823082423634](02 高级Node.assets/image-20240823082423634.png) |
+
+# [12. 核心模块-path-1](https://www.bilibili.com/video/BV1sA41137qw/?p=12&spm_id_from=pageDriver&vd_source=621212910e87e7f002ade9ffe06be4be)
+
+| ![image-20240823082654139](02 高级Node.assets/image-20240823082654139.png) | ![image-20240823082727525](02 高级Node.assets/image-20240823082727525.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
 
 
-# 11. 全局变量-process-2
-
-# 12. 核心模块-path-1
 
 # 13. 核心模块-path-2
 
