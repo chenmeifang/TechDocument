@@ -692,7 +692,118 @@ const App = () => {
 }
 ```
 
+# 9. useCallback和useMemo的基础使用
 
+`useCallback` 和 `useMemo` 是 React 的两个 Hook，用于优化组件性能。它们的作用是缓存函数和计算结果，避免不必要的重新渲染。以下是它们的基础使用示例。
+
+### `useCallback`
+
+`useCallback` 用于缓存函数实例，以避免在每次组件渲染时重新创建相同的函数。
+
+**基本用法**:
+
+```jsx
+import React, { useCallback, useState } from 'react';
+
+function MyComponent() {
+  const [count, setCount] = useState(0);
+
+  // 使用 useCallback 缓存 increment 函数
+  const increment = useCallback(() => {
+    setCount((prevCount) => prevCount + 1);
+  }, []); // 依赖项为空数组，函数不会重新创建
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+}
+
+export default MyComponent;
+```
+
+**解释**:
+
+- `useCallback` 用于缓存 `increment` 函数的实例，只有在其依赖项（这里为空数组）发生变化时，才会重新创建函数。
+- 这样可以避免在每次组件重新渲染时都创建新的 `increment` 函数，有助于减少子组件的重新渲染。
+
+### `useMemo`
+
+`useMemo` 用于缓存计算结果，以避免在每次渲染时重复计算。
+
+**基本用法**:
+
+```jsx
+import React, { useMemo, useState } from 'react';
+
+function MyComponent() {
+  const [count, setCount] = useState(0);
+  const [name, setName] = useState('React');
+
+  // 使用 useMemo 缓存计算结果
+  const computedValue = useMemo(() => {
+    console.log('Computing value...');
+    return count * 2; // 假设这是一个昂贵的计算
+  }, [count]); // 仅当 count 发生变化时重新计算
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <p>Computed Value: {computedValue}</p>
+      <button onClick={() => setCount(count + 1)}>Increment Count</button>
+      <button onClick={() => setName(name === 'React' ? 'Redux' : 'React')}>Change Name</button>
+    </div>
+  );
+}
+
+export default MyComponent;
+```
+
+**解释**:
+- `useMemo` 缓存了 `computedValue` 的计算结果，只有在 `count` 发生变化时才重新计算。
+- 当 `name` 发生变化时，`computedValue` 不会重新计算，从而提高性能。
+
+### 总结
+
+- **`useCallback`**: 缓存函数实例，防止在每次渲染时创建新的函数，适用于传递回调函数的场景。
+- **`useMemo`**: 缓存计算结果，防止在每次渲染时重复计算，适用于昂贵的计算或需要避免不必要计算的场景。
+
+# [10. useCallback && useMemo](https://www.bilibili.com/video/BV1uG411V7m3/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+这两个hooks主要是跟性能优化相关的
+
+- useMemo：保持一个数组或者保持一些值不变
+- useCallback：保持一个函数的不变性
+
+[useCallback和useMemo相关的技术文章](https://www.joshwcomeau.com/react/usememo-and-usecallback/)
+
+> memorization:
+>
+> notorious：well known for being bad 臭名昭著的
+>
+> make sense of：理解，弄懂
+>
+> scratch your head：to think hard in order to find an answer to sth 苦苦琢磨，冥思苦想
+>
+> unpacking
+>
+> optimize：优化
+>
+> prime number：素数
+>
+> prime
+>
+> run into：遇到困难
+>
+> gratuitously：不必要地
+>
+> sluggish：缓慢的，性能欠佳的
+
+The fundamental idea with `useMemo` is that it allows us to *“remember”* a computed value between renders.
+
+`useMemo`: 让我们在不同渲染之间保存一个已经计算好的值。比如说我在第一次渲染的时候已经计算好了一个值，那我在第二次渲染的时候能不能不再进行这个运算，而是直接用第一次渲染时候的值
 
 
 
