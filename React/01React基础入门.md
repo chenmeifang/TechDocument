@@ -1472,7 +1472,122 @@ function Component() {
 
 <img src="01.assets/image-20240311235307560.png" alt="image-20240311235307560" style="zoom:67%;" />
 
-# 120 扩展5——RefHook
+# [120 扩展5——RefHook](https://www.bilibili.com/video/BV1wy4y1D7JT?p=120&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+Ref Hook可以在函数组件中存储组件内的标签或**任意其他数据**
+
+`useRef` 是 React 中的一个 Hook，主要用于创建一个可变的对象引用，它在组件的整个生命周期内保持不变。`useRef` 常用于以下几个场景：
+
+1. **访问 DOM 元素**：通过 `useRef` 获取并操作 DOM 元素。
+2. **保存可变值**：保存一个可变的值，不会因为组件的重新渲染而丢失。
+3. **保持上一轮渲染的值**：保存某个值，以便在下一次渲染时访问它。
+
+### 1. 访问 DOM 元素
+
+使用 `useRef` 最常见的场景是获取和操作 DOM 元素。
+
+```jsx
+import React, { useRef } from 'react';
+
+function FocusInput() {
+  const inputRef = useRef(null);
+
+  const handleFocus = () => {
+    // 通过 current 属性访问 DOM 元素
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
+  return (
+    <div>
+      <input ref={inputRef} type="text" placeholder="Click the button to focus" />
+      <button onClick={handleFocus}>Focus Input</button>
+    </div>
+  );
+}
+
+export default FocusInput;
+```
+
+**解释**:
+- `useRef` 返回一个对象，其 `current` 属性被初始化为 `null`。
+- 通过将 `ref={inputRef}` 赋给 `<input>` 元素，`inputRef.current` 将指向该元素。
+- 你可以使用 `inputRef.current.focus()` 来使输入框获得焦点。
+
+### 2. 保存可变值
+
+**`useRef` 还可以用于保存一个在重新渲染之间不会改变的可变值**。
+
+```jsx
+import React, { useRef, useState } from 'react';
+
+function Timer() {
+  const [count, setCount] = useState(0);
+  const countRef = useRef(count);
+
+  const startTimer = () => {
+    countRef.current = count; // 初始化为当前计数值
+    setInterval(() => {
+      countRef.current += 1;
+      setCount(countRef.current); // 通过 countRef.current 更新状态
+    }, 1000);
+  };
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={startTimer}>Start Timer</button>
+    </div>
+  );
+}
+
+export default Timer;
+```
+
+**解释**:
+- `countRef` 持有当前 `count` 的引用，不会因组件重新渲染而重置。
+- 在定时器回调中，我们使用 `countRef.current` 来保持对最新计数值的访问。
+
+### 3. 保持上一轮渲染的值
+
+`useRef` 可以用于保存某个值在组件重新渲染之前的状态。
+
+```jsx
+import React, { useEffect, useRef, useState } from 'react';
+
+function PreviousValue() {
+  const [count, setCount] = useState(0);
+  const prevCountRef = useRef();
+
+  useEffect(() => {
+    // 保存上一次的 count 值
+    prevCountRef.current = count;
+  });
+
+  const prevCount = prevCountRef.current;
+
+  return (
+    <div>
+      <p>Current Count: {count}</p>
+      <p>Previous Count: {prevCount}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+export default PreviousValue;
+```
+
+**解释**:
+- 在每次渲染后，`useEffect` 会将当前 `count` 值存入 `prevCountRef.current`。
+- 因此，`prevCountRef.current` 保存了上一次渲染的 `count` 值，而 `prevCount` 则展示了这个值。
+
+### 总结
+
+- **DOM 访问**: 使用 `useRef` 获取和操作 DOM 元素。
+- **保存可变值**: 使用 `useRef` 保存不会在重新渲染时重置的值。
+- **保持上次渲染值**: 使用 `useRef` 保持上一轮渲染的某个状态值。
 
 # 121 扩展6——Fragment
 
