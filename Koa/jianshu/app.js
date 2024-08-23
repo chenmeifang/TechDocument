@@ -20,7 +20,7 @@ const server = http.createServer(app.callback());
 const { MongoConnect } = require("./db");
 
 // 连接数据库
-MongoConnect();
+// MongoConnect();
 // app.use(etag());
 
 

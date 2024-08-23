@@ -31,7 +31,14 @@ module.exports = {
             }
         ]
     },
-    plugins: [new HtmlWebpackPlugin({ template: './public/index.html' })],
+    plugins: [new HtmlWebpackPlugin({ 
+        template: './public/index.html',
+        // filename: 'testIndex.html',
+        minify: {
+            removeComments: true, // 问题：生产环境会自己移除注释吗？不配置的话——不会
+        },
+        // hash: true, // 是否在生成的js文件名中添加hash值，而不是给html文件添加hash值
+     })],
     // mode: 'development',
     mode: 'production',
     devServer: {
