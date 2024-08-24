@@ -424,12 +424,16 @@ process.exit()
 
 # [12. 核心模块-path-1](https://www.bilibili.com/video/BV1sA41137qw/?p=12&spm_id_from=pageDriver&vd_source=621212910e87e7f002ade9ffe06be4be)
 
-| ![image-20240823082654139](02 高级Node.assets/image-20240823082654139.png) | ![image-20240823082727525](02 高级Node.assets/image-20240823082727525.png) |
+| <img src="02 高级Node.assets/image-20240823082654139.png" alt="image-20240823082654139" style="zoom: 50%;" /> | <img src="02 高级Node.assets/image-20240823082727525.png" alt="image-20240823082727525" style="zoom:80%;" /> |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-
-
+| ![image-20240823222302538](02 高级Node.assets/image-20240823222302538.png) | ![image-20240823222319886](02 高级Node.assets/image-20240823222319886.png) |
+| ![image-20240823222557938](02 高级Node.assets/image-20240823222557938.png) | ![image-20240823222611476](02 高级Node.assets/image-20240823222611476.png) |
+| ![image-20240823222847920](02 高级Node.assets/image-20240823222847920.png) | ![image-20240823222858215](02 高级Node.assets/image-20240823222858215.png) |
+| ![image-20240823223129602](02 高级Node.assets/image-20240823223129602.png) | ![image-20240823223111721](02 高级Node.assets/image-20240823223111721.png) |
 
 # 13. 核心模块-path-2
+
+
 
 # 14. 全局变量值之Buffer
 
