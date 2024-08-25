@@ -54,7 +54,9 @@ app.use(
 );
 app.use(json());
 app.use(logger());
-app.use(require("koa-static")(__dirname + "/public"));
+app.use(require("koa-static")(__dirname + "/public", {
+  maxage: 40000000
+}));
 
 
 app.use(
@@ -82,7 +84,12 @@ app.use(async (ctx) => {
   // 如果请求的路径不以 /api 开头，且找不到对应的静态文件
   // && ctx.method === 'GET'
   if (ctx.status === 404) {
-    await send(ctx, 'index.html', { root: staticPath });
+    await send(ctx, 'index.html', {
+      root: staticPath,
+      setHeaders: (res) => {
+        res.setHeader('Cache-Control', 'public,max-age=3600000')
+      }
+    });
   }
 });
 
