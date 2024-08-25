@@ -11,6 +11,8 @@ const cors = require('koa2-cors');
 const socketIo = require('socket.io');
 const http = require('http');
 // const etag = require('koa-etag');
+const send = require('koa-send');
+const path = require('path');
 
 // 创建koa应用
 const app = new Koa();
@@ -20,13 +22,20 @@ const server = http.createServer(app.callback());
 const { MongoConnect } = require("./db");
 
 // 连接数据库
-// MongoConnect();
+MongoConnect();
 // app.use(etag());
 
 
 // 注意：一定要写在路由的前面
+const allowedOrigins = ['http://localhost:8080', 'http://localhost:4000', 'http://localhost:3000'];
 app.use(cors({
-  // origin: '*', // 相当于设置'Access-Control-Allow-Origin'
+  origin: (ctx) => {
+    const origin = ctx.request.header.origin;
+    if (allowedOrigins.includes(origin)) {
+      return origin;
+    }
+    return 'http://localhost:8080'
+  }, // 相当于设置'Access-Control-Allow-Origin'
   credentials: true // 允许携带凭据，相当于设置'Access-Control-Allow-Credentials'为true
 }));
 
@@ -67,6 +76,16 @@ app.use(index.routes(), index.allowedMethods());
 app.use(users.routes(), users.allowedMethods());
 app.use(file.routes(), file.allowedMethods());
 
+const staticPath = path.join(__dirname, 'public'); // 假设静态文件在 public 目录
+// 处理 React 路由
+app.use(async (ctx) => {
+  // 如果请求的路径不以 /api 开头，且找不到对应的静态文件
+  // && ctx.method === 'GET'
+  if (ctx.status === 404) {
+    await send(ctx, 'index.html', { root: staticPath });
+  }
+});
+
 // error-handling
 app.on("error", (err, ctx) => {
   console.error("server error", err, ctx);
@@ -74,7 +93,7 @@ app.on("error", (err, ctx) => {
 
 const io = socketIo(server, {
   cors: {
-    origin: 'http://localhost:8080',
+    origin: ['http://localhost:4000', 'http://localhost:8080', 'http://localhost:3000'],
     methods: ["GET", "POST"]
   }
 });
@@ -90,6 +109,7 @@ io.on('connection', (socket) => {
 });
 
 // todo: 为什么这里监听3000端口就不行？？？
+// 大概知道了，有时间试一下3001端口行不行
 server.listen(4000);
 
 module.exports = app;
