@@ -431,13 +431,70 @@ process.exit()
 | ![image-20240823222847920](02 高级Node.assets/image-20240823222847920.png) | ![image-20240823222858215](02 高级Node.assets/image-20240823222858215.png) |
 | ![image-20240823223129602](02 高级Node.assets/image-20240823223129602.png) | ![image-20240823223111721](02 高级Node.assets/image-20240823223111721.png) |
 
-# 13. 核心模块-path-2
+# [13. 核心模块-path-2](https://www.bilibili.com/video/BV1sA41137qw?p=13&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
+| path.parse()<br>解析路径       | ![image-20240825140104968](02 高级Node.assets/image-20240825140104968.png) | ![image-20240825140124792](02 高级Node.assets/image-20240825140124792.png) |
+| ------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+|                                | ![image-20240825140207636](02 高级Node.assets/image-20240825140207636.png) | ![image-20240825140217814](02 高级Node.assets/image-20240825140217814.png) |
+|                                | ![image-20240825140331664](02 高级Node.assets/image-20240825140331664.png) | ![image-20240825140342533](02 高级Node.assets/image-20240825140342533.png) |
+| path.format()<br>序列化路径    | ![image-20240825140632901](02 高级Node.assets/image-20240825140632901.png) | ![image-20240825140710063](02 高级Node.assets/image-20240825140710063.png) |
+| pa/+++th.isAbsolute()          | ![image-20240825140959907](02 高级Node.assets/image-20240825140959907.png) | ![image-20240825141011963](02 高级Node.assets/image-20240825141011963.png) |
+| path.join()<br>拼接路径        | ![image-20240825141350052](02 高级Node.assets/image-20240825141350052.png) | ![image-20240825141358956](02 高级Node.assets/image-20240825141358956.png) |
+| path.normalize()<br>规范化路径 | ![image-20240825141624815](02 高级Node.assets/image-20240825141624815.png) | ![image-20240825141637622](02 高级Node.assets/image-20240825141637622.png) |
+| path.resolve()<br>绝对路径     | ![image-20240825142042219](02 高级Node.assets/image-20240825142042219.png) | ![image-20240825142053253](02 高级Node.assets/image-20240825142053253.png) |
 
+# [14. 全局变量值之Buffer](https://www.bilibili.com/video/BV1sA41137qw?p=14&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# 14. 全局变量值之Buffer
+> Buffer让JavaScript可以操作二进制
+>
 
+Buffer是什么？在哪？做什么？
 
+二进制数据，流操作，Buffer
+
+- IO行为操作的就是二进制数据
+- Node中Buffer是一片内存空间。Node平台下的JS代码最终都是由v8引擎来执行完成的。因此，按道理来说，所有的内存消耗应该都是属于v8的堆内存。而这个Buffer是v8之外的一片空间，它的大小不占据v8堆内存的大小。
+- 注意：Buffer的空间申请不是由Node来完成的，但是在使用层面上，它的空间分配又是由编写的JS代码来控制的。因此，在空间回收的时候，还是由v8的GC来管理
+
+| ![image-20240825144638507](02 高级Node.assets/image-20240825144638507.png) | ![image-20240825144717735](02 高级Node.assets/image-20240825144717735.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+# [15. 创建Buffer](https://www.bilibili.com/video/BV1sA41137qw?p=15&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+Buffer是NodeJS的内置类
+
+| ![image-20240825161119529](02 高级Node.assets/image-20240825161119529.png) |                                                              |
+| :----------------------------------------------------------- | ------------------------------------------------------------ |
+| ![image-20240825161535332](02 高级Node.assets/image-20240825161535332.png) | ![image-20240825161545661](02 高级Node.assets/image-20240825161545661.png) |
+| ![image-20240825161906449](02 高级Node.assets/image-20240825161906449.png) | ![image-20240825161916265](02 高级Node.assets/image-20240825161916265.png) |
+| ![image-20240825163144133](02 高级Node.assets/image-20240825163144133.png) | ![image-20240825163154960](02 高级Node.assets/image-20240825163154960.png) |
+| ![image-20240825163251034](02 高级Node.assets/image-20240825163251034.png) | ![image-20240825163301999](02 高级Node.assets/image-20240825163301999.png) |
+| ![image-20240825170118136](02 高级Node.assets/image-20240825170118136.png) | ![image-20240825165945948](02 高级Node.assets/image-20240825165945948.png) |
+
+# [16. Buffer实例方法](https://www.bilibili.com/video/BV1sA41137qw?p=16&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+<img src="02 高级Node.assets/image-20240825171154827.png" alt="image-20240825171154827" style="zoom:50%;" />
+
+| fill() | ![image-20240825171257445](02 高级Node.assets/image-20240825171257445.png) | ![image-20240825171306624](02 高级Node.assets/image-20240825171306624.png) |
+| ------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+|        | ![image-20240825171500378](02 高级Node.assets/image-20240825171500378.png) | ![image-20240825171515730](02 高级Node.assets/image-20240825171515730.png) |
+|        | ![image-20240825171540713](02 高级Node.assets/image-20240825171540713.png) | ![image-20240825171549890](02 高级Node.assets/image-20240825171549890.png) |
+|        | ![image-20240825171650602](02 高级Node.assets/image-20240825171650602.png) | ![image-20240825171701312](02 高级Node.assets/image-20240825171701312.png) |
+|        |                                                              |                                                              |
+
+5min53s处
+
+# 17. Buffer静态对象
+
+# 18. Buffer-split下实现
+
+# 19. 核心模块值FS
+
+# 20. 文件操作API
+
+# 21. md转html实现
+
+# 22. 文件打开与关闭
 
 
 
