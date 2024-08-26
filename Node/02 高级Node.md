@@ -475,20 +475,36 @@ Buffer是NodeJS的内置类
 
 <img src="02 高级Node.assets/image-20240825171154827.png" alt="image-20240825171154827" style="zoom:50%;" />
 
-| fill() | ![image-20240825171257445](02 高级Node.assets/image-20240825171257445.png) | ![image-20240825171306624](02 高级Node.assets/image-20240825171306624.png) |
-| ------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-|        | ![image-20240825171500378](02 高级Node.assets/image-20240825171500378.png) | ![image-20240825171515730](02 高级Node.assets/image-20240825171515730.png) |
-|        | ![image-20240825171540713](02 高级Node.assets/image-20240825171540713.png) | ![image-20240825171549890](02 高级Node.assets/image-20240825171549890.png) |
-|        | ![image-20240825171650602](02 高级Node.assets/image-20240825171650602.png) | ![image-20240825171701312](02 高级Node.assets/image-20240825171701312.png) |
-|        |                                                              |                                                              |
+| fill()     | ![image-20240825171257445](02 高级Node.assets/image-20240825171257445.png) | ![image-20240825171306624](02 高级Node.assets/image-20240825171306624.png) |
+| ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+|            | ![image-20240825171500378](02 高级Node.assets/image-20240825171500378.png) | ![image-20240825171515730](02 高级Node.assets/image-20240825171515730.png) |
+|            | ![image-20240825171540713](02 高级Node.assets/image-20240825171540713.png) | ![image-20240825171549890](02 高级Node.assets/image-20240825171549890.png) |
+|            | ![image-20240825171650602](02 高级Node.assets/image-20240825171650602.png) | ![image-20240825171701312](02 高级Node.assets/image-20240825171701312.png) |
+| write()    | 与fill类似，区别是fill会反复写入数据<br>write不会反复写入数据 |                                                              |
+| toString() | ![image-20240826100622244](02 高级Node.assets/image-20240826100622244.png) | ![image-20240826100634752](02 高级Node.assets/image-20240826100634752.png) |
+|            | ![image-20240826100736737](02 高级Node.assets/image-20240826100736737.png) | ![image-20240826100746316](02 高级Node.assets/image-20240826100746316.png) |
+| slice()    | ![image-20240826100951860](02 高级Node.assets/image-20240826100951860.png) | ![image-20240826101001431](02 高级Node.assets/image-20240826101001431.png) |
+|            | ![image-20240826101036486](02 高级Node.assets/image-20240826101036486.png) | ![image-20240826101024120](02 高级Node.assets/image-20240826101024120.png) |
+|            | ![image-20240826101114204](02 高级Node.assets/image-20240826101114204.png) | ![image-20240826101129981](02 高级Node.assets/image-20240826101129981.png) |
+| indexOf()  | ![image-20240826101257794](02 高级Node.assets/image-20240826101257794.png) | <img src="02 高级Node.assets/image-20240826101315733.png" alt="image-20240826101315733" style="zoom:50%;" /> |
+| copy()     | ![image-20240826101439027](02 高级Node.assets/image-20240826101439027.png) | ![image-20240826101519981](02 高级Node.assets/image-20240826101519981.png) |
 
-5min53s处
+# [17. Buffer静态对象](https://www.bilibili.com/video/BV1sA41137qw?p=17&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# 17. Buffer静态对象
+<img src="02 高级Node.assets/image-20240826101846282.png" alt="image-20240826101846282" style="zoom:50%;" />
 
-# 18. Buffer-split下实现
+| ![image-20240826101931139](02 高级Node.assets/image-20240826101931139.png) | ![image-20240826101941963](02 高级Node.assets/image-20240826101941963.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![image-20240826102136202](02 高级Node.assets/image-20240826102136202.png) | ![image-20240826102153443](02 高级Node.assets/image-20240826102153443.png) |
+| ![image-20240826102326096](02 高级Node.assets/image-20240826102326096.png) | true                                                         |
 
-# 19. 核心模块值FS
+# [18. Buffer-split实现](https://www.bilibili.com/video/BV1sA41137qw?p=18&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+还没看
+
+# [19. 核心模块值FS](https://www.bilibili.com/video/BV1sA41137qw?p=19&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+
 
 # 20. 文件操作API
 
