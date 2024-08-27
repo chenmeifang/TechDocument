@@ -512,9 +512,15 @@ Buffer是NodeJS的内置类
 
 # 22. 文件打开与关闭
 
+# [29. 模块化历程](https://www.bilibili.com/video/BV1sA41137qw?p=29&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
+前端开发为什么需要模块化？
 
+<img src="02 高级Node.assets/image-20240827132329772.png" alt="image-20240827132329772" style="zoom:50%;" />
 
+# [30 CommonJS规范](https://www.bilibili.com/video/BV1sA41137qw?p=30&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+由于浏览器平台本身所具备的一些特点，例如：数据一般都是通过网络来进行传输的，而且还存在单线程阻塞的加载方式。因此CommonJS规范不能适用浏览器平台。
 
 
 
