@@ -1,3 +1,59 @@
+# 0. websocket在网络层面的连接过程
+
+WebSocket 是一种网络通信协议，旨在通过单个 TCP 连接提供**全双工通信**。它主要用于在客户端和服务器之间建立持久连接，以便进行实时数据传输。下面详细描述 WebSocket 的网络层面连接过程：
+
+### 1. **TCP 连接建立**
+   - **客户端发起连接**: WebSocket 连接建立之前，客户端首先通过标准 HTTP 协议向服务器发起一个请求，这个请求实际上是一个 HTTP 升级请求（HTTP Upgrade）。
+   - **三次握手**: 在发送 HTTP 请求之前，客户端与服务器之间会先进行 TCP 三次握手，确保 TCP 连接已经建立。
+
+### 2. **HTTP 升级请求**
+   - **发出 Upgrade 请求**: 客户端通过 HTTP GET 请求中的 `Upgrade` 头部发起 WebSocket 连接请求。请求头包含以下关键字段：
+     - `Upgrade: websocket`: 表示请求升级为 WebSocket 协议。
+     - `Connection: Upgrade`: 指定请求是一次协议升级请求。
+     - `Sec-WebSocket-Key`: 一个 Base64 编码的随机字符串，用于服务器生成 `Sec-WebSocket-Accept`，确保连接是从可信任的客户端发起的。
+     - `Sec-WebSocket-Version`: 客户端支持的 WebSocket 协议版本（通常是 13）。
+     
+   ```http
+   GET /chat HTTP/1.1
+   Host: server.example.com
+   Upgrade: websocket
+   Connection: Upgrade
+   Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+   Sec-WebSocket-Version: 13
+   ```
+
+### 3. **服务器响应**
+   - **协议升级**: 服务器接收到升级请求后，会验证请求头中的 `Sec-WebSocket-Key`，然后返回一个 101 Switching Protocols 的响应，表示协议切换成功。响应头包含以下关键字段：
+     - `Upgrade: websocket`: 确认协议升级为 WebSocket。
+     - `Connection: Upgrade`: 确认连接协议的升级。
+     - `Sec-WebSocket-Accept`: 服务器根据客户端的 `Sec-WebSocket-Key` 生成的一个加密字符串，用于校验连接请求。
+
+   ```http
+   HTTP/1.1 101 Switching Protocols
+   Upgrade: websocket
+   Connection: Upgrade
+   Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+   ```
+
+### 4. **WebSocket 连接建立**
+   - **全双工通信**: 经过上述步骤，WebSocket 连接成功建立，客户端和服务器之间的通信切换为 WebSocket 协议，允许双方在这个连接上发送和接收数据包。
+   - **持续连接**: 连接建立后，双方可以在不需要重建连接的情况下，持续发送消息，直到连接被显式关闭。WebSocket 支持全双工通信，因此服务器可以随时主动向客户端推送消息，而客户端也可以随时向服务器发送数据。
+
+### 5. **数据帧传输**
+   - **数据分帧**: WebSocket 通过数据帧的形式在客户端与服务器之间传输消息。每个数据帧包含数据类型（如文本、二进制数据、关闭帧、ping/pong 帧等）和实际数据。
+   - **帧结构**:
+     - **帧头**: 包含操作码、数据长度、掩码标志等。
+     - **有效载荷**: 实际传输的数据内容。
+
+   - **掩码处理**: 在 WebSocket 中，所有从客户端发送到服务器的数据帧都必须进行掩码处理，以增强数据的安全性。服务器响应的数据则不需要掩码处理。
+
+### 6. **连接关闭**
+   - **发送关闭帧**: 客户端或服务器可以通过发送关闭帧来终止连接。关闭帧中包含关闭状态码和可选的关闭原因。
+   - **TCP 四次挥手**: 关闭帧发送后，底层的 TCP 连接将进入四次挥手的过程，彻底关闭连接。
+
+### 总结
+WebSocket 连接从建立到关闭，经历了 TCP 握手、HTTP 升级请求、协议切换、数据帧传输等多个步骤。通过 WebSocket，客户端与服务器之间可以实现实时、低延迟的双向通信，非常适合需要频繁数据交换的应用场景，比如在线聊天、实时更新等。
+
 # 1. Socket.IO和WebSocket的关系和区别
 
 Socket.IO和WebSocket都是用于实现实时通信的技术，但它们有不同的实现方式和特点。下面是它们之间的关系和主要区别：
@@ -85,9 +141,9 @@ socket.emit('message', 'Hello Server');
 
 - **答案**：WebSocket是一种网络通信协议，提供了在客户端和服务器之间进行全双工、持久连接的能力。它允许在客户端和服务器之间实时、双向传输数据，而不需要重新建立连接。
 
-# 3. WebSocket的工作原理是什么
+# [3. WebSocket的工作原理](https://www.bilibili.com/video/BV1FM4m1D7Vs/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-- **答案**：WebSocket通过HTTP握手建立连接。客户端发起一个HTTP请求，包含`Upgrade`头部来请求从HTTP协议升级到WebSocket协议。如果服务器支持WebSocket，它会返回一个101状态码来表示协议切换成功。从此之后，客户端和服务器之间的通信将通过WebSocket协议进行，允许实时的双向通信。
+WebSocket通过HTTP握手建立连接。客户端发起一个HTTP请求，包含`Upgrade`头部来请求从HTTP协议升级到WebSocket协议。如果服务器支持WebSocket，它会返回一个101状态码来表示协议切换成功。从此之后，客户端和服务器之间的通信将通过WebSocket协议进行，允许实时的双向通信。
 
 # 4. WebSocket的优点和缺点是什么
 
