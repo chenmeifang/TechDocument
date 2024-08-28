@@ -805,11 +805,137 @@ The fundamental idea with `useMemo` is that it allows us to *“remember”* a c
 
 `useMemo`: 让我们在不同渲染之间保存一个已经计算好的值。比如说我在第一次渲染的时候已经计算好了一个值，那我在第二次渲染的时候能不能不再进行这个运算，而是直接用第一次渲染时候的值
 
+# 11. React多次调用setState, React内部源码是如何维护的
 
+在 React 中，多次调用 `setState` 会触发组件状态的更新，然而，React 并不会立即同步更新状态，而是对状态更新请求进行批处理。这种机制背后的设计主要为了提高性能，减少不必要的渲染。
 
+### 1. **批处理更新 (Batching Updates)**
 
+React 中，多个 `setState` 调用不会立即导致组件的重新渲染。相反，**React 会将多次 `setState` 调用合并为一个批次处理**。这意味着在一次事件循环中，所有的 `setState` 调用都会被推迟，直到事件处理完毕之后再统一执行。
 
+```javascript
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+  }
 
+  handleClick = () => {
+    this.setState({ count: this.state.count + 1 });
+    this.setState({ count: this.state.count + 1 });
+    this.setState({ count: this.state.count + 1 });
+  };
+
+  render() {
+    return (
+      <div>
+        <button onClick={this.handleClick}>Increase</button>
+        <p>{this.state.count}</p>
+      </div>
+    );
+  }
+}
+```
+
+在上面的代码中，`handleClick` 中的三次 `setState` 调用会被合并处理，最终只会触发一次重新渲染。React 会对传递给 `setState` 的新状态进行合并处理（使用 **对象合并** 或 **函数式更新**）。
+
+### 2. **队列机制**
+
+在 React 内部，每次调用 `setState` 时，React 会将这个状态更新请求推入一个**更新队列**。而这个队列会在适当的时候（通常是在当前的事件循环结束时）统一处理：
+
+- **对象合并**：**当多个 `setState` 传入的是对象时，React 会合并这些对象，将所有更新整合成一个**。
+  
+  ```javascript
+  this.setState({ a: 1 });
+  this.setState({ b: 2 });
+  // 最终的状态将是：{ a: 1, b: 2 }
+  ```
+
+- **函数式更新**：**如果 `setState` 使用了回调函数形式，React 会按顺序执行这些回调函数，并依次传递前一次更新后的状态**。
+
+  ```javascript
+  this.setState((prevState) => ({ count: prevState.count + 1 }));
+  this.setState((prevState) => ({ count: prevState.count + 1 }));
+  this.setState((prevState) => ({ count: prevState.count + 1 }));
+  ```
+
+  在这种情况下，`count` 最终会增加 3。
+
+### 3. **渲染过程**
+
+当事件循环结束后，React 会根据批处理的状态更新，决定是否需要重新渲染组件树。如果需要重新渲染，React 会调度一个新的渲染任务，并触发虚拟 DOM 的对比和更新过程。
+
+### 4. **React Fiber 架构**
+
+React 的 Fiber 架构进一步优化了状态更新的过程。Fiber 使得 React 能够将更新任务分片（slice）处理，从而提高响应性。即便有大量的 `setState` 调用，React 也能优先处理更重要的更新任务，从而避免用户界面卡顿。
+
+### 5. **异步与同步的区别**
+
+在 React 18 及其之后版本，React 引入了 `Concurrent Mode`（并发模式），使得 `setState` 的行为在某些情况下变得异步。例如，`useTransition` 或 `startTransition` 可以将更新标记为低优先级，从而让 React 推迟这些更新。
+
+### 总结
+
+React 内部通过批处理、更新队列和 Fiber 架构来高效处理多次 `setState` 调用。通过这些机制，React 能够减少不必要的重新渲染，优化性能，并确保应用能够保持流畅的用户体验。
+
+# 12. react多次调用setState修改同一个状态, react内部源码是如何维护的
+
+当你在 React 中多次调用 `setState` 修改同一个状态时，React 内部会通过以下步骤来维护和处理这些状态更新：
+
+### 1. **状态更新请求的入队**
+
+每次调用 `setState` 时，React 并不会立即更新组件的状态，而是会将每个状态更新请求加入一个更新队列中。这些更新请求会以链表的形式存储在组件的 `updateQueue` 中。每个 `setState` 调用生成一个更新对象，这些对象包含了要更新的状态部分。
+
+```javascript
+this.setState({ count: this.state.count + 1 });
+this.setState({ count: this.state.count + 1 });
+this.setState({ count: this.state.count + 1 });
+```
+
+在上面的例子中，三次 `setState` 调用会依次将三条更新请求（每次 `setState` 都生成一个新的更新对象）加入 `updateQueue`。
+
+### 2. **批处理机制**
+
+React 会在适当的时候（例如当前事件循环结束后）统一处理这些更新。批处理机制会遍历 `updateQueue`，然后按顺序应用每个更新对象，依次更新状态。
+
+- **对象合并**：如果 `setState` 传入的是对象，React 会合并这些对象。例如：
+
+  ```javascript
+  this.setState({ count: 1 });
+  this.setState({ count: 2 });
+  ```
+
+  在批处理过程中，React 会将这两个状态合并，最终结果是 `{ count: 2 }`。React 内部实现中，每个更新请求都会按照入队顺序应用到前一个状态上。
+
+### 3. **函数式更新**
+
+当你使用函数式的 `setState` 时，React 会依次调用每个回调函数，并将前一次计算得到的状态作为参数传递给下一次 `setState`：
+
+```javascript
+this.setState((prevState) => ({ count: prevState.count + 1 }));
+this.setState((prevState) => ({ count: prevState.count + 1 }));
+this.setState((prevState) => ({ count: prevState.count + 1 }));
+```
+
+在这种情况下，React 内部会维护每个更新函数的调用顺序，确保每次 `setState` 都使用的是前一次更新后的状态。最终，`count` 将会增加 3。
+
+### 4. **状态合并**
+
+在批处理完成后，React 会将合并后的状态应用到组件的 `state` 上，并决定是否需要触发重新渲染。
+
+- **如果所有 `setState` 调用修改的是同一个状态变量**，比如 `count`，React 会按照 `updateQueue` 中的顺序依次处理这些更新，最终得到合并后的状态。
+- **如果多个 `setState` 调用的更新影响不同的状态变量**，React 会将它们合并到最终的 `state` 对象中。
+
+### 5. **触发重新渲染**
+
+一旦所有状态更新完成，React 会检查是否需要重新渲染组件。如果需要，React 将调度一次重新渲染，触发虚拟 DOM 的 diff 过程，最终更新真实 DOM。
+
+### 6. **React Fiber 的作用**
+
+在 React Fiber 架构下，所有的更新操作都是被分片处理的，这意味着 React 可以优先处理更重要的任务，比如用户输入事件，即便有多个 `setState` 调用要处理，React 也能保持高效的性能。
+
+### 总结
+
+React 内部通过维护一个更新队列，将多次 `setState` 调用进行批处理。当你多次调用 `setState` 修改同一个状态时，React 会依次处理这些更新请求，并最终得到一个合并后的状态。这种机制确保了 React 的性能，同时保证状态更新的正确性。
 
 
 
