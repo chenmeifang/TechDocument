@@ -518,11 +518,157 @@ Buffer是NodeJS的内置类
 
 <img src="02 高级Node.assets/image-20240827132329772.png" alt="image-20240827132329772" style="zoom:50%;" />
 
-# [30 CommonJS规范](https://www.bilibili.com/video/BV1sA41137qw?p=30&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+# [30. CommonJS规范](https://www.bilibili.com/video/BV1sA41137qw?p=30&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 由于浏览器平台本身所具备的一些特点，例如：数据一般都是通过网络来进行传输的，而且还存在单线程阻塞的加载方式。因此CommonJS规范不能适用浏览器平台。
 
+CommonJS规范主要应用于NodeJS
 
+CommonJS是语言层面上的规范，类似于ECMAScript，而模块化只是这个规范当中的一部分
+
+| <img src="02 高级Node.assets/image-20240828154622315.png" alt="image-20240828154622315"  /> | ![image-20240828154720775](02 高级Node.assets/image-20240828154720775.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+module.exports与exports有什么区别？
+
+不能直接给exports重新赋值，重复赋值会切断exports和module.exports的联系
+
+| ![image-20240828154958772](02 高级Node.assets/image-20240828154958772.png) | ![image-20240828155216126](02 高级Node.assets/image-20240828155216126.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+<img src="02 高级Node.assets/image-20240828155355230.png" alt="image-20240828155355230" style="zoom:50%;" />
+
+# [31. NodeJS与CommonJS](https://www.bilibili.com/video/BV1sA41137qw/?p=31&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+![image-20240828155612115](02 高级Node.assets/image-20240828155612115.png)
+
+![image-20240828162947775](02 高级Node.assets/image-20240828162947775.png)
+
+# [32. 模块分类及加载流程](https://www.bilibili.com/video/BV1sA41137qw/?p=32&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+模块分类:
+
+- 内置模块（核心模块）：在Node源码编译时写入到二进制文件中 
+- 文件模块：代码运行时，动态加载
+
+| ![image-20240828173649004](02 高级Node.assets/image-20240828173649004.png) | ![image-20240828174125803](02 高级Node.assets/image-20240828174125803.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![image-20240828174530550](02 高级Node.assets/image-20240828174530550.png) | ![image-20240828174557405](02 高级Node.assets/image-20240828174557405.png) |
+| ![image-20240828174606353](02 高级Node.assets/image-20240828174606353.png) | ![image-20240828174646689](02 高级Node.assets/image-20240828174646689.png) |
+
+使用require时文件定位的流程：
+
+### 1. **核心模块**
+Node.js 会首先检查是否请求的是一个核心模块（如 `fs`、`path` 等）。核心模块是 Node.js 自带的，不需要安装，也不需要进行路径解析。如果是核心模块，Node.js 会直接返回这个模块，跳过后续的文件系统查找。
+
+### 2. **文件或目录**
+如果不是核心模块，Node.js 将根据传入的路径来解析是否为一个文件或目录。
+
+#### 2.1. **绝对路径**
+如果 `require` 的路径是绝对路径（以 `/` 开头），Node.js 会直接尝试加载该路径指定的文件。
+
+#### 2.2. **相对路径**
+如果 `require` 的路径是相对路径（以 `.` 或 `..` 开头），Node.js 会基于调用模块的路径，结合相对路径来解析模块文件的位置。
+
+#### 2.3. **模块名称（不带路径）**
+如果 `require` 的路径没有以 `.`、`..` 或 `/` 开头，Node.js 会将其视为一个模块名称，并按照下面的步骤查找。
+
+### 3. **文件扩展名解析**
+Node.js 在尝试加载一个文件时，会按照下面的顺序自动补全文件扩展名，尝试加载：
+
+1. 直接加载 `require` 路径指定的文件。
+2. 尝试加载 `.js` 扩展名的文件。
+3. 尝试加载 `.json` 扩展名的文件。
+4. 尝试加载 `.node` 扩展名的文件（Node.js 原生模块，用 C/C++ 编写）。
+
+例如，`require('./module')` 会依次尝试加载：
+
+- `./module`
+- `./module.js`
+- `./module.json`
+- `./module.node`
+
+### 4. **目录作为模块**
+如果 `require` 路径解析为一个目录，Node.js 会按以下顺序尝试加载目录中的内容：
+
+1. **尝试加载 `package.json`**
+   - 如果目录下有 `package.json` 文件，Node.js 会解析其中的 `"main"` 字段，并尝试加载该字段指定的文件。
+   - 如果 `"main"` 字段不存在或指定的文件无法解析，Node.js 将继续尝试加载目录中的其他内容。
+
+2. **尝试加载 `index` 文件**
+   - 如果目录下没有 `package.json` 文件，或者文件解析失败，Node.js 会尝试加载 `index.js`、`index.json`、`index.node` 文件。
+
+### 5. **查找 `node_modules` 目录**
+如果经过上述步骤仍未找到模块，Node.js 会从当前模块的所在目录开始，逐级向上查找 `node_modules` 目录，直到找到对应的模块文件为止。
+
+例如，`require('module-name')` 的查找顺序为：
+
+1. 当前目录的 `./node_modules/module-name`
+2. 上一级目录的 `../node_modules/module-name`
+3. 再上一级目录的 `../../node_modules/module-name`
+4. 一直向上查找到文件系统的根目录为止。
+
+### 6. **抛出错误**
+如果经过以上所有步骤仍未找到模块，Node.js 会抛出 `MODULE_NOT_FOUND` 错误。
+
+### 总结
+Node.js 在使用 `require` 时，按照核心模块 > 文件或目录 > 文件扩展名 > 目录索引 > `node_modules` 目录的顺序进行文件定位。这个流程使得 Node.js 能够灵活地加载不同类型的模块，并且能够在复杂的项目结构中找到正确的文件。
+
+# [33. 模块加载源码分析](https://www.bilibili.com/video/BV1sA41137qw/?p=33&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+# 34. VM模块使用
+
+# 35. 模块加载模拟实现-1
+
+# 36. 模块加载模拟实现-2
+
+# [37. 事件模块](https://www.bilibili.com/video/BV1sA41137qw?p=37&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+![image-20240828200405790](02 高级Node.assets/image-20240828200405790.png)
+
+2min处
+
+# 38. 发布订阅
+
+# 39. EventEmitter源码调试
+
+# 40. EventEmitter模拟
+
+# [41. 浏览器中的事件环](https://www.bilibili.com/video/BV1sA41137qw?p=41&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+EventLoop
+
+| ![image-20240828195311222](02 高级Node.assets/image-20240828195311222.png) | ![image-20240828195921606](02 高级Node.assets/image-20240828195921606.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 输出：s1,p1,p2,s2,p3,p4                                      | 输出：p1, s1,p2,p3,s2,s3                                     |
+
+# [42. NodeJS中的事件环](https://www.bilibili.com/video/BV1sA41137qw?p=42&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+| ![image-20240828200520801](02 高级Node.assets/image-20240828200520801.png) | ![image-20240828211831263](02 高级Node.assets/image-20240828211831263.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![image-20240828212027081](02 高级Node.assets/image-20240828212027081.png) | ![image-20240828212148028](02 高级Node.assets/image-20240828212148028.png) |
+|                                                              | 输出：start，end，tick，p1，s1，setimmediate                 |
+
+**nextTick属于微任务，但是它的优先级高于promise**
+
+主要关注三个队列：
+
+- timer
+- poll
+- check
+
+# [43. Node事件环理解](https://www.bilibili.com/video/BV1sA41137qw?p=43&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+| ![image-20240828212847618](02 高级Node.assets/image-20240828212847618.png) | 预测输出：start,end,p2,s1,t1,p1,s2,t2,p3<br />注意：好像node版本不一样，输出会不一样<br />某版本下的实际输出：start,end,p2,s1,s2,t1,t2,p1,p3 |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+# [44. Nodejs与浏览器事件环区别](https://www.bilibili.com/video/BV1sA41137qw?p=44&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+| ![image-20240828215430234](02 高级Node.assets/image-20240828215430234.png) | ![image-20240828215517054](02 高级Node.assets/image-20240828215517054.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![image-20240828215535268](02 高级Node.assets/image-20240828215535268.png) | ![image-20240828215550197](02 高级Node.assets/image-20240828215550197.png) |
+
+# [45. NodeJS事件环常见问题](https://www.bilibili.com/video/BV1sA41137qw?p=45&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 
 
