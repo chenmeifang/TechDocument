@@ -205,3 +205,8 @@ https://www.bilibili.com/video/BV1HE421N79e/?p=7&spm_id_from=pageDriver&vd_sourc
 - **CORS**: 在某些情况下，`Referer` 头部可能被排除或更改。
 
 这些情况说明了 CSRF 攻击的多样性以及为什么 `Referer` 头部可能不会总是显示为黑客网站。在设计防御机制时，考虑到这些不同的攻击方式可以帮助更全面地保护应用程序免受 CSRF 攻击。
+
+# 9. 怎么防止csrf攻击
+
+
+
