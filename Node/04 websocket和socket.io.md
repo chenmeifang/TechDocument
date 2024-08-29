@@ -143,7 +143,7 @@ socket.emit('message', 'Hello Server');
 
 # [3. WebSocket的工作原理](https://www.bilibili.com/video/BV1FM4m1D7Vs/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-WebSocket通过HTTP握手建立连接。客户端发起一个HTTP请求，包含`Upgrade`头部来请求从HTTP协议升级到WebSocket协议。如果服务器支持WebSocket，它会返回一个101状态码来表示协议切换成功。从此之后，客户端和服务器之间的通信将通过WebSocket协议进行，允许实时的双向通信。
+5min处 感觉听着不好
 
 # 4. WebSocket的优点和缺点是什么
 
