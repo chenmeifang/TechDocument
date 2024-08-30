@@ -4,49 +4,55 @@
 >
 > forgery: 伪造
 
-# 2. csrf原理
-
 ![image-20240726143138679](04 CSRF.assets/image-20240726143138679.png)
+
+
 
 <img src="04 CSRF.assets/image-20240726143233940.png" alt="image-20240726143233940" style="zoom:50%;" />
 
+通过以上的攻击原理描述 总结CSRF两个侧重点：
 
+- CSRF攻击建立在浏览器与Web服务器的会话之中
+- 欺骗用户访问URL
 
-![image-20240726144150190](04 CSRF.assets/image-20240726144150190.png)
-
-# 3. csrf分类
+# 2. csrf分类
 
 ![image-20240726143403978](04 CSRF.assets/image-20240726143403978.png)
 
-# 4. csrf漏洞检测
+# 3. csrf漏洞检测
 
 ![image-20240726144033709](04 CSRF.assets/image-20240726144033709.png)
 
-# [5. csrf攻击实验](https://www.bilibili.com/video/BV1HE421N79e/?p=2&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+# [4. csrf攻击实验](https://www.bilibili.com/video/BV1HE421N79e/?p=2&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-## 5.1 利用自解压包删除网络数据
+## 1. 利用自解压包删除网络数据
 
-<img src="04 CSRF.assets/image-20240726145945990.png" alt="image-20240726145945990" style="zoom: 80%;" />
+随便新建一个test.txt，里面输入一些内容。右键选择’添加到压缩文件‘
 
-## [5.2 dz数据库备份](https://www.bilibili.com/video/BV1HE421N79e/?p=3&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+| ![image-20240830134426164](04 CSRF攻击.assets/image-20240830134426164.png) | <img src="04 CSRF.assets/image-20240726145945990.png" alt="image-20240726145945990" style="zoom:80%;" /> |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
+| ![image-20240830134743516](04 CSRF攻击.assets/image-20240830134743516.png) | <img src="04 CSRF攻击.assets/image-20240830134845943.png" alt="image-20240830134845943" style="zoom:80%;" /> |
+|                  最后生成一个.exe后缀的文件                  | ![image-20240830135002498](04 CSRF攻击.assets/image-20240830135002498.png) |
+
+## [2. dz数据库备份](https://www.bilibili.com/video/BV1HE421N79e/?p=3&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 ![image-20240726153943111](04 CSRF.assets/image-20240726153943111.png)
 
-## [5.3 通过crsf漏洞添加账号](https://www.bilibili.com/video/BV1HE421N79e/?p=5&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+## [3. 通过crsf漏洞添加账号](https://www.bilibili.com/video/BV1HE421N79e/?p=5&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-## 5.4 通过crsf漏洞修改密码
+## 4. 通过crsf漏洞修改密码
 
 https://www.bilibili.com/video/BV1HE421N79e/?p=6&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
 
 5min20s处
 
-# 6. csrf之referer请求头的防御和绕过
+# [5. csrf之referer请求头的防御和绕过](https://www.bilibili.com/video/BV1HE421N79e/?p=7&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-https://www.bilibili.com/video/BV1HE421N79e/?p=7&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
+**Token 机制可以有效地防止 CSRF（Cross-Site Request Forgery）攻击**
 
-12：27min处
 
-# 7. 什么情况下csrf攻击中的referer是黑客网站
+
+# 6. 什么情况下csrf攻击中的referer是黑客网站
 
 在 CSRF（跨站请求伪造）攻击中，`Referer` 头部字段通常显示为黑客网站的情况主要涉及到以下几种情况：
 
@@ -137,7 +143,7 @@ https://www.bilibili.com/video/BV1HE421N79e/?p=7&spm_id_from=pageDriver&vd_sourc
 
 在这些情况下，攻击者利用 `Referer` 头部来隐藏攻击的真实来源，或利用请求本身来进行 CSRF 攻击。为了防止这些攻击，可以采用 CSRF 令牌、检查 `Referer` 头部、使用 `SameSite` Cookies 属性等措施。
 
-# 8. 什么情况下csrf攻击中的referer不是黑客网站
+# 7. 什么情况下csrf攻击中的referer不是黑客网站
 
 在 CSRF（跨站请求伪造）攻击中，`Referer` 头部字段通常显示为攻击者网站，因为攻击者的恶意请求是从他们的网站发出的。不过，某些情况下 `Referer` 头部可能不是黑客网站，这些情况主要取决于攻击的具体策略和受害者的浏览器设置。以下是一些可能的情况：
 
@@ -206,7 +212,7 @@ https://www.bilibili.com/video/BV1HE421N79e/?p=7&spm_id_from=pageDriver&vd_sourc
 
 这些情况说明了 CSRF 攻击的多样性以及为什么 `Referer` 头部可能不会总是显示为黑客网站。在设计防御机制时，考虑到这些不同的攻击方式可以帮助更全面地保护应用程序免受 CSRF 攻击。
 
-# 9. 怎么防止csrf攻击
+# 8. 怎么防止csrf攻击
 
 
 
