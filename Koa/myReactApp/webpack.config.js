@@ -17,6 +17,7 @@ module.exports = {
             {
                 test: /\.(js|jsx)$/,
                 use: {
+                    // Babel通常用于将现代JavaScript代码（如ES6+、JSX）转换为兼容旧版浏览器的代码
                     loader: 'babel-loader'
                 }
             },
