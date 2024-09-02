@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      async function asyncWithAwait() {
+        const result = await new Promise((resolve) => {
+          setTimeout(() => {
+            resolve("Promise Resolved");
+          }, 1000);
+        });
+        console.log("res:", result);
+        return result;
+      }
+      const res = asyncWithAwait();
+      console.log("res2:", res);
+      app.use(async (ctx, next) => {
+        setTimeout(() => {
+          console.log("1");
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>
