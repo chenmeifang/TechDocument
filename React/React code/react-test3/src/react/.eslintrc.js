@@ -11,10 +11,10 @@ const OFF = 0;
 const ERROR = 2;
 
 module.exports = {
-  extends: [
-    'fbjs',
-    'prettier'
-  ],
+  // extends: [
+  //   'fbjs',
+  //   'prettier'
+  // ],
 
   // Stop ESLint from looking for a configuration file in parent folders
   root: true,
@@ -38,12 +38,12 @@ module.exports = {
     'consistent-return': OFF,
     'dot-location': [ERROR, 'property'],
     // We use console['error']() as a signal to not transform it:
-    'dot-notation': [ERROR, {allowPattern: '^(error|warn)$'}],
+    'dot-notation': [ERROR, { allowPattern: '^(error|warn)$' }],
     'eol-last': ERROR,
     eqeqeq: [ERROR, 'allow-null'],
     indent: OFF,
     'jsx-quotes': [ERROR, 'prefer-double'],
-    'keyword-spacing': [ERROR, {after: true, before: true}],
+    'keyword-spacing': [ERROR, { after: true, before: true }],
     'no-bitwise': OFF,
     'no-inner-declarations': [ERROR, 'functions'],
     'no-multi-spaces': ERROR,
@@ -51,13 +51,13 @@ module.exports = {
     'no-restricted-syntax': [ERROR, 'WithStatement'],
     'no-shadow': ERROR,
     'no-unused-expressions': ERROR,
-    'no-unused-vars': [ERROR, {args: 'none'}],
+    'no-unused-vars': [ERROR, { args: 'none' }],
     'no-use-before-define': OFF,
     'no-useless-concat': OFF,
-    quotes: [ERROR, 'single', {avoidEscape: true, allowTemplateLiterals: true}],
+    quotes: [ERROR, 'single', { avoidEscape: true, allowTemplateLiterals: true }],
     'space-before-blocks': ERROR,
     'space-before-function-paren': OFF,
-    'valid-typeof': [ERROR, {requireStringLiterals: true}],
+    'valid-typeof': [ERROR, { requireStringLiterals: true }],
 
     // We apply these settings to files that should run on Node.
     // They can't use JSX or ES6 modules, and must be in strict mode.
@@ -87,7 +87,7 @@ module.exports = {
     // We don't care to do this
     'react/jsx-wrap-multilines': [
       ERROR,
-      {declaration: false, assignment: false},
+      { declaration: false, assignment: false },
     ],
 
     // Prevent for...of loops because they require a Symbol polyfill.

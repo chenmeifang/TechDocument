@@ -7,10 +7,11 @@
  * @flow
  */
 
-import * as React from 'react';
+// import * as React from 'react';
 
-const ReactSharedInternals =
-  React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+// const ReactSharedInternals =
+//   React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+import ReactSharedInternals from '../react/src/ReactSharedInternals';
 
 // Prevent newer renderers from RTE when used with older react package versions.
 // Current owner and dispatcher used to share the same ref,
