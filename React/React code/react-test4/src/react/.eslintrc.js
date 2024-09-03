@@ -19,7 +19,7 @@ module.exports = {
   // Stop ESLint from looking for a configuration file in parent folders
   root: true,
 
-  plugins: ['jest', 'no-for-of-loops', 'react', 'react-internal'],
+  // plugins: ['jest', 'no-for-of-loops', 'react', 'react-internal'],
 
   parser: 'babel-eslint',
   parserOptions: {
