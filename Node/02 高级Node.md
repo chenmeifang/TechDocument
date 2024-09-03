@@ -616,7 +616,9 @@ Node.js 在使用 `require` 时，按照核心模块 > 文件或目录 > 文件�
 
 # [33. 模块加载源码分析](https://www.bilibili.com/video/BV1sA41137qw/?p=33&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# 34. VM模块使用
+ctrl+shift+D
+
+# [34. VM模块使用](https://www.bilibili.com/video/BV1sA41137qw/?p=34&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 # 35. 模块加载模拟实现-1
 
