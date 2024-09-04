@@ -196,6 +196,10 @@ newArguments = ['arguments[1]', 'arguments[2]', 'arguments[3]', 'arguments[4]']
 
 在JavaScript中，`call` 方法是 `Function.prototype` 上的方法，它允许你调用一个函数，并在调用时指定 `this` 的值和参数。与 `apply` 方法类似，但 `call` 方法的参数是逐个传递的，而 `apply` 方法的参数是以数组的形式传递的。
 
+## 与call相关的代码片段分析
+
+
+
 # 2. apply
 
 `apply` 是 JavaScript 中的一个方法，它允许你调用一个函数，并指定 `this` 关键字的值以及传递给函数的参数。`apply` 方法和 `call` 方法类似，区别在于 `apply` 接受参数数组，而 `call` 接受的是参数列表。
