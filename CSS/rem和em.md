@@ -4,7 +4,7 @@ https://engageinteractive.co.uk/blog/em-vs-rem-vs-px#ref-2
 
 The debate has been had many times - what units of measurement should we use in our CSS?
 
-> **关于在CSS中应该使用什么度量单位的争论已经有很多次了。**
+> 关于在CSS中应该使用什么度量单位的争论已经有很多次了
 
 We, like many others[[1](https://engageinteractive.co.uk/blog/em-vs-rem-vs-px#ref-1)][[2](https://engageinteractive.co.uk/blog/em-vs-rem-vs-px#ref-2)], were ready to ditch REMs and return to the beloved pixel. We lost track of why we adopted the use of REMs in the first place. The problem doesn’t just revolve around font-sizes - it’s also about accessibility.
 
@@ -20,7 +20,7 @@ TL;DR:
 
 Pixels (px) are what we’ve all become accustomed to over the years. Everyone knows what a pixel is (although the size of a pixel isn’t always the same, but that’s for another day). Everyone is comfortable with using pixels. They’re easily translatable（adj. 可译的；能译的；可转移的）. Designers typically work in pixels, so it’s easy to take sizes directly from Photoshop straight in to build.
 
-==So what’s wrong with pixels?==
+So what’s wrong with pixels?
 
 ### Accessibility
 
@@ -28,21 +28,19 @@ I’m a big advocate of accessibility on the web. I’d take accessibility over 
 
 > 我是网络可访问性的大力倡导者。我觉得通俗易懂比漂亮更重要。
 
-If you’re setting all of your font-sizes, element sizes and spacing in pixels, ==you’re not treating the end user with respect.==
+If you’re setting all of your font-sizes, element sizes and spacing in pixels, you’re not treating the end user with respect.
 
 In most browsers, a user can set their default browser font-size to be a different size to the default (typically 16px). If the user sets their default to 20px, all font-sizes should scale accordingly.
 
-==However, if the website explicitly sets font-sizes in pixels, a heading set at 30px will always be 30px. That might sound great from a designer/developer point of view - but you’re not the user, stop making websites for yourself.==
+However, if the website explicitly sets font-sizes in pixels, a heading set at 30px will always be 30px. That might sound great from a designer/developer point of view - but you’re not the user, stop making websites for yourself.
 
 当用了px/rem后，用户在修改浏览器设置，更换字号时（不是网页缩放时），并不会引起页面字体大小的改变
-
-![截屏2021-03-24 下午4.51.10](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-24 下午4.51.10.png)
 
 Thankfully, setting font-sizes in pixels doesn’t completely ruin accessibility. The user can still zoom in and out with ctrl plus +/- (cmd instead of ctrl on OS X). However, we can do better.
 
 ## REMs
 
-If you’re in any way familiar with the web design world, you will undoubtedly have heard of REMs. If you’re not, REMs are a way of setting font-sizes ==based on the font-size of the root HTML element.== They also allow you to quickly scale an entire project by changing the root font-size (for example at a certain media query/screen size).
+If you’re in any way familiar with the web design world, you will undoubtedly have heard of REMs. If you’re not, REMs are a way of setting font-sizes **based on the font-size of the root HTML element**. They also allow you to quickly scale an entire project by changing the root font-size (for example at a certain media query/screen size).
 
 *“[The REM] unit represents the font-size of the root element (e.g. the font-size of the <html>element). When used on the font-size on this root element, it represents its initial value.”*[[3](https://engageinteractive.co.uk/blog/em-vs-rem-vs-px#ref-3)]
 
@@ -52,11 +50,13 @@ A basic and most common example: html font-size is set to 10px, paragraph is set
 
 Setting a root font-size of 10px is the most common scenario when I see people using REMs. It allows for a quick conversion between pixel values to REM values simply by dividing the number by 10.
 
-==However, setting the base font-size in pixels still has the same problem as the pixel example above. Accessibility overridden.==！！！！！！
+However, setting the base font-size in pixels still has the same problem as the pixel example above. Accessibility overridden.
 
-While REMs certainly have their uses, I’m willing to bet that most people use REMs because they are seen as cooler than pixels. ==I rarely see a project where someone actually changes the root HTML font-size depending on screen size==(好像错了，好像是会的！！); and rightfully so. Unless you’ve got a very typographically heavy design, you’re unlikely to want to scale everything at once.
+While REMs certainly have their uses, I’m willing to bet that most people use REMs because they are seen as cooler than pixels. I rarely see a project where someone actually changes the root HTML font-size depending on screen size; and rightfully so. Unless you’ve got a very typographically heavy design, you’re unlikely to want to scale everything at once.
 
-### So how can we un-break our accessibility faux pas? 那么我们如何才能改正我们的易访问性错误呢?
+### So how can we un-break our accessibility faux pas?
+
+那么我们如何才能改正我们的易访问性错误呢?
 
 Set the root HTML font-size as a percentage.
 
@@ -400,7 +400,105 @@ Example 1: Browser zoom set to 100%, browser width set to 640px
 
 
 
+https://www.kancloud.cn/lixu/interview/925585 面试题集合 可以看一下！
 
+# rem可以解决移动端的适配问题
+
+1. 移动端的适配问题具体是怎样的？
+
+   1. 手机端适配 因为市面上各种分辨率 设备宽度不同的 手机太多 这个时候我们可以采用 将
+      根元素 字体大小固定的方式 来实现适配 手机端
+
+   2. 就拿750宽度的设计稿来说吧
+
+      > 这段代码十分重要！！！
+
+      ```javascript
+      function setRootFontSize() {
+      	var width = document.documentElement.clientWidth, fontSize;
+      	if (width > 750) { width = 750 }
+      	fontSize = (width / 7.5);//这里除于7.5的意思就是100px等于1rem;
+      	// document.html.style.fontSize=fontSize+'px';
+      	document.getElementsByTagName('html')[0].style['font-size'] = fontSize + 'px';	
+      }	
+      setRootFontSize();	
+      window.addEventListener('resize', function() {
+      	setRootFontSize();
+      }, false);
+      ```
+
+   这样把 font-size 成固定的一个值
+
+   在 750设计稿 上 200px 就是 2rem
+
+   如果设计的页面到了 650的手机上 为了保证页面的显示效果相同
+
+   `**此时的 2rem 在 650宽度额手机上就是 173px会相对的缩小一点**. 这里没理解！！！！？？？？？懂了
+
+   如果还保持　750中的200px 可能会超出屏幕 给用户体验也不太好
+
+   如果在 650宽度的手机测量出来是 200px的话
+
+   计算方式: 650/7.5=200/x x=200*7.5/650 算出来是 x=2.307rem 明显比750大一点
+
+   
+
+2. rem又是如何解决的？
+
+https://yunchong.blog.csdn.net/article/details/104854398
+
+* rem是相对单位 相对于 html根元素　
+* em这块是相对于父元素继承来的。em 虽然指的是当前元素的 字体大小 但是当前元素的字体大小没有设置的话 就是继承它的父元素的 字体大
+
+# em的基本使用
+
+`em` 是一种相对单位，主要用于定义字体大小、间距、宽度等 CSS 属性。与像素（px）等绝对单位不同，`em` 单位的值是相对其父元素或当前元素的字体大小计算的。这使得 `em` 在响应式设计中非常有用，因为它允许页面内容根据父元素的大小动态调整。
+
+### `em` 的主要特点：
+1. **相对性**：
+   - `1em` 等于当前元素的字体大小。例如，如果一个元素的字体大小为16px，那么`1em` 就等于16px。
+   - 如果在嵌套元素中使用 `em`，则 `em` 的值是相对于父元素的字体大小。例如，如果父元素的字体大小为20px，而子元素的字体大小设置为`2em`，那么子元素的实际字体大小为40px。
+
+2. **可继承性**：
+   - 当 `em` 用于定义字体大小时，它会继承父元素的字体大小，因此在深层嵌套的情况下，`em` 的值可能会变得很大或很小。
+
+3. **灵活性**：
+   - `em` 可以用于各种 CSS 属性，例如 `margin`、`padding`、`width`、`height` 等，使得元素的尺寸可以根据字体大小自动调整，从而实现更灵活的布局。
+
+### 使用场景：
+1. **响应式设计**：
+   - 使用 `em` 单位可以使文本和相关布局根据父元素的字体大小进行调整，从而实现响应式设计。例如，当改变根元素的字体大小时，整个页面的布局可以随着字体大小的变化而变化。
+
+2. **可访问性**：
+   - `em` 单位有助于提高网页的可访问性，尤其是在用户调整浏览器的默认字体大小时。使用 `em` 单位可以确保页面内容在不同设备和浏览器设置下的可读性。
+
+### 示例：
+```css
+/* 设置根元素的字体大小为16px */
+html {
+  font-size: 16px;
+}
+
+/* 子元素相对于根元素 */
+.container {
+  font-size: 1.5em; /* 24px */
+  padding: 1em; /* 24px */
+}
+
+/* 更深层嵌套的子元素 */
+.child {
+  font-size: 2em; /* 48px，相对于 .container 的字体大小 */
+  margin-top: 0.5em; /* 24px，相对于 .child 的字体大小 */
+}
+```
+
+在这个例子中，`.container` 的字体大小为24px（即 `1.5em`），而 `.child` 的字体大小为48px（即 `2em`），并且 `.child` 的 `margin-top` 相对于其自身的字体大小设置为24px（即 `0.5em`）。
+
+### 需要注意的点：
+- 当使用 `em` 定义嵌套元素的属性时，可能会因为继承性导致尺寸过大或过小，建议在设计时仔细考虑层级结构。
+- 在一些复杂布局中，`em` 的相对性可能会导致不易控制的情况，这时可以考虑使用 `rem` 单位（相对于根元素字体大小）来代替。
+
+通过合理使用 `em` 单位，可以实现更灵活和响应式的网页布局。
 
 
 
