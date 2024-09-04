@@ -16,4 +16,4 @@ value = 42;
 value = "hello";
 value = true;
 
-console.log(value.toUpperCase());
+// console.log(value.toUpperCase());
