@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { http } from "../../utils/request";
+import { AxiosResponse } from "axios";
 
 const FileList = () => {
   const [fileList, setFileList] = useState<
@@ -10,6 +11,7 @@ const FileList = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRef2 = useRef<HTMLInputElement>(null);
   const history = useHistory();
+  const MAX_RETRIES = 3; // 文件分片上传最大重传次数
   useEffect(() => {
     // 向数据库请求文件列表
     http
@@ -119,27 +121,62 @@ const FileList = () => {
     const uploadChunk = (
       chunk: Blob,
       chunkNumber: string,
-      totalChunks: string
+      totalChunks: string,
+      retries = 0
     ) => {
       // append(name: string, value: string | Blob, filename?: string): void;
       const formData = new FormData();
       formData.append("file", chunk, file.name);
       formData.append("chunkNumber", chunkNumber);
       formData.append("totalChunks", totalChunks);
-      return http.post("/file/upload2", formData);
+      // let promise = http.post("/file/upload2", formData)
+      let promise: Promise<string | AxiosResponse<any, any> | undefined> = http
+        .post("/file/upload2", formData)
+        .catch(() => {
+          // 捕获分片上传异常，并重新上传
+          if (retries < MAX_RETRIES) {
+            console.error(
+              `Chunk ${chunkNumber} upload failed. Retrying... Attempt ${
+                retries + 1
+              }`
+            );
+            return uploadChunk(chunk, chunkNumber, totalChunks, retries + 1);
+          } else {
+            // 超过了重新上传的最大次数
+            // 怎么处理.......
+            console.error(`Failed after ${MAX_RETRIES} attempts`);
+            // 页面弹出一个框，提示用户重新上传（提供重新上传的按钮）
+            // 但是后端怎么处理呢？？那些临时目录的文件需要删除吗？？
+            throw new Error("文件上传超出了重新上传的最大次数");
+            // 在这里抛出error，在promise.all那里catch统一处理
+          }
+        });
+      return promise;
     };
     for (let start = 0; start < file.size; start += chunkSize) {
       const end = Math.min(start + chunkSize, file.size);
       const chunk = file.slice(start, end);
       const chunkNumber = start / chunkSize + 1;
+      // 注意：请求是在每次调用uploadChunk时发出的
+      // 调用uploadChunk时，函数立即开始发送HTTP请求，并返回一个代表该请求的Promise
       promises.push(
         uploadChunk(chunk, chunkNumber.toString(), totalChunks.toString())
       );
     }
-    Promise.all(promises).then((res) => {
-      console.log("文件分片上传的结果：", res);
-      console.log("文档分片上传结束：", new Date());
-    });
+    // 注意：Promise.all的作用是只是等待所有请求完成，而不是发送请求
+    Promise.all(promises)
+      .then((res) => {
+        console.log("文件分片上传的结果：", res);
+        console.log("文档分片上传结束：", new Date());
+      })
+      .catch((err) => {
+        // 分片上传发送异常。我们需捕获异常，并重新上传
+        // 注意：
+        //  可以通过Promise.all捕获整体异常，
+        //  但无法直接在Promise.all内重新上传失败的分片
+        //  可以单独在每个Promise内捕获异常，并实现重传逻辑
+        console.log("all err:", err);
+      });
   };
 
   // let eTag =

@@ -98,6 +98,19 @@ const uploadFiles2 = async (ctx) => {
     const totalChunks = parseInt(ctx.request.body.totalChunks);
     const file = ctx.files[0];
 
+    // 模拟某一个分片上传失败
+    if (chunkNumber === 2) {
+        ctx.status = 400;
+        ctx.body = {
+            code: 400,
+            msg: '文件分片上传失败，请重新上传'
+        }
+        return;
+    }
+    // 实现：文件分片上传时只有在超过最大重试次数后，才清除临时目录
+    // 步骤：需要在服务器端记录每个分片的重试次数，并在每次上传失败时检查是否达到了最大重试次数
+    // 疑问：不记录重试次数可以吗？每次前端请求的时候多一个参数应该也行把？？
+
     // 1.确保上传目录存在
     const uploadDir = path.join(__dirname, 'uploads');
     // existsSync是Node.js的fs模块提供的一个同步方法，用于检查指定路径的文件或目录是否存在
