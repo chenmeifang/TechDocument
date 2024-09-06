@@ -7,16 +7,16 @@
  * @flow
  */
 
-import type {ReactProviderType, ReactContext} from 'shared/ReactTypes';
-import type {Fiber} from './ReactFiber';
-import type {FiberRoot} from './ReactFiberRoot';
-import type {ExpirationTime} from './ReactFiberExpirationTime';
+import type { ReactProviderType, ReactContext } from 'shared/ReactTypes';
+import type { Fiber } from './ReactFiber';
+import type { FiberRoot } from './ReactFiberRoot';
+import type { ExpirationTime } from './ReactFiberExpirationTime';
 import type {
   SuspenseState,
   SuspenseListRenderState,
   SuspenseListTailMode,
 } from './ReactFiberSuspenseComponent';
-import type {SuspenseContext} from './ReactFiberSuspenseContext';
+import type { SuspenseContext } from './ReactFiberSuspenseContext';
 
 import checkPropTypes from 'prop-types/checkPropTypes';
 
@@ -71,14 +71,14 @@ import invariant from 'shared/invariant';
 import shallowEqual from 'shared/shallowEqual';
 import getComponentName from 'shared/getComponentName';
 import ReactStrictModeWarnings from './ReactStrictModeWarnings';
-import {refineResolvedLazyComponent} from 'shared/ReactLazyComponent';
-import {REACT_LAZY_TYPE, getIteratorFn} from 'shared/ReactSymbols';
+import { refineResolvedLazyComponent } from 'shared/ReactLazyComponent';
+import { REACT_LAZY_TYPE, getIteratorFn } from 'shared/ReactSymbols';
 import {
   getCurrentFiberOwnerNameInDevOrNull,
   getCurrentFiberStackInDev,
   setIsRendering,
 } from './ReactCurrentFiber';
-import {startWorkTimer, cancelWorkTimer} from './ReactDebugFiberPerf';
+import { startWorkTimer, cancelWorkTimer } from './ReactDebugFiberPerf';
 import {
   resolveFunctionForHotReloading,
   resolveForwardRefForHotReloading,
@@ -115,9 +115,9 @@ import {
   isSuspenseInstanceFallback,
   registerSuspenseInstanceRetry,
 } from './ReactFiberHostConfig';
-import type {SuspenseInstance} from './ReactFiberHostConfig';
-import {shouldSuspend} from './ReactFiberReconciler';
-import {pushHostContext, pushHostContainer} from './ReactFiberHostContext';
+import type { SuspenseInstance } from './ReactFiberHostConfig';
+import { shouldSuspend } from './ReactFiberReconciler';
+import { pushHostContext, pushHostContainer } from './ReactFiberHostContext';
 import {
   suspenseStackCursor,
   pushSuspenseContext,
@@ -128,7 +128,7 @@ import {
   addSubtreeSuspenseContext,
   setShallowSuspenseContext,
 } from './ReactFiberSuspenseContext';
-import {findFirstSuspended} from './ReactFiberSuspenseComponent';
+import { findFirstSuspended } from './ReactFiberSuspenseComponent';
 import {
   pushProvider,
   propagateContextChange,
@@ -137,8 +137,8 @@ import {
   calculateChangedBits,
   scheduleWorkOnParentPath,
 } from './ReactFiberNewContext';
-import {renderWithHooks, bailoutHooks} from './ReactFiberHooks';
-import {stopProfilerTimerIfRunning} from './ReactProfilerTimer';
+import { renderWithHooks, bailoutHooks } from './ReactFiberHooks';
+import { stopProfilerTimerIfRunning } from './ReactProfilerTimer';
 import {
   getMaskedContext,
   getUnmaskedContext,
@@ -864,7 +864,7 @@ function updateClassComponent(
       if (!didWarnAboutReassigningProps) {
         console.error(
           'It looks like %s is reassigning its own `this.props` while rendering. ' +
-            'This is not supported and can lead to confusing bugs.',
+          'This is not supported and can lead to confusing bugs.',
           getComponentName(workInProgress.type) || 'a component',
         );
       }
@@ -990,8 +990,8 @@ function updateHostRoot(current, workInProgress, renderExpirationTime) {
   invariant(
     current !== null && updateQueue !== null,
     'If the root does not have an updateQueue, we should have already ' +
-      'bailed out. This error is likely caused by a bug in React. Please ' +
-      'file an issue.',
+    'bailed out. This error is likely caused by a bug in React. Please ' +
+    'file an issue.',
   );
   const nextProps = workInProgress.pendingProps;
   const prevState = workInProgress.memoizedState;
@@ -1244,7 +1244,7 @@ function mountLazyComponent(
   invariant(
     false,
     'Element type is invalid. Received a promise that resolves to: %s. ' +
-      'Lazy element type must resolve to a class or function.%s',
+    'Lazy element type must resolve to a class or function.%s',
     Component,
     hint,
   );
@@ -1344,7 +1344,7 @@ function mountIndeterminateComponent(
       if (!didWarnAboutBadClass[componentName]) {
         console.error(
           "The <%s /> component appears to have a render method, but doesn't extend React.Component. " +
-            'This is likely to cause errors. Change %s to extend React.Component instead.',
+          'This is likely to cause errors. Change %s to extend React.Component instead.',
           componentName,
           componentName,
         );
@@ -1391,10 +1391,10 @@ function mountIndeterminateComponent(
       if (!didWarnAboutModulePatternComponent[componentName]) {
         console.error(
           'The <%s /> component appears to be a function component that returns a class instance. ' +
-            'Change %s to a class that extends React.Component instead. ' +
-            "If you can't use a class try assigning the prototype on the function as a workaround. " +
-            "`%s.prototype = React.Component.prototype`. Don't use an arrow function since it " +
-            'cannot be called with `new` by React.',
+          'Change %s to a class that extends React.Component instead. ' +
+          "If you can't use a class try assigning the prototype on the function as a workaround. " +
+          "`%s.prototype = React.Component.prototype`. Don't use an arrow function since it " +
+          'cannot be called with `new` by React.',
           componentName,
           componentName,
           componentName,
@@ -1453,7 +1453,7 @@ function mountIndeterminateComponent(
       if (disableLegacyContext && Component.contextTypes) {
         console.error(
           '%s uses the legacy contextTypes API which is no longer supported. ' +
-            'Use React.createContext() with React.useContext() instead.',
+          'Use React.createContext() with React.useContext() instead.',
           getComponentName(Component) || 'Unknown',
         );
       }
@@ -1509,8 +1509,8 @@ function validateFunctionComponentInDev(workInProgress: Fiber, Component: any) {
         didWarnAboutFunctionRefs[warningKey] = true;
         console.error(
           'Function components cannot be given refs. ' +
-            'Attempts to access this ref will fail. ' +
-            'Did you mean to use React.forwardRef()?%s',
+          'Attempts to access this ref will fail. ' +
+          'Did you mean to use React.forwardRef()?%s',
           info,
         );
       }
@@ -1525,7 +1525,7 @@ function validateFunctionComponentInDev(workInProgress: Fiber, Component: any) {
       if (!didWarnAboutDefaultPropsOnFunctionComponent[componentName]) {
         console.error(
           '%s: Support for defaultProps will be removed from function components ' +
-            'in a future major release. Use JavaScript default parameters instead.',
+          'in a future major release. Use JavaScript default parameters instead.',
           componentName,
         );
         didWarnAboutDefaultPropsOnFunctionComponent[componentName] = true;
@@ -2036,10 +2036,10 @@ function mountDehydratedSuspenseComponent(
     if (__DEV__) {
       console.error(
         'Cannot hydrate Suspense in legacy mode. Switch from ' +
-          'ReactDOM.hydrate(element, container) to ' +
-          'ReactDOM.createBlockingRoot(container, { hydrate: true })' +
-          '.render(element) or remove the Suspense components from ' +
-          'the server rendered components.',
+        'ReactDOM.hydrate(element, container) to ' +
+        'ReactDOM.createBlockingRoot(container, { hydrate: true })' +
+        '.render(element) or remove the Suspense components from ' +
+        'the server rendered components.',
       );
     }
     workInProgress.expirationTime = Sync;
@@ -2281,7 +2281,7 @@ function validateRevealOrder(revealOrder: SuspenseListRevealOrder) {
           case 'backwards': {
             console.error(
               '"%s" is not a valid value for revealOrder on <SuspenseList />. ' +
-                'Use lowercase "%s" instead.',
+              'Use lowercase "%s" instead.',
               revealOrder,
               revealOrder.toLowerCase(),
             );
@@ -2291,7 +2291,7 @@ function validateRevealOrder(revealOrder: SuspenseListRevealOrder) {
           case 'backward': {
             console.error(
               '"%s" is not a valid value for revealOrder on <SuspenseList />. ' +
-                'React uses the -s suffix in the spelling. Use "%ss" instead.',
+              'React uses the -s suffix in the spelling. Use "%ss" instead.',
               revealOrder,
               revealOrder.toLowerCase(),
             );
@@ -2300,7 +2300,7 @@ function validateRevealOrder(revealOrder: SuspenseListRevealOrder) {
           default:
             console.error(
               '"%s" is not a supported revealOrder on <SuspenseList />. ' +
-                'Did you mean "together", "forwards" or "backwards"?',
+              'Did you mean "together", "forwards" or "backwards"?',
               revealOrder,
             );
             break;
@@ -2308,7 +2308,7 @@ function validateRevealOrder(revealOrder: SuspenseListRevealOrder) {
       } else {
         console.error(
           '%s is not a supported value for revealOrder on <SuspenseList />. ' +
-            'Did you mean "together", "forwards" or "backwards"?',
+          'Did you mean "together", "forwards" or "backwards"?',
           revealOrder,
         );
       }
@@ -2326,15 +2326,15 @@ function validateTailOptions(
         didWarnAboutTailOptions[tailMode] = true;
         console.error(
           '"%s" is not a supported value for tail on <SuspenseList />. ' +
-            'Did you mean "collapsed" or "hidden"?',
+          'Did you mean "collapsed" or "hidden"?',
           tailMode,
         );
       } else if (revealOrder !== 'forwards' && revealOrder !== 'backwards') {
         didWarnAboutTailOptions[tailMode] = true;
         console.error(
           '<SuspenseList tail="%s" /> is only valid if revealOrder is ' +
-            '"forwards" or "backwards". ' +
-            'Did you mean to specify revealOrder="forwards"?',
+          '"forwards" or "backwards". ' +
+          'Did you mean to specify revealOrder="forwards"?',
           tailMode,
         );
       }
@@ -2350,10 +2350,10 @@ function validateSuspenseListNestedChild(childSlot: mixed, index: number) {
       let type = isArray ? 'array' : 'iterable';
       console.error(
         'A nested %s was passed to row #%s in <SuspenseList />. Wrap it in ' +
-          'an additional SuspenseList to configure its revealOrder: ' +
-          '<SuspenseList revealOrder=...> ... ' +
-          '<SuspenseList revealOrder=...>{%s}</SuspenseList> ... ' +
-          '</SuspenseList>',
+        'an additional SuspenseList to configure its revealOrder: ' +
+        '<SuspenseList revealOrder=...> ... ' +
+        '<SuspenseList revealOrder=...>{%s}</SuspenseList> ... ' +
+        '</SuspenseList>',
         type,
         index,
         type,
@@ -2398,8 +2398,8 @@ function validateSuspenseListChildren(
         } else {
           console.error(
             'A single row was passed to a <SuspenseList revealOrder="%s" />. ' +
-              'This is not useful since it needs multiple rows. ' +
-              'Did you mean to pass multiple children or an array?',
+            'This is not useful since it needs multiple rows. ' +
+            'Did you mean to pass multiple children or an array?',
             revealOrder,
           );
         }
@@ -2693,7 +2693,7 @@ function updateContextConsumer(
           hasWarnedAboutUsingContextAsConsumer = true;
           console.error(
             'Rendering <Context> directly is not supported and will be removed in ' +
-              'a future major release. Did you mean to render <Context.Consumer> instead?',
+            'a future major release. Did you mean to render <Context.Consumer> instead?',
           );
         }
       }
@@ -2708,9 +2708,9 @@ function updateContextConsumer(
     if (typeof render !== 'function') {
       console.error(
         'A context consumer was rendered with multiple children, or a child ' +
-          "that isn't a function. A context consumer expects a single child " +
-          'that is a function. If you did pass a function, make sure there ' +
-          'is no trailing or leading whitespace around it.',
+        "that isn't a function. A context consumer expects a single child " +
+        'that is a function. If you did pass a function, make sure there ' +
+        'is no trailing or leading whitespace around it.',
       );
     }
   }
@@ -2866,7 +2866,7 @@ function remountFiber(
   } else {
     throw new Error(
       'Did not expect this call in production. ' +
-        'This is a bug in React. Please file an issue.',
+      'This is a bug in React. Please file an issue.',
     );
   }
 }
@@ -3295,9 +3295,9 @@ function beginWork(
   invariant(
     false,
     'Unknown unit of work tag (%s). This error is likely caused by a bug in ' +
-      'React. Please file an issue.',
+    'React. Please file an issue.',
     workInProgress.tag,
   );
 }
 
-export {beginWork};
+export { beginWork };
