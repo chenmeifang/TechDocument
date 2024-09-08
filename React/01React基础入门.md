@@ -618,11 +618,9 @@ https://www.bilibili.com/video/BV1wy4y1D7JT/?p=36&spm_id_from=pageDriver&vd_sour
 
 <img src="01.assets/image-20240308123918225.png" alt="image-20240308123918225"  />
 
-# 45 getSnapshotBeforeUpdate
+# [45 getSnapshotBeforeUpdate](45 getSnapshotBeforeUpdate)
 
-https://www.bilibili.com/video/BV1wy4y1D7JT/?p=45&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e
-
-在更新之前获取快照
+**在更新之前获取快照**
 
 <img src="01.assets/企业微信截图_1709871958620.png" alt="img" style="zoom: 67%;" />
 
@@ -631,21 +629,18 @@ https://www.bilibili.com/video/BV1wy4y1D7JT/?p=45&spm_id_from=pageDriver&vd_sour
 
 
 
-![image-20240308125038755](01.assets/image-20240308125038755.png)
-
-
-
-![image-20240308125115949](01.assets/image-20240308125115949.png)
+| <img src="01.assets/image-20240308125038755.png" alt="image-20240308125038755" style="zoom:80%;" /> | ![image-20240308125115949](01React基础入门.assets/image-20240308125115949.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
 
 - 这个返回的快照值交给谁了？ 
 
-  ![image-20240308125234037](01.assets/image-20240308125234037.png)
+![image-20240308125234037](01.assets/image-20240308125234037.png)
 
-  ![image-20240308125313717](01.assets/image-20240308125313717.png)
+![image-20240308125313717](01.assets/image-20240308125313717.png)
 
-# 46 getSnapshotBeforeUpdate举例
+# [46 getSnapshotBeforeUpdate举例](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=46&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-
+![image-20240908132157289](01React基础入门.assets/image-20240908132157289.png)
 
 # 47 总结生命周期（新）
 
