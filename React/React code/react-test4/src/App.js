@@ -3,6 +3,9 @@ import './App.css';
 import * as React from 'react';
 
 function App() {
+  React.useEffect(() => {
+    console.log('测试钩子函数的调用');
+  }, [])
   return (
     <div className="App">
       <header className="App-header">
