@@ -620,6 +620,16 @@ ctrl+shift+D
 
 # [34. VM模块使用](https://www.bilibili.com/video/BV1sA41137qw/?p=34&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
+NodeJS中，底层require实现用到了VM模块
+
+VM模块的核心作用：创建一个运行代码的沙箱环境
+
+看如何通过VM把a模块中的内容去放在b模块中执行
+
+考虑：怎么样能去把读出来的字符串，让它像JS一样运行起来
+
+![image-20240909230754277](02 高级Node.assets/image-20240909230754277.png)
+
 # 35. 模块加载模拟实现-1
 
 # 36. 模块加载模拟实现-2
