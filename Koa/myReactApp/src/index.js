@@ -5,7 +5,8 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 import router from './router';
-
+// console.log("test:", process.env.REACT_APP_REQUEST_BASE_URL);
+// console.log('process.env.NODE_ENV:', process.env.REACT_APP_ENV);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <App></App>

@@ -1,16 +1,31 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { DefinePlugin } = require('webpack');
+const dotenv = require('dotenv');
+
+// 注意：Webpack 的 mode 选项（development 或 production）虽然控制了一些默认配置，
+// 但不会自动定义 process.env.NODE_ENV
+
+// 1、加载环境变量
+const env = dotenv.config({ path: path.resolve(__dirname, `.env.${process.env.NODE_ENV}`) }).parsed;
+
+// 2、将环境变量转换为 Webpack DefinePlugin 所需的格式
+const envKeys = Object.keys(env).reduce((prev, next) => {
+    prev[`process.env.${next}`] = JSON.stringify(env[next]);
+    return prev;
+}, {});
 
 module.exports = {
     entry: {
         main: './src/index.js'
     },
     output: {
-        path: path.resolve(__dirname, 'dist10'),
+        path: path.resolve(__dirname, 'dist'),
         // filename: 'bundle.js'
-        filename: 'js/[name].js'
+        filename: 'js/[name].js',
         // filename: 'js/[name].[contenthash:10].js'
+        clean: true, // 清空上一次的打包内容
     },
     module: {
         rules: [
@@ -35,7 +50,8 @@ module.exports = {
                 test: /\.css$/,
                 use: [
                     // 'style-loader', 
-                    { loader: MiniCssExtractPlugin.loader },
+                    // todo: style-loader好像没有生效？？
+                    { loader: MiniCssExtractPlugin.loader }, // 将css提取成单独的文件
                     'css-loader'
                 ]
             }
@@ -51,8 +67,10 @@ module.exports = {
             // hash: true, // 是否在生成的js文件名中添加hash值，而不是给html文件添加hash值
         }),
         new MiniCssExtractPlugin({
+            // 将CSS提取成单独的文件
             filename: 'css/[name].css' // 输出的CSS文件名
-        })
+        }),
+        new DefinePlugin(envKeys),
     ],
     // mode: 'development',
     mode: 'production',
