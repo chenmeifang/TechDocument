@@ -1,12 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, FC, ReactNode } from "react";
 import "./Model.css";
 
-export default function Modal({
+interface ModalProps {
+  title: string;
+  isOpen: boolean;
+  onClose: () => void;
+  children?: ReactNode;
+  style?: React.CSSProperties;
+}
+
+const Modal: FC<ModalProps> = ({
   title = "默认标题",
   isOpen = false,
   onClose = () => {},
   children = <></>,
-}) {
+  style,
+}) => {
   console.log("child:", children);
   console.log("isOpen:", isOpen);
   useEffect(() => {
@@ -22,7 +31,7 @@ export default function Modal({
   // 暂时先不考虑销毁的事情
   return (
     <div className="modal-backdrop">
-      <div className="modal-content">
+      <div className="modal-content" style={style}>
         <div className="model-header">
           {/* todo: 不希望使用h3，应如何处理 */}
           <h3>{title}</h3>
@@ -34,4 +43,6 @@ export default function Modal({
       </div>
     </div>
   );
-}
+};
+
+export default Modal;
