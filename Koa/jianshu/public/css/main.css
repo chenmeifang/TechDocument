@@ -1,0 +1,34 @@
+/* 写页面遮罩需主要以下关键点：
+    1. 遮罩层的层级：足够高，避免被其他元素覆盖
+    2. 模态框里面内容的层级：比遮罩层高
+    3. 滚动条的处理：遮罩显示时，需禁止背景页面滚动，以避免干扰用户体验
+ */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: white;
+  width: 500px;
+}
+
+/* 需要在webpack中配置css相关的loader */
+.editor {
+  border: 1px solid red;
+  padding: 10px;
+  height: 400px;
+  width: 400px;
+  /* min-height: 200px; */
+  margin-top: 10px;
+}
+
+
+/*# sourceMappingURL=main.css.map*/

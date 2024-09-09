@@ -81,7 +81,7 @@ app.use(file.routes(), file.allowedMethods());
 const staticPath = path.join(__dirname, 'public'); // 假设静态文件在 public 目录
 // 处理 React 路由
 app.use(async (ctx) => {
-  // 如果请求的路径不以 /api 开头，且找不到对应的静态文件
+  // 如果找不到对应的静态文件...
   // && ctx.method === 'GET'
   if (ctx.status === 404) {
     await send(ctx, 'index.html', {

@@ -1,9 +1,8 @@
 import axios from "axios";
-// console.log("test:", process.env.REQUEST_BASE_URL);
 
 // 创建实例时配置默认值
 const http = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: process.env.REACT_APP_REQUEST_BASE_URL,
   withCredentials: true,
 });
 
