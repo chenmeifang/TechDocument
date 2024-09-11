@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node --inspect bin/www",
-    "dev": ".\\node_modules\\.bin\\nodemon --inspect bin/www",
-    "prd": "pm2 start bin/www",
+    "start": "cross-env NODE_ENV=development node --inspect bin/www",
+    "dev": "cross-env NODE_ENV=development .\\node_modules\\.bin\\nodemon --inspect bin/www",
+    "prd": "cross-env NODE_ENV=production pm2 start bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "@koa/multer": "^3.0.2",
+    "cross-env": "^7.0.3",
     "debug": "^4.1.1",
     "dotenv": "^16.4.5",
     "fast-speedtest-api": "^0.3.2",

@@ -8,7 +8,6 @@ const onerror = require("koa-onerror");
 const bodyparser = require("koa-bodyparser");
 const logger = require("koa-logger");
 const cors = require('koa2-cors');
-const socketIo = require('socket.io');
 const http = require('http');
 // const etag = require('koa-etag');
 const send = require('koa-send');
@@ -16,8 +15,6 @@ const path = require('path');
 
 // 创建koa应用
 const app = new Koa();
-
-const server = http.createServer(app.callback());
 
 const { MongoConnect } = require("./db");
 
@@ -27,7 +24,7 @@ MongoConnect();
 
 
 // 注意：一定要写在路由的前面
-const allowedOrigins = ['http://localhost:8080', 'http://localhost:4000', 'http://localhost:3000'];
+const allowedOrigins = ['http://localhost:8080', 'http://localhost:4000', 'http://localhost:3000', 'http://101.35.254.76:3000'];
 app.use(cors({
   origin: (ctx) => {
     const origin = ctx.request.header.origin;
@@ -97,26 +94,5 @@ app.use(async (ctx) => {
 app.on("error", (err, ctx) => {
   console.error("server error", err, ctx);
 });
-
-const io = socketIo(server, {
-  cors: {
-    origin: ['http://localhost:4000', 'http://localhost:8080', 'http://localhost:3000'],
-    methods: ["GET", "POST"]
-  }
-});
-io.on('connection', (socket) => {
-  console.log('a user connected');
-  socket.on('edit', (msg) => {
-    console.log('message:', msg);
-    // 只发送给当前的客户端
-    socket.emit('edit', msg);
-    // 通知除发送者外的所有连接的客户端
-    // socket.broadcast.emit('edit', msg);
-  })
-});
-
-// todo: 为什么这里监听3000端口就不行？？？
-// 大概知道了，有时间试一下3001端口行不行
-server.listen(4000);
 
 module.exports = app;
