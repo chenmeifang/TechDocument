@@ -30,16 +30,20 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: 'testname'
+      name: 'testname',
+      age: 18
     }
   }
   componentDidMount() {
     this.setState({
       name: 'chenmmeifang'
     })
+    this.setState({
+      age: 24
+    })
   }
   render() {
-    return <div>ceshi{this.state.name}</div>
+    return <div>ceshi{this.state.name}{this.state.age}</div>
   }
 }
 
