@@ -59,12 +59,12 @@ class cPromise {
                 queueMicrotask(() => {
                     try {
                         let result = onFulfilled(this.value);
-                        // todo: 这个if else需要更多验证
                         if (result instanceof cPromise) {
                             resolve(result.value);
                         } else {
                             resolve(result);
                         }
+                        resolve(result);
                     } catch (error) {
                         reject(error);
                     }
@@ -102,6 +102,12 @@ class cPromise {
             }
         });
     }
+
+    static resolve(value) {
+        return new Promise((resolve) => {
+            resolve(value);
+        })
+    }
 }
 // resolve，reject这两个方法外面是没有的，所以肯定是类内部提供的
 let p = new cPromise((resolve, reject) => {
@@ -113,19 +119,19 @@ let p = new cPromise((resolve, reject) => {
     // reject(222);
 })
     // .then()
+    // .then(
+    //     (res) => {
+    //         console.log("res:", res);
+    //         // throw new Error('错误');
+    //         return "第二个值";
+    //     },
+    //     (reason) => {
+    //         console.log("reason:", reason);
+    //     }
+    // )
     .then(
         (res) => {
-            console.log("res:", res);
-            // throw new Error('错误');
-            return "第二个值";
-        },
-        (reason) => {
-            console.log("reason:", reason);
-        }
-    )
-    .then(
-        (res) => {
-            console.log("res2:", res);
+            // console.log("res2:", res);
             return new cPromise((resolve) => {
                 resolve("向军大叔");
             });
@@ -135,10 +141,14 @@ let p = new cPromise((resolve, reject) => {
         }
     )
     .then((res) => {
-        console.log("res3:", res);
+        // console.log("res3:", res);
     });
 // console.log('后盾人');
 // .catch((error) => {
 //     console.log("error:", error);
 // });
 // console.log("p:", p);
+
+cPromise.resolve("后盾人").then(value => {
+    console.log('value:', value);
+})
