@@ -115,7 +115,7 @@ sudo apt-get install gitlab-runner
 
 - 系统会提示输入以下信息：
   - **GitLab 实例的 URL**（例如：https://gitlab.com 或你自己托管的 GitLab 实例的 URL）http://101.35.254.76:8989/
-  - **项目的注册令牌**（可以在项目的 **Settings > CI/CD > Runners** 页面中找到GR1348941HrxaDbxiT96YLU_xxDTy
+  - **项目的注册令牌**（可以在项目的 **Settings > CI/CD > Runners** 页面中找到GR1348941HrxaDbxiT96YLU_xxDTy GR1348941HrxaDbxiT96YLU_xxDTy
   - **Runner 描述**（可以随意命名，便于区分）
   - **Runner 标签**（可选，但可以为 Runner 打上特定标签）
   - **执行器类型**（选择你想要的执行器，比如 `docker` 或 `shell`）
@@ -440,4 +440,113 @@ shutdown_timeout = 0
     [runners.cache.gcs]
     [runners.cache.azure]
 ```
+
+# 11. 为什么服务器上gitLab Runner的状态是running，但gitlab上runner却未显示在线
+
+服务器上 GitLab Runner 状态显示为 "running"，但 GitLab 上 Runner 未显示在线，这种情况通常可能是以下几个原因造成的：
+
+### 1. **GitLab Runner 未正确注册到 GitLab**
+   即使 Runner 服务在服务器上正在运行，它也需要通过特定的 token 正确注册到 GitLab 才能在 GitLab 上显示在线。你可以检查以下步骤来确保注册过程正确：
+
+   - 确保你使用正确的注册命令，例如：
+     ```bash
+     sudo gitlab-runner register
+     ```
+     然后正确输入 GitLab URL、token 以及 Runner 名称等信息。
+
+   - 检查 `/etc/gitlab-runner/config.toml` 文件，确认 Runner 的 token、GitLab URL 等信息是否正确无误。
+
+### 2. **Token 错误或已失效**
+   在注册时使用的 token 错误或失效，GitLab 将无法识别该 Runner。你可以到 GitLab 的 **Admin Area -> CI / CD -> Runners** 页面重新生成一个 token，或检查该 token 是否仍有效。
+
+### 3. **Runner 配置了错误的 GitLab URL**
+   注册 Runner 时，输入的 GitLab 实例 URL 错误（比如协议不对，或者地址拼写错误）。确认你在注册 Runner 时使用了正确的 URL，确保它与你访问 GitLab 网页的地址一致。
+
+### 4. **防火墙或网络问题**
+   服务器可能因为网络问题无法连接到 GitLab，或是防火墙配置阻止了与 GitLab 实例的通信。你可以尝试以下操作：
+   - 检查服务器是否能够成功访问 GitLab 实例，运行命令：
+     ```bash
+     curl http://your-gitlab-url/
+     ```
+   - 确认服务器和 GitLab 之间没有被防火墙或网络策略阻挡。
+   - 检查 GitLab Runner 的日志文件，通常位于 `/var/log/gitlab-runner/`，查看是否有连接失败的错误。
+
+### 5. **Runner 被禁用或处于特定的分组**
+   确认 Runner 并没有被禁用，并且它是否只允许特定项目或分组使用。你可以在 GitLab 中查看 Runner 的设置，确保它配置为允许全局使用（如果需要）。
+
+### 6. **版本不兼容**
+   如果 GitLab Runner 的版本和 GitLab 实例的版本不兼容，可能会导致 Runner 无法显示在线。你可以尝试更新 GitLab Runner 到最新版本，或查看 GitLab 的兼容性要求。
+
+确认这些设置是否正确可以帮助你排查问题，确保 Runner 正常显示为在线。
+
+# 12. 查看gitlab-runner日志
+
+要查看 GitLab Runner 的相关日志，可以通过以下方式在不同系统中进行操作：
+
+### 1. **Linux 系统**
+
+GitLab Runner 的日志文件通常位于 `/var/log/gitlab-runner/` 目录下，你可以使用 `cat`、`tail`、`less` 等命令查看这些日志。
+
+- 查看最新日志：
+  ```bash
+  sudo tail -f /var/log/gitlab-runner/gitlab-runner.log
+  ```
+
+- 查看所有日志内容：
+  ```bash
+  sudo less /var/log/gitlab-runner/gitlab-runner.log
+  ```
+
+如果没有在这个目录下找到日志文件，GitLab Runner 的服务可能是通过 `systemd` 管理的，你可以通过 `journalctl` 查看运行时的日志：
+
+- 查看 GitLab Runner 服务日志：
+  ```bash
+  sudo journalctl -u gitlab-runner
+  ```
+
+- 实时查看日志输出：
+  ```bash
+  sudo journalctl -u gitlab-runner -f
+  ```
+
+关键报错信息：
+
+```shell
+Sep 20 16:30:38 VM-16-9-ubuntu gitlab-runner[1016226]: FATAL: Service run failed                           error=chdir /home/gitlab-runner: no such file or directory
+Sep 20 16:30:38 VM-16-9-ubuntu systemd[1]: gitlab-runner.service: Main process exited, code=exited, status=1/FAILURE
+Sep 20 16:30:38 VM-16-9-ubuntu systemd[1]: gitlab-runner.service: Failed with result 'exit-code'.
+```
+
+根据你提供的错误信息，`gitlab-runner` 服务在启动时出现了问题，具体是由于找不到 `/home/gitlab-runner` 目录导致的。以下是解决此问题的步骤：
+
+1. **检查目录是否存在**：
+   运行以下命令，检查 `/home/gitlab-runner` 目录是否存在：
+   ```bash
+   ls /home/gitlab-runner
+   ```
+   如果该目录不存在，你需要创建它。
+
+2. **创建目录**：
+   如果目录不存在，可以通过以下命令创建：
+   ```bash
+   sudo mkdir -p /home/gitlab-runner
+   ```
+
+3. **设置权限**：
+   确保 `gitlab-runner` 用户对该目录有访问权限：
+   ```bash
+   sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner
+   ```
+
+4. **重启 GitLab Runner 服务**：
+   完成上述步骤后，重启 `gitlab-runner` 服务：
+   ```bash
+   sudo systemctl restart gitlab-runner
+   ```
+
+5. **检查服务状态**：
+   查看服务状态以确保没有其他错误：
+   ```bash
+   sudo systemctl status gitlab-runner
+   ```
 
