@@ -1,7 +1,5 @@
 import logo from './logo.svg';
 import './App.css';
-import Test from './Test';
-import * as React from 'react';
 
 function App() {
   return (
@@ -19,31 +17,9 @@ function App() {
         >
           Learn React
         </a>
-        <Test></Test>
       </header>
     </div>
   );
 }
-
-// class App extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       name: 'testname',
-//       age: 18
-//     }
-//   }
-//   componentDidMount() {
-//     this.setState({
-//       name: 'chenmmeifang'
-//     })
-//     this.setState({
-//       age: 24
-//     })
-//   }
-//   render() {
-//     return <div>ceshi{this.state.name}{this.state.age}</div>
-//   }
-// }
 
 export default App;
