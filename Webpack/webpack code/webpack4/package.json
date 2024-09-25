@@ -1,0 +1,19 @@
+{
+  "name": "webpack4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "file-loader": "^3.0.0",
+    "html-webpack-plugin": "^4.0.0",
+    "webpack": "^4.47.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "dependencies": {}
+}
