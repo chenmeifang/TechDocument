@@ -558,58 +558,7 @@ module.exports与exports有什么区别？
 
 使用require时文件定位的流程：
 
-### 1. **核心模块**
-Node.js 会首先检查是否请求的是一个核心模块（如 `fs`、`path` 等）。核心模块是 Node.js 自带的，不需要安装，也不需要进行路径解析。如果是核心模块，Node.js 会直接返回这个模块，跳过后续的文件系统查找。
-
-### 2. **文件或目录**
-如果不是核心模块，Node.js 将根据传入的路径来解析是否为一个文件或目录。
-
-#### 2.1. **绝对路径**
-如果 `require` 的路径是绝对路径（以 `/` 开头），Node.js 会直接尝试加载该路径指定的文件。
-
-#### 2.2. **相对路径**
-如果 `require` 的路径是相对路径（以 `.` 或 `..` 开头），Node.js 会基于调用模块的路径，结合相对路径来解析模块文件的位置。
-
-#### 2.3. **模块名称（不带路径）**
-如果 `require` 的路径没有以 `.`、`..` 或 `/` 开头，Node.js 会将其视为一个模块名称，并按照下面的步骤查找。
-
-### 3. **文件扩展名解析**
-Node.js 在尝试加载一个文件时，会按照下面的顺序自动补全文件扩展名，尝试加载：
-
-1. 直接加载 `require` 路径指定的文件。
-2. 尝试加载 `.js` 扩展名的文件。
-3. 尝试加载 `.json` 扩展名的文件。
-4. 尝试加载 `.node` 扩展名的文件（Node.js 原生模块，用 C/C++ 编写）。
-
-例如，`require('./module')` 会依次尝试加载：
-
-- `./module`
-- `./module.js`
-- `./module.json`
-- `./module.node`
-
-### 4. **目录作为模块**
-如果 `require` 路径解析为一个目录，Node.js 会按以下顺序尝试加载目录中的内容：
-
-1. **尝试加载 `package.json`**
-   - 如果目录下有 `package.json` 文件，Node.js 会解析其中的 `"main"` 字段，并尝试加载该字段指定的文件。
-   - 如果 `"main"` 字段不存在或指定的文件无法解析，Node.js 将继续尝试加载目录中的其他内容。
-
-2. **尝试加载 `index` 文件**
-   - 如果目录下没有 `package.json` 文件，或者文件解析失败，Node.js 会尝试加载 `index.js`、`index.json`、`index.node` 文件。
-
-### 5. **查找 `node_modules` 目录**
-如果经过上述步骤仍未找到模块，Node.js 会从当前模块的所在目录开始，逐级向上查找 `node_modules` 目录，直到找到对应的模块文件为止。
-
-例如，`require('module-name')` 的查找顺序为：
-
-1. 当前目录的 `./node_modules/module-name`
-2. 上一级目录的 `../node_modules/module-name`
-3. 再上一级目录的 `../../node_modules/module-name`
-4. 一直向上查找到文件系统的根目录为止。
-
-### 6. **抛出错误**
-如果经过以上所有步骤仍未找到模块，Node.js 会抛出 `MODULE_NOT_FOUND` 错误。
+![image-20240925225812586](02 高级Node.assets/image-20240925225812586.png)
 
 ### 总结
 Node.js 在使用 `require` 时，按照核心模块 > 文件或目录 > 文件扩展名 > 目录索引 > `node_modules` 目录的顺序进行文件定位。这个流程使得 Node.js 能够灵活地加载不同类型的模块，并且能够在复杂的项目结构中找到正确的文件。
@@ -620,19 +569,65 @@ ctrl+shift+D
 
 # [34. VM模块使用](https://www.bilibili.com/video/BV1sA41137qw/?p=34&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
+VM模块是一个内置核心模块
+
 NodeJS中，底层require实现用到了VM模块
 
 VM模块的核心作用：创建一个运行代码的沙箱环境
 
-看如何通过VM把a模块中的内容去放在b模块中执行
+看如何通过VM把a模块中的内容放在b模块中执行
 
 考虑：怎么样能去把读出来的字符串，让它像JS一样运行起来
 
-![image-20240909230754277](02 高级Node.assets/image-20240909230754277.png)
+```txt
+// test.txt
+var age = 18;
+```
 
-# 35. 模块加载模拟实现-1
 
-# 36. 模块加载模拟实现-2
+
+```js
+const fs = require('fs');
+const vm = require('vm');
+
+let age = 33;
+// 不传'utf-8'时，默认返回的是Buffer
+let content = fs.readFileSync('test.txt', 'utf-8');
+console.log('content1:', content);
+
+// eval：用于将字符串作为代码执行
+// eval不合适，因为作用域不独立
+// eval(content);
+// console.log('content2:', age);
+
+// 使用 new Function 创建的函数不会访问创建它的上下文中的变量
+// 所有的变量都必须通过参数传入
+// let fn = new Function('age', "return age + 1");
+// console.log(fn(age));
+
+vm.runInThisContext(content);
+// console.log('age1:', age);
+
+// vm.runInThisContext("age += 10");
+// console.log('age2:', age);
+```
+
+# [35. 模块加载模拟实现-1](https://www.bilibili.com/video/BV1sA41137qw/?p=35&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+核心逻辑：
+
+- 路径分析：确定目标模块的绝对路径
+- 缓存优先
+- 文件定位
+- 编译执行
+
+```js
+// v.js
+const name = 'lg';
+module.exports = name;
+```
+
+# [36. 模块加载模拟实现-2](https://www.bilibili.com/video/BV1sA41137qw/?p=36&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 # [37. 事件模块](https://www.bilibili.com/video/BV1sA41137qw?p=37&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
