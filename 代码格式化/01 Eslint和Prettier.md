@@ -1246,7 +1246,7 @@ npm install --save-dev eslint-plugin-prettier
 
 # 13. 如果只使用ESLint，不使用Prettier，会有什么问题
 
-
+感觉没什么问题！！！
 
 # 14. ESLint相关报错
 

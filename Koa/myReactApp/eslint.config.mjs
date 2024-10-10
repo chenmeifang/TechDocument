@@ -12,6 +12,9 @@ export default [
   {
     'rules': {
       '@typescript-eslint/no-unused-expressions': 'off',
+      'quotes': ['error', 'single'],
+      'indent': ['error', 2], // 2个空格缩进
+      'semi': ['error', 'always'],
     }
   },
   {
