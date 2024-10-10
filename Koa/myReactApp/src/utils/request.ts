@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 // 创建实例时配置默认值
 const http = axios.create({
@@ -10,7 +10,7 @@ const http = axios.create({
 http.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
-    console.log("config:", config);
+    console.log('config:', config);
     // 设置请求头中的Authorization字段
     config.headers.setAuthorization(document.cookie);
     // 查看withCredentials属性————结果是undefined——请求中未看到cookie

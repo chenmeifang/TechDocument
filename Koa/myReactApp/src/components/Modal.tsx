@@ -1,5 +1,5 @@
-import React, { useEffect, FC, ReactNode } from "react";
-import "./Model.css";
+import React, { useEffect, FC, ReactNode } from 'react';
+import './Model.css';
 
 interface ModalProps {
   title: string;
@@ -10,20 +10,20 @@ interface ModalProps {
 }
 
 const Modal: FC<ModalProps> = ({
-  title = "默认标题",
+  title = '默认标题',
   isOpen = false,
   onClose = () => {},
   children = <></>,
   style,
 }) => {
-  console.log("child:", children);
-  console.log("isOpen:", isOpen);
+  console.log('child:', children);
+  console.log('isOpen:', isOpen);
   useEffect(() => {
     // 禁止背景滚动
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     }
   }, [isOpen]);
   if (!isOpen) return null;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import FileList from './pages/FileList';
 import FileEdit from './pages/FileEdit/index.jsx';

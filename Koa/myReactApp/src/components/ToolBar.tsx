@@ -1,29 +1,29 @@
-import React, { useState } from "react";
-import Modal from "./Modal";
+import React, { useState } from 'react';
+import Modal from './Modal';
 
 export default function ToolBar() {
   const [isModelOpen, setModelOpen] = useState(false);
-  const [title, setTitle] = useState("默认标题");
+  const [title, setTitle] = useState('默认标题');
   const [style, setStyle] = useState({});
 
   const insertLink = () => {
     // 要打开一个弹框组件
     setModelOpen(true);
-    setTitle("插入超链接");
+    setTitle('插入超链接');
   };
   const pageSetting = () => {
     // 要打开一个弹框组件
     setModelOpen(true);
-    setTitle("页面设置");
+    setTitle('页面设置');
   };
   const findAndReplace = () => {
     setModelOpen(true);
-    setTitle("查找替换");
-    setStyle({ backgroundColor: "red", top: "40px", position: "absolute" });
+    setTitle('查找替换');
+    setStyle({ backgroundColor: 'red', top: '40px', position: 'absolute' });
   };
   const closeModal = () => {
     setModelOpen(false);
-    setTitle("");
+    setTitle('');
     setStyle({});
   };
   return (

@@ -1,13 +1,13 @@
-import React, { useRef, useEffect } from "react";
-import { useState } from "react";
+import React, { useRef, useEffect } from 'react';
+import { useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 // useNavigate应该是6版本的属性??
-import { http } from "../../utils/request";
+import { http } from '../../utils/request';
 
 const Login = () => {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
   const [count, setCount] = useState(0);
 
   // const navigate = useNavigate();
@@ -15,7 +15,7 @@ const Login = () => {
   const login = () => {
     // 1.发送请求到后台，获取token
     http
-      .post("/users/login", {
+      .post('/users/login', {
         username: userName,
         pwd: password,
       })
@@ -28,9 +28,9 @@ const Login = () => {
           document.cookie = `${token}`;
           // console.log('cookie1：', document.cookie);
           // 2.跳转到fileList页面
-          history.replace("/fileList");
+          history.replace('/fileList');
         } else {
-          alert("Invalid credentials");
+          alert('Invalid credentials');
         }
       })
       .catch(function (error) {
@@ -51,20 +51,20 @@ const Login = () => {
   // 开启一个定时器
   const openSetTimeout = () => {
     timeoutId = setTimeout(() => {
-      console.log("开启了一个定时器");
+      console.log('开启了一个定时器');
     }, 1000);
   };
 
   // 关闭一个定时器
   const clearSetTimeout = () => {
-    console.log("关闭一个定时器");
+    console.log('关闭一个定时器');
     clearTimeout(timeoutId);
   };
 
   // let intervalId: number | NodeJS.Timeout = -1;
   // 重要：如果需要在多个渲染周期之间持久化非状态变量的值，可以使用useRef
   //       useRef创建的对象在组件的整个生命周期内保持不变，不会因重新渲染而重置
-  let intervalRef = useRef<NodeJS.Timeout | number>(-1);
+  const intervalRef = useRef<NodeJS.Timeout | number>(-1);
   const openSetInterval = () => {
     intervalRef.current = setInterval(() => {
       console.log(new Date());
@@ -76,7 +76,7 @@ const Login = () => {
   };
   if (count > 0) {
     useEffect(() => {
-      console.log("Count is greater than 0");
+      console.log('Count is greater than 0');
     }, []);
   }
   const addCount = () => {

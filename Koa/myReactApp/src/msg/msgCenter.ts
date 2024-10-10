@@ -1,6 +1,6 @@
-import socket from "./socket";
-import { addUndo } from "../undoRedoManager/undoRedoManager";
-import { Message } from "../types/type";
+import socket from './socket';
+import { addUndo } from '../undoRedoManager/undoRedoManager';
+import { Message } from '../types/type';
 
 type MsgPair = { msg: Array<Message>; rMsg: Array<Message> };
 
@@ -35,14 +35,14 @@ const combineMsg = (newMsg: Message, oldMsg: Message) => {
  */
 const isContinuedMsg = (msgList: Array<Message>) => {
   const msg = msgList[0];
-  if (msg.type === "insert") {
+  if (msg.type === 'insert') {
     return true;
   }
 };
 
 // Compress continuous insert/delete text message
 const compressMsg = (msgList: Array<Message>, rMsgList: Array<Message>) => {
-  let msg: Message = msgList[0];
+  const msg: Message = msgList[0];
   if (prevCompressed.msg.length) {
     combineMsg(msg, prevCompressed.msg[0]);
   } else {
@@ -67,7 +67,7 @@ const flushMessage = () => {
  * @param {*} msgList
  */
 const sendOutMsg = (msgList: Array<Message>, rMsgList: Array<Message>) => {
-  socket.emit("edit", msgList);
+  socket.emit('edit', msgList);
   addUndo(msgList, rMsgList);
 };
 
@@ -75,7 +75,7 @@ const sendOutMsg = (msgList: Array<Message>, rMsgList: Array<Message>) => {
 // socket.emit: 只发送给当前的客户端
 // socket.broadcast.emit: 发送给除当前客户端以外的所有其他客户端
 export const sendOutMsgWithoutDealUndoRedo = (msgList: Array<Message>) => {
-  socket.emit("edit", msgList);
+  socket.emit('edit', msgList);
 };
 
 /**
@@ -89,8 +89,8 @@ export const sendMsg = (
     rMsg: Message;
   }>
 ) => {
-  let msgList: Array<Message> = [];
-  let rMsgList: Array<Message> = [];
+  const msgList: Array<Message> = [];
+  const rMsgList: Array<Message> = [];
   let msg: Message;
   let rMsg: Message;
   for (let i = 0; i < msgPairList.length; i++) {
@@ -123,7 +123,7 @@ const createInsertTextAct = (index: number, length: number, cnt: string) => {
   return {
     idx: index,
     len: length,
-    type: "insert",
+    type: 'insert',
     cnt,
   };
 };
@@ -132,7 +132,7 @@ const createDeleteTextAct = (index: number, length: number, cnt?: string) => {
   return {
     idx: index,
     len: length,
-    type: "delete",
+    type: 'delete',
     cnt,
   };
 };
