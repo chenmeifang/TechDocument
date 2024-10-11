@@ -178,6 +178,14 @@ sudo service mongodb start
 
 ![image-20240327232934905](07 WSL.assets/image-20240327232934905.png)
 
+**`-port=27017`**：指定 MongoDB 监听的端口号为 27017，这是 MongoDB 的默认端口。如果没有这个参数，MongoDB 也会默认使用 27017 端口
+
+**`-storageEngine=mmapv1`**：指定 MongoDB 使用 `mmapv1` 作为存储引擎。`mmapv1` 是 MongoDB 较早期的一个存储引擎，现在更多推荐使用默认的 `WiredTiger` 存储引擎
+
+**`--logappend`**：告诉 MongoDB 将日志信息附加到现有的日志文件中，而不是覆盖它们。这个选项很有用，因为可以保留之前的日志记录，便于排查问题
+
+**`--journal`**：启用 MongoDB 的日记功能（journaling），它有助于防止意外崩溃后数据的损坏。`--journal` 确保 MongoDB 在写入数据之前先写入日志，以便在崩溃后可以通过日志恢复未完成的写操作
+
 # 8. wsl中安装Java JDK
 
 ```shell

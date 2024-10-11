@@ -69,7 +69,8 @@
 1. **`cross-env NODE_ENV=development`**:
    - `cross-env` 是一个工具，用于在不同平台（如Windows和Unix）上设置和使用环境变量。
    - `NODE_ENV=development` 设置环境变量 `NODE_ENV` 的值为 `development`，告诉应用程序它正在开发环境中运行。
-
+   - 后面可以在别的地方通过`process.env.NODE_ENV`使用
+   
 2. **`LS_DOCSSERVER_APIGATEWAY_SERVER_PORT=8088`**:
    - 设置环境变量 `LS_DOCSSERVER_APIGATEWAY_SERVER_PORT`，将API网关服务器的端口设置为 `8088`。
 
