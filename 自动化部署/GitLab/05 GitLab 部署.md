@@ -1353,7 +1353,7 @@ ERROR: Job failed: exit status 1
 
 ![image-20240922143738355](05 GitLab 部署.assets/image-20240922143738355.png)
 
-# 24. .gitlab-ci.yml如果要用到另一个仓库项目中打包输出的文件，要怎么写
+# 24. 要用到另一个仓库项目中打包输出的文件，.gitlab-ci.yml怎么写
 
 在 GitLab CI/CD 流程中，如果你想在一个项目的 CI 中使用另一个仓库中的打包输出文件，通常可以通过以下几种方式实现：
 
@@ -1397,7 +1397,7 @@ download_artifacts:
     - build_job  # 这里引用项目 A 的 job
 ```
 
-项目 B 可以通过 `dependencies` 引用项目 A 的 `artifacts`，但这种方式要求两个项目在同一个 GitLab CI pipeline 中定义。
+项目 B 可以通过 `dependencies` 引用项目 A 的 `artifacts`，**但这种方式要求两个项目在同一个 GitLab CI pipeline 中定义**。
 
 ### 示例 2：使用 Git 子模块
 如果你使用的是 Git 子模块，可以在 `.gitlab-ci.yml` 中先克隆并初始化子模块，然后执行相关操作。
@@ -1437,8 +1437,6 @@ download_from_other_repo:
 
 ### 示例 4：使用 Docker 镜像共享构建结果
 你也可以将项目 A 打包成 Docker 镜像，并在项目 B 中直接使用该镜像。
-
-
 
 # 25 . 共享文件
 
@@ -1675,8 +1673,6 @@ sudo apt-get install curl openssl
 ### 5. **检查 GitLab Runner 的配置**
 确保 GitLab Runner 的 `config.toml` 文件中配置的 GitLab 地址是正确的，并且使用的是 `https://` 前缀。如果服务器没有配置 SSL，使用 `http://`。
 
-如果问题依旧存在，建议查看 GitLab Runner 和 GitLab 的日志，可能会提供更多的错误细节。
-
 # variables:  GIT_SSL_NO_VERIFY: "1"添加完后还是报相同的错
 
 如果在 `.gitlab-ci.yml` 文件中添加了 `GIT_SSL_NO_VERIFY: "1"` 之后，依然遇到相同的 SSL 错误，可能有以下几种情况需要进一步排查：
@@ -1885,3 +1881,136 @@ pm2 bin/www 改成
 pm2 start bin/www
 ```
 
+# gitlab-ci.yml中的artifacts存储在云服务器上的哪个位置
+
+在 GitLab CI 中，`artifacts` 是指在流水线执行过程中生成的文件或输出结果，这些文件可以在不同的 job 之间传递，或在流水线结束后供用户下载查看。
+
+但是，GitLab 并不会直接将 `artifacts` 存储在云服务器的文件系统中，而是通过以下两种方式处理：
+
+### 1. **GitLab Runner 的存储位置**
+`artifacts` 首先会被 GitLab Runner 保存并上传到 GitLab 实例中，具体的位置取决于 Runner 的配置。GitLab Runner 的默认行为是将 `artifacts` 上传到 **GitLab 服务器**，而不是直接保存在**运行 Job 的云服务器上**。
+
+- **上传至 GitLab 实例**：当 Job 完成后，`artifacts` 会被打包并上传到 GitLab 实例的数据库或对象存储（如果有配置）。这意味着用户可以通过 GitLab Web 界面从 Pipeline 的界面下载这些 `artifacts`。
+
+### 2. **GitLab 实例存储**
+当 `artifacts` 上传到 GitLab 实例时，它会被存储在 GitLab 的存储系统中，这取决于你如何配置 GitLab 服务器，通常有两种存储方式：
+
+- **本地文件系统**：如果你没有使用对象存储，`artifacts` 会被存储在 GitLab 实例的文件系统中。默认位置通常是在 GitLab 实例的安装目录中，例如：
+  
+  ```
+  /var/opt/gitlab/gitlab-rails/shared/artifacts
+  ```
+
+  在这个目录下，GitLab 会按项目和 Pipeline ID 对 `artifacts` 进行分层存储。
+
+- **对象存储**：如果 GitLab 实例配置了外部对象存储（例如 AWS S3 或 MinIO），那么 `artifacts` 会存储在配置的对象存储系统中，而不是 GitLab 服务器的本地文件系统。这种方式常用于大规模部署，能减轻服务器的存储压力。
+
+### 在 GitLab Runner 本地的存储位置
+如果你想知道在运行 Job 的云服务器上（即 GitLab Runner 所在的机器）`artifacts` 是临时存储在哪里，默认情况下，`artifacts` 会被存储在 Runner 的工作目录下，路径通常为：
+
+```
+/builds/<group>/<project>
+```
+
+在这个目录下，每个 Job 的输出和 `artifacts` 会临时存放，但最终会被上传到 GitLab 实例中，之后 Runner 会清理本地的临时文件。
+
+### 总结：
+- **`artifacts` 的最终存储位置** 是 GitLab 实例的文件系统或对象存储，而不是直接保存在云服务器上。
+- 在云服务器上（即 GitLab Runner 所在的机器），`artifacts` 只会临时存储，具体路径在 GitLab Runner 的工作目录下，通常位于 `/builds` 下。
+
+# Gitlab服务器和运行Job的云服务器不是同一个服务器吗，他们可以是同一个服务器吗
+
+**GitLab 服务器**和**运行 Job 的云服务器（GitLab Runner 服务器）**可以是同一个服务器，也可以是不同的服务器。这取决于你的项目需求、架构设计以及服务器资源的分配。
+
+### 1. **GitLab 服务器和 Runner 在同一台服务器的情况**
+
+你可以将 GitLab 服务器和 GitLab Runner 部署在同一台机器上，尤其是在以下情况下：
+- 项目规模较小，不需要大量的计算资源。
+- 你希望简化部署架构，只需管理一台服务器。
+- 没有很多并行的 CI/CD 任务，资源负担较轻。
+
+#### 优点：
+- **简化部署和管理**：只需要管理一台服务器，不需要额外配置 Runner 与 GitLab 实例之间的通信。
+- **节省成本**：不需要单独的云服务器来运行 Job，减少了硬件和运维成本。
+  
+#### 缺点：
+- **资源竞争**：GitLab 实例和 Runner 进程会共享同一个服务器的资源（如 CPU、内存、存储），如果 CI/CD 任务密集，可能会影响 GitLab 实例的性能，甚至导致 Web 界面和操作变慢。
+- **扩展性差**：当项目变大，CI/CD 任务变多时，单台服务器的资源很快会耗尽，限制了并行构建的能力。
+
+### 2. **GitLab 服务器和 Runner 在不同服务器的情况**
+
+在较大的项目中，通常会将 GitLab 服务器和 GitLab Runner 部署在不同的机器上，以便更好地分配资源和扩展 CI/CD 能力。
+
+#### 优点：
+- **资源隔离**：GitLab 服务器和 Runner 服务器之间资源互不干扰。即使有大量的 CI/CD 任务运行，也不会影响 GitLab 服务器的性能。
+- **更好的扩展性**：你可以根据需求部署多个 Runner 实例来提高并行执行任务的能力，确保持续集成的效率。
+- **高可用性**：可以使用多个 Runner 来分担任务，避免因为单个 Runner 服务器故障而影响所有 CI/CD 任务。
+
+#### 缺点：
+- **配置更复杂**：需要在不同的服务器之间配置通信。GitLab 服务器和 Runner 之间需要通过网络互相通信，增加了配置和管理的复杂性。
+- **成本增加**：需要额外的服务器来运行 Runner，增加了硬件和运维成本。
+
+### 3. **在同一服务器上配置 GitLab 和 Runner 的场景**
+
+如果你选择将 GitLab 服务器和 Runner 部署在同一台服务器上，你只需确保 GitLab 和 Runner 正常安装并运行。具体步骤如下：
+
+1. **安装 GitLab**：按照官方文档安装 GitLab 实例，并进行配置。
+2. **安装 GitLab Runner**：在同一台服务器上，安装并注册 GitLab Runner，Runner 会自动与本地 GitLab 实例通信。
+3. **注册 Runner**：在 `gitlab-ci.yml` 中定义 CI/CD Pipeline，Job 将由同一台服务器的 Runner 执行。
+
+### 4. **在不同服务器上配置 GitLab 和 Runner 的场景**
+
+如果 GitLab 和 Runner 位于不同的服务器，你需要：
+1. **安装 GitLab 服务器**：在一台服务器上安装和配置 GitLab 实例。
+2. **在其他服务器上安装 GitLab Runner**：在云服务器（或其他机器）上安装 GitLab Runner。
+3. **注册 Runner**：通过 GitLab Web 界面生成一个 Runner 注册令牌，将 Runner 注册到 GitLab 服务器。Runner 服务器与 GitLab 实例通过网络通信。
+   
+### 总结
+- **可以是同一台服务器**：GitLab 服务器和 Runner 可以部署在同一台服务器上，这在小规模项目中很常见。
+- **也可以是不同的服务器**：对于大型项目或高并发需求，通常会将 Runner 部署在单独的云服务器上，以保证 GitLab 服务器的性能并提升并行构建能力。
+
+你的选择应取决于项目的规模、并行任务的数量和服务器资源的配置。
+
+# gitlab-ci.yml中的artifacts存储在云服务器上的哪个位置，当Gitlab服务器和运行Job的云服务器是同一个服务器的时候
+
+当 GitLab 服务器和运行 Job 的云服务器是同一台服务器时，**`artifacts`** 仍然遵循 GitLab 的存储机制。具体来说，`artifacts` 会先由 **GitLab Runner** 进行临时保存，随后被上传到 **GitLab 实例的存储位置**。如果 GitLab 服务器和 Runner 运行在同一个服务器上，文件的存储路径和上传流程并不会发生太大变化。
+
+### 1. **GitLab Runner 临时存储位置**
+
+在运行 Job 时，GitLab Runner 会在本地保存 Job 的中间结果（包括 `artifacts`）。这些临时文件通常存储在 Runner 的工作目录下。默认路径为：
+
+```
+/builds/<group>/<project>
+```
+
+- `<group>` 和 `<project>` 是项目的名称或标识，代表了具体项目的 Job 存放路径。
+- 这个目录是 GitLab Runner 临时存储 Job 文件的地方，Job 结束后会将这些文件上传到 GitLab 实例，并清理本地存储。
+
+### 2. **GitLab 实例的 `artifacts` 存储位置**
+
+当 Job 执行完毕后，GitLab Runner 会将 `artifacts` 上传到 GitLab 服务器的 **`artifacts` 存储位置**。在 GitLab 服务器上，`artifacts` 通常会存储在以下路径：
+
+```
+/var/opt/gitlab/gitlab-rails/shared/artifacts
+```
+
+在这个路径下，GitLab 按项目和 Pipeline ID 分层存储上传的 `artifacts`。GitLab 的存储是由系统自动管理的，你可以在 GitLab 实例中通过 Web 界面查看并下载这些 `artifacts`。
+
+### 3. **清理机制**
+
+- **GitLab Runner** 的本地存储会在 Job 结束后被清理，Runner 只负责在执行 Job 时临时存储文件。
+- **GitLab 实例** 会根据配置来决定保留 `artifacts` 的时间。如果有设置过期时间（通过 `gitlab-ci.yml` 中的 `expire_in` 选项），GitLab 会在指定时间后自动删除这些 `artifacts`。
+
+### 4. **对象存储的可能性**
+
+如果你配置了对象存储（如 AWS S3 或其他兼容的存储服务），那么 `artifacts` 会被上传到对象存储服务，而不是存储在服务器的本地文件系统中。这种方式能减轻服务器的存储压力，提升扩展性。
+
+### 总结
+
+当 GitLab 服务器和运行 Job 的云服务器是同一台服务器时：
+
+- `artifacts` 会在 Job 执行期间暂时保存在 Runner 的工作目录中，通常是 `/builds/<group>/<project>`。
+- Job 执行完毕后，`artifacts` 会被上传到 GitLab 实例的存储目录，默认路径为 `/var/opt/gitlab/gitlab-rails/shared/artifacts`。
+- 如果配置了对象存储，`artifacts` 会存储在外部的对象存储服务中。
+
+你可以根据实际需求来配置 GitLab 的 `artifacts` 过期时间和存储方式。
