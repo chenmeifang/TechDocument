@@ -1,0 +1,102 @@
+// 各种变量以及可配置设置
+$white: #fff !default;
+// 具体来说，!default 的作用是：
+// 如果变量 $white 没有被定义，或者值是 null，则它将被赋值为 #fff。
+// 如果 $white 已经在其他地方被定义过，那么这一行不会修改它的值，保持之前定义的值
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black: #000 !default;
+
+$blue: #0d6efd !default;
+$indigo: #6610f2 !default;
+$purple: #6f42c1 !default;
+$pink: #d63384 !default;
+$red: #dc3545 !default;
+$orange: #fd7314 !default;
+$yellow: #fadb14 !default;
+$green: #52c41a !default;
+$teal: #20c997 !default;
+$cyan: #17a2b8 !default;
+
+$primary: $blue !default;
+$secondary: $gray-600 !default;
+$success: $green !default;
+$info: $cyan !default;
+$warning: $yellow !default;
+$danger: $red !default;
+$light: $gray-100 !default;
+$dark: $gray-800 !default;
+
+// -apple-system: 针对Apple设备的系统字体
+// BlinkMacSystemFont：Chrome，Safari中的macOS系统字体
+// "Segoe UI": Windows系统的标准界面字体
+// Roboto：Android和其他Google产品的标准字体
+// "Helvetica Neue" 和 "Arial": 两种常见的无衬线字体，分别用于macOS和Windows系统
+// "Noto Sans"：一种无衬线字体，特别适用于多语言支持
+// sans-serif: 最终的通用无衬线字体作为兜底选择
+// "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"：提供跨平台的表情符号支持
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-family-base: $font-family-sans-serif !default;
+
+$font-size-base: 1rem !default;
+$font-size-lg: $font-size-base * 1.25 !default;
+$font-size-sm: $font-size-base * 0.875 !default;
+
+$body-color: $gray-900 !default;
+
+$line-height-base: 1.5 !default;
+
+// 边框和border-radius
+$border-width: 1px !default;
+$border-color: $gray-300 !default;
+
+$border-radius: 0.25rem !default;
+$border-radius-lg: 0.3rem !default;
+$border-radius-sm: 0.2rem !default;
+
+$font-weight-normal: 400 !default;
+
+$link-color: $primary !default;
+$link-decoration: none !default;
+$link-hover-color: darken($link-color, 15%) !default;
+$link-hover-decoration: underline !default;
+
+// 按钮基本属性
+$btn-font-weight: 400; // 用于设置字体的粗细 400等同于normal
+$btn-padding-y: 0.375rem !default;
+$btn-padding-x: 0.75rem !default;
+$btn-font-family: $font-family-base !default;
+$btn-font-size: $font-size-base !default;
+$btn-line-height: $line-height-base !default;
+
+// 不同大小按钮的padding和font size
+$btn-padding-y-sm: 0.25rem !default;
+$btn-padding-x-sm: 0.5rem !default;
+$btn-font-size-sm: $font-size-sm !default;
+
+$btn-padding-y-lg: 0.5rem !default;
+$btn-padding-x-lg: 1rem !default;
+$btn-font-size-lg: $font-size-lg !default;
+
+$btn-border-width: $border-width !default;
+
+$btn-border-radius: $border-radius !default;
+$btn-border-radius-lg: $border-radius-lg !default;
+$btn-border-radius-sm: $border-radius-sm !default;
+
+$btn-box-shadow: inset 1px 1px 0 rgba($white, 0.15), 0 1px 1px rgba(0, 0, 0, 0.1);
+
+$btn-transition: color 0.15s ease-in-out, background-color 0.15s;
+
+$btn-disabled-opacity: 0.65 !default;
+
+$btn-link-color: $link-color !default;
+$btn-link-hover-color: $link-hover-color !default;
+$btn-link-disabled-color: $gray-600 !default;
