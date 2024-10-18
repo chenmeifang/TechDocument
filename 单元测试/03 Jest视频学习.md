@@ -250,9 +250,39 @@ test('Jest-TypeScript demo case', () => {
 
 在一个完整的测试策略中，单元测试和集成测试通常相辅相成，共同确保代码和系统的质量。
 
-# 5. Jest中的匹配器-上
+# [5. Jest中的匹配器-上](https://www.bilibili.com/video/BV1yA411b7EV?p=5&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-# 6. Jest中的匹配器-中
+toBe
+
+toEqual
+
+toBeNull
+
+toBeUndefined
+
+toBeDefined
+
+toBeTruthy
+
+toBeFalsy
+
+# [6. Jest中的匹配器-中](https://www.bilibili.com/video/BV1yA411b7EV?p=6&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+```
+jest --watchAll
+```
+
+toBeGreaterThan
+
+toBeLessThan
+
+toBeGreaterThanOrEqual
+
+toBeLessThanOrEqual
+
+toBeCloseTo
+
+
 
 # 7. Jest中的匹配器-下
 
