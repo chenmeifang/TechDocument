@@ -603,3 +603,6 @@ before_script:
 - 确保在 CI/CD 配置中正确加载 `~/.bashrc`，使 GitLab Runner 用户能够访问主用户安装的 `nvm`。
 
 总结：好像加了配置就生效了！！！！！！！！！！！！！
+
+# 11. 流水线报错查看log
+
