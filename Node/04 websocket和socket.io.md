@@ -1,6 +1,6 @@
-# 0. websocket在网络层面的连接过程
+# 1. websocket在网络层面的连接过程
 
-WebSocket 是一种网络通信协议，旨在通过单个 TCP 连接提供**全双工通信**。它主要用于在客户端和服务器之间建立持久连接，以便进行实时数据传输。下面详细描述 WebSocket 的网络层面连接过程：
+WebSocket 是一种**网络通信协议**，旨在通过**单个 TCP 连接**提供**[全双工通信](#14.-全双工通信)**。它主要用于在客户端和服务器之间**建立持久连接**，以便进行实时数据传输
 
 ### 1. **TCP 连接建立**
    - **客户端发起连接**: WebSocket 连接建立之前，客户端首先通过标准 HTTP 协议向服务器发起一个请求，这个请求实际上是一个 HTTP 升级请求（HTTP Upgrade）。
@@ -54,7 +54,7 @@ WebSocket 是一种网络通信协议，旨在通过单个 TCP 连接提供**全
 ### 总结
 WebSocket 连接从建立到关闭，经历了 TCP 握手、HTTP 升级请求、协议切换、数据帧传输等多个步骤。通过 WebSocket，客户端与服务器之间可以实现实时、低延迟的双向通信，非常适合需要频繁数据交换的应用场景，比如在线聊天、实时更新等。
 
-# 1. Socket.IO和WebSocket的关系和区别
+# 2. Socket.IO && WebSocket
 
 Socket.IO和WebSocket都是用于实现实时通信的技术，但它们有不同的实现方式和特点。下面是它们之间的关系和主要区别：
 
@@ -133,13 +133,94 @@ socket.emit('message', 'Hello Server');
 - **WebSocket** 是一种协议，提供持久的双向通信连接。
 - **Socket.IO** 是一个库，基于WebSocket实现，并提供额外的功能和兼容性保障。
 
-# 2. 什么是WebSocket
-
-- **答案**：WebSocket是一种网络通信协议，提供了在客户端和服务器之间进行全双工、持久连接的能力。它允许在客户端和服务器之间实时、双向传输数据，而不需要重新建立连接。
-
 # [3. WebSocket的工作原理](https://www.bilibili.com/video/BV1FM4m1D7Vs/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 5min处 感觉听着不好
+
+**WebSocket** 是一种全双工、持久化的通信协议，允许客户端与服务器之间建立一个长时间保持的连接，双方可以在该连接上进行实时的双向数据传输。它是在标准的 HTTP 协议之上，通过一次 HTTP 握手后升级为 WebSocket 连接，随后切换到 WebSocket 协议进行通信。
+
+### WebSocket 的工作原理
+
+1. **连接建立（握手过程）**
+   - 客户端发送一个 HTTP 请求到服务器，要求升级到 WebSocket 协议。这个请求包含以下头信息：
+     - **`Upgrade: websocket`**：表明客户端希望将连接升级为 WebSocket。
+     - **`Connection: Upgrade`**：表示这是一个协议升级请求。
+     - **`Sec-WebSocket-Key`**：客户端生成的一个 Base64 编码的随机密钥，服务器将用它来验证请求。
+     - **`Sec-WebSocket-Version`**：表示 WebSocket 协议的版本。
+
+   - 服务器收到请求后，若支持 WebSocket，将响应以下头信息，表示同意升级协议：
+     - **`Upgrade: websocket`**：确认协议升级为 WebSocket。
+     - **`Connection: Upgrade`**：确认协议已升级。
+     - **`Sec-WebSocket-Accept`**：服务器基于客户端提供的 `Sec-WebSocket-Key` 计算并返回一个值，用来验证握手的合法性。这个值是通过将 `Sec-WebSocket-Key` 加上一个固定的字符串进行 SHA-1 哈希运算后再进行 Base64 编码得到的。
+   
+   - 握手成功后，HTTP 连接会被升级为 WebSocket 连接，双方可以通过这个持久化的连接进行双向通信。
+
+2. **数据传输**
+   - **全双工通信**：在 WebSocket 连接建立后，客户端和服务器可以随时发送数据，而不需要等待对方的响应。不同于 HTTP 请求-响应模式，WebSocket 支持双向通信，数据可以在连接存续期间实时传输。
+   
+   - **帧结构**：WebSocket 通过数据帧（Frame）进行通信，每一个消息分成若干帧进行传输。帧包括：
+     - **FIN** 位：表示是否是消息的最后一帧。
+     - **Opcode**：表示帧的类型（如文本帧、二进制帧、关闭连接等）。
+     - **Mask**：客户端发送的数据帧必须掩码，服务器可以选择是否掩码。
+     - **Payload Data**：实际传输的数据。
+
+   - WebSocket 支持传输 **文本数据** 和 **二进制数据**，其中文本数据采用 UTF-8 编码，二进制数据可以是任何格式，如图片、音频等。
+
+3. **连接保持与心跳检测**
+   - WebSocket 连接一旦建立，除非手动关闭或发生网络故障，它将一直保持开放状态。为了确保连接的有效性，通常会实现 **心跳检测**。客户端或服务器可以定期发送 **Ping** 消息，另一方则回应 **Pong** 消息，以检测连接是否正常。
+   
+   - 心跳机制可以防止由于网络中断或其他问题导致的连接假死。
+
+4. **关闭连接**
+   - WebSocket 连接可以由客户端或服务器主动关闭。关闭时，发送一个 **关闭帧（Close Frame）**，它包含关闭状态码和关闭原因。
+   - 收到关闭帧的一方可以响应相应的关闭帧，随后连接被关闭。
+
+### WebSocket 与 HTTP 的区别
+
+1. **连接类型**：
+   - HTTP 是 **半双工**（客户端发出请求，服务器返回响应），每次请求后连接就关闭。
+   - WebSocket 是 **全双工**，建立连接后，客户端和服务器可以实时地相互发送数据，连接在长时间内保持。
+
+2. **通信模式**：
+   - HTTP 是 **请求-响应** 模式，客户端必须发起请求，服务器才会响应。
+   - WebSocket 是 **事件驱动** 模式，双方可以独立地发送消息，而无需等待对方的请求。
+
+3. **性能**：
+   - HTTP 在每次请求时需要经过 TCP 三次握手和 HTTP 头的开销。
+   - WebSocket 只需要一次握手，后续的所有通信都是基于已建立的 TCP 连接，减少了开销，适合实时应用场景。
+
+### WebSocket 使用场景
+
+由于 WebSocket 具备实时双向通信的能力，它特别适用于以下场景：
+
+1. **实时聊天应用**：例如即时通讯、在线客服等场景，客户端和服务器之间需要实时交换信息。
+2. **在线游戏**：实时交互的游戏场景，服务器和客户端之间需要频繁交换状态数据。
+3. **实时数据推送**：如股票行情、运动赛事直播等，服务器需要向客户端实时推送数据。
+4. **协作应用**：如在线协作编辑工具，多个用户需要实时同步彼此的操作。
+5. **物联网（IoT）**：实时控制设备和监控数据的场景，服务器和客户端之间需要高效的双向通信。
+
+### WebSocket 工作原理图示
+
+```plaintext
+Client                      Server
+  |                            |
+  |--------HTTP Handshake------>|
+  |                            |
+  |<------Switch Protocol-------|
+  |                            |
+  |--------WebSocket Frame----->|
+  |<-------WebSocket Frame------|
+  |                            |
+  |---Ping---|                 |
+  |<--Pong---|                 |
+  |                            |
+  |--------Close Frame--------->|
+  |                            |
+  |<-------Close Frame----------|
+```
+
+### 总结
+WebSocket 通过一次 HTTP 握手建立连接后，允许客户端和服务器在该连接上进行实时、双向的通信。它特别适合需要低延迟、高实时性数据传输的应用场景。相比于传统的 HTTP 请求-响应模型，WebSocket 显著减少了延迟和开销。
 
 # 4. WebSocket的优点和缺点是什么
 
@@ -482,4 +563,108 @@ wsManager.send('Hello, WebSocket!');
 这个实现可以帮助你在前端管理 WebSocket 连接，确保在连接中断时能够自动恢复。
 
 # 13. Koa中使用socket.io
+
+# 14. 全双工通信
+
+**全双工通信**（Full-Duplex Communication）指的是在通信系统中，双方可以同时发送和接收数据。换句话说，通信的双方可以在同一时间内进行数据的双向传输，彼此互不干扰。
+
+在全双工通信中：
+- **双方都可以同时进行传输**，不需要等待对方完成发送。
+- 这意味着发送和接收是同时进行的，这种模式提高了通信的效率。
+
+### 全双工的现实类比
+- **电话通信**：当你打电话时，你和对方可以同时说话和听话。这就是全双工通信的例子。你不需要等对方说完，才能开始说话。
+  
+
+相比之下：
+- **半双工通信**（Half-Duplex Communication）：通信双方不能同时发送和接收数据，只能一方发送，另一方接收。双方需要轮流发送数据。例如，对讲机通信就是半双工通信，你必须按下按钮说话，对方才能听到，而不能同时说话。
+  
+- **单工通信**（Simplex Communication）：数据只能单向传输，即一方只能发送，另一方只能接收。广播就是单工通信的例子，电视台发出信号，观众只能接收，不能回应。
+
+### WebSocket 的全双工特性
+在 WebSocket 中，客户端和服务器一旦建立连接后，双方都可以随时向对方发送消息，而不需要等待对方的响应。这与 HTTP 的请求-响应模型（半双工）不同，HTTP 中客户端必须先发起请求，服务器才能做出回应。
+
+总结：全双工通信提升了系统在实时数据传输和交互式应用中的效率，是 WebSocket 能够实现实时双向通信的基础。
+
+# 15. 请求头中Connection字段的取值
+
+HTTP 请求头中的 **`Connection`** 字段用于控制是否在完成当前请求/响应事务后，保持连接打开或关闭，以及在某些场景下用于升级协议。它可以有多种取值，常见的取值包括：
+
+### 1. **`Connection: keep-alive`**
+   - 表示客户端希望服务器在响应后 **保持连接打开**，以便进行后续的请求而无需重新建立连接。
+   - 在 HTTP/1.1 中，默认情况下，连接是保持活跃的，所以即使没有明确指定 `keep-alive`，HTTP/1.1 连接默认也是持久连接。
+   - 使用 `keep-alive` 可以减少因为频繁建立和断开连接而造成的开销，提升性能。
+
+   **示例**：
+   ```http
+   Connection: keep-alive
+   ```
+
+### 2. **`Connection: close`**
+   - 表示客户端或服务器希望在完成当前请求/响应后 **关闭连接**。
+   - 在 HTTP/1.0 中，默认行为是每次请求完成后关闭连接。如果不希望关闭连接，客户端必须明确发送 `keep-alive`。
+   - 在一些 HTTP/1.1 的响应中，服务器也可以发送 `Connection: close`，通知客户端在响应结束后关闭连接。
+
+   **示例**：
+   ```http
+   Connection: close
+   ```
+
+### 3. **`Connection: Upgrade`**
+   - 表示客户端希望将当前的 HTTP 连接升级为其他协议，例如 WebSocket。
+   - 通常和 `Upgrade` 头一起使用，指定要升级到的协议类型。在 WebSocket 握手中，客户端发送 `Connection: Upgrade` 请求，表示希望升级协议。
+
+   **示例**（WebSocket 升级请求）：
+   ```http
+   Connection: Upgrade
+   Upgrade: websocket
+   ```
+
+### 其他不常见的取值：
+   - **`Connection: keep-alive, Upgrade`**：可以同时指定保持连接和升级协议，但这种情况比较少见，通常是用在需要先保持 HTTP 连接再进行某些操作之后升级协议的场景。
+
+### 小结：
+- `Connection: keep-alive` 用于保持连接打开。
+- `Connection: close` 用于通知关闭连接。
+- `Connection: Upgrade` 用于协议升级（如升级到 WebSocket）。
+
+这些取值影响客户端和服务器之间的连接管理方式，在性能优化（如减少频繁的连接建立和断开）或特殊协议升级场景中尤为重要。
+
+
+
+
+
+> https://segmentfault.com/a/1190000011450538  文档学习
+
+
+
+> https://www.bilibili.com/video/BV1yi4y1t7yD?from=search&seid=4783580291640157481   视频学习
+
+# 一：传统的http能不能实现聊天的效果？
+
+# 二： 什么是websocket？
+
+为什么在http请求下， 服务器无法给浏览器主动发送数据？
+
+### websocket允许服务器给浏览器发送消息
+
+http协议三次握手！
+
+每次请求响应都有一次三次握手！很耗费时间和性能
+
+ # 2 在h5中，如何使用websocket
+
+websocket维基百科：https://zh.wikipedia.org/wiki/WebSocket
+
+编写websocket客户端应用：https://developer.mozilla.org/zh-CN/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications
+
+编写websocket服务端应用：https://developer.mozilla.org/zh-CN/docs/Web/API/WebSockets_API/Writing_WebSocket_servers
+
+https://developer.mozilla.org/zh-cn/docs/Web/API/WebSocket
+
+# 3 nodejs开发自己的websocket服务
+
+第三方包：https://github.com/sitegui/nodejs-websocket#readme
+
+
 
