@@ -48,3 +48,30 @@ https://web.dev/articles/user-centric-performance-metrics?utm_source=devtools&hl
 # 4. 性能文档
 
 https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint?utm_source=devtools&hl=zh-cn
+
+# 5. load事件
+
+https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event
+
+**The `load` event is fired when the whole page has loaded, including all dependent resources such as stylesheets, scripts, iframes, and images, except those that are [loaded lazily](https://developer.mozilla.org/en-US/docs/Web/Performance/Lazy_loading#images_and_iframes).** This is in contrast to [`DOMContentLoaded`](https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event), which is fired as soon as the page DOM has been loaded, without waiting for resources to finish loading.
+
+# 6. DOMContentLoaded事件
+
+https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event
+
+The **`DOMContentLoaded`** event fires **when the HTML document has been completely parsed**, and all deferred scripts ([``](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script#defer) and [``](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script#module) and [``](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script#module) and [``](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script#module)) have downloaded and executed. **It doesn't wait for other things like images, subframes, and async scripts to finish loading.**
+
+`DOMContentLoaded` does not wait for stylesheets to load, however deferred scripts *do* wait for stylesheets, and the `DOMContentLoaded` event is queued after deferred scripts. Also, scripts which aren't deferred or async (e.g. `<script>`) will wait for already-parsed stylesheets to load.
+
+A different event, [`load`](https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event), should be used only to detect a fully-loaded page. It is a common mistake to use `load` where `DOMContentLoaded` would be more appropriate.
+
+
+
+DOMContentLoaded事件：
+
+- 初始的HTML被完全加载和解析完成后触发，而无需等待样式表，图片和子资源的加载
+- “当初始的HTML被完全加载和解析完成”**并不意味着DOM已经显示在页面中**。
+- DOMContentLoaded事件只表示浏览器已经将HTML解析成了DOM树，JS已经可以安全地访问和操作这些DOM元素。但是浏览器不一定完成了页面的渲染。页面上可能还在加载其他资源（如图片，样式表等），因此页面可能尚未完全显示出来
+
+
+
