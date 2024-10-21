@@ -1,6 +1,4 @@
-# 1. gitlab如何使用自己的IP创建项目
-
-要使用自己的IP地址在 GitLab 上创建项目，你可以按照以下步骤进行配置，假设你是自托管 GitLab 的管理员并且你想绑定到某个特定的IP地址。
+# 1. gitlab使用自己的IP创建项目
 
 ### 1. **确定 GitLab 实例的 IP 地址**
 确保你已经有一个固定的 IP 地址，且服务器与该 IP 地址正确绑定。例如，你可以通过 `ifconfig` 或 `ip addr` 来确认服务器的 IP。
@@ -149,11 +147,7 @@ http://YOUR_SERVER_IP
 2. 在仪表板点击 **"New Project"**。
 3. 选择项目模板或者从零开始创建项目。
 
-至此，你已经成功在 Ubuntu Server 20.04 LTS 上安装并配置 GitLab。
-
-# 3. sudo apt-get install gitlab-ce速度很慢怎么处理
-
-在 Ubuntu 上安装 GitLab CE 时，如果 `apt-get` 命令的下载速度较慢，你可以尝试以下几种方式来提高下载速度：
+# 3. 处理sudo apt-get install gitlab-ce速度慢
 
 ### 1. 使用国内镜像源
 GitLab 官方支持配置国内镜像源，具体操作步骤如下：
@@ -214,8 +208,6 @@ sudo netselect-apt
 ```
 
 这样系统会自动选择最快的镜像源来加速下载。
-
-通过以上方式，你可以提高安装 GitLab 时的下载速度。
 
 # 4. 报错
 
@@ -350,11 +342,11 @@ Failed to start postgresql.service: Unit postgresql.service not found.
 
 如果这些步骤仍然无法解决问题，可以提供更多的日志或安装情况的信息，我会帮你进一步排查。
 
-# 6. sudo gitlab-ctl reconfigure很慢很卡
+# 6. sudo gitlab-ctl reconfigure很卡
 
 实际原因：服务器内存和磁盘空间太小
 
-# 8. linux查看有哪些自启动的服务
+# 7. linux查看自启动服务
 
 在 Linux 系统中，查看有哪些服务是自启动的可以通过以下几种方法进行，具体取决于你的系统使用的是哪种初始化系统（如 `systemd` 或 `init`）。
 
@@ -427,9 +419,9 @@ ls ~/.config/autostart/
 
 通过这些方法，可以查看系统中配置的各种自启动服务和程序。
 
-# 9. linux将某个自启动的服务设置为非自启动
+# 8. 访问Gitlab时报错一
 
-# 10. 访问Gitlab时报错：500 Internal Server Error nginx/1.18.0 (Ubuntu)
+> 500 Internal Server Error nginx/1.18.0 (Ubuntu)
 
 ```js
 sudo systemctl stop nginx.service
@@ -460,9 +452,10 @@ sudo systemctl stop nginx.service
      ```
    
    - **GitLab 应用程序日志**（检查应用程序错误）：
+     
      ```bash
      sudo tail -f /var/log/gitlab/gitlab-rails/production.log
-     ```
+   ```
    
    - **GitLab Workhorse 日志**（与 GitLab 主进程交互相关）：
      ```bash
@@ -523,10 +516,9 @@ sudo systemctl stop nginx.service
    sudo reboot
    ```
 
-### 总结：
-出现 **500 Internal Server Error** 通常与 GitLab 内部的服务、配置、资源等问题有关。可以通过检查 GitLab 服务状态、查看日志文件、检查系统资源及重新配置 GitLab 来逐步排查并解决问题。
+# 9. 访问Gitlab时报错一
 
-# 11. HTTP 502: Waiting for GitLab to boot
+> HTTP 502: Waiting for GitLab to boot
 
 **HTTP 502: Waiting for GitLab to boot** 通常表示 GitLab 服务正在启动过程中，但某些组件还未完全启动，导致 Nginx 或其他代理服务器无法与 GitLab 的应用服务器（如 Puma 或 Unicorn）建立连接。
 
@@ -654,7 +646,7 @@ sudo systemctl stop nginx.service
 
 通过这些步骤，你应该能够找到问题的根本原因并解决 `502: Waiting for GitLab to boot` 的错误。
 
-# 12. 安装gitlab对云服务器的硬件要求
+# 10. 安装gitlab对云服务器的硬件要求
 
 在云服务器上安装 GitLab 对硬件和软件环境有以下要求：
 
@@ -683,7 +675,7 @@ sudo systemctl stop nginx.service
 
 根据这些要求，选择合适的云服务器配置会影响 GitLab 的运行效率。
 
-# 13. 报错
+# 11. 报错
 
 `sudo tail -f /var/log/gitlab/gitlab-workhorse/current`
 
@@ -766,9 +758,7 @@ sudo systemctl stop nginx.service
    sudo gitlab-ctl reconfigure
    ```
 
-通过以上步骤，你可以排查和解决 Nginx 连接 GitLab 后端服务失败的问题。如果问题依然存在，可以考虑进一步查看系统日志或联系 GitLab 支持。
-
-# 14. 套接字文件 `/var/opt/gitlab/gitlab-rails/sockets/gitlab.socket`的权限应当是怎么样才算权限正确
+# 12. 套接字文件 `/var/opt/gitlab/gitlab-rails/sockets/gitlab.socket`的权限应是怎样才算权限正确
 
 套接字文件 `/var/opt/gitlab/gitlab-rails/sockets/gitlab.socket` 的权限配置是关键，以确保 Nginx 能够正确地访问 GitLab 后端服务。通常，正确的权限配置如下：
 
@@ -845,7 +835,7 @@ sudo systemctl restart nginx
 
 通过以上步骤，你可以确保套接字文件的权限和所有者配置正确，从而解决 Nginx 无法访问 GitLab 后端服务的问题。
 
-# 15. 访问gitlab时报错，需要修改gitlab内置nginx的相关配置吗
+# 13. 访问gitlab时报错，需修改gitlab内置nginx的相关配置吗
 
 如果在访问 GitLab 时遇到错误，可能需要检查和修改 GitLab 内置 Nginx 的配置。这些错误可能与 GitLab 内置 Nginx 的配置有关，例如代理设置、SSL 配置或其他相关设置。以下是一些常见的检查和修改步骤：
 
@@ -923,7 +913,7 @@ sudo ufw status
 
 通过以上步骤，你可以排查并解决 GitLab 访问错误问题。如果问题仍然存在，可以查看更多详细的日志信息或联系 GitLab 支持获取帮助。
 
-# 15. 云服务器上卸载gitlab
+# 14. 云服务器上卸载gitlab
 
 在 Ubuntu Server 20.04 LTS 上卸载 GitLab 需要进行一些清理操作，以确保 GitLab 及其相关的依赖和数据被完全移除。以下是详细的步骤：
 
@@ -991,7 +981,7 @@ sudo apt-get update
 
 通过以上步骤，你可以完全卸载 GitLab 及其所有相关文件。如果需要重新安装 GitLab，也可以从头开始进行干净的安装。
 
-# 16. 报错
+# 15. 报错
 
 ```
 2024-09-18_06:37:39.50075 bundler: failed to load command: puma (/opt/gitlab/embedded/bin/puma)
@@ -1085,8 +1075,8 @@ df -h
 - 查看 `/opt/gitlab/embedded/bin/puma` 是否存在任何相关错误信息。
 - 查看 GitLab 社区或官方文档中的常见问题。
 
-# 17. > /var/log/gitlab/gitlab-workhorse/current <{"correlation_id":"01J81YC0X7YZBH4W29PN72ZY1J","duration_ms":0,"error":"badgateway: failed to receive response: dial unix /var/opt/gitlab/gitlab-rails/sockets/gitlab.socket: connect: connection refused","level":"error","method":"GET","msg":"","time":"2024-09-18T14:50:58+08:00","uri":"/favicon.ico"}
-```
+# 16. 报错
+```bash
 ==> /var/log/gitlab/gitlab-workhorse/current <==
 {"correlation_id":"01J81YC0X7YZBH4W29PN72ZY1J","duration_ms":0,"error":"badgateway: failed to receive response: dial unix /var/opt/gitlab/gitlab-rails/sockets/gitlab.socket: connect: connection refused","level":"error","method":"GET","msg":"","time":"2024-09-18T14:50:58+08:00","uri":"/favicon.ico"}
 ```
@@ -1184,7 +1174,7 @@ df -h
 
 这些步骤应该可以帮助你排查并解决 `gitlab.socket` 连接被拒的问题。
 
-# 18. 分析：run: puma: (pid 362488) 34s; run: log: (pid 351423) 1776s 这个是否能说明puma 运行异常
+# 17. 分析：run: puma: (pid 362488) 34s; run: log: (pid 351423) 1776s 这个是否能说明puma 运行异常
 
 从日志输出来看：
 
@@ -1222,7 +1212,7 @@ run: puma: (pid 362488) 34s; run: log: (pid 351423) 1776s
 ### 结论：
 虽然从当前信息来看，Puma 进程运行时间较短，但并不能直接得出 Puma 运行异常的结论。需要进一步检查它的重启频率以及日志文件中是否有报错信息，才能最终确认是否存在问题。如果 Puma 频繁重启或者日志中有错误，可能需要对配置或资源问题进行排查。
 
-# 19. puma是gitlab的什么东西
+# 18. puma是gitlab的什么东西
 
 在 GitLab 中，Puma 是一个 Ruby 应用服务器，用于处理 HTTP 请求。具体来说，Puma 是 GitLab 的 Web 服务器之一，它负责将请求从外部传递到 GitLab 的 Rails 应用程序，并处理响应。
 
@@ -1253,7 +1243,7 @@ run: puma: (pid 362488) 34s; run: log: (pid 351423) 1776s
 
 总的来说，Puma 是 GitLab 的关键组件之一，负责处理 Web 请求并运行 Rails 应用程序。如果 Puma 运行异常，可能会导致 GitLab 的 Web 界面无法正常访问或响应缓慢。
 
-# 20. 分析puma相关的报错
+# 19. 分析puma相关的报错
 
 ```
 sudo less /var/log/gitlab/puma/current
@@ -1319,7 +1309,7 @@ tail -f /var/log/gitlab/puma/puma.stderr.log
 
 `Errno::EADDRINUSE` 错误表示端口冲突，通常可以通过检查并停止占用该端口的进程来解决。如果端口冲突是由于配置错误导致的，检查和调整 GitLab 的配置文件也是一个解决办法。
 
-# 21. 调整puma的端口配置
+# 20. 调整puma的端口配置
 
 要调整 GitLab 中 Puma 的端口配置，你需要修改 GitLab 的配置文件。以下是步骤：
 
@@ -1356,7 +1346,7 @@ tail -f /var/log/gitlab/puma/puma.stderr.log
 
 这样，Puma 就会监听新的端口。确保你的防火墙规则允许新的端口通过。如果你在配置过程中遇到任何问题，检查 GitLab 的日志文件以获得更多信息。
 
-# 22. 调整gitlab中puma的端口后需要相应的修改别的配置吗
+# 21. 调整gitlab中puma的端口后需相应的修改别的配置吗
 
 调整 GitLab 中 Puma 的端口后，可能需要修改其他配置，以确保系统正常工作。以下是一些需要检查和调整的配置：
 
@@ -1387,9 +1377,7 @@ tail -f /var/log/gitlab/puma/puma.stderr.log
    sudo gitlab-ctl restart
    ```
 
-这些步骤将帮助确保 GitLab 在更改端口后仍然能够正常工作。
-
-# 23. gitlab中puma的端口号需要和external_url的端口号保持一致吗
+# 22. gitlab中puma的端口号需和external_url的端口号保持一致吗
 
 在 GitLab 中，`puma` 的端口号和 `external_url` 的端口号通常需要保持一致，以确保内部服务与外部访问的 URL 一致。`puma` 是 GitLab 的应用服务器，它监听客户端请求并将其传递给 GitLab 应用。而 `external_url` 是 GitLab 对外暴露的 URL。
 
@@ -1415,7 +1403,7 @@ tail -f /var/log/gitlab/puma/puma.stderr.log
 
 总的来说，为了简化配置和避免潜在的错误，建议在配置 `puma['port']` 和 `external_url` 时使用相同的端口号。
 
-# 24. 为什么修改了端口后gitlab的puma还是报端口相关的错误
+# 23. 为什么修改了端口后gitlab的puma还是报端口相关的错误
 
 `Address already in use - bind(2) for "127.0.0.1" port 8080` 错误表明端口 8080 已经被其他进程占用。这里是一些可能的原因和解决方法：
 
@@ -1477,7 +1465,7 @@ tail -f /var/log/gitlab/puma/puma.stderr.log
 
 如果这些步骤仍然无法解决问题，请提供更多的日志或错误信息，以便进一步诊断。
 
-# 25. puma相关的报错
+# 24. puma相关的报错
 
 ```
 2024-09-18_06:33:36.14221 bundler: failed to load command: puma (/opt/gitlab/embedded/bin/puma)
@@ -1505,19 +1493,15 @@ tail -f /var/log/gitlab/puma/puma.stderr.log
 6. **Gemfile 问题**:
    - 确保 `Gemfile` 中包括了 `puma` 并且没有版本冲突。你可以检查 `Gemfile` 和 `Gemfile.lock` 文件，确认是否存在版本不兼容的问题。
 
-如果上述方法没有解决问题，提供更多的错误日志或上下文可能会有助于进一步诊断问题。
+# 25. 最终成功的配置
 
-# 26. bundler环境有问题
-
-# 27. 最终成功的配置
-
-```
+```bash
 external_url 'http://101.35.254.76:8989'
 puma['port'] = 8990
 nginx['listen_port'] = nil
 ```
 
-# 28. 首次访问gitlab时的用户名密码
+# 26. 首次访问gitlab时的用户名密码
 
 在首次访问 GitLab 时，你需要使用默认的管理员账户进行登录。GitLab 的初次登录用户名和密码在安装后会被自动生成，并存储在 GitLab 的配置文件中。
 
