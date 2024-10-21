@@ -2,30 +2,19 @@
 
 # [1. call](https://www.bilibili.com/video/BV1m54y1q7hc?from=search&seid=8833365694111867782)
 
-## 语法
-
-```javascript
-function.call(thisArg, arg1, arg2, ...)
-```
-
-- `thisArg`：调用函数时用于 `this` 的值。
-- `arg1, arg2, ...`：要传递给函数的参数列表。
-
 ## 基本示例
 
 ```javascript
 function greet(greeting, punctuation) {
   console.log(greeting + ', ' + this.name + punctuation);
 }
-
 const person = {
   name: 'Alice'
 };
-
 greet.call(person, 'Hello', '!'); // 输出: Hello, Alice!
 ```
 
-在这个示例中，`greet` 函数被调用时，`this` 的值被设置为 `person` 对象，结果输出了 `Hello, Alice!`。
+
 
 ```js
 const arr = [1, 2, 3];
@@ -49,9 +38,11 @@ console.log(Object.prototype.toString.call(arr)); // [object Array]
   console.log(Object.prototype.toString.call(/regex/)); // [object RegExp]
   ```
 
+
+
 ## 用于继承和借用方法
 
-`call` 方法常用于实现继承和借用方法。例如：
+`call` 方法常用于实现继承和借用方法
 
 ### 借用方法
 
@@ -62,54 +53,47 @@ const person1 = {
     console.log(greeting + ', ' + this.name);
   }
 };
-
 const person2 = {
   name: 'Bob'
 };
-
 person1.greet.call(person2, 'Hi'); // 输出: Hi, Bob
 ```
 
-在这个示例中，`person1` 的 `greet` 方法被 `person2` 借用，`this` 指向了 `person2`。
+在这个示例中，`person1` 的 `greet` 方法被 `person2` 借用，`this` 指向了 `person2`
 
 ### 模拟类继承
 
 ```javascript
+// 开发者通常遵循一个命名惯例：构造函数的名称使用大写字母开头。而普通函数使用小写字母开头。
 function Animal(name) {
   this.name = name;
 }
-
 Animal.prototype.speak = function() {
   console.log(this.name + ' makes a noise.');
 };
-
 function Dog(name) {
   Animal.call(this, name); // 继承 Animal 的属性
 }
-
+// 设置Dog的原型prototype为Animal的一个副本。通过这种方式，Dog的实例将可以访问Animal的原型上的方法，如speak
+// Object.create:该方法创建一个新的对象，并将该对象的[[prototype]]指向传入的对象Animal.prototype。即设置Dog原型链的继承
 Dog.prototype = Object.create(Animal.prototype);
+// 当我们使用Object.create时，Dog.prototype的constructor属性会被重置为Animal。因此这里显式的将Dog.prototype.constructor设置回Dog，以保持构造函数的正确引用
 Dog.prototype.constructor = Dog;
-
 Dog.prototype.speak = function() {
   console.log(this.name + ' barks.');
 };
-
 const dog = new Dog('Rover');
 dog.speak(); // 输出: Rover barks.
 ```
 
 在这个示例中，`Dog` 构造函数使用 `Animal.call(this, name)` 继承了 `Animal` 的属性。然后通过设置 `Dog.prototype` 为 `Animal.prototype` 的一个新对象，`Dog` 继承了 `Animal` 的方法。
 
-## 总结
-
-`call` 方法是一个强大的工具，可以灵活地指定函数调用时的 `this` 值，并传递参数。它在许多高级 JavaScript 技巧中都有应用，如方法借用和模拟类继承。
-
 ## 实现call
 
 | 1.要模仿call首先要思考call是从哪里来的——Function对象<br>2.Function对象是构造函数，构造函数是有原型对象（Function.prototype）的<br>3.这个原型对象里面就有很多属性可以使用，比如call就是在这个原型对象属性里面来的。<br>4.因此我们要模仿就必须在原型对象里面添加新的和call一样的属性 | ![image-20231225111025430](02 call bind apply实现.assets/image-20231225111025430.png) |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 
-==要把newCall加在函数原型上==
+**要把newCall加在函数原型上**
 
 ```js
 function test(param1, param2) {
@@ -196,23 +180,9 @@ newArguments = ['arguments[1]', 'arguments[2]', 'arguments[3]', 'arguments[4]']
 
 在JavaScript中，`call` 方法是 `Function.prototype` 上的方法，它允许你调用一个函数，并在调用时指定 `this` 的值和参数。与 `apply` 方法类似，但 `call` 方法的参数是逐个传递的，而 `apply` 方法的参数是以数组的形式传递的。
 
-## 与call相关的代码片段分析
-
-
-
 # 2. apply
 
 `apply` 是 JavaScript 中的一个方法，它允许你调用一个函数，并指定 `this` 关键字的值以及传递给函数的参数。`apply` 方法和 `call` 方法类似，区别在于 `apply` 接受参数数组，而 `call` 接受的是参数列表。
-
-## 基本语法
-
-```javascript
-func.apply(thisArg, [argsArray])
-```
-
-- **`func`**：要调用的函数。
-- **`thisArg`**：在函数调用中被使用的 `this` 值。
-- **`argsArray`**：一个数组或类数组对象，其中包含要传递给函数的参数。
 
 ## 示例
 
@@ -335,16 +305,6 @@ test.myApply(obj, ['1111', '222'])
 # 3. bind
 
 `bind` 方法是 JavaScript 中的一个函数方法，它用于创建一个新的函数，这个函数在调用时将其 `this` 关键字设置为提供给 `bind` 方法的第一个参数，并且在调用新函数时会将提供的参数顺序传递给原函数。
-
-## 基本语法
-
-```javascript
-func.bind(thisArg, [arg1[, arg2[, ...]]])
-```
-
-- **`func`**：要绑定 `this` 值和参数的新函数。
-- **`thisArg`**：在新函数中用作 `this` 的值。
-- **`arg1, arg2, ...`**：当调用新函数时，预先提供的参数列表。
 
 ## 示例
 
@@ -512,3 +472,140 @@ Fn('param3');
 - 新的bind方法缺少了**实现new的过程**！
 
   - 也就是涉及到原型对象的知识了
+
+# 4. 相同和不同
+
+## 相同点
+
+- call，apply，bind都是供函数使用的方法
+- call，apply，bind都能改变函数在调用时this的指向
+
+## 不同点
+
+|                 call                  |      |                apply                |                bind                |
+| :-----------------------------------: | ---- | :---------------------------------: | :--------------------------------: |
+| `function.call(thisArg,arg1,arg2,..)` | 语法 | `function.apply(thisArg,argsArray)` | `function.bind(thisArg,arg1,arg2)` |
+
+# 5. ...arguments
+
+`arguments` 对象是 JavaScript 中的一个**类数组对象**，它包含传递给函数的所有参数。虽然在 ES6 中引入了 `rest` 参数 (`...args`)，但在旧版本的 JavaScript 中，`arguments` 对象是处理不定数量参数的主要方式。
+
+### 1. **`arguments` 的基本用法**
+
+   当你在一个函数内部使用 `arguments` 时，它会包含该函数调用时传入的所有参数。
+
+   ```js
+function example() {
+    console.log(arguments);
+}
+example(1, 2, 3);  // 输出: [Arguments] { '0': 1, '1': 2, '2': 3 }
+   ```
+
+   - `arguments` 是一个类数组对象，并且具有 `length` 属性，可以通过索引访问每个参数。
+   - 例如，`arguments[0]` 表示第一个参数，`arguments.length` 表示传递给函数的参数数量。
+
+   ```js
+function example() {
+    console.log(arguments[0]);  // 输出第一个参数
+    console.log(arguments.length);  // 输出参数个数
+}
+example(10, 20, 30);  // 输出: 10, 3
+   ```
+
+### 2. **类数组对象的性质**
+
+   `arguments` 虽然类似于数组，但它不是一个真正的数组，它是一个类数组对象。可以通过索引访问它的元素，也有 `length` 属性，但它不具备数组的所有方法（如 `map`、`forEach` 等）。
+
+   如果你想使用数组的方法，可以通过将 `arguments` 转换为真正的数组：
+
+   - **方式1：使用 `Array.prototype.slice`**
+     
+     ```js
+     function example() {
+       const args = Array.prototype.slice.call(arguments);
+       console.log(args);  // 输出: [1, 2, 3]
+     }
+     example(1, 2, 3);
+     ```
+
+   - **方式2：使用 ES6 `Array.from`**
+     
+     ```js
+     function example() {
+       const args = Array.from(arguments);
+       console.log(args);  // 输出: [1, 2, 3]
+     }
+     example(1, 2, 3);
+     ```
+
+   - **方式3：使用 `...` 展开运算符**
+     
+     ```js
+     function example() {
+       const args = [...arguments];
+       console.log(args);  // 输出: [1, 2, 3]
+     }
+     example(1, 2, 3);
+     ```
+
+### 3. **`arguments` 与函数参数的关系**
+
+   在非严格模式下，`arguments` 对象和函数参数之间存在双向绑定关系：
+
+   ```js
+function example(a, b) {
+    console.log(a);  // 输出: 1
+    console.log(arguments[0]);  // 输出: 1
+    a = 10;
+    console.log(a);  // 输出: 10
+    console.log(arguments[0]);  // 输出: 10
+}
+example(1, 2);
+   ```
+
+   这种绑定意味着修改函数参数 `a` 会影响 `arguments[0]`，反之亦然。但在严格模式下，参数和 `arguments` 之间的这种绑定被切断，互相之间不再影响。
+
+   **严格模式下的例子：**
+   ```js
+'use strict';
+function example(a, b) {
+    console.log(a);  // 输出: 1
+    console.log(arguments[0]);  // 输出: 1
+    a = 10;
+    console.log(a);  // 输出: 10
+    console.log(arguments[0]);  // 输出: 1 (与参数 a 不再同步)
+}
+example(1, 2);
+   ```
+
+### 4. **限制**
+
+   虽然 `arguments` 在处理不定数量参数时很有用，但它也有一些缺点和限制：
+   1. **不是一个真正的数组**：这意味着它没有数组的方法，需要手动转换为数组。
+   2. **不能与箭头函数一起使用**：在 ES6 中，箭头函数没有自己的 `arguments` 对象。如果需要使用类似 `arguments` 的功能，应该使用 `rest` 参数。
+
+   例如：
+   ```js
+   const example = () => {
+     console.log(arguments);  // 会报错，箭头函数没有 arguments
+   };
+   ```
+
+### 5. **ES6 之后的替代方案：`rest` 参数**
+
+   在 ES6 中，`rest` 参数 (`...args`) 是 `arguments` 的现代替代方案，它具有更灵活、语义更明确的优点，并且是一个真正的数组。
+
+   ```js
+function example(...args) {
+    console.log(args);  // 输出: [1, 2, 3]，真正的数组
+}
+example(1, 2, 3);
+   ```
+
+   与 `arguments` 不同，`rest` 参数是一个数组，可以直接调用数组的方法，如 `map`、`filter` 等。
+
+### 总结
+- `arguments` 是 JavaScript 函数内部的一个类数组对象，包含所有传递给函数的参数。
+- 它与函数参数在非严格模式下存在双向绑定，但在严格模式下绑定被切断。
+- `arguments` 在 ES6 之后被 `rest` 参数（`...args`）所取代，`rest` 参数更加灵活和现代。
+- `arguments` 是类数组，需要转换为真正的数组才能使用数组的各种方法。
