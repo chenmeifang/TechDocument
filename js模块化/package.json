@@ -1,6 +1,6 @@
 {
   "description": "",
-  "type": "commonjs",
+  "type": "module",
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/node": "^7.25.0",

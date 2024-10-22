@@ -531,7 +531,7 @@ CommonJS是语言层面上的规范，类似于ECMAScript，而模块化只是�
 
 module.exports与exports有什么区别？
 
-不能直接给exports重新赋值，重复赋值会切断exports和module.exports的联系
+**不能直接给exports重新赋值，重复赋值会切断exports和module.exports的联系**
 
 | ![image-20240828154958772](02 高级Node.assets/image-20240828154958772.png) | ![image-20240828155216126](02 高级Node.assets/image-20240828155216126.png) |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |

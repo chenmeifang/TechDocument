@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ES6 Modules Async Example</title>
+</head>
+
+<body>
+  <h1>ES6 Module Async Example</h1>
+  <script type="module">
+    console.log('Loading module...');
+
+    // 使用静态导入
+    import { name, greet, delayGreeting } from './验证是否采用异步加载的方式.js';
+
+
+    console.log(name); // 输出: 'Module A'
+    greet(); // 输出: 'Hello from Module A'
+
+    // 调用异步函数
+    delayGreeting().then(() => {
+      console.log('Finished delay greeting');
+    });
+
+    console.log('Module is loading...'); // 这个会先输出，显示异步特性
+  </script>
+</body>
+
+</html>
