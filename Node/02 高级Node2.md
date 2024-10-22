@@ -8,7 +8,7 @@ JavaScript 在浏览器环境和 Node.js 环境中运行时的表现略有不同
 JavaScript 的执行是单线程的，这意味着它在一个时间点只能执行一个任务。单线程意味着所有代码都是在一个主线程中依次运行的，这种模型有助于避免复杂的同步问题，如数据竞争和死锁。
 
 - 在 **浏览器环境** 下，JavaScript 的主线程同时负责处理用户交互（如点击事件）、DOM 渲染、脚本执行等。
-- 在 **Node.js 环境** 下，JavaScript 也遵循单线程模型，但通过事件循环机制和异步 I/O 来实现高效的任务处理。
+- 在 **Node.js 环境** 下，JavaScript 也遵循单线程模型，但通过事件循环机制和**异步 I/O** 来实现高效的任务处理。
 
 ### 单进程
 JavaScript 运行在单个进程中，尤其是在浏览器里，所有代码共享同一个主线程、同一个内存空间。Node.js 也是单进程的，默认情况下运行在单个主进程中，但通过 `child_process` 模块或集群模式（`cluster`）可以创建多个子进程来分担任务。
@@ -84,11 +84,104 @@ child.on('close', (code) => {
 ### 总结
 Node.js 使用多进程机制，主要是为了**充分利用多核 CPU**、**避免 CPU 密集型任务阻塞事件循环**、**提高容错能力**、**实现任务并行化**，以及**横向扩展应用**。这些特性补足了 Node.js 单线程模型的不足，使其能够在高并发环境中有效运行。
 
-## 多进程和多线程的区别
+## 多进程和多线程介绍
+
+- 谷歌浏览器
+  - 进程：一个tab就是一个进程
+  - 线程：一个tab又由多个线程组成，渲染线程，js执行线程，垃圾回收，service worker等
+- node服务
+  - 进程：监听某一个端口的http服务
+  - 线程：http服务由多个线程组成，比如：
+
+# [4-2 如何选择进程和线程](https://www.bilibili.com/video/BV1uM4y1r7Qt?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=58)
+
+![image-20241022090912113](02 高级Node2.assets/image-20241022090912113.png)
+
+# [4-3 cluster开启多进程](https://www.bilibili.com/video/BV1uM4y1r7Qt?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=59)
+
+```js
+const cluster = require('cluster');
+const http = require('http'); // 获取CPU核数
+
+if (cluster.isMaster) { // 如果是主线程
+  // Fork workers.
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork(); // 创建子进程。注意：是创建子进程，不是创建子线程
+    // 如果需要创建子线程，需使用Node的worker_threads模块
+  }
+} else {
+  // Workers can share any TCP connection
+  http.createServer((req, res) => {
+    res.writeHead(200);
+    res.end('Hello World\n');
+  }).listen(8000);
+}
+```
+
+# ! 4-3 cluster模块
+
+- cluster模块是一个内置模块，用于创建多个**子进程**来并行处理任务，从而充分利用多核CPU的能力。
+  - 多个子进程可以共享同一个端口，实现**负载均衡**和高并发处理
+  - 每个子进程都是独立的NodeJS进程，拥有自己的内存空间和资源，但可以通过IPC(进程间通信)与主进程(master)通信
+- NodeJS的单线程特性在处理CPU密集型任务时可能会成为瓶颈，而cluster模块提供了一种方式来克服这一限制
+- 
+
+# ! 4-3 CPU核数和进程数是什么关系
+
+- **CPU核数**表示处理器中独立工作的核心数量。**每个核心能够独立执行一个线程**，这意味着**CPU的核数决定了系统同时可以运行的线程数量**
+- 对于多核CPU，每个核心相当于一个独立的小处理器，能够并行处理不同的任务
+- 某些CPU支持超线程（如Intel的Hyper-Threading），这使得每个核心可以处理多个线程。比如一个4核8线程的CPU，表面上可以像8核一样同时运行8个线程
+
+# ! 4-3 为什么 NodeJS的单线程特性在处理CPU密集型任务时可能会成为瓶颈
+
+虽然NodeJS的**非阻塞I/O**和**异步特性**使其非常适合处理大量并发I/O操作（例如网络请求，文件读写），但在处理CPU密集型任务时，单线程特性可能成为瓶颈，原因如下：
+
+- NodeJS是单线程的，所有JS代码都在这个线程上执行。如果一个CPU密集型任务（如复杂的计算，数据加密，图像处理等）需要大量的CPU资源，NodeJS就会长时间占用这个唯一的线程，导致其他任务（如处理I/O操作，HTTP请求等）无法得到及时响应。这就会引起阻塞，让整个应用的响应速度下降
+
+# ! 4-3 Node线程
+
+- 虽然NodeJS的**JS执行环境是单线程的**，但是它的底层实现实际上是多线程的
+- NodeJS**底层使用了多线程**来处理I/O操作等繁重任务
 
 
 
-## NodeJS开启多线程和多进程的方法
+- 当我们说NodeJS的底层是多线程的，这是因为它依赖于**libuv库**和其他原生模块来处理底层的异步任务和I/O操作，而这些操作是通过多线程完成的
+- libuv是一个跨平台的库，负责处理**NodeJS的I/O操作**——
+- 
 
-## cluster原理介绍
+# ! 4-3 常见I/O操作
+
+I/O操作（输入/输出操作）是指计算机系统中与外部设备或其他系统进行数据交互的过程。I/O操作通常涉及数据的读写和通信，因此通常是阻塞型的，容易成为性能瓶颈，尤其是在大量的I/O操作时。因此，NodeJS采用了**异步非阻塞**的方式来处理I/O操作，以提高性能
+
+常见的I/O操作包括以下几类：
+
+|                                                 |      |
+| ----------------------------------------------- | ---- |
+| 文件系统操作（File System I/O）                 |      |
+| 网络I/O                                         |      |
+| 数据库操作（Database I/O）                      |      |
+| 标准输入/输出（Standard Input/Output）          |      |
+| 进程间通信（Inter-Process Communication， IPC） |      |
+| 加密操作（Cryptographic I/O）                   |      |
+| 外部设备I/O（Peripheral I/O）                   |      |
+
+# [4-4 多进程与单进程性能对比](https://www.bilibili.com/video/BV1uM4y1r7Qt?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=60)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

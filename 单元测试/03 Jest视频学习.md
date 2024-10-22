@@ -282,11 +282,19 @@ toBeLessThanOrEqual
 
 toBeCloseTo
 
+# [7. Jest中的匹配器-下](https://www.bilibili.com/video/BV1yA411b7EV/?p=7&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+toMatch
+
+toContain
+
+toThrow
+
+<img src="03 Jest视频学习.assets/image-20241021233120220.png" alt="image-20241021233120220" style="zoom:50%;" />
+
+# [8. 让Jest支持import和ES6语法](https://www.bilibili.com/video/BV1yA411b7EV?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=8)
 
 
-# 7. Jest中的匹配器-下
-
-# 8. 让Jest支持import和ES6语法
 
 # 9. 异步代码测试方法-1回调函数式
 
