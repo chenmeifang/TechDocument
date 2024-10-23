@@ -11,7 +11,9 @@ setTimeout(function () {
         console.log('then2')
     })
 })
-
+// 宏：第一大块，setTimeout2,
+// 微：then4
+// 预测：promise1, 2, then1, queueMicrotask1, then3, setTimeout1,then2，then4，setTimeout2
 new Promise(function (resolve) {
     console.log("promise1");
     resolve()
@@ -35,13 +37,8 @@ new Promise(function (resolve) {
     console.log('then3')
 })
 
-// 宏任务队列：第一大块，setTimeout2, 
+// 宏任务队列：第一大块，setTimeout2,
 // 微任务队列：then1, queueMicrotask1, then3
 
-
-// 宏任务队列： 
-// 微任务队列：
-
-
-// 输出：promise1，2, then1, queueMicrotask1, then3, 
+// 输出：promise1，2, then1, queueMicrotask1, then3,
 //      setTimeout1, then2, then4, setTimeout2
