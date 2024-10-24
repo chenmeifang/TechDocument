@@ -103,7 +103,7 @@ Node.js 使用多进程机制，主要是为了**充分利用多核 CPU**、**�
 const cluster = require('cluster');
 const http = require('http'); // 获取CPU核数
 
-if (cluster.isMaster) { // 如果是主线程
+if (cluster.isMaster) { // 如果是主进程
   // Fork workers.
   for (let i = 0; i < numCPUs; i++) {
     cluster.fork(); // 创建子进程。注意：是创建子进程，不是创建子线程
