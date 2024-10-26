@@ -906,7 +906,7 @@ function updateState<S>(
 }
 ```
 
-# ReactHooks为什么只能写在顶层，请从源码角度分析
+# 11. ReactHooks为什么只能写在顶层，请从源码角度分析
 
 React Hooks 只能在组件函数的顶层调用，主要是由于 React 内部通过 **调用顺序** 和 **Hook 链表** 来管理和维护 Hooks 的状态。React 必须在每次渲染时保持 Hooks 的调用顺序一致，这样才能正确地将状态和副作用与对应的组件实例关联起来。
 

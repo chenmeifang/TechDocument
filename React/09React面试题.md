@@ -1,10 +1,17 @@
 # 1. React函数组件和类组件的区别
 
-|      | 函数组件            | 类组件       |
-| ---- | ------------------- | ------------ |
-|      | 没有生命周期        | 有生命周期   |
-|      | 没有this上下文      | 有this上下文 |
-|      | 使用Hooks来管理状态 |              |
+React的hooks和class组件的区别
+
+React函数组件和类组件的区别
+
+| 函数组件和类组件的区别 |                           函数组件                           |                            类组件                            |
+| :--------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+|        定义方式        | 基于JS函数定义，函数组件不需要继承`React.Component`，直接返回JSX | 基于JS类定义，需要继承`React.Component`，使用`render`方法返回JSX |
+|                        | ![image-20241026223112665](09React面试题.assets/image-20241026223112665.png) | ![image-20241026223130203](09React面试题.assets/image-20241026223130203.png) |
+|      生命周期方法      | 没有传统的生命周期方法，通过`useEffect`实现类似生命周期的行为，例如`componentDidMount`,`componentDidUpdate`,`componentWillUnmount` |                        有生命周期方法                        |
+|       this关键字       |                        没有this上下文                        |                         有this上下文                         |
+|        状态管理        |        使用Hooks来管理状态(使用`useState`来管理状态)         |      使用`this.state`和`this.setState`来定义和更新状态       |
+|       性能和优化       | 通过`useMemo`,`useCallback`进行性能优化，避免不必要的重渲染  | 使用`PureComponent`或`shouldComponentUpdate`进行性能优化，但写法相对冗长 |
 
 # [2. Hooks](https://www.bilibili.com/video/BV1iV411b7L1/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
@@ -952,6 +959,8 @@ React Hooks 是在 React 16.8 中引入的，其主要目的是解决以下几�
 5. **提升代码可读性和可维护性**：Hooks 使得组件更加关注“是什么”而不是“如何实现”，提升了代码的可读性和可维护性。通过 Hooks，可以更清晰地看到组件的行为，便于开发和调试。
 
 总的来说，React Hooks 旨在简化状态和副作用管理、提升代码复用性，并使函数组件的功能更加强大和灵活。
+
+# 14. 在if语句中执行setState和正常执行有什么区别？
 
 
 
