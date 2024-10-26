@@ -190,6 +190,77 @@ I/O操作（输入/输出操作）是指计算机系统中与外部设备或其�
 
 # [4-4 多进程与单进程性能对比](https://www.bilibili.com/video/BV1uM4y1r7Qt?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=60)
 
+ab是apache自带的压力测试工具。mac上自带apache
+
+`ab -n1000 -c20 '192.168.31.25:8000/'`
+
+- n请求数量
+- c并发数
+
+# [4-5 NodeJS调试方法](https://www.bilibili.com/video/BV1uM4y1r7Qt/?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=61)
+
+launch.json
+
+![image-20241026151445781](02 高级Node2.assets/image-20241026151445781.png)
+
+# [4-6 process的使用](https://www.bilibili.com/video/BV1uM4y1r7Qt?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=62)
+
+process是Node的一个全局对象，提供当前Node进程的信息，它可以在脚本的任意位置使用，不必通过require命令加载
+
+# [4-7 child_process的使用1](https://www.bilibili.com/video/BV1uM4y1r7Qt?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=63)
+
+child_process是NodeJS中用于创建子进程的模块，NodeJS中的cluster就是基于它来封装的
+
+```js
+const exec = require('child_process').exec;
+// ls在大多数UNIX/Linux系统上有效，但如果在Windows系统上运行代码，
+// ls可能找不到，导致命令执行失败
+// Windows的等效命令是dir
+exec('dir', (err, stdout, stderr) => {
+  console.log('stdout:', stdout);
+})
+
+// 另一种写法：
+const child = exec('dir');
+child.stdout.on('data', (data) => {
+  console.log('data:', data);
+})
+
+child.stderr.on('data', (err) => {
+  console.log('err:', err);
+})
+```
+
+`exec`：异步的
+
+`execSync`：exec的同步版本
+
+![image-20241026202643753](02 高级Node2.assets/image-20241026202643753.png)
+
+![image-20241026205129202](02 高级Node2.assets/image-20241026205129202.png)
+
+# [4-8 child_process的使用2](https://www.bilibili.com/video/BV1uM4y1r7Qt?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=64)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -365,7 +365,8 @@ console.log(process.cpuUsage());
 
 `当前运行目录：`
 
-```
+```js
+// 返回NodeJS进程当前工作目录
 console.log(process.cwd())
 ```
 
@@ -377,8 +378,29 @@ console.log(process.version)
 
 `更多的版本信息,如v8版本，libuv版本等：`
 
-```
+```js
 console.log(process.versions)
+// 输出如下
+```
+
+```
+{
+  node: '14.18.2',
+  v8: '8.4.371.23-node.85',
+  uv: '1.42.0',
+  zlib: '1.2.11',
+  brotli: '1.0.9',
+  ares: '1.18.1',
+  modules: '83',
+  nghttp2: '1.42.0',
+  napi: '8',
+  llhttp: '2.1.4',
+  openssl: '1.1.1l',
+  cldr: '39.0',
+  icu: '69.1',
+  tz: '2021a',
+  unicode: '13.0'
+}
 ```
 
 `cpu架构：`
@@ -390,21 +412,25 @@ console.log(process.arch) // 输出：x64
 `用户环境：`
 
 ```js
-console.log(process.env)
+console.log(process.env) // 返回包含用户环境信息的对象
 console.log(process.env.NODE_ENV) // 生产环境 or 开发环境
 console.log(process.env.PATH) // 本机配置的系统环境变量
 console.log(process.env.USERPROFILE) // 用户管理员目录 MAC:HOME
-console.log(process.platform) // 输出：win32
-// 输出
+console.log(process.platform) // 返回当前的操作系统。
+// 输出：win32
 ```
 
 `运行状态：启动参数，PID，运行时间`
 
 ```js
-console.log(process.argv)
+console.log(process.argv) // 返回一个数组，包含了启动node进程时的命令行参数
+// 输出 [
+//  'C:\\Program Files\\nodejs\\node.exe',
+//  'E:\\TechDocument\\Node\\Node code\\process.js'
+// ]
 console.log(process.argv0)
 console.log(process.execArgv)
-console.log(process.pid)
+console.log(process.pid) // 返回当前进程的进程号
 console.log(process.ppid)
 console.log(process.uptime()) // 程序运行的时间
 ```
@@ -421,6 +447,15 @@ process.exit()
 | ![image-20240823081432363](02 高级Node.assets/image-20240823081432363.png) | ![image-20240823081653321](02 高级Node.assets/image-20240823081653321.png) |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | ![image-20240823082039980](02 高级Node.assets/image-20240823082039980.png) | ![image-20240823082423634](02 高级Node.assets/image-20240823082423634.png) |
+
+
+
+```js
+// 专门捕捉异步代码错误
+process.on('uncaughtException', (err) => {
+    console.log('发生错误', err)
+})
+```
 
 # [12. 核心模块-path-1](https://www.bilibili.com/video/BV1sA41137qw/?p=12&spm_id_from=pageDriver&vd_source=621212910e87e7f002ade9ffe06be4be)
 
