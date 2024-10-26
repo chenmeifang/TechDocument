@@ -987,19 +987,27 @@ setImmediate callback
 | ![image-20240828212847618](02 高级Node.assets/image-20240828212847618.png) | 预测输出：start,end,p2,s1,t1,p1,s2,t2,p3<br />注意：好像node版本不一样，输出会不一样<br /> |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 
-# [44. Nodejs与浏览器事件环区别](https://www.bilibili.com/video/BV1sA41137qw?p=44&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+# [44. NodeJS与浏览器事件环区别](https://www.bilibili.com/video/BV1sA41137qw?p=44&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 | ![image-20240828215430234](02 高级Node.assets/image-20240828215430234.png) | ![image-20240828215517054](02 高级Node.assets/image-20240828215517054.png) |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | ![image-20240828215535268](02 高级Node.assets/image-20240828215535268.png) | ![image-20240828215550197](02 高级Node.assets/image-20240828215550197.png) |
 
+NodeJS的事件循环和浏览器的事件循环机制有什么区别？
+
 # [45. NodeJS事件环常见问题](https://www.bilibili.com/video/BV1sA41137qw?p=45&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
+setTimeout和setImmediate的执行先后顺序不稳定？
 
+他们的执行顺序主要取决于**代码运行的上下文**和**事件循环的当前阶段**
 
+- setTimeout的回调会在Timers阶段执行
+- setImmediate的回调会在Check阶段执行
 
+当setTimeout和setImmediate同时在主模块中调用时，执行顺序不稳定。因为这取决于事件循环的进展。
 
-
+- 如果Timers阶段结束后立即进入Check阶段，setImmediate会优先执行
+- 如果事件循环还未进入Timers阶段，则会?????????????????????????????
 
 
 
