@@ -243,13 +243,13 @@ ETag（Entity Tag）是HTTP协议中的一种缓存机制，用于验证资源�
 
 ## 三、强缓存  
 
-> 不向服务器发请求，直接从缓存中读取资源，在chrome控制台的Network选项中可看到请求返回200状态码，且Size显示`from disk cache`或`from memory cache`
->
-> **强缓存可通过设置两种 HTTP Header 实现：`Expires` 和 `Cache-Control`**
+不向服务器发请求，直接从缓存中读取资源，在chrome控制台的Network选项中可看到请求返回200状态码，且Size显示`from disk cache`或`from memory cache`
+
+强缓存可通过设置两种 HTTP Header 实现：`Expires` 和 `Cache-Control`
 
 ### 1. Expires
 
-> 缓存过期时间，用来指定资源到期的时间，是服务器端具体的时间点
+缓存过期时间，用来指定资源到期的时间，是服务器端具体的时间点
 
 Expires=max-age + 请求时间，需和`Last-modified`结合使用。`Expires`是**响应消息头**字段，在响应http请求时告诉浏览器在过期时间前浏览器可直接从浏览器缓存取数据，无需再次请求
 
@@ -266,19 +266,13 @@ Expires=max-age + 请求时间，需和`Last-modified`结合使用。`Expires`�
 `Cache-Control `可在请求头或者响应头中设置，并可组合使用：
 
 1. `public`：所有内容都将被缓存（客户端和代理服务器都可缓存）
-
 2. `private`：所有内容只有客户端可缓存，`Cache-Control`的默认值
-
 3. `no-cache`：客户端缓存内容，是否使用缓存需经过**协商缓存**来决定
-
-   ​					  表示不使用 `Cache-Control`的缓存控制方式做前置验证，而是用 `Etag` 或者`Last-Modified`控制缓存
-
-   ​					  注意：**设置`no-cache`后，并不是说浏览器就不再缓存数据，只是浏览器在使用缓存数据时，需先确认一下数据是否还跟服务器保持一致**
+- 表示不使用 `Cache-Control`的缓存控制方式做前置验证，而是用 `Etag` 或者`Last-Modified`控制缓存
+   - 注意：**设置`no-cache`后，并不是说浏览器就不再缓存数据，只是浏览器在使用缓存数据时，需先确认一下数据是否还跟服务器保持一致**
 
 4. `no-store`：所有内容都不会被缓存，即不使用强制缓存，也不使用协商缓存
-
 5. `max-age`：max-age=xxx (xxx is numeric)表示缓存内容将在xxx秒后失效
-
 6. `s-maxage`（单位为s)：同max-age作用一样，只在代理服务器中生效（比如CDN缓存）。比如当s-maxage=60时，在这60秒中，即使更新了CDN的内容，浏览器也不会进行请求。max-age用于普通缓存，而s-maxage用于代理缓存。**s-maxage的优先级高于max-age**。如果存在s-maxage，则会覆盖掉max-age和Expires header
 
 <img src="05 sessionStorage和localStorage.assets/3174701-3fa81f5e9efac5af.webp" alt="3174701-3fa81f5e9efac5af" style="zoom: 67%;" />
@@ -295,7 +289,7 @@ Expires=max-age + 请求时间，需和`Last-modified`结合使用。`Expires`�
 
 ## 四、协商缓存
 
-> 协商缓存就是强制缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程
+协商缓存就是强制缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程
 
 主要有两种情况：
 
@@ -330,7 +324,7 @@ Last-Modified: Fri, 22 Jul 2016 01:47:00 GMT
 
 浏览器在下一次加载资源向服务器发送请求时，会将上一次返回的`Etag`值放到`request header`里的`If-None-Match`里，服务器只需要比较客户端传来的`If-None-Match`跟自己服务器上该资源的`ETag`是否一致，就能很好地判断资源相对客户端而言是否被修改过了。如果服务器发现ETag匹配不上，那么直接以常规GET 200回包形式将新的资源（当然也包括了新的ETag）发给客户端；如果ETag是一致的，则直接返回304知会客户端直接使用本地缓存即可
 
-### 3. 两者对比：
+### 3. 两者对比
 
 - 在精确度上，`Etag`要优于`Last-Modified`
   - `Last-Modified`的时间单位是秒，如果某个文件在1秒内改变了多次，那么他们的`Last-Modified`其实并没有体现出来修改，但是`Etag`每次都会改变确保了精度；如果是负载均衡的服务器，各个服务器生成的`Last-Modified`也有可能不一致
@@ -341,8 +335,7 @@ Last-Modified: Fri, 22 Jul 2016 01:47:00 GMT
 
 ## 五、缓存机制
 
-> 强制缓存优先于协商缓存，若强制缓存(`Expires`和`Cache-Control`)生效则直接使用缓存，若不生效则进行协商缓存(`Last-Modified` /` If-Modified-Since`和`Etag` / `If-None-Match`)，协商缓存由服务器决定是否使用缓存，若协商缓存失效，那么代表该请求的缓存失效，返回200，重新返回资源和缓存标识，再存入浏览器缓存中；生效则返回304，继续使用缓存
->
+强制缓存优先于协商缓存，若强制缓存(`Expires`和`Cache-Control`)生效则直接使用缓存，若不生效则进行协商缓存(`Last-Modified` /` If-Modified-Since`和`Etag` / `If-None-Match`)，协商缓存由服务器决定是否使用缓存，若协商缓存失效，那么代表该请求的缓存失效，返回200，重新返回资源和缓存标识，再存入浏览器缓存中；生效则返回304，继续使用缓存
 
 **注意：是强制缓存不生效，不是缓存不生效没了**
 
@@ -408,8 +401,6 @@ HTTP 缓存相关的标准由 IETF（互联网工程任务组）发布，以下�
   [RFC 7234 - HTTP/1.1: Caching](https://www.rfc-editor.org/info/rfc7234)
 
   这个 RFC 文档详细描述了 HTTP/1.1 中缓存的规范，包括缓存的算法、缓存控制指令等。
-
-这些资源涵盖了浏览器缓存的基本概念、控制机制和最佳实践，可以帮助你更深入地理解缓存的工作原理和优化缓存策略。
 
 # 7. 浏览器缓存相关基础
 
