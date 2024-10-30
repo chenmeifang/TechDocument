@@ -3,6 +3,8 @@
 > cross-site request forgery 跨站请求伪造
 >
 > forgery: 伪造
+>
+> **描述**：攻击者诱使用户在不知情的情况下，向目标服务器发送恶意请求
 
 ![image-20240726143138679](04 CSRF.assets/image-20240726143138679.png)
 

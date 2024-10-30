@@ -1,6 +1,10 @@
 # [1. XSS网络攻击--原理，类型和实践](https://www.bilibili.com/video/BV1rg411v7B8/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 > 跨站脚本攻击  Cross-Site Scripting
+>
+> **描述**：攻击者通过在应用中插入恶意脚本，利用用户的浏览器执行恶意代码。
+>
+> **防护措施**：使用内容安全策略（Content Security Policy, CSP）、对用户输入进行消毒和转义，避免使用危险的JavaScript函数。
 
 ## 反射型XSS攻击
 

@@ -8,14 +8,6 @@ class的权重  和 类属性值的权重：0010
 
 *的权重：0000
 
-
-
-第十四行[class]指的是**类属性值**
-
-![截屏2021-02-24 下午12.13.17](/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-02-24 下午12.13.17.png)
-
----
-
 # CSS选择器
 
 https://blog.csdn.net/SBTOC/article/details/105946635
@@ -70,10 +62,6 @@ https://blog.csdn.net/SBTOC/article/details/105946635
     </body>
     </html>
     ```
-
-  * <img src="/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-30 上午12.57.14.png" alt="截屏2021-03-30 上午12.57.14" style="zoom: 40%;" />
-
-  * <img src="/Users/chenmeifang/Library/Application Support/typora-user-images/截屏2021-03-30 上午12.59.28.png" alt="截屏2021-03-30 上午12.59.28" style="zoom:80%;" />
 
 * ==伪类选择器（a:hover, li:nth-child）==
 
