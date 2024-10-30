@@ -1,14 +1,14 @@
 # [1. HTTPS](https://www.bilibili.com/video/BV1KY411x7Jp/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 - HTTP协议：请求和响应报文都是明文
-- HTTPS协议：并不是一个单独的协议，在HTTP的基础上用TLS/SSL进行加密，这样通信就不容易受到拦截和攻击
+- HTTPS协议：并不是一个单独的协议，在HTTP的基础上用`TLS/SSL`进行加密，这样通信就不容易受到拦截和攻击
 
 ## 1.1 TLS/SSL
 
 - SSL是TLS的前身，都是加密安全协议
 - 现在绝大部分浏览器都不支持SSL，而是支持TLS
-- SSL：Secure Sockets Layer
-- TLS：Transport Layer Security 用到对称和非对称两种加密
+- SSL：`Secure Sockets Layer` 安全套接字层
+- TLS：`Transport Layer Security`  传输层安全协议。用到对称和非对称两种加密
 
 ## 1.2 对称加密
 
@@ -45,13 +45,15 @@
 
 ## 1.5 TLS握手过程
 
-<img src="02 https.assets/image-20240825183627869.png" alt="image-20240825183627869" style="zoom:50%;" />![image-20240925154030211](02 https.assets/image-20240925154030211.png)
-
-|                                                              |                                                              |
+| <img src="02 https.assets/image-20240825183627869.png" alt="image-20240825183627869" style="zoom:50%;" /> | ![image-20240925154030211](02 https.assets/image-20240925154030211.png) |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+
+
 | 1. TCP三次握手后，client发`Client Hello`给服务端。客户端tell服务端支持TLS 1.2版本和支持的加密套件（这里16个加密套件可理解为不同的加密算法组合）。还发送一个随机数给服务端 | <img src="02 https.assets/image-20240825184045343.png" alt="image-20240825184045343" style="zoom: 200%;" /> |
-| 2. server收到client打招呼，向客户端发`Server Hello`，在响应报文里tell client，服务端确认支持的TLS版本及选择的加密套件。且服务器也发送一个随机数发客户端 | <img src="02 https.assets/image-20240825184342714.png" alt="image-20240825184342714" style="zoom: 200%;" /> |
-| 3. 服务器再发一个响应，出示服务器自己的**证书**。这样浏览器就可根据自己的证书信任列表来确认服务器是否可信 | <img src="02 https.assets/image-20240825184938529.png" alt="image-20240825184938529" style="zoom: 200%;" /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 2. server收到client打招呼，向客户端发`Server Hello`，在响应报文里tell client，服务端确认支持的TLS版本及选择的加密套件。且服务器也发送一个随机数给客户端 | <img src="02 https.assets/image-20240825184342714.png" alt="image-20240825184342714" style="zoom: 200%;" /> |
+| 3. 服务器再发一个响应，出示自己的**证书**。这样浏览器就可根据自己的证书信任列表来确认服务器是否可信 | <img src="02 https.assets/image-20240825184938529.png" alt="image-20240825184938529" style="zoom: 200%;" /> |
 | 4. 服务器把公钥发送给客户端（注：不会把私钥发送出去）        | <img src="02 https.assets/image-20240825185122929.png" alt="image-20240825185122929" style="zoom:200%;" /> |
 | 5. 服务器一下子发了这么多响应，最后还要告诉客户端发送完了。（注：截至到目前，这些请求和响应还未进行加密） | <img src="02 https.assets/image-20240825185304690.png" alt="image-20240825185304690" style="zoom:200%;" /> |
 | 6. 客户端生成第三个随机数（**预主密钥**），第三个随机数用收到的**公钥**进行加密，并把加密后的随机数发送给服务器 | <img src="02 https.assets/image-20240825185722304.png" alt="image-20240825185722304" style="zoom:200%;" /> |
