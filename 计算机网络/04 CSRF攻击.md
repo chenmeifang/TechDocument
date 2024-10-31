@@ -1,10 +1,10 @@
 # [1. csrf介绍--跨站请求伪造](https://www.bilibili.com/video/BV1HE421N79e/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-> cross-site request forgery 跨站请求伪造
->
-> forgery: 伪造
->
-> **描述**：攻击者诱使用户在不知情的情况下，向目标服务器发送恶意请求
+`cross-site request forgery` 跨站请求伪造
+
+forgery: 伪造
+
+**描述**：攻击者诱使用户在不知情的情况下，向目标服务器发送恶意请求
 
 ![image-20240726143138679](04 CSRF.assets/image-20240726143138679.png)
 
@@ -214,7 +214,68 @@ https://www.bilibili.com/video/BV1HE421N79e/?p=6&spm_id_from=pageDriver&vd_sourc
 
 这些情况说明了 CSRF 攻击的多样性以及为什么 `Referer` 头部可能不会总是显示为黑客网站。在设计防御机制时，考虑到这些不同的攻击方式可以帮助更全面地保护应用程序免受 CSRF 攻击。
 
-# 8. 怎么防止csrf攻击
+# 8. CSRF
+
+CSRF（Cross-Site Request Forgery，跨站请求伪造）是一种通过欺骗用户的身份来发起恶意请求的攻击方式。攻击者在用户不知情的情况下，通过用户的身份权限来向服务器发送伪造的请求，导致未授权的操作。
+
+### CSRF 攻击原理
+
+CSRF 攻击的核心在于利用用户已认证的身份。当用户在某个站点（例如银行、社交平台等）已登录且保持会话状态，攻击者诱导用户点击恶意链接或访问包含恶意请求的页面。浏览器会自动携带用户的身份认证信息（例如 Cookie），导致伪造请求被服务器误认为是用户的真实请求，从而执行攻击者指定的操作。
+
+#### CSRF 攻击流程
+1. **用户登录目标网站并认证**：用户在目标网站（如银行）登录并保留了会话状态。
+2. **用户访问恶意页面**：攻击者创建一个包含恶意请求的页面或链接，并诱导用户点击。
+3. **发送伪造请求**：恶意页面中的脚本发送请求到目标网站，浏览器会自动附带用户的 Cookie 等认证信息。
+4. **服务器误以为是用户的真实请求**：由于请求携带了用户的认证信息，服务器会认为请求是用户发起的，执行请求内容中的操作。
+
+例如，攻击者可以在论坛发帖，包含一个请求 URL：
+```html
+<img src="http://bank.com/transfer?amount=1000&to=attacker_account" style="display:none;">
+```
+当已登录银行网站的用户浏览到该帖时，浏览器会自动请求图片链接，并带上银行的 Cookie，导致银行服务器执行转账请求。
+
+### CSRF 的危害
+CSRF 攻击可以导致用户在不知情的情况下执行高权限的操作，例如转账、修改个人资料、删除账户等，给用户和服务带来严重的安全风险。
+
+### 防范 CSRF 攻击
+
+1. **使用 CSRF Token**
+   - 在请求时加入一个随机生成的 Token（CSRF Token），并将其与用户会话绑定。服务器在接收请求时，验证 Token 是否匹配，匹配则认为请求有效，否则拒绝。
+   - CSRF Token 应该是随机生成的、不可预测的，并在每个请求时重新生成。
+
+2. **验证请求来源（Referer 和 Origin 验证）**
+   - 服务器检查请求的 `Referer` 或 `Origin` 头，确保请求是从合法的站点发起的。
+   - 如果请求的 `Referer` 或 `Origin` 与服务器域名不符，可以判定请求是伪造的。
+
+3. **使用 SameSite Cookie 属性**
+   - 将敏感 Cookie 设置 `SameSite=Strict` 或 `SameSite=Lax`，使其仅在同一站点内的请求中携带，从而防止跨站请求带上 Cookie。
+   - `Strict` 模式完全禁止跨站请求携带 Cookie；`Lax` 模式允许部分安全的跨站请求携带 Cookie。
+
+4. **用户确认操作**
+   - 在执行敏感操作之前，要求用户进行额外确认（如输入密码、验证码等），避免在不知情的情况下执行关键操作。
+
+### 示例：CSRF Token 机制
+
+假设一个电商网站需要保护用户的转账功能，可以采用 CSRF Token 来防范：
+
+1. **服务器生成 Token**：用户访问转账页面时，服务器生成一个 CSRF Token，并保存在用户会话中，将 Token 以隐藏字段的形式添加到表单中。
+   ```html
+   <form action="/transfer" method="POST">
+       <input type="hidden" name="csrf_token" value="随机生成的Token">
+       <input type="text" name="amount" placeholder="转账金额">
+       <button type="submit">转账</button>
+   </form>
+   ```
+
+2. **服务器验证 Token**：当用户提交表单，服务器会验证提交的 CSRF Token 是否与会话中的 Token 一致，不一致则拒绝请求。
+   ```javascript
+   // 服务器代码示例
+   if (req.body.csrf_token !== req.session.csrf_token) {
+       return res.status(403).send('CSRF Token 无效');
+   }
+   ```
+
+这种方式有效防止 CSRF 攻击，因为攻击者无法获取用户的 CSRF Token，从而无法伪造合法请求。
 
 
 
