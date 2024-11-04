@@ -241,13 +241,136 @@ child.stderr.on('data', (err) => {
 
 # [4-8 child_process的使用2](https://www.bilibili.com/video/BV1uM4y1r7Qt?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=64)
 
+<img src="02 高级Node2.assets/image-20241031145149742.png" alt="image-20241031145149742" style="zoom: 67%;" />
 
+main.js
 
+![image-20241031145500166](02 高级Node2.assets/image-20241031145500166.png)
 
+child.js
 
+![image-20241031145541205](02 高级Node2.assets/image-20241031145541205.png)
 
+# work_threads
 
+Node.js 的 `worker_threads` 模块允许你在不同的线程中运行 JavaScript 代码，从而实现并行处理。这个模块在处理 CPU 密集型任务时特别有用，可以有效利用多核 CPU 的性能，避免主线程被阻塞。
 
+以下是关于如何使用 `worker_threads` 的详细说明，包括基本用法和示例。
+
+### 1. 安装 Node.js
+
+确保你安装了 Node.js 版本 10.5.0 或更高版本，因为 `worker_threads` 在这些版本中可用。
+
+### 2. 基本用法
+
+使用 `worker_threads` 模块主要涉及以下几个步骤：
+
+- **导入模块**：使用 `require` 导入 `worker_threads` 模块。
+- **创建 Worker**：使用 `Worker` 类创建一个新的工作线程。
+- **发送和接收消息**：使用 `postMessage` 和 `on('message')` 方法在主线程和工作线程之间进行通信。
+
+### 3. 示例代码
+
+下面是一个简单的示例，展示如何使用 `worker_threads` 模块进行基本的多线程处理。
+
+#### 示例 1：使用 worker_threads
+
+```javascript
+// main.js
+const { Worker, isMainThread, parentPort } = require('worker_threads');
+
+if (isMainThread) {
+    // 主线程代码
+    console.log('主线程启动');
+
+    // 创建一个新的 Worker 线程
+    const worker = new Worker(__filename);
+
+    // 监听 Worker 发送的消息
+    worker.on('message', (message) => {
+        console.log(`收到来自 Worker 的消息: ${message}`);
+    });
+
+    // 向 Worker 发送消息
+    worker.postMessage('Hello, Worker!');
+} else {
+    // Worker 线程代码
+    parentPort.on('message', (message) => {
+        console.log(`Worker 收到消息: ${message}`);
+        
+        // 向主线程发送消息
+        parentPort.postMessage('Hello, Main Thread!');
+    });
+}
+```
+
+#### 运行示例
+
+1. 将上述代码保存为 `main.js` 文件。
+2. 在终端中运行以下命令：
+
+   ```bash
+   node main.js
+   ```
+
+#### 输出示例
+
+```
+主线程启动
+Worker 收到消息: Hello, Worker!
+收到来自 Worker 的消息: Hello, Main Thread!
+```
+
+### 4. 详细解释
+
+- **`isMainThread`**：这是一个布尔值，用于判断当前代码是否在主线程中。如果在主线程中，则值为 `true`，否则为 `false`。这允许你在同一个文件中区分主线程和工作线程的代码。
+  
+- **`new Worker(__filename)`**：创建一个新的 Worker 线程，`__filename` 是当前模块的文件名。这样做会使 Worker 执行当前模块的代码。
+  
+- **`parentPort`**：这是一个对象，用于在主线程和 Worker 之间发送和接收消息。使用 `parentPort.on('message', ...)` 来监听来自主线程的消息，使用 `parentPort.postMessage(...)` 来发送消息回主线程。
+
+### 5. 处理异常
+
+在 Worker 线程中，可以使用 `try...catch` 语句来捕获和处理异常。主线程可以通过监听 `error` 事件来捕获 Worker 中的错误。
+
+#### 示例 2：处理异常
+
+```javascript
+// main.js
+const { Worker, isMainThread, parentPort } = require('worker_threads');
+
+if (isMainThread) {
+    const worker = new Worker(__filename);
+
+    worker.on('message', (message) => {
+        console.log(`收到来自 Worker 的消息: ${message}`);
+    });
+
+    worker.on('error', (error) => {
+        console.error(`Worker 发生错误: ${error}`);
+    });
+
+    worker.postMessage('Start');
+} else {
+    parentPort.on('message', (message) => {
+        if (message === 'Start') {
+            throw new Error('Worker 发生错误');
+        }
+    });
+}
+```
+
+#### 运行示例
+
+运行这个代码会导致 Worker 中抛出一个错误，主线程会捕获并输出错误信息。
+
+### 6. 共享内存
+
+`worker_threads` 还支持共享内存。可以使用 `SharedArrayBuffer` 和 `TypedArray` 来创建共享的内存区域，以便在多个 Worker 之间共享数据。这通常用于性能优化，尤其是当数据量大时。
+
+### 总结
+
+`worker_threads` 模块为 Node.js 提供了强大的多线程处理能力，特别适合处理 CPU 密集型任务。通过合理使用 Worker 线程，可以提升应用的性能和响应能力。如果有特定的使用场景或其他问题，请随时告诉我！
 
 
 
