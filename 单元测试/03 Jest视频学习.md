@@ -294,9 +294,33 @@ toThrow
 
 # [8. 让Jest支持import和ES6语法](https://www.bilibili.com/video/BV1yA411b7EV?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=8)
 
+直接用好像也没什么问题
 
+# [9. 异步代码测试方法-1回调函数式](https://www.bilibili.com/video/BV1yA411b7EV?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=9)
 
-# 9. 异步代码测试方法-1回调函数式
+报错信息：
+
+```bash
+ PASS  test/sum.test.js      
+(node:20924) [DEP0066] DeprecationWarning: OutgoingMessage.prototype._headers is deprecated
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ FAIL  test/fetchData.test.js      
+  ● Test suite failed to run
+
+    TypeError: Converting circular structure to JSON
+        --> starting at object with constructor 'ClientRequest'
+        |     property 'socket' -> object with constructor 'TLSSocket'
+        --- property '_httpMessage' closes the circle
+        at stringify (<anonymous>)
+
+      at messageParent (node_modules/jest-runner/node_modules/jest-worker/build/workers/messageParent.js:29:19)9:19)
+
+Test Suites: 1 failed, 1 passed, 2 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        6.534 s
+Ran all test suites.
+```
 
 # 10. 异步代码测试方法-2直接返回promise
 
