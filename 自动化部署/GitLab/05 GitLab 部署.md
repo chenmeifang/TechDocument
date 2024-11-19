@@ -4,9 +4,7 @@ https://www.cnblogs.com/cangqinglang/p/15232869.html
 
 # 1. 分析Pipeline阶段
 
-在编写.gitlab-ci.yml之前，首先需考虑的是Pipeline分几个阶段处理。
-
-从前端工程师的角度出发，一个前端项目的Pipeline处理包括以下阶段：
+一个前端项目的Pipeline处理包括以下阶段：
 
 1. install阶段：执行npm install命令，根据package.json安装node_modules依赖包
 2. eslint阶段：执行eslint检查，判断代码格式是否符合规范，如果不符合则Pipeline终止
@@ -140,7 +138,7 @@ deploy-job:
 2. **Koa 项目**会在部署时重新加载，确保服务器能够提供新的静态文件和 API 服务。
 3. 你可以通过 `scp` 和 `ssh` 这些命令来将文件部署到服务器上。如果你的部署涉及 Docker 容器化，你也可以在 `.gitlab-ci.yml` 中加入 Docker 镜像的构建和发布过程。
 
-# 3. artifacts:    paths:      - build/ 
+# 3. artifacts
 
 在 GitLab CI/CD 中，`artifacts` 是用于保存和共享 job 执行过程中生成的文件，`artifacts` 允许将这些文件从一个 job 传递到下一个 job，也可以在 job 完成后下载或审查这些文件。
 
@@ -182,6 +180,7 @@ artifacts:
 - **Job 2**：部署 React 项目，将 `build/` 中的文件复制到服务器上。
 
 `artifacts` 在两个 job 之间共享构建产物的过程如下：
+
 ```yaml
 stages:
   - build
@@ -232,25 +231,57 @@ artifacts:
 ### 总结
 在 GitLab CI/CD 中，`artifacts: paths: - build/` 是用于保存 React 项目构建后的 `build/` 目录，并允许后续的 job 访问这些构建产物。它的主要作用是确保在 CI/CD pipeline 中能够高效地共享和传递构建产物，避免重复构建，同时为调试和文件下载提供了便利。
 
-# 4. 云服务器搭建的gitlab上的项目存储在云服务器哪个位置
+# 4. gitlab上的项目存储在云服务器哪个位置
 
 GitLab 的项目文件通常存储在 `/var/opt/gitlab/git-data/repositories` 目录下。这个路径包含了 Git 仓库的实际数据。
 
-你可以使用以下命令查看 GitLab 项目存储的具体位置：
+使用以下命令查看 GitLab 项目存储的具体位置：(下面命令好像不行)
 
 ```bash
 sudo gitlab-ctl status
 ```
 
+输出如下：
+
+```bash
+run: alertmanager: (pid 1268) 3209474s; run: log: (pid 1264) 3209474s
+run: gitaly: (pid 1286) 3209474s; run: log: (pid 1277) 3209474s
+run: gitlab-exporter: (pid 1276) 3209474s; run: log: (pid 1262) 3209474s
+run: gitlab-kas: (pid 1285) 3209474s; run: log: (pid 1273) 3209474s
+run: gitlab-workhorse: (pid 1283) 3209474s; run: log: (pid 1265) 3209474s
+run: logrotate: (pid 1725821) 1817s; run: log: (pid 1275) 3209474s
+run: nginx: (pid 1266) 3209474s; run: log: (pid 1261) 3209474s
+run: node-exporter: (pid 1272) 3209474s; run: log: (pid 1263) 3209474s
+run: postgres-exporter: (pid 1280) 3209474s; run: log: (pid 1271) 3209474s
+run: postgresql: (pid 1288) 3209474s; run: log: (pid 1282) 3209474s
+run: prometheus: (pid 1281) 3209474s; run: log: (pid 1267) 3209474s
+run: puma: (pid 1274) 3209474s; run: log: (pid 1260) 3209474s
+run: redis: (pid 1290) 3209474s; run: log: (pid 1278) 3209474s
+run: redis-exporter: (pid 1284) 3209474s; run: log: (pid 1269) 3209474s
+run: sidekiq: (pid 1279) 3209474s; run: log: (pid 1270) 3209474s
+```
+
 或者通过查看 GitLab 的配置文件找到项目存储路径：
 
 ```bash
+# 这条命令的作用是查看GitLab的配置文件 /etc/gitlab/gitlab.rb中与git_data_dirs相关的配置内容
 sudo cat /etc/gitlab/gitlab.rb | grep 'git_data_dirs'
 ```
 
+输出如下：
+
+```bash
+###! Should not be the same path, or a sub directory of any of the `git_data_dirs`
+# git_data_dirs({
+```
+
+配置文件内容如下：
+
+![image-20241116213351261](05 GitLab 部署.assets/image-20241116213351261.png)
+
 默认情况下，GitLab 将仓库存储在 `/var/opt/gitlab/git-data/repositories`，如果你在 `gitlab.rb` 配置文件中修改了 `git_data_dirs`，则需要根据修改后的路径查找项目存储位置。
 
-# 5. 为什么gitLab中创建了项目，但是在git-data/repositories中却找不到相关项目文件夹
+# 5. gitLab中创建了项目，但在git-data/repositories中找不到相关项目文件夹
 
 在自己云服务器上搭建的 GitLab 实例中，每个仓库的代码文件存储在 GitLab 安装目录的某个子目录下。默认情况下，GitLab 使用 `/var/opt/gitlab/git-data` 作为代码库的存储路径，但具体的存储路径取决于你在安装 GitLab 时的配置。
 
@@ -324,7 +355,7 @@ GitLab 在默认配置下，将仓库的数据存储在以下路径：
 
 如果你找不到某个项目的文件夹，实际上它可能存储在 `@hashed` 目录下的子目录中，而不是直接以项目名命名的文件夹。
 
-# 6. 在写.gitlab-ci.yml文件的时候如何获取项目的路径
+# 6. 写.gitlab-ci.yml时如何获取项目路径
 
 在编写 `.gitlab-ci.yml` 文件时，你可以通过 GitLab CI/CD 提供的环境变量来获取项目的路径。通常，Koa 项目的路径可以通过以下方式获取：
 
@@ -365,127 +396,292 @@ test:
 - **`$CI_COMMIT_SHA`**: 当前提交的 SHA。
 - **`$CI_JOB_NAME`**: 当前 job 的名称。
 
-你可以根据需要使用这些变量来管理构建和测试过程。
-
 # 7. 要将React中生成的dist放到Koa的public下，如何在React .gitlab-ci.yml中获取Koa路径
 
-要在 React 项目的 `.gitlab-ci.yml` 文件中将生成的 `dist` 文件夹放到 Koa 项目的 `public` 目录下，可以使用 `CI_PROJECT_DIR` 变量来定位项目路径，并通过相对路径获取 Koa 项目的路径。假设你的 Koa 项目与 React 项目在同一 GitLab 仓库下，通常你可以这样设置：
+在你的场景下，React 和 Koa 是两个独立的 GitLab 项目库，React 的 CI/CD 流程需要获取 Koa 项目的路径以将 `dist` 文件放入其 `public` 目录。这种跨库操作可以通过以下方法实现：
 
-### 示例 `.gitlab-ci.yml`
+---
 
-```yaml
-stages:
-  - build
-  - deploy
+### **方法一：通过共享文件路径 (使用共享服务器的固定路径)**
+1. **前提条件**：
+   
+   - React 和 Koa 项目部署在同一个服务器上。
+   - React 的 CI/CD 进程有权限访问 Koa 项目的存储路径。
+   
+2. **步骤**：
+   - **确定 Koa 的路径**：
+     确定 Koa 项目中 `public` 目录的服务器绝对路径，例如 `/var/www/koa/public`。
 
-build:
-  stage: build
-  script:
-    - echo "Building the React project..."
-    - npm install
-    - npm run build  # 假设你使用 create-react-app，生成的文件会在 ./build
+   - **在 React 项目的 `.gitlab-ci.yml` 中配置**：
+     ```yaml
+     variables:
+       KOA_PUBLIC_PATH: "/var/www/koa/public" # Koa 项目的 public 路径
+     
+     stages:
+       - build
+       - deploy
+     
+     build-job:
+       stage: build
+       script:
+         - echo "Building React Project..."
+         - npm install
+         - npm run build
+       artifacts:
+         paths:
+           - dist/
+     
+     deploy-job:
+       stage: deploy
+       script:
+         - echo "Deploying React static files to Koa public directory..."
+         - cp -R dist/* $KOA_PUBLIC_PATH/
+       only:
+         - main # 仅在主分支上触发部署
+     ```
 
-deploy:
-  stage: deploy
-  script:
-    - echo "Deploying to Koa public directory..."
-    - cp -R $CI_PROJECT_DIR/build/* $CI_PROJECT_DIR/../koa-project/public/  # 根据你的文件结构调整路径
-```
+   - **React 流程说明**：
+     - `build-job` 打包生成 `dist`。
+     - `deploy-job` 使用 `cp` 命令将打包好的文件复制到 Koa 的 `public` 目录。
 
-### 说明
+3. **检查权限**：
+   确保 React 项目的 GitLab Runner 或部署用户对 `/var/www/koa/public` 目录具有写权限。
 
-1. **构建阶段** (`build`):
-   - 在这个阶段，使用 `npm run build` 生成 React 应用的静态文件，默认会生成到 `build` 文件夹。
+---
 
-2. **部署阶段** (`deploy`):
-   - 使用 `cp -R` 命令将 `build` 目录中的内容复制到 Koa 项目的 `public` 目录。 
-   - 假设 Koa 项目位于 React 项目上级目录（即 `../koa-project`），你需要根据你的具体项目结构调整路径。
+### **方法二：通过 GitLab 项目间依赖 (推荐方式)**
 
-### 确保路径正确
+GitLab 支持跨项目触发 CI/CD 流程并传递数据：
 
-- **项目结构**：确保你的 GitLab 项目结构是这样的：
-  ```
-  ├── react-project/
-  │   ├── .gitlab-ci.yml
-  │   ├── build/  (构建后生成的文件)
-  │   └── ...
-  └── koa-project/
-      ├── public/  (需要放置 React 静态文件的地方)
-      └── ...
-  ```
-- **路径调整**：如果你的 Koa 项目路径不同，请相应调整 `cp` 命令中的路径。
+1. **在 Koa 项目中创建一个 API 接口**：
+   
+   - 使用 Koa 提供一个 API，用于接收文件并将其存储到 `public` 目录。
+   - 示例代码：
+     ```javascript
+     const Koa = require('koa');
+     const Router = require('@koa/router');
+     const bodyParser = require('koa-body');
+     const fs = require('fs');
+     const path = require('path');
+     
+     const app = new Koa();
+     const router = new Router();
+     
+     const PUBLIC_DIR = path.join(__dirname, 'public');
+     
+     router.post('/upload', bodyParser({ multipart: true }), async (ctx) => {
+       const file = ctx.request.files.file; // 接收文件
+       const reader = fs.createReadStream(file.path);
+       const stream = fs.createWriteStream(path.join(PUBLIC_DIR, file.name));
+       reader.pipe(stream);
+       ctx.body = 'File uploaded successfully';
+     });
+     
+     app.use(router.routes());
+     app.listen(3000, () => console.log('Koa server listening on port 3000'));
+     ```
+   
+   - 确保 Koa 项目服务器上该接口能被访问，例如 `http://<Koa-Server-IP>:3000/upload`。
+   
+2. **在 React 项目的 `.gitlab-ci.yml` 中调用 API**：
+   - 配置 React 项目的 CI/CD 脚本：
+     ```yaml
+     variables:
+       KOA_UPLOAD_URL: "http://<Koa-Server-IP>:3000/upload" # Koa 上传接口 URL
+     
+     stages:
+       - build
+       - deploy
+     
+     build-job:
+       stage: build
+       script:
+         - echo "Building React Project..."
+         - npm install
+         - npm run build
+       artifacts:
+         paths:
+           - dist/
+     
+     deploy-job:
+       stage: deploy
+       script:
+         - echo "Deploying React static files to Koa via API..."
+         - curl -X POST $KOA_UPLOAD_URL \
+             -F "file=@dist.tar.gz" # 上传文件
+       only:
+         - main
+     
+     before_script:
+       - tar -czvf dist.tar.gz dist # 打包 dist 文件夹
+     ```
 
-### 其他提示
+3. **确保 Koa 接口权限安全**：
+   - 添加认证机制，比如设置一个密钥 `PRIVATE_TOKEN` 来验证请求的合法性。
 
-- 确保 GitLab CI/CD 有足够的权限进行文件操作。
-- 在 CI/CD 中，路径是相对于工作目录的，因此使用相对路径时要小心。
+---
 
-# 8. 若React和Koa项目是两个库怎么处理
+### **方法三：使用 GitLab CI/CD 项目触发器实现跨项目文件部署**
 
-如果你的 React 项目和 Koa 项目是两个独立的库，可以通过 GitLab CI/CD 的多项目管道功能来处理，将构建后的 React 项目文件部署到 Koa 项目中。以下是一些常用的方法：
+使用 GitLab 的 **Pipeline Trigger（流水线触发器）**，可以让一个项目的 CI/CD 流程触发另一个项目的流水线，并传递自定义参数。这种方式适合处理两个项目之间的协作，例如让 React 项目触发 Koa 项目的部署任务。
 
-### 方法 1：使用 GitLab CI/CD 的 Artifacts
+---
 
-你可以在 React 项目的 `.gitlab-ci.yml` 中使用 artifacts 将构建后的文件存储，并在 Koa 项目的 CI/CD 流程中下载这些文件。
+#### **详细步骤**
 
-#### React 项目的 `.gitlab-ci.yml`
+##### **1. 在 Koa 项目中设置触发器**
 
-```yaml
-stages:
-  - build
+1. **打开 Koa 项目的设置**：
+   - 进入 **Koa 项目** 的 GitLab 仓库。
+   - 打开 **Settings > CI/CD > Pipeline triggers**。
 
-build:
-  stage: build
-  script:
-    - npm install
-    - npm run build  # 生成静态文件
-  artifacts:
-    paths:
-      - build/  # 将 build 文件夹作为 artifacts 上传
-```
+2. **创建触发器**：
+   - 点击 **Add trigger**，为触发器命名，比如 `ReactToKoaTrigger`。
+   - 记录生成的触发器令牌（例如：`glpat-xyz123`）。
+   - 真实触发器令牌：`glptt-b58c75029cfb0885d617a0b8500f4ed9f5a0943b`
+   - ![image-20241116224755368](05 GitLab 部署.assets/image-20241116224755368.png)
+   
+3. **确定 Koa 项目的 ID**：
+   - 打开 Koa 项目的 GitLab 页面。
+   - 在 **Settings > General > Project ID** 中找到项目 ID（例如：`12345`）。
+   - 真实项目ID：2
 
-#### Koa 项目的 `.gitlab-ci.yml`
+---
 
-```yaml
-stages:
-  - deploy
+##### **2. 在 React 项目的 `.gitlab-ci.yml` 中配置**
 
-deploy:
-  stage: deploy
-  dependencies:
-    - react-project  # 假设 React 项目在 GitLab CI/CD 中被命名为 react-project
-  script:
-    - echo "Deploying to Koa public directory..."
-    - cp -R react-project/build/* public/  # 将构建的文件复制到 Koa 的 public 目录
-```
+1. **定义变量**：
+   在 React 项目的 `.gitlab-ci.yml` 文件中添加以下变量：
+   ```yaml
+   variables:
+     KOA_PROJECT_ID: "12345"        # Koa 项目的 ID
+     TRIGGER_TOKEN: "glpat-xyz123" # Koa 的触发器令牌
+     KOA_REF: "main"               # 触发 Koa 项目的分支
+   ```
 
-如果项目 A 和项目 B 是**不同仓库**，`dependencies` 是无法直接跨仓库共享 `artifacts` 的
+2. **添加触发器脚本**：
+   在 `deploy-job` 中调用 Koa 项目的触发器：
+   
+   ```yaml
+   deploy-job:
+     stage: deploy
+     script:
+       - echo "Triggering Koa deployment pipeline..."
+       - curl -X POST \
+           -F token=$TRIGGER_TOKEN \
+           -F ref=$KOA_REF \
+           -F "variables[DEPLOY_REACT_ARTIFACT]=true" \
+           https://gitlab.example.com/api/v4/projects/$KOA_PROJECT_ID/trigger/pipeline
+     only:
+       - main
+   ```
+   
+   - `token`: 触发器的令牌。
+   - `ref`: 触发的 Koa 项目的分支。
+   - `variables`: 自定义变量，可以传递给 Koa 项目的流水线。
 
-### 方法 2：使用 GitLab 的多项目管道（Multi-Project Pipeline）
+---
 
-你也可以设置一个父项目，作为两个库的管理者。通过定义 CI/CD 流程，使得 React 项目的构建触发 Koa 项目的部署。
+##### **3. 在 Koa 项目的 `.gitlab-ci.yml` 中接收和处理**
 
-#### 示例配置
+1. **定义变量**：
+   在 Koa 项目的 `.gitlab-ci.yml` 中，使用 `$DEPLOY_REACT_ARTIFACT` 来检查是否由 React 项目触发。
 
-1. **React 项目的 CI/CD**
-   - 在构建完成后，触发 Koa 项目的 CI/CD。
+   ```yaml
+   variables:
+     DEPLOY_REACT_ARTIFACT: "false" # 默认值
+   ```
 
-2. **Koa 项目的 CI/CD**
-   - 在构建过程中拉取 React 项目的构建文件。
+2. **创建部署任务**：
+   在 Koa 的 `.gitlab-ci.yml` 文件中，添加部署任务：
+   
+   ```yaml
+   stages:
+     - deploy
+   
+   deploy-react-artifact-job:
+     stage: deploy
+     script:
+       - echo "Receiving deployment request from React project..."
+       - curl -o dist.zip http://<React-Build-URL> # 拉取 React 项目打包的文件
+       - unzip -o dist.zip -d public/ # 解压到 public 目录
+       - pm2 restart bin/www # 重启 Koa 服务
+     rules:
+       - if: '$DEPLOY_REACT_ARTIFACT == "true"' # 仅在被触发时运行
+   ```
+   
+   - **说明**：
+     - 使用 `rules` 确保任务仅在 `DEPLOY_REACT_ARTIFACT` 为 `true` 时运行。
+     - 通过 `curl` 获取 React 项目生成的 `dist.zip` 文件（需要预先提供可访问的打包文件 URL）。
 
-### 方法 3：使用 GitHub Packages 或 npm Registry
+---
 
-如果你愿意将构建后的文件发布为一个 npm 包，可以将 React 项目打包并发布到 npm Registry（或 GitLab Packages），然后在 Koa 项目中作为依赖引入。
+##### **4. React 项目如何提供打包文件 URL**
 
-### 总结
+1. **存储打包文件**：
+   在 React 的 CI/CD 流程中，上传 `dist` 文件到 GitLab CI/CD 的构件（Artifacts）或某个文件服务器。
 
-- **Artifacts** 是简单有效的方式，适用于两者之间没有复杂依赖的情况。
-- **多项目管道** 适用于更复杂的场景，可以通过 CI/CD 流程更好地管理。
-- **npm 包** 发布方式可以更方便地管理版本和依赖，但需要额外的配置。
+2. **通过 Artifacts 共享打包文件**：
+   React 项目可以在 `build-job` 中将打包好的文件上传为 Artifacts：
+   ```yaml
+   build-job:
+     stage: build
+     script:
+       - npm install
+       - npm run build
+     artifacts:
+       paths:
+         - dist/
+       expire_in: 1 day # 设置有效期
+   ```
 
-根据你的需求和项目结构选择最合适的方法。
+3. **Koa 项目拉取 Artifacts 文件**：
+   Koa 项目的 `deploy-react-artifact-job` 中使用以下 `curl` 命令获取 React 的 Artifacts：
+   ```bash
+   curl --header "PRIVATE-TOKEN: <GitLab-Access-Token>" \
+        "https://gitlab.example.com/api/v4/projects/<React-Project-ID>/jobs/artifacts/<React-Branch>/download?job=build-job" \
+        --output dist.zip
+   ```
 
-# 9. 查看React项目在GitLab CI/CD中被命名为什么
+---
+
+##### **完整流程梳理**
+
+1. **React 项目**：
+   - 构建打包文件并上传为 Artifacts。
+   - 在 `deploy-job` 中通过触发器调用 Koa 项目的流水线。
+
+2. **Koa 项目**：
+   - 接收触发请求。
+   - 在 CI/CD 流程中获取 React 项目的 `dist.zip` 文件。
+   - 解压到 `public` 目录并重启服务。
+
+3. **依赖管理**：
+   - 通过 GitLab 的触发器和 Artifacts 管理跨项目依赖。
+   - 配置合理的权限和令牌，确保安全性。
+
+---
+
+#### **优点**
+- **解耦流程**：React 和 Koa 项目独立开发和部署。
+- **灵活性高**：通过自定义变量可扩展为其他复杂场景。
+- **自动化**：完全基于 CI/CD，无需人工干预。
+
+#### **注意事项**
+- 确保触发器的安全性，不将令牌暴露在公开的代码中。
+- 合理设置 Artifacts 的有效期，避免无效缓存。
+- 处理 `curl` 下载失败时的错误逻辑，例如重试机制或兜底方案。
+
+---
+
+### **总结**
+- **简单路径共享**：React Runner 直接将文件放到 Koa 的固定路径。
+- **API 文件传输**：通过 HTTP API 提交静态文件，解耦部署流程。
+- **GitLab 项目触发器**：利用 GitLab 自带的跨项目触发机制。
+
+推荐使用 **方法二** 或 **方法三**，可以更好地解耦两个项目的部署流程，减少对固定路径的依赖，提高灵活性和可维护性。
+
+# 8. 查看React项目在GitLab CI/CD中被命名为什么
 
 在 GitLab CI/CD 中查看 React 项目的命名，可以通过以下几个步骤来确认：
 
@@ -1435,9 +1631,6 @@ download_from_other_repo:
 
 这个方法通过 GitLab API 获取另一个项目的 `artifacts`，需要你有访问该项目的权限以及项目的 ID 和构建 `job` 的名称。
 
-### 示例 4：使用 Docker 镜像共享构建结果
-你也可以将项目 A 打包成 Docker 镜像，并在项目 B 中直接使用该镜像。
-
 # 25 . 共享文件
 
 在 GitLab CI 中，你可以使用 `dependencies` 来实现项目之间共享构建产物的需求，但有一些限制条件。`dependencies` 主要用于同一 GitLab pipeline 内的不同 jobs 之间共享 `artifacts`，而不适用于跨仓库项目之间直接共享。
@@ -1734,97 +1927,6 @@ script:
 
 如果依然不能解决问题，可能需要更详细的日志或配置来进一步分析。
 
-# # .zip的问题
-
-```shell
-echo $CI_API_TOKEN
-$ curl -k --header "PRIVATE-TOKEN:$CI_API_TOKEN" "http://101.35.254.76:8989/api/v4/projects/3/jobs/artifacts/develop/download?job=build-job" --output artifacts.zip
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100    35  100    35    0     0    833      0 --:--:-- --:--:-- --:--:--   833
-$ unzip artifacts.zip
-Archive:  artifacts.zip
-  End-of-central-directory signature not found.  Either this file is not
-  a zipfile, or it constitutes one disk of a multi-part archive.  In the
-  latter case the central directory and zipfile comment will be found on
-  the last disk(s) of this archive.
-unzip:  cannot find zipfile directory in one of artifacts.zip or
-        artifacts.zip.zip, and cannot find artifacts.zip.ZIP, period.
-ERROR: Job failed: exit status 1
-```
-
-### 问题分析：
-
-从 `curl` 下载的 `artifacts.zip` 文件大小只有 35 字节，这表明 `curl` 并没有正确下载工件，可能返回的是错误信息（例如 HTML 错误页面或重定向），而不是 ZIP 文件。解压时报错也验证了这一点。
-
-以下是可能的原因及其分析：
-
-1. **API 请求失败**：
-   - 下载的文件可能并不是有效的 ZIP 文件，而是 HTML 错误页面，表明 API 请求失败。
-   - 原因可能是 API Token 无效、项目或分支不存在，或者工件并没有正确生成。
-
-2. **工件未生成或不存在**：
-   - 如果你请求的工件在 `develop` 分支的 `build-job` 任务中不存在，GitLab 会返回错误页面，导致下载的文件不正确。
-
-3. **权限问题**：
-   - 可能是用于 API 的 `CI_API_TOKEN` 没有权限访问该项目或下载工件，导致请求失败。
-
-### 解决步骤：
-
-#### 1. **验证 `CI_API_TOKEN` 是否有效**
-   - 确保 `CI_API_TOKEN` 是正确的，并且拥有下载工件的权限。你可以通过以下命令验证它的值：
-     ```bash
-     echo $CI_API_TOKEN
-     ```
-   - 确保它是项目访问的 `Private Token` 或者是 GitLab CI 配置的有效 Token。
-
-#### 2. **检查工件是否存在**
-   - 确保 `build-job` 任务在 `develop` 分支中成功执行，并且确实生成了工件。你可以通过 GitLab 的 Web 界面查看是否存在工件，或者直接通过 API 来列出所有工件：
-     ```bash
-     curl -k --header "PRIVATE-TOKEN:$CI_API_TOKEN" "http://101.35.254.76:8989/api/v4/projects/3/jobs?scope=success"
-     ```
-   - 这个请求会列出项目中成功构建的所有任务，并确认 `build-job` 是否生成了工件。
-
-#### 3. **检查 API 请求 URL 是否正确**
-   - 确保你请求的 URL 正确，包括项目 ID、分支名称和工件所属的 job 名称：
-     - 项目 ID：确认 `3` 是你 GitLab 中的实际项目 ID。
-     - 分支名称：确认 `develop` 是正确的分支名。
-     - 任务名称：确认 `build-job` 是在 CI pipeline 中实际存在的任务名称。
-   - 你可以手动在浏览器中访问类似的 URL 来确认 API 是否返回正确的数据。
-
-#### 4. **使用 `curl` 检查请求状态**
-   - 检查 `curl` 请求返回的 HTTP 状态码，确保请求成功返回工件：
-     ```bash
-     curl -k -I --header "PRIVATE-TOKEN:$CI_API_TOKEN" "http://101.35.254.76:8989/api/v4/projects/3/jobs/artifacts/develop/download?job=build-job"
-     ```
-   - 如果返回的状态码不是 `200 OK`，则可能是请求有问题，原因可能是 Token 权限不足、项目不存在或工件未生成。
-
-#### 5. **查看下载的文件内容**
-   - 下载文件大小为 35 字节，这明显不像一个有效的工件。你可以查看该文件内容：
-     ```bash
-     cat artifacts.zip
-     ```
-   - 如果文件内容是 HTML（通常是 GitLab 的错误或登录页面），说明 API 请求失败，导致没有下载到 ZIP 文件。
-
-#### 6. **验证工件生成和下载流程**
-   - 确保 `build-job` 任务配置了正确的工件输出目录，并且工件成功上传到 GitLab。在 `.gitlab-ci.yml` 中的 job 任务里，确保有类似如下的配置：
-     ```yaml
-     artifacts:
-       paths:
-         - path/to/artifact.zip
-     ```
-
-#### 7. **解决方案：**
-   - **检查 Token 权限**：确保 `CI_API_TOKEN` 有访问项目的权限。
-   - **检查 API 请求 URL**：确保 URL 中的项目 ID、分支名和 job 名称都正确。
-   - **检查工件生成**：确保 `build-job` 成功生成了工件，并且在 GitLab 中存在。
-   - **查看下载文件内容**：通过 `cat` 检查下载文件的内容，排除是 HTML 错误页面的情况。
-   - **查看 HTTP 状态码**：通过 `curl` 的 `-I` 选项检查返回的状态码，确保请求成功。
-
-这几个步骤可以帮助你找出问题的根本原因并解决这个报错。
-
-实际解决：更改Token后就解决了
-
 # gitlab runner中 echo $ CI\_API\_TOKEN 语句并不会输出$CI_API_TOKEN 变量，是要给$CI_API_TOKEN添加上引号吗
 
 在 GitLab Runner 中，`CI_API_TOKEN` 是一个环境变量，它通常应该能直接通过 `echo $CI_API_TOKEN` 来输出。不过，在 CI/CD 中，GitLab 会默认隐藏敏感信息（比如 API token、密码等）以保护安全，因此即使你使用 `echo $CI_API_TOKEN`，输出可能为空。这不是因为语法问题，而是 GitLab 的安全机制。
@@ -1856,161 +1958,3 @@ ERROR: Job failed: exit status 1
 ### 总结：
 即使不需要引号，GitLab 会默认隐藏敏感的环境变量，因此 `echo $CI_API_TOKEN` 不会直接显示其值。如果你要确认它是否被正确使用，最好通过实际的 `curl` 请求或其他相关操作来验证，而不是尝试直接输出变量。
 
-# pm2相关报错
-
-```shell
-$ cp -R dist/* public/
-++ echo '$ cp -R dist/* public/'
-++ cp -R dist/css dist/index.html dist/js public/
-++ echo '$ pm2 bin/www'
-++ pm2 bin/www
-$ pm2 bin/www
-[PM2][ERROR] Command not found
-usage: pm2 [options] <command>
-pm2 -h, --help             all available commands and options
-pm2 examples               display pm2 usage examples
-pm2 <command> -h           help on a specific command
-Access pm2 files in ~/.pm2
-ERROR: Job failed: exit status 1
-```
-
-
-
-```
-pm2 bin/www 改成
-pm2 start bin/www
-```
-
-# gitlab-ci.yml中的artifacts存储在云服务器上的哪个位置
-
-在 GitLab CI 中，`artifacts` 是指在流水线执行过程中生成的文件或输出结果，这些文件可以在不同的 job 之间传递，或在流水线结束后供用户下载查看。
-
-但是，GitLab 并不会直接将 `artifacts` 存储在云服务器的文件系统中，而是通过以下两种方式处理：
-
-### 1. **GitLab Runner 的存储位置**
-`artifacts` 首先会被 GitLab Runner 保存并上传到 GitLab 实例中，具体的位置取决于 Runner 的配置。GitLab Runner 的默认行为是将 `artifacts` 上传到 **GitLab 服务器**，而不是直接保存在**运行 Job 的云服务器上**。
-
-- **上传至 GitLab 实例**：当 Job 完成后，`artifacts` 会被打包并上传到 GitLab 实例的数据库或对象存储（如果有配置）。这意味着用户可以通过 GitLab Web 界面从 Pipeline 的界面下载这些 `artifacts`。
-
-### 2. **GitLab 实例存储**
-当 `artifacts` 上传到 GitLab 实例时，它会被存储在 GitLab 的存储系统中，这取决于你如何配置 GitLab 服务器，通常有两种存储方式：
-
-- **本地文件系统**：如果你没有使用对象存储，`artifacts` 会被存储在 GitLab 实例的文件系统中。默认位置通常是在 GitLab 实例的安装目录中，例如：
-  
-  ```
-  /var/opt/gitlab/gitlab-rails/shared/artifacts
-  ```
-
-  在这个目录下，GitLab 会按项目和 Pipeline ID 对 `artifacts` 进行分层存储。
-
-- **对象存储**：如果 GitLab 实例配置了外部对象存储（例如 AWS S3 或 MinIO），那么 `artifacts` 会存储在配置的对象存储系统中，而不是 GitLab 服务器的本地文件系统。这种方式常用于大规模部署，能减轻服务器的存储压力。
-
-### 在 GitLab Runner 本地的存储位置
-如果你想知道在运行 Job 的云服务器上（即 GitLab Runner 所在的机器）`artifacts` 是临时存储在哪里，默认情况下，`artifacts` 会被存储在 Runner 的工作目录下，路径通常为：
-
-```
-/builds/<group>/<project>
-```
-
-在这个目录下，每个 Job 的输出和 `artifacts` 会临时存放，但最终会被上传到 GitLab 实例中，之后 Runner 会清理本地的临时文件。
-
-### 总结：
-- **`artifacts` 的最终存储位置** 是 GitLab 实例的文件系统或对象存储，而不是直接保存在云服务器上。
-- 在云服务器上（即 GitLab Runner 所在的机器），`artifacts` 只会临时存储，具体路径在 GitLab Runner 的工作目录下，通常位于 `/builds` 下。
-
-# Gitlab服务器和运行Job的云服务器不是同一个服务器吗，他们可以是同一个服务器吗
-
-**GitLab 服务器**和**运行 Job 的云服务器（GitLab Runner 服务器）**可以是同一个服务器，也可以是不同的服务器。这取决于你的项目需求、架构设计以及服务器资源的分配。
-
-### 1. **GitLab 服务器和 Runner 在同一台服务器的情况**
-
-你可以将 GitLab 服务器和 GitLab Runner 部署在同一台机器上，尤其是在以下情况下：
-- 项目规模较小，不需要大量的计算资源。
-- 你希望简化部署架构，只需管理一台服务器。
-- 没有很多并行的 CI/CD 任务，资源负担较轻。
-
-#### 优点：
-- **简化部署和管理**：只需要管理一台服务器，不需要额外配置 Runner 与 GitLab 实例之间的通信。
-- **节省成本**：不需要单独的云服务器来运行 Job，减少了硬件和运维成本。
-  
-#### 缺点：
-- **资源竞争**：GitLab 实例和 Runner 进程会共享同一个服务器的资源（如 CPU、内存、存储），如果 CI/CD 任务密集，可能会影响 GitLab 实例的性能，甚至导致 Web 界面和操作变慢。
-- **扩展性差**：当项目变大，CI/CD 任务变多时，单台服务器的资源很快会耗尽，限制了并行构建的能力。
-
-### 2. **GitLab 服务器和 Runner 在不同服务器的情况**
-
-在较大的项目中，通常会将 GitLab 服务器和 GitLab Runner 部署在不同的机器上，以便更好地分配资源和扩展 CI/CD 能力。
-
-#### 优点：
-- **资源隔离**：GitLab 服务器和 Runner 服务器之间资源互不干扰。即使有大量的 CI/CD 任务运行，也不会影响 GitLab 服务器的性能。
-- **更好的扩展性**：你可以根据需求部署多个 Runner 实例来提高并行执行任务的能力，确保持续集成的效率。
-- **高可用性**：可以使用多个 Runner 来分担任务，避免因为单个 Runner 服务器故障而影响所有 CI/CD 任务。
-
-#### 缺点：
-- **配置更复杂**：需要在不同的服务器之间配置通信。GitLab 服务器和 Runner 之间需要通过网络互相通信，增加了配置和管理的复杂性。
-- **成本增加**：需要额外的服务器来运行 Runner，增加了硬件和运维成本。
-
-### 3. **在同一服务器上配置 GitLab 和 Runner 的场景**
-
-如果你选择将 GitLab 服务器和 Runner 部署在同一台服务器上，你只需确保 GitLab 和 Runner 正常安装并运行。具体步骤如下：
-
-1. **安装 GitLab**：按照官方文档安装 GitLab 实例，并进行配置。
-2. **安装 GitLab Runner**：在同一台服务器上，安装并注册 GitLab Runner，Runner 会自动与本地 GitLab 实例通信。
-3. **注册 Runner**：在 `gitlab-ci.yml` 中定义 CI/CD Pipeline，Job 将由同一台服务器的 Runner 执行。
-
-### 4. **在不同服务器上配置 GitLab 和 Runner 的场景**
-
-如果 GitLab 和 Runner 位于不同的服务器，你需要：
-1. **安装 GitLab 服务器**：在一台服务器上安装和配置 GitLab 实例。
-2. **在其他服务器上安装 GitLab Runner**：在云服务器（或其他机器）上安装 GitLab Runner。
-3. **注册 Runner**：通过 GitLab Web 界面生成一个 Runner 注册令牌，将 Runner 注册到 GitLab 服务器。Runner 服务器与 GitLab 实例通过网络通信。
-   
-### 总结
-- **可以是同一台服务器**：GitLab 服务器和 Runner 可以部署在同一台服务器上，这在小规模项目中很常见。
-- **也可以是不同的服务器**：对于大型项目或高并发需求，通常会将 Runner 部署在单独的云服务器上，以保证 GitLab 服务器的性能并提升并行构建能力。
-
-你的选择应取决于项目的规模、并行任务的数量和服务器资源的配置。
-
-# gitlab-ci.yml中的artifacts存储在云服务器上的哪个位置，当Gitlab服务器和运行Job的云服务器是同一个服务器的时候
-
-当 GitLab 服务器和运行 Job 的云服务器是同一台服务器时，**`artifacts`** 仍然遵循 GitLab 的存储机制。具体来说，`artifacts` 会先由 **GitLab Runner** 进行临时保存，随后被上传到 **GitLab 实例的存储位置**。如果 GitLab 服务器和 Runner 运行在同一个服务器上，文件的存储路径和上传流程并不会发生太大变化。
-
-### 1. **GitLab Runner 临时存储位置**
-
-在运行 Job 时，GitLab Runner 会在本地保存 Job 的中间结果（包括 `artifacts`）。这些临时文件通常存储在 Runner 的工作目录下。默认路径为：
-
-```
-/builds/<group>/<project>
-```
-
-- `<group>` 和 `<project>` 是项目的名称或标识，代表了具体项目的 Job 存放路径。
-- 这个目录是 GitLab Runner 临时存储 Job 文件的地方，Job 结束后会将这些文件上传到 GitLab 实例，并清理本地存储。
-
-### 2. **GitLab 实例的 `artifacts` 存储位置**
-
-当 Job 执行完毕后，GitLab Runner 会将 `artifacts` 上传到 GitLab 服务器的 **`artifacts` 存储位置**。在 GitLab 服务器上，`artifacts` 通常会存储在以下路径：
-
-```
-/var/opt/gitlab/gitlab-rails/shared/artifacts
-```
-
-在这个路径下，GitLab 按项目和 Pipeline ID 分层存储上传的 `artifacts`。GitLab 的存储是由系统自动管理的，你可以在 GitLab 实例中通过 Web 界面查看并下载这些 `artifacts`。
-
-### 3. **清理机制**
-
-- **GitLab Runner** 的本地存储会在 Job 结束后被清理，Runner 只负责在执行 Job 时临时存储文件。
-- **GitLab 实例** 会根据配置来决定保留 `artifacts` 的时间。如果有设置过期时间（通过 `gitlab-ci.yml` 中的 `expire_in` 选项），GitLab 会在指定时间后自动删除这些 `artifacts`。
-
-### 4. **对象存储的可能性**
-
-如果你配置了对象存储（如 AWS S3 或其他兼容的存储服务），那么 `artifacts` 会被上传到对象存储服务，而不是存储在服务器的本地文件系统中。这种方式能减轻服务器的存储压力，提升扩展性。
-
-### 总结
-
-当 GitLab 服务器和运行 Job 的云服务器是同一台服务器时：
-
-- `artifacts` 会在 Job 执行期间暂时保存在 Runner 的工作目录中，通常是 `/builds/<group>/<project>`。
-- Job 执行完毕后，`artifacts` 会被上传到 GitLab 实例的存储目录，默认路径为 `/var/opt/gitlab/gitlab-rails/shared/artifacts`。
-- 如果配置了对象存储，`artifacts` 会存储在外部的对象存储服务中。
-
-你可以根据实际需求来配置 GitLab 的 `artifacts` 过期时间和存储方式。

@@ -604,5 +604,179 @@ before_script:
 
 总结：好像加了配置就生效了！！！！！！！！！！！！！
 
-# 11. 流水线报错查看log
+# 11 .zip的问题
 
+```shell
+echo $CI_API_TOKEN
+$ curl -k --header "PRIVATE-TOKEN:$CI_API_TOKEN" "http://101.35.254.76:8989/api/v4/projects/3/jobs/artifacts/develop/download?job=build-job" --output artifacts.zip
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    35  100    35    0     0    833      0 --:--:-- --:--:-- --:--:--   833
+$ unzip artifacts.zip
+Archive:  artifacts.zip
+  End-of-central-directory signature not found.  Either this file is not
+  a zipfile, or it constitutes one disk of a multi-part archive.  In the
+  latter case the central directory and zipfile comment will be found on
+  the last disk(s) of this archive.
+unzip:  cannot find zipfile directory in one of artifacts.zip or
+        artifacts.zip.zip, and cannot find artifacts.zip.ZIP, period.
+ERROR: Job failed: exit status 1
+```
+
+### 问题分析： 
+
+从 `curl` 下载的 `artifacts.zip` 文件大小只有 35 字节，这表明 `curl` 并没有正确下载工件，可能返回的是错误信息（例如 HTML 错误页面或重定向），而不是 ZIP 文件。解压时报错也验证了这一点。
+
+以下是可能的原因及其分析：
+
+1. **API 请求失败**：
+   - 下载的文件可能并不是有效的 ZIP 文件，而是 HTML 错误页面，表明 API 请求失败。
+   - 原因可能是 API Token 无效、项目或分支不存在，或者工件并没有正确生成。
+
+2. **工件未生成或不存在**：
+   - 如果你请求的工件在 `develop` 分支的 `build-job` 任务中不存在，GitLab 会返回错误页面，导致下载的文件不正确。
+
+3. **权限问题**：
+   - 可能是用于 API 的 `CI_API_TOKEN` 没有权限访问该项目或下载工件，导致请求失败。
+
+### 解决步骤：
+
+#### 1. **验证 `CI_API_TOKEN` 是否有效**
+
+   - 确保 `CI_API_TOKEN` 是正确的，并且拥有下载工件的权限。你可以通过以下命令验证它的值：
+
+     ```bash
+     echo $CI_API_TOKEN
+     ```
+
+   - 确保它是项目访问的 `Private Token` 或者是 GitLab CI 配置的有效 Token。
+
+#### 2. **检查工件是否存在**
+
+   - 确保 `build-job` 任务在 `develop` 分支中成功执行，并且确实生成了工件。你可以通过 GitLab 的 Web 界面查看是否存在工件，或者直接通过 API 来列出所有工件：
+
+     ```bash
+     curl -k --header "PRIVATE-TOKEN:$CI_API_TOKEN" "http://101.35.254.76:8989/api/v4/projects/3/jobs?scope=success"
+     ```
+
+   - 这个请求会列出项目中成功构建的所有任务，并确认 `build-job` 是否生成了工件
+
+#### 3. **检查 API 请求 URL 是否正确**
+
+   - 确保你请求的 URL 正确，包括项目 ID、分支名称和工件所属的 job 名称：
+     - 项目 ID：确认 `3` 是你 GitLab 中的实际项目 ID。
+     - 分支名称：确认 `develop` 是正确的分支名。
+     - 任务名称：确认 `build-job` 是在 CI pipeline 中实际存在的任务名称。
+   - 你可以手动在浏览器中访问类似的 URL 来确认 API 是否返回正确的数据。
+
+#### 4. **使用 `curl` 检查请求状态**
+
+   - 检查 `curl` 请求返回的 HTTP 状态码，确保请求成功返回工件：
+
+     ```bash
+     curl -k -I --header "PRIVATE-TOKEN:$CI_API_TOKEN" "http://101.35.254.76:8989/api/v4/projects/3/jobs/artifacts/develop/download?job=build-job"
+     ```
+
+   - 如果返回的状态码不是 `200 OK`，则可能是请求有问题，原因可能是 Token 权限不足、项目不存在或工件未生成。
+
+#### 5. **查看下载的文件内容**
+
+   - 下载文件大小为 35 字节，这明显不像一个有效的工件。你可以查看该文件内容：
+
+     ```bash
+     cat artifacts.zip
+     ```
+
+   - 如果文件内容是 HTML（通常是 GitLab 的错误或登录页面），说明 API 请求失败，导致没有下载到 ZIP 文件。
+
+#### 6. **验证工件生成和下载流程**
+
+   - 确保 `build-job` 任务配置了正确的工件输出目录，并且工件成功上传到 GitLab。在 `.gitlab-ci.yml` 中的 job 任务里，确保有类似如下的配置：
+
+     ```yaml
+     artifacts:
+       paths:
+         - path/to/artifact.zip
+     ```
+
+#### 7. **解决方案：**
+
+   - **检查 Token 权限**：确保 `CI_API_TOKEN` 有访问项目的权限。
+   - **检查 API 请求 URL**：确保 URL 中的项目 ID、分支名和 job 名称都正确。
+   - **检查工件生成**：确保 `build-job` 成功生成了工件，并且在 GitLab 中存在。
+   - **查看下载文件内容**：通过 `cat` 检查下载文件的内容，排除是 HTML 错误页面的情况。
+   - **查看 HTTP 状态码**：通过 `curl` 的 `-I` 选项检查返回的状态码，确保请求成功。
+
+这几个步骤可以帮助你找出问题的根本原因并解决这个报错。
+
+**实际解决：更改Token后就解决了**
+
+**后续还产生了Token过期的问题：**.需要去生成新的Token
+
+glpat-开头的Token是GitLab的**Personal Access Token**，用于身份验证和授权
+
+![image-20241116151452669](07 gitlab流水线报错.assets/image-20241116151452669.png)
+
+
+这是新的Token
+
+# 12. 新Token的管理
+
+在 GitLab 中，**Personal Access Token** 是一种用于验证用户身份的凭证，本身并没有特殊的变量表示，但可以通过以下方式来管理和引用它：
+
+---
+
+### 1. **在环境变量中管理**  
+为了安全性，可以将 Token 存储在环境变量中，并在脚本或配置中通过变量调用它。例如：
+
+#### 设置环境变量：
+- 在本地终端中：
+  ```bash
+  export GITLAB_TOKEN="glpat-你的新Token"
+  ```
+
+- 在 CI/CD 环境中（GitLab CI/CD）：
+  - 在项目设置中，进入 **Settings > CI/CD > Variables**。
+  - 添加一个变量，比如：  
+    - Key: `GITLAB_TOKEN`  
+    - Value: `glpat-你的新Token`  
+
+#### 使用环境变量：
+```bash
+curl -k --header "PRIVATE-TOKEN:$GITLAB_TOKEN" "http://101.35.254.76:8989/api/v4/projects/3/jobs?scope=success"
+```
+
+---
+
+### 2. **在脚本中引用**  
+将 Token 放在脚本中通过变量调用，避免硬编码：
+```bash
+#!/bin/bash
+TOKEN="glpat-你的新Token"
+curl -k --header "PRIVATE-TOKEN:$TOKEN" "http://101.35.254.76:8989/api/v4/projects/3/jobs?scope=success"
+```
+
+---
+
+### 3. **通过配置文件管理**  
+如果频繁使用，可以将 Token 存储到配置文件中，例如 `~/.bashrc` 或 `~/.zshrc`：
+```bash
+export GITLAB_TOKEN="glpat-你的新Token"
+```
+然后运行：
+```bash
+source ~/.bashrc  # 或 ~/.zshrc
+```
+
+之后使用 `$GITLAB_TOKEN` 访问。
+
+---
+
+### 4. **GitLab CI/CD 中的预定义变量**  
+在 GitLab CI/CD 中，`CI_JOB_TOKEN` 是一个预定义变量，允许在 Pipeline 中执行认证操作，但它与 Personal Access Token 不同：
+- 如果需要更灵活的权限，可以用你设置的 `GITLAB_TOKEN`。
+- 如果只需基本认证，尝试 `CI_JOB_TOKEN` 替代。
+
+---
+
+通过这种方式，Token 可以安全且灵活地用于不同的脚本或自动化流程中。
