@@ -209,7 +209,9 @@ process是Node的一个全局对象，提供当前Node进程的信息，它可�
 
 # [4-7 child_process的使用1](https://www.bilibili.com/video/BV1uM4y1r7Qt?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=63)
 
-child_process是NodeJS中用于创建子进程的模块，NodeJS中的cluster就是基于它来封装的
+`child_process`是NodeJS中用于创建**子进程**的模块，NodeJS中的`cluster`就是基于它来封装的
+
+## exec()
 
 ```js
 const exec = require('child_process').exec;
@@ -217,10 +219,20 @@ const exec = require('child_process').exec;
 // ls可能找不到，导致命令执行失败
 // Windows的等效命令是dir
 exec('dir', (err, stdout, stderr) => {
+  if(err){
+    console.log('stderr:', stderr);
+  }
+  // 输出乱码的原因
+  //  windows的cmd.exe默认使用的是GBK编码
+  //  而NodeJS默认使用UTF-8编码来处理stdout和stderr
+  // 解决：用wsl控制台即可
   console.log('stdout:', stdout);
+  // 输出：houduan.js  process.js  vm.js   websocket.ts  事件循环2.js
+  // index.html  test.txt  websocket.js  事件循环.js
 })
 
-// 另一种写法：
+
+// 另一个等同写法：
 const child = exec('dir');
 child.stdout.on('data', (data) => {
   console.log('data:', data);
@@ -229,15 +241,43 @@ child.stdout.on('data', (data) => {
 child.stderr.on('data', (err) => {
   console.log('err:', err);
 })
+
 ```
 
 `exec`：异步的
 
 `execSync`：exec的同步版本
 
-![image-20241026202643753](02 高级Node2.assets/image-20241026202643753.png)
+## execFile()
 
-![image-20241026205129202](02 高级Node2.assets/image-20241026205129202.png)
+execFile方法直接执行特定的程序shell，参数作为数组传入，不会被bash解释，因此具有**较高安全性**
+
+```js
+const { execFile } = require('child_process');
+execFile('ls', ['-c'], (err, stdout, stderr) => {
+    console.log('stdout', stdout)
+})
+```
+
+## spawn()
+
+spawn方法创建一个子进程来执行特定命令shell，用法与execFile方法类似，但是没有回调函数，只能通过监听事件，来获取运行结果。它属于异步执行，适用于子进程长时间运行的情况
+
+```js
+const { spawn } = require('child_process');
+
+var child = spawn('ls', ['-c']);
+
+child.stdout.on('data', function(data){
+    console.log('data:', data.toString('utf8'))
+})
+
+child.on('close', function(code){
+    console.log('closing code:' + code)
+})
+```
+
+spawn返回的结果是 Buffer，需要转换为utf8
 
 # [4-8 child_process的使用2](https://www.bilibili.com/video/BV1uM4y1r7Qt?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=64)
 
