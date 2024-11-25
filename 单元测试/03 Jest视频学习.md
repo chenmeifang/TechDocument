@@ -322,13 +322,17 @@ Time:        6.534 s
 Ran all test suites.
 ```
 
+
+
 # 10. 异步代码测试方法-2直接返回promise
 
 # 11. 异步代码测试方法-3接口不存在测试用例编写
 
 # 12. 异步代码测试方法-3async...await
 
-# 13. Jest中的四个钩子函数
+# [13. Jest中的四个钩子函数](https://www.bilibili.com/video/BV1yA411b7EV?spm_id_from=333.788.videopod.episodes&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=13)
+
+
 
 # 14. Jest中对测试用例的分组
 
