@@ -482,7 +482,7 @@ test('supports multiple users editing concurrently', async () => {
 
 # 5. Jest相关第三方库
 
-## @types/jest
+## 1. @types/jest
 
 `@types/jest` 是一个 TypeScript 类型声明文件库，它为 Jest 测试框架提供了类型支持。Jest 是一个流行的 JavaScript 测试框架，而 `@types/jest` 提供了与 Jest 相关的类型声明，使得在使用 TypeScript 编写测试时，开发者能够享受类型检查和自动补全功能。
 
@@ -512,7 +512,7 @@ npm install --save-dev @types/jest
 }
 ```
 
-## jest-environment-puppeteer
+## 2. jest-environment-puppeteer
 
 `jest-environment-puppeteer` 是一个用于在 Jest 测试框架中集成 Puppeteer 的库，它提供了一个自定义的 Jest 环境，使你能够在测试中自动使用 Puppeteer 进行浏览器自动化操作。Puppeteer 是一个用于控制无头 Chrome 或 Chromium 浏览器的 Node.js 库，通常用于自动化浏览器任务、抓取网页或进行端到端测试。
 
@@ -577,7 +577,11 @@ describe('Puppeteer Test', () => {
 
 通过这种方式，`jest-environment-puppeteer` 使得在 Jest 测试框架中进行浏览器端的端到端测试变得更加简单和高效。
 
-## jest-puppeteer
+## 3. jest-puppeteer
+
+https://jestjs.io/docs/puppeteer
+
+https://github.com/argos-ci/jest-puppeteer
 
 `jest-puppeteer` 是一个用于将 **Puppeteer** 集成到 **Jest** 测试框架中的库。它提供了一个预配置的 Jest 环境，使得可以轻松地在 Jest 中进行端到端 (E2E) 测试，自动启动浏览器，并且使用 Puppeteer 的 API 执行浏览器操作。
 
@@ -668,7 +672,7 @@ module.exports = {
 
 `jest-puppeteer` 是一个非常方便的工具，用于在 Jest 中自动化浏览器端到端测试，它预配置了 Puppeteer 环境，简化了浏览器交互的过程。通过它，开发者可以更轻松地编写浏览器测试、验证用户交互和页面渲染等。
 
-## jest-silent-reporter
+## 4. jest-silent-reporter
 
 `jest-silent-reporter` 是一个 Jest 报告器，用于定制 Jest 测试结果的输出格式。它的主要特点是“静默”模式，它会抑制默认的输出，提供更简洁、更少干扰的测试结果显示。这个报告器通常用于 CI/CD 环境中，或者当你想要更简洁、专注的测试输出时。
 
@@ -746,7 +750,7 @@ F
 
 `jest-silent-reporter` 是一个适用于希望在测试过程中获得简洁输出的开发者，特别是在 CI/CD 环境中。它通过减少冗长的日志信息，帮助开发者集中注意力在关键的测试结果上。
 
-## jest-html-reporter
+## 5. jest-html-reporter
 
 `jest-html-reporter` 是一个 Jest 测试报告器，用于生成 HTML 格式的测试报告。它将测试结果转化为直观易懂的 HTML 文件，便于开发者和团队成员查看和分析测试结果。生成的报告可以包括详细的测试结果、测试覆盖率以及其他有用的测试信息。
 
@@ -831,7 +835,7 @@ module.exports = {
 
 `jest-html-reporter` 是一个强大的工具，可以帮助你将 Jest 测试结果转换成易于阅读的 HTML 格式报告。这对于团队共享测试结果，或者在持续集成过程中生成可视化的测试报告非常有用。通过配置选项，你可以自定义报告的外观和内容，以满足你的需求。
 
-# 6. 用Jest测试在线文档协同编辑系统中的各种文本格式化操作
+# 6. Jest测试协同编辑系统中的文本格式化操作
 
 要使用 **Jest** 测试在线文档协同编辑系统中的文本格式化操作（如加粗、斜体、下划线、列表等），并利用第三方库如 **jest-environment-puppeteer** 和 **jest-puppeteer** 进行集成测试，你可以模拟实际用户在浏览器中的交互，验证格式化操作是否按预期工作。以下是一个完整的流程，使用 Jest 配合 Puppeteer 测试这些文本格式化操作。
 

@@ -4,7 +4,7 @@
 <iframe class="inputWrapper" id="inputWrapperFrame" onload="__onLoad()" title="input wrapper" style="position: absolute; border: 0 none; outline-style: none; z-index: 100; overflow: hidden; width: 1000px; height: 50px; right: 10000px; top:-10000px;"></iframe> 
 ```
 
-为什么这个iframe都偏离页面的可视区域了，但是给其子节点绑定监听事件textInput后，在页面可视区域输入文字，textInput事件居然能被触发，为什么？？？
+**为什么这个iframe都偏离页面的可视区域了，但是给其子节点绑定监听事件textInput后，在页面可视区域输入文字，textInput事件居然能被触发，为什么？？？**
 
 这个现象可以通过浏览器事件机制和 `iframe` 的行为来解释。以下是详细的原因分析：
 
