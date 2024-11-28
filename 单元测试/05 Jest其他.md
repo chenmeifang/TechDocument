@@ -480,7 +480,175 @@ test('supports multiple users editing concurrently', async () => {
 });
 ```
 
-# 5. Jest相关第三方库
+# 5. Jest测试协同编辑系统中的文本格式化操作
+
+要使用 **Jest** 测试在线文档协同编辑系统中的文本格式化操作（如加粗、斜体、下划线、列表等），并利用第三方库如 **jest-environment-puppeteer** 和 **jest-puppeteer** 进行集成测试，你可以模拟实际用户在浏览器中的交互，验证格式化操作是否按预期工作。以下是一个完整的流程，使用 Jest 配合 Puppeteer 测试这些文本格式化操作。
+
+### 1. 安装所需的库
+
+首先，你需要安装以下库来支持 Puppeteer 和 Jest 的集成测试：
+
+```bash
+npm install --save-dev jest jest-puppeteer jest-environment-puppeteer puppeteer
+```
+
+- **jest-puppeteer**: 用于集成 Puppeteer 和 Jest，方便进行浏览器端的 UI 测试。
+- **jest-environment-puppeteer**: 配置 Jest 以 Puppeteer 作为测试环境，使得你能够在浏览器中进行端到端测试。
+
+### 2. 配置 Jest 环境
+
+在你的 `package.json` 或 `jest.config.js` 中，配置 Jest 使用 **jest-environment-puppeteer** 环境。
+
+在 `jest.config.js` 文件中配置如下：
+
+```javascript
+module.exports = {
+  preset: 'jest-puppeteer',
+  testEnvironment: 'jest-environment-puppeteer',
+};
+```
+
+### 3. 编写文本格式化操作的测试用例
+
+假设你有一个简单的文本编辑器，它允许用户进行加粗、斜体、下划线和列表等操作。你可以通过以下方式进行集成测试：
+
+#### 示例 1：测试加粗操作
+
+```javascript
+describe('TextEditor', () => {
+  beforeAll(async () => {
+    // 启动浏览器并加载编辑器页面
+    await page.goto('http://localhost:3000');  // 替换为你编辑器页面的 URL
+  });
+
+  test('should apply bold style to selected text', async () => {
+    // 输入文本
+    await page.type('[contenteditable="true"]', 'Hello, this is a test!');
+    
+    // 选择文本
+    await page.evaluate(() => {
+      const editor = document.querySelector('[contenteditable="true"]');
+      const range = document.createRange();
+      const selection = window.getSelection();
+      range.setStart(editor.firstChild, 0); // 从文本开始位置
+      range.setEnd(editor.firstChild, 5); // 选中“Hello”这部分文本
+      selection.removeAllRanges();
+      selection.addRange(range);
+    });
+
+    // 点击加粗按钮
+    await page.click('button#bold'); // 假设你的加粗按钮有一个 id 为 "bold"
+
+    // 验证文本是否应用了加粗样式
+    const boldText = await page.$eval('[contenteditable="true"]', (el) => {
+      return window.getComputedStyle(el.firstChild).fontWeight;
+    });
+    expect(boldText).toBe('bold'); // 验证加粗操作
+  });
+});
+```
+
+#### 示例 2：测试斜体操作
+
+```javascript
+test('should apply italic style to selected text', async () => {
+  // 输入文本
+  await page.type('[contenteditable="true"]', 'Hello, this is a test!');
+  
+  // 选择文本
+  await page.evaluate(() => {
+    const editor = document.querySelector('[contenteditable="true"]');
+    const range = document.createRange();
+    const selection = window.getSelection();
+    range.setStart(editor.firstChild, 0);
+    range.setEnd(editor.firstChild, 5);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  });
+
+  // 点击斜体按钮
+  await page.click('button#italic'); // 假设你的斜体按钮有一个 id 为 "italic"
+
+  // 验证文本是否应用了斜体样式
+  const italicText = await page.$eval('[contenteditable="true"]', (el) => {
+    return window.getComputedStyle(el.firstChild).fontStyle;
+  });
+  expect(italicText).toBe('italic');
+});
+```
+
+#### 示例 3：测试下划线操作
+
+```javascript
+test('should apply underline style to selected text', async () => {
+  // 输入文本
+  await page.type('[contenteditable="true"]', 'Hello, this is a test!');
+  
+  // 选择文本
+  await page.evaluate(() => {
+    const editor = document.querySelector('[contenteditable="true"]');
+    const range = document.createRange();
+    const selection = window.getSelection();
+    range.setStart(editor.firstChild, 0);
+    range.setEnd(editor.firstChild, 5);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  });
+
+  // 点击下划线按钮
+  await page.click('button#underline'); // 假设你的下划线按钮有一个 id 为 "underline"
+
+  // 验证文本是否应用了下划线样式
+  const underlineText = await page.$eval('[contenteditable="true"]', (el) => {
+    return window.getComputedStyle(el.firstChild).textDecoration;
+  });
+  expect(underlineText).toBe('underline');
+});
+```
+
+#### 示例 4：测试无序列表操作
+
+```javascript
+test('should apply unordered list to selected text', async () => {
+  // 输入文本
+  await page.type('[contenteditable="true"]', 'Item 1\nItem 2\nItem 3');
+  
+  // 选择文本
+  await page.evaluate(() => {
+    const editor = document.querySelector('[contenteditable="true"]');
+    const range = document.createRange();
+    const selection = window.getSelection();
+    range.selectNodeContents(editor);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  });
+
+  // 点击列表按钮
+  await page.click('button#list'); // 假设你的列表按钮有一个 id 为 "list"
+
+  // 验证文本是否变成无序列表
+  const list = await page.$('ul');
+  expect(list).not.toBeNull();
+  const listItems = await page.$$eval('ul li', (items) => items.length);
+  expect(listItems).toBe(3); // 验证列表项数目
+});
+```
+
+### 4. 运行测试
+
+你可以运行以下命令来执行测试：
+
+```bash
+npm test
+```
+
+### 5. 结论
+
+以上测试用例展示了如何使用 **Jest** 和 **jest-puppeteer** 来测试在线文档协同编辑系统中的文本格式化操作（如加粗、斜体、下划线、列表等）。我们通过模拟用户在浏览器中的输入和交互，验证了文本编辑器是否正确地应用了不同的文本格式。通过结合 Puppeteer，你可以在真实的浏览器环境中执行测试，确保文本格式化操作的正确性。
+
+这样的方法可以扩展到更多的文本操作和编辑器功能，并且适合用于集成测试和端到端测试，尤其是在你有一个复杂的文档编辑器系统时。
+
+# 6. Jest相关第三方库
 
 ## 1. @types/jest
 
@@ -835,170 +1003,191 @@ module.exports = {
 
 `jest-html-reporter` 是一个强大的工具，可以帮助你将 Jest 测试结果转换成易于阅读的 HTML 格式报告。这对于团队共享测试结果，或者在持续集成过程中生成可视化的测试报告非常有用。通过配置选项，你可以自定义报告的外观和内容，以满足你的需求。
 
-# 6. Jest测试协同编辑系统中的文本格式化操作
+# 7. Jest && Puppeteer
 
-要使用 **Jest** 测试在线文档协同编辑系统中的文本格式化操作（如加粗、斜体、下划线、列表等），并利用第三方库如 **jest-environment-puppeteer** 和 **jest-puppeteer** 进行集成测试，你可以模拟实际用户在浏览器中的交互，验证格式化操作是否按预期工作。以下是一个完整的流程，使用 Jest 配合 Puppeteer 测试这些文本格式化操作。
+Jest如果不借助puppeteer，是不是无法做一些跟dom有关的测试？？
 
-### 1. 安装所需的库
+不完全是。**Jest** 本身可以处理与 DOM 相关的测试，而无需依赖 **Puppeteer**，但需要借助 **JSDOM**，这是 Jest 默认集成的模拟浏览器环境。JSDOM 允许你在 Node.js 中模拟浏览器的行为，从而可以运行大多数与 DOM 相关的测试
 
-首先，你需要安装以下库来支持 Puppeteer 和 Jest 的集成测试：
+### **JSDOM 与 Puppeteer 的对比**
 
-```bash
-npm install --save-dev jest jest-puppeteer jest-environment-puppeteer puppeteer
-```
+| 特性         | JSDOM                          | Puppeteer                          |
+| ------------ | ------------------------------ | ---------------------------------- |
+| **用途**     | 模拟 DOM 结构，适用于单元测试  | 完整的浏览器环境，适用于端到端测试 |
+| **渲染支持** | 不支持真实渲染和动画           | 支持真实渲染和动画                 |
+| **性能**     | 轻量，速度快                   | 较重，运行速度慢                   |
+| **适用场景** | 表单验证、DOM 操作、事件监听等 | 页面导航、用户交互、截图等         |
 
-- **jest-puppeteer**: 用于集成 Puppeteer 和 Jest，方便进行浏览器端的 UI 测试。
-- **jest-environment-puppeteer**: 配置 Jest 以 Puppeteer 作为测试环境，使得你能够在浏览器中进行端到端测试。
+### **JSDOM 示例**
 
-### 2. 配置 Jest 环境
-
-在你的 `package.json` 或 `jest.config.js` 中，配置 Jest 使用 **jest-environment-puppeteer** 环境。
-
-在 `jest.config.js` 文件中配置如下：
+用 Jest 测试简单的 DOM 操作：
 
 ```javascript
-module.exports = {
-  preset: 'jest-puppeteer',
-  testEnvironment: 'jest-environment-puppeteer',
-};
-```
+test('button click updates text', () => {
+  document.body.innerHTML = `
+    <button id="btn">Click me</button>
+    <p id="text">Hello</p>
+  `;
 
-### 3. 编写文本格式化操作的测试用例
+  const button = document.getElementById('btn');
+  const text = document.getElementById('text');
 
-假设你有一个简单的文本编辑器，它允许用户进行加粗、斜体、下划线和列表等操作。你可以通过以下方式进行集成测试：
-
-#### 示例 1：测试加粗操作
-
-```javascript
-describe('TextEditor', () => {
-  beforeAll(async () => {
-    // 启动浏览器并加载编辑器页面
-    await page.goto('http://localhost:3000');  // 替换为你编辑器页面的 URL
+  button.addEventListener('click', () => {
+    text.textContent = 'Clicked!';
   });
 
-  test('should apply bold style to selected text', async () => {
-    // 输入文本
-    await page.type('[contenteditable="true"]', 'Hello, this is a test!');
-    
-    // 选择文本
-    await page.evaluate(() => {
-      const editor = document.querySelector('[contenteditable="true"]');
-      const range = document.createRange();
-      const selection = window.getSelection();
-      range.setStart(editor.firstChild, 0); // 从文本开始位置
-      range.setEnd(editor.firstChild, 5); // 选中“Hello”这部分文本
-      selection.removeAllRanges();
-      selection.addRange(range);
-    });
-
-    // 点击加粗按钮
-    await page.click('button#bold'); // 假设你的加粗按钮有一个 id 为 "bold"
-
-    // 验证文本是否应用了加粗样式
-    const boldText = await page.$eval('[contenteditable="true"]', (el) => {
-      return window.getComputedStyle(el.firstChild).fontWeight;
-    });
-    expect(boldText).toBe('bold'); // 验证加粗操作
-  });
+  button.click();
+  expect(text.textContent).toBe('Clicked!');
 });
 ```
 
-#### 示例 2：测试斜体操作
+### **什么时候需要 Puppeteer**
+
+如果你需要测试：
+
+- **真实的浏览器交互**（如滚动、动画、样式渲染）。
+- **复杂的 UI 交互**，例如文件上传、图表渲染等。
+- **跨浏览器兼容性**。
+
+# 8. Jest && Puppeteer && 在线文档
+
+一般在在线文档协同编辑的测试中会有需要用到puppeteer的地方吗，还是说用jest就够了？在 **在线文档协同编辑** 测试中，选择使用 **Puppeteer** 还是 **Jest + JSDOM** 取决于具体的测试需求和场景：
+
+------
+
+### **1. 何时使用 Jest + JSDOM**
+
+适用于大多数**逻辑层面**的测试：
+
+- **文本编辑功能**：测试光标移动、文本输入、删除、格式化等。
+- **协同逻辑**：模拟多个用户在不同文档版本之间的同步。
+- **DOM 事件处理**：如键盘输入、按钮点击等。
+
+**示例：协同逻辑单元测试**
 
 ```javascript
-test('should apply italic style to selected text', async () => {
-  // 输入文本
-  await page.type('[contenteditable="true"]', 'Hello, this is a test!');
+test('collaborative editing merges changes correctly', () => {
+  const doc = new CollaborativeDocument();
+  doc.applyChange({ user: 'User1', text: 'Hello' });
+  doc.applyChange({ user: 'User2', text: ' World' });
+
+  expect(doc.getText()).toBe('Hello World');
+});
+```
+
+------
+
+### **2. 何时使用 Puppeteer**
+
+适用于**端到端 (E2E)** 和 **真实用户交互场景**的测试：
+
+- **实时协作同步**：需要测试多个用户之间的实时编辑和同步过程。
+- **视觉反馈**：如光标位置、实时更新、用户标识等。
+- **复杂 UI 交互**：例如富文本编辑器的工具栏操作、上下文菜单、拖放操作等。
+- **多用户会话模拟**：在真实浏览器环境中模拟多个用户同时编辑。
+
+**示例：协同编辑端到端测试**
+
+```javascript
+const puppeteer = require('puppeteer');
+
+test('multiple users see real-time updates', async () => {
+  const browser1 = await puppeteer.launch();
+  const browser2 = await puppeteer.launch();
   
-  // 选择文本
-  await page.evaluate(() => {
-    const editor = document.querySelector('[contenteditable="true"]');
-    const range = document.createRange();
-    const selection = window.getSelection();
-    range.setStart(editor.firstChild, 0);
-    range.setEnd(editor.firstChild, 5);
-    selection.removeAllRanges();
-    selection.addRange(range);
-  });
+  const page1 = await browser1.newPage();
+  const page2 = await browser2.newPage();
 
-  // 点击斜体按钮
-  await page.click('button#italic'); // 假设你的斜体按钮有一个 id 为 "italic"
+  await page1.goto('http://localhost:3000');
+  await page2.goto('http://localhost:3000');
 
-  // 验证文本是否应用了斜体样式
-  const italicText = await page.$eval('[contenteditable="true"]', (el) => {
-    return window.getComputedStyle(el.firstChild).fontStyle;
-  });
-  expect(italicText).toBe('italic');
+  await page1.type('#editor', 'Hello from User1');
+  const content = await page2.$eval('#editor', el => el.textContent);
+  
+  expect(content).toBe('Hello from User1');
+
+  await browser1.close();
+  await browser2.close();
 });
 ```
 
-#### 示例 3：测试下划线操作
+------
+
+### **3. 综合使用：Jest + Puppeteer**
+
+可以结合 Jest 的测试框架和 Puppeteer 的浏览器自动化功能，既能保持结构化的测试流程，又能测试实际的用户体验。
+
+------
+
+### **总结**
+
+- **Jest + JSDOM**：适用于逻辑层面、单元测试和简单 DOM 操作。
+- **Puppeteer**：适用于复杂交互、多用户协作、端到端测试。
+
+对于协同编辑场景，**通常推荐两者结合使用**，以覆盖逻辑测试和真实交互测试，从而确保全面性和稳定性。
+
+# 9. 单元测试 && 端到端测试
+
+### **单元测试（Unit Testing）与端到端测试（End-to-End Testing, E2E）对比**
+
+| **方面**     | **单元测试 (Unit Testing)**                      | **端到端测试 (E2E Testing)**                     |
+| ------------ | ------------------------------------------------ | ------------------------------------------------ |
+| **定义**     | 测试单个模块、函数或组件的功能，独立于其他部分。 | 模拟真实用户行为，测试整个系统的工作流程。       |
+| **测试范围** | 小范围：单个功能模块、函数或类。                 | 大范围：从用户界面到后端服务的完整工作流。       |
+| **目的**     | 确保单个单元按预期工作。                         | 确保整个应用在真实使用环境中按预期工作。         |
+| **工具示例** | Jest、Mocha、JUnit、PyTest 等。                  | Cypress、Puppeteer、Selenium、Playwright 等。    |
+| **测试速度** | 快，通常几毫秒到几秒。                           | 慢，通常需要几秒到几分钟。                       |
+| **维护成本** | 较低，代码变更时只需更新特定模块的测试。         | 较高，涉及多个系统时，代码变更可能导致测试失败。 |
+| **依赖性**   | 无需依赖其他模块或外部系统，通常使用模拟对象。   | 依赖所有模块，包括前端、后端、数据库等。         |
+| **适用场景** | - 函数逻辑验证- 数据处理- 单个组件渲染或交互。   | - 用户登录流程- 购物车结算- 文件上传和处理。     |
+| **缺点**     | - 可能无法捕获跨模块的问题。                     | - 运行时间长，排查问题时成本高。                 |
+
+------
+
+### **单元测试示例**
+
+#### 测试一个简单的加法函数：
 
 ```javascript
-test('should apply underline style to selected text', async () => {
-  // 输入文本
-  await page.type('[contenteditable="true"]', 'Hello, this is a test!');
-  
-  // 选择文本
-  await page.evaluate(() => {
-    const editor = document.querySelector('[contenteditable="true"]');
-    const range = document.createRange();
-    const selection = window.getSelection();
-    range.setStart(editor.firstChild, 0);
-    range.setEnd(editor.firstChild, 5);
-    selection.removeAllRanges();
-    selection.addRange(range);
-  });
+// add.js
+function add(a, b) {
+  return a + b;
+}
+module.exports = add;
 
-  // 点击下划线按钮
-  await page.click('button#underline'); // 假设你的下划线按钮有一个 id 为 "underline"
+// add.test.js
+const add = require('./add');
 
-  // 验证文本是否应用了下划线样式
-  const underlineText = await page.$eval('[contenteditable="true"]', (el) => {
-    return window.getComputedStyle(el.firstChild).textDecoration;
-  });
-  expect(underlineText).toBe('underline');
+test('adds 1 + 2 to equal 3', () => {
+  expect(add(1, 2)).toBe(3);
 });
 ```
 
-#### 示例 4：测试无序列表操作
+------
+
+### **端到端测试示例**
+
+#### 测试登录功能：
 
 ```javascript
-test('should apply unordered list to selected text', async () => {
-  // 输入文本
-  await page.type('[contenteditable="true"]', 'Item 1\nItem 2\nItem 3');
-  
-  // 选择文本
-  await page.evaluate(() => {
-    const editor = document.querySelector('[contenteditable="true"]');
-    const range = document.createRange();
-    const selection = window.getSelection();
-    range.selectNodeContents(editor);
-    selection.removeAllRanges();
-    selection.addRange(range);
+// 使用 Cypress
+describe('Login Flow', () => {
+  it('logs in a user with valid credentials', () => {
+    cy.visit('http://localhost:3000/login');
+    cy.get('input[name="username"]').type('testuser');
+    cy.get('input[name="password"]').type('password123');
+    cy.get('button[type="submit"]').click();
+    cy.url().should('include', '/dashboard');
+    cy.contains('Welcome, testuser');
   });
-
-  // 点击列表按钮
-  await page.click('button#list'); // 假设你的列表按钮有一个 id 为 "list"
-
-  // 验证文本是否变成无序列表
-  const list = await page.$('ul');
-  expect(list).not.toBeNull();
-  const listItems = await page.$$eval('ul li', (items) => items.length);
-  expect(listItems).toBe(3); // 验证列表项数目
 });
 ```
 
-### 4. 运行测试
+------
 
-你可以运行以下命令来执行测试：
+### **综合建议**
 
-```bash
-npm test
-```
+- **单元测试**：应该是开发过程中的第一道防线，覆盖基本的逻辑和功能。
+- **端到端测试**：用来验证关键业务流程，确保在真实环境中无误。
 
-### 5. 结论
-
-以上测试用例展示了如何使用 **Jest** 和 **jest-puppeteer** 来测试在线文档协同编辑系统中的文本格式化操作（如加粗、斜体、下划线、列表等）。我们通过模拟用户在浏览器中的输入和交互，验证了文本编辑器是否正确地应用了不同的文本格式。通过结合 Puppeteer，你可以在真实的浏览器环境中执行测试，确保文本格式化操作的正确性。
-
-这样的方法可以扩展到更多的文本操作和编辑器功能，并且适合用于集成测试和端到端测试，尤其是在你有一个复杂的文档编辑器系统时。
+通常，推荐 **单元测试+E2E测试+集成测试** 结合使用，达到全面测试的效果，同时减少维护成本。
