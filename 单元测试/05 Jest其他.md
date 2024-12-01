@@ -1191,3 +1191,17 @@ describe('Login Flow', () => {
 - **端到端测试**：用来验证关键业务流程，确保在真实环境中无误。
 
 通常，推荐 **单元测试+E2E测试+集成测试** 结合使用，达到全面测试的效果，同时减少维护成本。
+
+# 10. jest-environment-jsdom
+
+jest-environment-jsdom包里面包括了jsdom包吗？
+
+是的，`jest-environment-jsdom` 包内部包含了 `jsdom` 包。当你安装 `jest-environment-jsdom` 时，它会自动安装 `jsdom` 作为其依赖项。因此，你无需单独安装 `jsdom`，它已经作为 `jest-environment-jsdom` 的一部分进行了集成。
+
+具体来说，`jest-environment-jsdom` 是一个用于为 Jest 提供模拟浏览器环境的环境，它依赖于 `jsdom` 来实现 DOM 模拟。因此，当你使用 Jest 默认的环境（即 `jsdom` 环境）时，实际上是在使用 `jest-environment-jsdom`，并且其中已经包括了 `jsdom`。
+
+如果你查看 `jest-environment-jsdom` 的 `package.json` 文件，你会看到它将 `jsdom` 列为依赖项。
+
+```bash
+npm install --save-dev jest-environment-jsdom
+```
