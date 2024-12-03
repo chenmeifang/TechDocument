@@ -572,7 +572,8 @@ https://www.bilibili.com/video/BV1wy4y1D7JT/?p=36&spm_id_from=pageDriver&vd_sour
 
 | <img src="01.assets/企业微信截图_1630735971821.png" alt="img"  /> | 1,2,3共三条线: <br><img src="01React基础入门.assets/image-20210904141456619.png" alt="image-20210904141456619"  /> |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 1. <br>2. shouldComponentUpdate：组件是否应该被更新。该钩子如果不写，默认返回true<br>3. componentWillUpdate：组件将要更新<br>4. componentDidUpdate：组件更新完毕 | <img src="01React基础入门.assets/image-20240725132027261.png" alt="image-20240725132027261" style="zoom:67%;" /> |
+| 1. `componentWillMount`：组件即将挂载，但尚未渲染到DOM。（已废弃）<br />2. `componentDidMount`：组件挂载了 | <img src="01React基础入门.assets/image-20240725132027261.png" alt="image-20240725132027261" style="zoom:67%;" /> |
+| 1.`componentWillReceiveProps(nextProps)`： 在组件接收新的props之前调用（已废弃）<br/>2. `shouldComponentUpdate`：组件是否应该被更新。该钩子如果不写，默认返回true<br/>3. `componentWillUpdate`：组件将要更新时调用（已废弃）<br/>4. `componentDidUpdate`：组件更新完毕 |                                                              |
 
 # [39 生命周期(旧)_setState流程](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=39&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
@@ -587,7 +588,7 @@ https://www.bilibili.com/video/BV1wy4y1D7JT/?p=36&spm_id_from=pageDriver&vd_sour
 
 # [41 生命周期(旧)——父组件render流程](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=41&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-> 父组件一旦重新render，子组件就会响应**componentWillReceiveProps**钩子
+**父组件一旦重新render，子组件就会响应componentWillReceiveProps钩子**
 
 | <img src="01.assets/企业微信截图_16307380143814.png" alt="img"  /> | <img src="01.assets/image-20210904144728469.png" alt="image-20210904144728469"  /> |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
