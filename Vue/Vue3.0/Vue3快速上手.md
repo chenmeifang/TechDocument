@@ -1022,12 +1022,12 @@ export type Persons = Array<PersonInter>
 
 <script lang="ts" setup name="App">
  import Person from './components/Person.vue'
-import {reactive} from 'vue'
-import {type Persons} from './types'
+ import {reactive} from 'vue'
+ import {type Persons} from './types'
 
  let persons = reactive<Persons>([
-  {id:'e98219e12',name:'张三',age:18},
-   {id:'e98219e13',name:'李四',age:19},
+    {id:'e98219e12',name:'张三',age:18},
+    {id:'e98219e13',name:'李四',age:19},
     {id:'e98219e14',name:'王五',age:20}
   ])
 </script>
@@ -1048,8 +1048,8 @@ import {type Persons} from './types'
 </template>
 
 <script lang="ts" setup name="Person">
-import {defineProps} from 'vue'
-import {type PersonInter} from '@/types'
+import {defineProps, withDefaults} from 'vue'
+import {type Persons} from '@/types'
 
 // 第一种写法：仅接收
 // const props = defineProps(['list'])
@@ -1069,9 +1069,7 @@ console.log(props)
 
 * 概念：`Vue`组件实例在创建时要经历一系列的初始化步骤，在此过程中`Vue`会在合适的时机，调用特定的函数，从而让开发者有机会在特定阶段运行自己的代码，这些特定的函数统称为：生命周期钩子
 
-* 规律：
-
-  > 生命周期整体分为四个阶段，分别是：**创建、挂载、更新、销毁**，每个阶段都有两个钩子，一前一后。
+* 规律：生命周期整体分为四个阶段，分别是：**创建、挂载、更新、销毁**，每个阶段都有两个钩子，一前一后。
 
 * `Vue2`的生命周期
 
