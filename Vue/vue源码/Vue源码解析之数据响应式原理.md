@@ -1195,8 +1195,7 @@ class Compile {
         const content = node.textContent;
         // 匹配{{xxx}}的内容
         if (/\{\{(.+?)\}\}/.test(content)) {
-            // 处理文本节点
-            compileUtil['text'](node, content, this.vm)
+            compileUtil['text'](node, content, this.vm); // 处理文本节点
         }
     }
     
@@ -1215,25 +1214,41 @@ class Compile {
 }
 ```
 
-# 3. 完整实现编译类Compile
+# [3. 完整实现编译类Compile](https://www.bilibili.com/video/BV1qJ411W7YR?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=3)
 
 ```js
 const compileUtil = {
     // 获取值的方法
     getVal(expr, vm) {
         return expr.split('.').reduce((data, currentVal) => {
-            return data[currentVal]
+            return data[currentVal];
         }, vm.$data)
     },
     getAttrs(expr,vm){ },
+      
+    //获取新值 对{{a}}--{{b}} 这种格式进行处理
+    getContentVal(expr, vm) {
+        return expr.replace(/\{\{(.+?)\}\}/g, (...args) => {
+            return this.getVal(args[1], vm);
+        })
+    },
+    //设置值
+    setVal(expr, vm, inputVal){
+        return expr.split('.').reduce((data, currentVal, index, arr) => {
+            return data[currentVal] = inputVal; // 疑问：这里到底需不需要写return？
+        }, vm.$data)
+    }, 
     // v-text
     text(node, expr, vm) { // expr 可能是 {{obj.name}}--{{obj.age}} 
-        let val;
+        let val;        
         if (expr.indexOf('{{') !== -1) {
             val = expr.replace(/\{\{(.+?)\}\}/g, (...args) => {
+                new Watcher(vm, args[1], (newValue) => {
+                    this.updater.textUpdater(node, this.getContentVal(expr,vm)); // getContentVal的传参可能有点小问题
+                })
                 return this.getVal(args[1], vm);
             })
-        } else { //也可能是v-text='obj.name' v-text='msg'
+        } else { // 也可能是v-text='obj.name' v-text='msg'
             val = this.getVal(expr,vm);
         }
         this.updater.textUpdater(node, val);
@@ -1242,11 +1257,23 @@ const compileUtil = {
     html(node, expr, vm) {
         // html处理 非常简单 直接取值 然后调用更新函数即可
         let val = this.getVal(expr,vm);
-        this.updater.htmlUpdater(node,val);
+        new Watcher(vm, expr, (newValue) => {
+            this.updater.htmlUpdater(node, newValue); 
+        }) 
+        this.updater.htmlUpdater(node, val); 
     },
-    // v-model
+    // v-model 双向绑定
     model(node, expr, vm) {
         const val = this.getVal(expr,vm);
+        // 数据===>视图
+        new Watcher(vm, expr, (newValue) => {
+            this.updater.modelUpdater(node, newValue); 
+        }) 
+        // 视图===>数据===>视图
+        node.addEventListener('input',(e)=>{
+            // 设置值
+            this.setVal(expr, vm, e.target.value);
+        },false);
         this.updater.modelUpdater(node,val);
     },
     // 对事件进行处理
@@ -1282,13 +1309,141 @@ const compileUtil = {
 
 通过以上操作:我们实现了一个编译器compile,用它来解析指令,通过updater初始化视图
 
-# 4. 实现Observer劫持并监听所有属性
+# [4. 实现Observer劫持并监听所有属性](https://www.bilibili.com/video/BV1qJ411W7YR?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=4)
 
-# 5. 实现观察者Watcher和依赖收集器Dep
+`MVue.js:`
 
-# 6. 实现双向的数据绑定和Proxy代理
+```js
+class MVue {
+    constructor(options) {
+        this.$el = options.el;
+        this.$data = options.data;
+        //保存 options参数,后面处理数据要用到
+        this.$options = options;
+        // 如果这个根元素存在则开始编译模板
+        if (this.$el) {
+            // 1.实现一个数据观察者
+            new Observer(this.$data);
+            
+            // 把数据获取操作 vm上的取值操作 都代理到vm.$data上
+            this.proxyData(this.$data);
+            
+            // 2.实现一个指令解析器compile
+            new Compile(this.$el, this);
+        }
+    }
+    
+    // 做个代理
+    proxyData(data){
+       for (const key in data) {
+          Object.defineProperty(this,key,{
+              get(){
+                  return data[key];
+              },
+              set(newVal){
+                  data[key] = newVal;
+              }
+          })
+       }
+    }
+}
+```
 
-# 7. 面试题讲解
+`Observer.js:`
+
+```js
+// 创建一个数据监听者  劫持并监听所有数据的变化
+class Observer{
+    constructor(data) {
+        this.observe(data);
+    }
+    observe(data){
+        // 如果当前data是一个对象才劫持并监听
+        if(data && typeof data === 'object'){
+            // 遍历对象的属性做监听
+            Object.keys(data).forEach(key=>{
+                this.defineReactive(data,key,data[key]);
+            })  
+        }
+    }
+    defineReactive(obj, key, value){
+        // 循环递归 对所有层的数据进行观察
+        this.observe(value); // 这样obj也能被观察了
+        const dep = new Dep();
+        Object.defineProperty(obj, key, {
+            get(){
+                // 收集依赖，往dep中添加观察者
+                // 订阅数据变化,往Dep中添加观察者
+            	Dep.target && dep.addSub(Dep.target);
+                return value;
+            },
+            set:(newVal)=>{
+                if (newVal !== value){
+                    // 如果外界直接修改对象 则对新修改的值重新观察
+                    this.observe(newVal);
+                    value = newVal;
+                    // 通知变化
+                    dep.notify();
+                }
+            }
+        })
+    }
+}
+```
+
+# [5. 实现观察者Watcher和依赖收集器Dep](https://www.bilibili.com/video/BV1qJ411W7YR?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=5)
+
+![image-20241204185556912](Vue源码解析之数据响应式原理.assets/image-20241204185556912.png)
+
+```js
+class Dep{
+    constructor() {
+        this.subs = []
+    }
+    // 添加订阅者（添加watcher）（收集观察者）
+    addSub(watcher){
+        this.subs.push(watcher);
+    }
+    // 通知变化（通知watcher去更新）
+    notify(){
+        // 观察者中有个update方法 来更新视图
+        this.subs.forEach(w=>w.update());
+    }
+}
+```
+
+
+
+```js
+class Watcher{
+    constructor(vm, expr, cb) {
+        // 观察新值和旧值的变化,如果有变化 更新视图
+        this.vm = vm;
+        this.expr = expr;
+        this.cb = cb;
+        this.oldVal = this.getOldVal(); // 先把旧值存起来  
+    }
+    getOldVal(){
+        Dep.target = this;
+        let oldVal = compileUtil.getVal(this.expr, this.vm);
+        Dep.target = null;
+        return oldVal;
+    }
+    update(){
+        // 更新操作 数据变化后 Dep会发生通知 告诉观察者更新视图
+        let newVal = compileUtil.getVal(this.expr, this.vm);
+        if(newVal !== this.oldVal){
+            this.cb(newVal);
+        }
+    }
+}  
+```
+
+# [6. 实现双向的数据绑定和Proxy代理](https://www.bilibili.com/video/BV1qJ411W7YR?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=6)
+
+# [7. 面试题讲解](https://www.bilibili.com/video/BV1qJ411W7YR?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=7)
+
+阐述一下你所理解的MVVM响应式原理
 
 # 文档碎片对象
 

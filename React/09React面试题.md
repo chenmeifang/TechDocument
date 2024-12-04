@@ -812,7 +812,7 @@ The fundamental idea with `useMemo` is that it allows us to *“remember”* a c
 
 `useMemo`: 让我们在不同渲染之间保存一个已经计算好的值。比如说我在第一次渲染的时候已经计算好了一个值，那我在第二次渲染的时候能不能不再进行这个运算，而是直接用第一次渲染时候的值
 
-# 11. React多次调用setState, React内部源码是如何维护的
+# 11. 多次调用setState, React内部源码是如何维护的
 
 在 React 中，多次调用 `setState` 会触发组件状态的更新，然而，React 并不会立即同步更新状态，而是对状态更新请求进行批处理。这种机制背后的设计主要为了提高性能，减少不必要的渲染。
 
@@ -884,7 +884,7 @@ React 的 Fiber 架构进一步优化了状态更新的过程。Fiber 使得 Rea
 
 React 内部通过批处理、更新队列和 Fiber 架构来高效处理多次 `setState` 调用。通过这些机制，React 能够减少不必要的重新渲染，优化性能，并确保应用能够保持流畅的用户体验。
 
-# 12. react多次调用setState修改同一个状态, react内部源码是如何维护的
+# 12. 多次调用setState修改同一个状态, React内部源码是如何维护的
 
 当你在 React 中多次调用 `setState` 修改同一个状态时，React 内部会通过以下步骤来维护和处理这些状态更新：
 
@@ -939,10 +939,6 @@ this.setState((prevState) => ({ count: prevState.count + 1 }));
 ### 6. **React Fiber 的作用**
 
 在 React Fiber 架构下，所有的更新操作都是被分片处理的，这意味着 React 可以优先处理更重要的任务，比如用户输入事件，即便有多个 `setState` 调用要处理，React 也能保持高效的性能。
-
-### 总结
-
-React 内部通过维护一个更新队列，将多次 `setState` 调用进行批处理。当你多次调用 `setState` 修改同一个状态时，React 会依次处理这些更新请求，并最终得到一个合并后的状态。这种机制确保了 React 的性能，同时保证状态更新的正确性。
 
 # 13. React提出hooks主要是为了解决什么问题
 

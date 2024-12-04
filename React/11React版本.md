@@ -56,16 +56,25 @@ React 的版本迭代中包含了许多重要的特性和改进。以下是一�
 
 - **Hooks（React 16.8）**：
   - 引入了 **Hooks**，使得函数组件能够使用状态和副作用，极大地提升了函数组件的能力，改变了组件的编写方式。
-
+  - 2019年2月6日发布的
+  
 - **Concurrent Rendering**：
   - **Concurrent Mode** 引入了在后台处理任务的能力，使得 React 应用可以更加流畅地响应用户操作，并在后台处理复杂的任务。
 
 - **Suspense**：
-  - 允许组件在等待数据或其他资源时显示备用内容，使得数据加载过程更加流畅。
+  - 允许组件在等待数据或其他资源时显示备用内容，使得数据加载过程更加流畅
 
-这些版本和特性展示了 React 的演变，从早期的简单组件化到现在复杂的并发渲染和数据处理，使得 React 成为构建现代用户界面的强大工具。
+# 2. React 18
 
-# [2. React 19](https://www.bilibili.com/video/BV1az421o7n7/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+- **React 18.0**：
+  - 引入了 **Concurrent Mode**，使得 React 可以同时处理多个更新任务，提高了性能和用户体验。
+  - 引入了 **Automatic Batching**，使得多个状态更新能够自动合并，从而减少不必要的重新渲染。
+  - 引入了 **Suspense for Data Fetching**，允许组件在数据加载时进行懒加载和显示占位符，提升了用户体验。
+
+- **React 18.2**：
+  - 在 **Concurrent Mode** 下引入了 **`startTransition`** API，允许开发者标记某些更新为非紧急任务，从而提升 UI 的响应速度。
+
+# [3. React 19](https://www.bilibili.com/video/BV1az421o7n7/?spm_id_from=333.337.search-card.all.click&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 react19不再是关于你必须编写的代码，而是更多关于你不再需要编写的代码
 
@@ -80,7 +89,7 @@ react19不再是关于你必须编写的代码，而是更多关于你不再需�
 |                                                              |                                                              |
 |                                                              | ![image-20241008151819535](11React版本.assets/image-20241008151819535.png) |
 
-# [3. React 19](https://react.dev/blog/2024/04/25/react-19)
+# [4. React 19](https://react.dev/blog/2024/04/25/react-19)
 
 
 
