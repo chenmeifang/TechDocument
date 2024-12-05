@@ -176,15 +176,15 @@ vue最牛逼的地方并不是双向绑定，最难的地方是节点和虚拟do
 
 同一个事件处理函数绑定给两个元素合理吗？
 
-# 4. Proxy
+# [4. Proxy](https://www.bilibili.com/video/BV1Dk4y127Ha/?spm_id_from=333.1391.0.0&p=2&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
 4min30s处开始
 
-一个是代理，一个是定义属性。
+一个是代理，一个是定义属性。如果不是vue，这俩东西一辈子都没有交集。
 
-如果不是vue，这俩东西一辈子都没有交集。
 
-defineProperty：劫持数据--》给对象进行扩展--》属性进行设置
+
+defineProperty：劫持数据-->给对象进行扩展-->属性进行设置
 
 Proxy：可以实现同样的功能，但是它不是直接用劫持的方法。proxy是返回一个代理的对象。  
 
@@ -196,84 +196,132 @@ Proxy：ES6的构造函数
 
 这个东西是给对象用的，它能用在数组里面吗？**能**
 
-
-
 它能处理函数吗？能
 
 
 
-对象操作的14种方法：背下来！！！！！！！！
+对象操作的14种方法：
 
-1. 获取原型
+- 获取原型[[GetPrototypeOf]]
 
+ ```js
+ var obj = {a: 1, b: 2}
+ var proto = Object.getPrototypeOf(obj);
+ console.log(proto);
+ console.log(obj.__proto__);
+ console.log(Object.prototype);
+ ```
 
+- 设置原型[[SetPrototypeOf]]
 
-2.设置原型
+```js
+var obj = {a: 1, b: 2}
+Object.setPrototypeOf(obj, {c:3,d:4})
+console.log(obj)
+```
 
-
-
-3.获取对象的可扩展性（追加，删除，修改，枚举等）
-
-
-
-seal：封闭对象——不可修改对象；不可删除对象属性；可更改属性值；可枚举  
-
-
-
-freeze：冻结对象——不可修改对象；不可删除对象属性；不可更改属性值；可枚举 
-
-
-
-4.获取自有属性
+- 获取对象的可扩展性[[IsExtensible]]（追加，删除，修改，枚举等）
 
 
+```js
+var obj = {a: 1, b: 2}
+var extensible = Object.isExtensible(obj);
+console.log(extensible); // true
+Object.freeze(obj); // 冻结对象——不可修改对象；不可删除对象属性；不可更改属性值；可枚举 
+var extensible2 = Object.isExtensible(obj);
+console.log(extensible2); // false
+Object.seal(obj) // 封闭对象——不可修改对象；不可删除对象属性；可更改属性值；可枚举  
+obj.c = 3;
+console.log(obj) // {a:1,b:2}
+```
 
-5.禁止扩展对象
-
-
-
-6.拦截对象操作
-
-
-
-7.判断是否是自身属性（深拷贝的时候要用到这个东西！！！）
-
-
-
-8.[[GET]]——不是你所理解的获取值，而是判断某个属性是不是在对象里面
-
+- 获取自有属性[[GetOwnProperty]]
 
 
-9.[[set]]
+```js
+var obj = {a: 1, b: 2}
+Object.setPrototypeOf(obj, {c:3,d:4});
+console.log(Object.getOwnPropertyNames(obj)) // ["a", "b"]
+```
+
+- 禁止扩展对象[[PreventExtensions]]
+
+```js
+var obj = {a: 1, b: 2}
+Object.preventExtensions(obj);
+obj.c = 3; // 禁止增加属性
+console.log(obj) // {a:1,b:2}
+delete obj.a; // 可删除属性
+console.log(obj) // {b:2}
+```
+
+- 拦截对象操作[[DefineOwnProperty]]
 
 
+```js
+Obj.defineProperty()
+```
 
-10.[[delete]]
-
-
-
-11.枚举
-
+- 判断是否是自身属性[[HasProperty]]（深拷贝的时候要用到这个东西）
 
 
-12.获取键集合
+```js
+var obj = {a: 1, b: 2}
+console.log(obj.hasOwnProperty('a')) // true
+```
 
+- [[GET]] 不是你所理解的获取值，而是判断某个属性是不是在对象里面
 
+```js
+var obj = {a: 1, b: 2}
+console.log('a' in obj) // true
+console.log(obj.a)
+```
+
+- [[SET]]
+
+```js
+var obj = {a: 1, b: 2}
+obj.a=3
+obj['b']=4
+```
+
+- [[Delete]]
+
+```js
+var obj = {a: 1, b: 2}
+delete obj.a;
+```
+
+- 枚举[[Enumerate]]
+
+```js
+var obj = {a: 1, b: 2}
+for(var k in obj){
+    console.log(obj[k])
+}
+```
+
+- 获取键集合[[OwnPropertyKeys]]
+
+```js
+var obj = {a: 1, b: 2}
+console.log(Object.keys(obj))
+```
 
 在ES6的标准中，任何的语法和对象相关的内建函数方法都是基于这上面13种内部方法构建出来的
 
-重写Proxy，实现下图的功能：defineProperty + 深拷贝
 
-要用什么东西实现呢？
-肯定避免不了要用defineProperty  ？？？？？？？不是说proxy和defineProperty没关系吗？？？？咋又扯上关系了！！！！！
+
+重写Proxy：用defineProperty + 深拷贝
 
 ```javascript
 function MyProxy (target, handler) {
-  // 这里面涉及深拷贝， 深拷贝怎么写？
+  // 深拷贝
   function deepClone (org, tar) {
-    var tar = tar || {};
-    		toStr = Object.prototype.toString;
-    		arrType = '[object Array]'
+    var tar = tar || {},
+        toStr = Object.prototype.toString,
+        arrType = '[object Array]';
     for (var key in org) {
       if (org.hasOwnProperty(key)) {
         if (typeof(org[key]) === 'object' && org[key] !== null) {
@@ -286,6 +334,7 @@ function MyProxy (target, handler) {
     }
     return tar;
   }
+     
   let _target = deepClone(target);
   Object.keys(_target).forEach(key => {
     Object.defineProperty(_target, key, {
@@ -301,24 +350,24 @@ function MyProxy (target, handler) {
 }
 ```
 
-68min处～74min处！！！！！！！！！！！！！！！！！！！---80mins
 
-为什么265行会打印出一个false？？？明明proxy里面有a属性！！！
 
-* defineProperty原则上 是给对象增加属性用的。它在修改数组的长度，用索引去设置元素的值，数组的push，pop等这些方法是无法触发defineProperty的set方法的。
-* vue2.0 中所以跟数组相关的方法都是重写的。
-* vue3.0中没有这个问题！对数组的下标操作完全可以触发set。 
+![image-20241205104549173](Vue2与Vue3核心之响应式原理.assets/image-20241205104549173.png)
 
-Reflect 反射 方法集合的容器
 
-reflect是es6直接定义的一个==内置对象==
 
-ES6把对象的十四种方法都放到了Reflect上面！！！
+* defineProperty原则上是**给对象增加属性用**的。它在**修改数组的长度**，**用索引去设置元素的值**，**数组的push，pop**等这些方法是无法触发defineProperty的set方法的
+* vue2.0 中所以跟数组相关的方法都是重写的
+* vue3.0 中没有这个问题，对数组的下标操作完全可以触发set
 
-为什么要放到Reflect上面？？？
-	因为我们很多对象的方法都是直接放在Object上面的，但是实际上很多方法并不是直接操作Object的。有可能操作函数，有可能操作数组。这种情况下 方法 放在Object下面就不合理！
-	往往Object的返回值结果都会抛出异常。
+ 
 
-第251行的处理不太好，因为是一个直接取值的操作。而并不是函数式的。
+Reflect：反射       方法集合的容器       是es6直接定义的一个内置对象
 
-希望用函数式的东西去操作对象
+ES6把对象的十四种方法都放到了Reflect上面
+
+
+
+为什么要放到Reflect上面？
+
+- 因为我们很多对象的方法都是直接放在Object上面的，但是实际上很多方法并不是直接操作Object的。有可能操作函数，有可能操作数组。这种情况下 方法 放在Object下面就不合理
