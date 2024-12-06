@@ -607,3 +607,226 @@ example(1, 2, 3);
 - 它与函数参数在非严格模式下存在双向绑定，但在严格模式下绑定被切断。
 - `arguments` 在 ES6 之后被 `rest` 参数（`...args`）所取代，`rest` 参数更加灵活和现代。
 - `arguments` 是类数组，需要转换为真正的数组才能使用数组的各种方法。
+
+# 6. Object.prototype.toString
+
+- `Object.prototype.toString` 是一个原生的 JavaScript 方法，它返回一个表示对象的字符串。
+
+- 当你直接调用 `Object.prototype.toString()` 时，它会返回 `"[object Object]"`。
+
+- 通过使用 `call` 方法，你可以传递一个对象（在这个例子中是 `arr`），来让 `toString` 方法处理这个对象。
+
+- 对于数组，`Object.prototype.toString.call(arr)` 返回的字符串是 `"[object Array]"`。
+
+- ```javascript
+  console.log(Object.prototype.toString.call({})); // [object Object]
+  console.log(Object.prototype.toString.call([])); // [object Array]
+  console.log(Object.prototype.toString.call(new Date())); // [object Date]
+  console.log(Object.prototype.toString.call(/regex/)); // [object RegExp]
+  ```
+
+### **`Object.prototype.toString` 的详细分析**
+
+`Object.prototype.toString` 是 JavaScript 中一个非常常用的方法，可以用来准确判断值的 **类型**，尤其是在处理对象类型时。这是因为它返回的是一个 **标准化的类型字符串**，可以帮助开发者绕过 JavaScript 中的类型判断陷阱。
+
+------
+
+### **1. `Object.prototype.toString` 的工作原理**
+
+#### **1.1. 方法定义**
+
+`Object.prototype.toString` 是定义在 `Object` 的原型链上的一个方法。它的默认功能是返回一个字符串，表示对象的内部类型。
+
+#### **1.2. 返回的格式**
+
+调用 `Object.prototype.toString` 时，会返回一个类似以下格式的字符串：
+
+```javascript
+"[object Type]"
+```
+
+- `Type` 是对象的 **内部类型标识**。
+- 例如：
+  - 对于数组，返回 `"[object Array]"`。
+  - 对于日期，返回 `"[object Date]"`。
+  - 对于普通对象，返回 `"[object Object]"`。
+
+#### **1.3. 调用方式**
+
+- 如果直接在一个值上调用 `Object.prototype.toString`，通常需要通过 `Function.prototype.call` 或 `Function.prototype.apply` 明确指定 `this` 的上下文。
+
+- 示例：
+
+  ```javascript
+  console.log(Object.prototype.toString.call([])); // "[object Array]"
+  console.log(Object.prototype.toString.call(new Date())); // "[object Date]"
+  console.log(Object.prototype.toString.call({})); // "[object Object]"
+  ```
+
+------
+
+### **2. 常见类型判断的局限性**
+
+JavaScript 中的类型判断可以通过 `typeof` 和 `instanceof`，但它们有各自的局限性：
+
+#### **2.1. `typeof` 的问题**
+
+- **能区分基础类型**：`typeof` 对于 `undefined`、`boolean`、`number`、`string` 等基础类型是准确的。
+
+- **无法精确区分对象类型**：所有对象类型（包括数组、日期、正则等）都会被判定为 `"object"`。
+
+- 示例：
+
+  ```javascript
+  console.log(typeof []); // "object"
+  console.log(typeof new Date()); // "object"
+  ```
+
+#### **2.2. `instanceof` 的问题**
+
+- **只能判断实例与构造函数的关系**：`instanceof` 用来判断某个对象是否是某个构造函数的实例。
+
+- **跨 iframe 的问题**：如果对象跨 iframe 创建，`instanceof` 可能失效，因为不同 iframe 有各自的 `Array` 或 `Date` 构造函数。
+
+- 示例：
+
+  ```javascript
+  console.log([] instanceof Array); // true
+  console.log(new Date() instanceof Date); // true
+  ```
+
+------
+
+### **3. 使用 `Object.prototype.toString` 的优点**
+
+`Object.prototype.toString` 不依赖构造函数的实现，也不会受跨 iframe 的限制，因此可以精确区分对象的类型。
+
+#### **3.1. 常见类型判断**
+
+以下是一些常见对象的返回值：
+
+```javascript
+console.log(Object.prototype.toString.call(undefined)); // "[object Undefined]"
+console.log(Object.prototype.toString.call(null)); // "[object Null]"
+console.log(Object.prototype.toString.call("Hello")); // "[object String]"
+console.log(Object.prototype.toString.call(123)); // "[object Number]"
+console.log(Object.prototype.toString.call(true)); // "[object Boolean]"
+console.log(Object.prototype.toString.call([])); // "[object Array]"
+console.log(Object.prototype.toString.call({})); // "[object Object]"
+console.log(Object.prototype.toString.call(new Date())); // "[object Date]"
+console.log(Object.prototype.toString.call(/regex/)); // "[object RegExp]"
+console.log(Object.prototype.toString.call(function () {})); // "[object Function]"
+console.log(Object.prototype.toString.call(Promise.resolve())); // "[object Promise]"
+```
+
+#### **3.2. 判断类型的封装**
+
+我们可以利用 `Object.prototype.toString` 来封装一个通用的类型判断工具：
+
+```javascript
+function getType(value) {
+  return Object.prototype.toString.call(value).slice(8, -1);
+}
+
+console.log(getType([])); // "Array"
+console.log(getType({})); // "Object"
+console.log(getType(new Date())); // "Date"
+console.log(getType(/regex/)); // "RegExp"
+console.log(getType(null)); // "Null"
+console.log(getType(undefined)); // "Undefined"
+console.log(getType(123)); // "Number"
+console.log(getType("Hello")); // "String"
+console.log(getType(function () {})); // "Function"
+console.log(getType(Promise.resolve())); // "Promise"
+```
+
+------
+
+### **4. 使用场景分析**
+
+#### **4.1. 深度类型判断**
+
+在复杂项目中，尤其是需要处理多种数据类型时，`Object.prototype.toString` 是判断类型的可靠工具，能够覆盖所有情况。
+
+#### **4.2. 处理多态输入**
+
+当函数支持多种类型输入时，可以通过 `Object.prototype.toString` 精确判断传入的数据类型：
+
+```javascript
+function processInput(input) {
+  const type = Object.prototype.toString.call(input).slice(8, -1);
+  switch (type) {
+    case "String":
+      console.log("Processing string:", input);
+      break;
+    case "Number":
+      console.log("Processing number:", input);
+      break;
+    case "Array":
+      console.log("Processing array:", input);
+      break;
+    default:
+      console.log("Unsupported type:", type);
+  }
+}
+
+processInput("hello"); // Processing string: hello
+processInput(123); // Processing number: 123
+processInput([1, 2, 3]); // Processing array: 1,2,3
+```
+
+#### **4.3. 应对跨环境问题**
+
+跨 iframe 或 Web Worker 场景下，由于 `instanceof` 不可靠，可以使用 `Object.prototype.toString` 来统一判断类型。
+
+------
+
+### **5. 局限性**
+
+#### **5.1. 自定义对象的类型**
+
+对于自定义对象，`Object.prototype.toString` 默认返回 `"[object Object]"`，无法直接区分。例如：
+
+```javascript
+class Custom {}
+const obj = new Custom();
+console.log(Object.prototype.toString.call(obj)); // "[object Object]"
+```
+
+不过，可以通过修改 `Symbol.toStringTag` 属性来自定义返回值：
+
+```javascript
+class Custom {
+  get [Symbol.toStringTag]() {
+    return "CustomType";
+  }
+}
+
+const obj = new Custom();
+console.log(Object.prototype.toString.call(obj)); // "[object CustomType]"
+```
+
+------
+
+### **6. 与其他类型判断方式的对比**
+
+| 判断方式                    | 特点                                            | 局限性                                                       |
+| --------------------------- | ----------------------------------------------- | ------------------------------------------------------------ |
+| `typeof`                    | 判断基础类型（如 `string`、`number`）非常直观。 | 无法精确区分对象类型，数组、日期等都返回 `"object"`。        |
+| `instanceof`                | 判断某个对象是否是某构造函数的实例。            | 跨 iframe 或 Web Worker 会失效。                             |
+| `Object.prototype.toString` | 能精确区分所有类型，包括对象、基础类型等。      | 对于自定义类型，返回值可能不直观，需要结合 `Symbol.toStringTag`。 |
+
+------
+
+### **7. 总结**
+
+- **`Object.prototype.toString` 是判断类型的可靠方式**，它返回格式统一的字符串，可以精确区分各种内置对象类型。
+- 适合的场景：
+  - 判断复杂对象的类型（如 `Array`、`Date`、`Promise` 等）。
+  - 应对跨 iframe 或 Web Worker 环境。
+  - 实现通用的类型判断工具。
+- 局限性：
+  - 对自定义对象返回 `"object"`，需要配合 `Symbol.toStringTag` 自定义类型字符串。
+
+掌握并灵活应用 `Object.prototype.toString`，可以让类型判断更准确、更强大，是 JavaScript 开发中的重要技能之一。
+
