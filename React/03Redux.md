@@ -165,3 +165,146 @@ Redux 中间件是一种扩展 Redux 功能的方式。它可以在 action 被 d
 - **学习曲线**: 对新手来说，理解 Redux 的概念和最佳实践可能需要时间。
 
 Redux 适用于需要复杂状态管理和调试的应用，但对于简单应用来说，可能会觉得过于复杂。
+
+# Redux基础视频学习
+
+## [97 redux简介](https://www.bilibili.com/video/BV1wy4y1D7JT?p=97&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+<img src="03Redux.assets/image-20240311200214782.png" alt="image-20240311200214782" style="zoom:67%;" />
+
+## [98 redux工作流程](https://www.bilibili.com/video/BV1wy4y1D7JT?p=98&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+| ![image-20240815115817980](03Redux.assets/image-20240815115817980.png) | <img src="03Redux.assets/image-20240311202152313.png" alt="image-20240311202152313"  /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <img src="03Redux.assets/image-20240311200325757.png" alt="image-20240311200325757"  /> | <img src="03Redux.assets/3.png" alt="1" style="zoom: 40%;" /> |
+| 疑问1：action指向的到底是Store还是Reducer？是谁在接收处理操作action？？ | 疑问2：状态的初始化是谁处理的？——Reducer                     |
+|                                                              |                                                              |
+| 疑问3：dispatch是谁身上的方法？                              |                                                              |
+
+## [99 求和案例 纯react版](https://www.bilibili.com/video/BV1wy4y1D7JT?p=99&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+| ![image-20240815120652858](03Redux.assets/image-20240815120652858.png) | <img src="03Redux.assets/image-20240311215718557.png" alt="image-20240311215718557"  /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+## [100 求和案例 redux精简版](https://www.bilibili.com/video/BV1wy4y1D7JT?p=100&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+安装redux
+
+| 目录结构                                                     | ![image-20240815123700583](03Redux.assets/image-20240815123700583.png) |
+| ------------------------------------------------------------ | :----------------------------------------------------------: |
+| ![image-20240815132429242](03Redux.assets/image-20240815132429242.png) | <img src="03Redux.assets/image-20240815133738288.png" alt="image-20240815133738288" style="zoom:80%;" /><br>第六行加上export default |
+| **初始化时 store会帮我们调用一次reducer**。其preState和action值见右图。后几个字符是随机字符 | ![image-20240815140220506](03Redux.assets/image-20240815140220506.png) |
+| <img src="03Redux.assets/image-20240815134513565.png" alt="image-20240815134513565" style="zoom:80%;" /> | ![image-20240815141352580](03Redux.assets/image-20240815141352580.png) |
+|                                                              | subscribe执行时机优化：<br>![image-20240815141655635](03Redux.assets/image-20240815141655635.png) |
+
+## [101 求和案例 redux完整版](https://www.bilibili.com/video/BV1wy4y1D7JT?p=101&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+| <img src="03Redux.assets/image-20240311221256582.png" alt="image-20240311221256582" style="zoom: 67%;" /> | <img src="03Redux.assets/image-20240815143613194.png" alt="image-20240815143613194" style="zoom: 67%;" /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+<img src="03Redux.assets/image-20240311221943457.png" alt="image-20240311221943457" style="zoom: 67%;" />
+
+## [102 求和案例 异步action版](https://www.bilibili.com/video/BV1wy4y1D7JT?p=102&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+| action除了是对象，还可以是函数<br>一般对象action是同步action<br>函数类型action是异步action | <img src="03Redux.assets/image-20240815144211954.png" alt="image-20240815144211954" style="zoom:50%;" /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![image-20240815144754724](03Redux.assets/image-20240815144754724.png) | ![image-20240815145011728](03Redux.assets/image-20240815145011728.png) |
+| <img src="03Redux.assets/image-20240815150133816.png" alt="image-20240815150133816" style="zoom:90%;" /><br>有问题，会报右图的错 | ![image-20240815150547316](03Redux.assets/image-20240815150547316.png) |
+| ![image-20240815152625427](03Redux.assets/image-20240815152625427.png) | ![image-20240815152300241](03Redux.assets/image-20240815152300241.png) |
+
+
+
+**store如果收到了函数类型的action，不要把action给reducer，直接自己执行就行**
+
+异步action中一般都回调用同步action
+
+
+
+<img src="03Redux.assets/image-20240311225059849.png" alt="image-20240311225059849" style="zoom:80%;" />
+
+## [103 对react-redux的理解](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=103&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+> redux和react-redux是两个东西
+
+<img src="03Redux.assets/image-20240311225626258.png" alt="image-20240311225626258" style="zoom: 67%;" />
+
+## [104 连接容器组件与UI组件](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=104&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+| ![image-20240815160949208](03Redux.assets/image-20240815160949208.png)<br>第四行要删掉，否则报错 | ![image-20240815163540632](03Redux.assets/image-20240815163540632.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+## [105 react-redux基本使用](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=105&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+<img src="03Redux.assets/image-20240815174033212.png" alt="image-20240815174033212" style="zoom: 67%;" />
+
+
+
+<img src="03Redux.assets/image-20240815174711510.png" alt="image-20240815174711510" style="zoom: 67%;" />
+
+
+
+<img src="03Redux.assets/image-20240815175640751.png" alt="image-20240815175640751" style="zoom:67%;" />
+
+  
+
+<img src="03Redux.assets/image-20240815180229894.png" alt="image-20240815180229894" style="zoom:67%;" />
+
+
+
+![image-20240815180526121](03Redux.assets/image-20240815180526121.png)
+
+
+
+![image-20240815180638813](03Redux.assets/image-20240815180638813.png)
+
+
+
+<img src="03Redux.assets/image-20240815182027329.png" alt="image-20240815182027329" style="zoom:67%;" />
+
+## [106 优化1——简写mapDispatch](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=106&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+<img src="03Redux.assets/image-20240816144528378.png" alt="image-20240816144528378" style="zoom:67%;" />
+
+
+
+<img src="03Redux.assets/image-20240816143418446.png" alt="image-20240816143418446" style="zoom:80%;" />
+
+
+
+<img src="03Redux.assets/image-20240816144038511.png" alt="image-20240816144038511" style="zoom: 67%;" />
+
+> 不需要写dispatch了，react-redux会帮忙去做自动分发（即dispatch）
+
+## [107 优化2——Provider组件的使用](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=107&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+|                            优化前                            |                            优化后                            |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
+| <img src="03Redux.assets/image-20240816192058798.png" alt="image-20240816192058798" style="zoom: 67%;" /> | <img src="03Redux.assets/image-20240816192654786.png" alt="image-20240816192654786" style="zoom: 67%;" /> |
+
+## [108 整合UI组件与容器组件](https://www.bilibili.com/video/BV1wy4y1D7JT/?p=108&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+<img src="03Redux.assets/image-20240311225626258.png" alt="image-20240311225626258" style="zoom: 67%;" />
+
+| <img src="03Redux.assets/image-20240816193923183.png" alt="image-20240816193923183" style="zoom:67%;" /> | ![image-20240816194158004](03Redux.assets/image-20240816194158004.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+## [109 数据共享——编写Person组件](https://www.bilibili.com/video/BV1wy4y1D7JT?p=109&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+## [110 数据共享——编写Person的Reducer](https://www.bilibili.com/video/BV1wy4y1D7JT?p=110&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+## [111 数据共享——完成数据共享](https://www.bilibili.com/video/BV1wy4y1D7JT?p=111&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+| ![image-20240818231106753](03Redux.assets/image-20240818231106753.png) | ![image-20240818232743999](03Redux.assets/image-20240818232743999.png) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+
+![image-20240819094538785](03Redux.assets/image-20240819094538785.png)
+
+## [112 纯函数](https://www.bilibili.com/video/BV1wy4y1D7JT?p=112&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
+
+<img src="03Redux.assets/image-20240819100139446.png" alt="image-20240819100139446" style="zoom: 80%;" />
+
+## 113 redux开发者工具
+
+<img src="03Redux.assets/image-20240819104124563.png" alt="image-20240819104124563" style="zoom:67%;" />
+
+# 
