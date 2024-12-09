@@ -90,7 +90,7 @@ function MyComponent() {
 
 ## [76 前端路由原理](https://www.bilibili.com/video/BV1wy4y1D7JT?p=76&spm_id_from=pageDriver&vd_source=a7089a0e007e4167b4a61ef53acc6f7e)
 
-前端路由依赖浏览器的历史记录history
+**前端路由依赖浏览器的历史记录history**
 
 | <img src="05React-Router.assets/image-20240225220842006.png" alt="image-20240225220842006" style="zoom: 80%;" /> | <img src="05React-Router.assets/image-20240225224118553.png" alt="image-20240225224118553" style="zoom: 80%;" /> |
 | :----------------------------------------------------------: | ------------------------------------------------------------ |
@@ -119,31 +119,31 @@ SPA应用程序加载一个单独的HTML页面，并通过JavaScript动态更新
 
 浏览器的`history` API允许开发者控制浏览器会话历史记录，包括以下主要方法：
 
-- **`history.pushState()`**：添加新的历史记录条目。
-- **`history.replaceState()`**：替换当前的历史记录条目。
-- **`popstate` 事件**：监听浏览器前进或后退按钮事件。
+- **`history.pushState()`**：添加新的历史记录条目
+- **`history.replaceState()`**：替换当前的历史记录条目
+- **`popstate` 事件**：监听浏览器前进或后退按钮事件
 
 #### 2. **Hash-based Routing**
 
 早期的前端路由主要依赖于URL的哈希部分（即`#`后面的部分）来控制导航。这种方式简单且无需服务器支持：
 
 - **URL 示例**：`http://example.com/#/home`
-- **特点**：哈希部分的变化不会触发页面重新加载，且浏览器会将哈希值传递给JavaScript处理。
+- **特点**：哈希部分的变化不会触发页面重新加载，且浏览器会将哈希值传递给JavaScript处理
 
 #### 3. **History API Routing**
 
 现代前端路由使用`history` API来实现更干净的URL：
 
 - **URL 示例**：`http://example.com/home`
-- **特点**：通过`history.pushState()`和`history.replaceState()`方法管理URL，不会导致页面重新加载。
+- **特点**：通过`history.pushState()`和`history.replaceState()`方法管理URL，不会导致页面重新加载
 
 ### 工作流程
 
 1. **初始加载**：当用户首次访问应用程序时，服务器会返回一个静态HTML文件以及相关的CSS和JavaScript文件。
 2. **前端路由初始化**：JavaScript加载后，前端路由库会初始化并监听URL的变化。
 3. **URL 变化**：
-   - 用户点击链接或浏览器地址栏发生变化时，路由库会拦截事件。
-   - 使用`history.pushState()`或`history.replaceState()`更新URL，触发URL变化的监听器。
+   - 用户点击链接或浏览器地址栏发生变化时，路由库会拦截事件
+   - 使用`history.pushState()`或`history.replaceState()`更新URL，触发URL变化的监听器
 4. **视图更新**：根据当前URL，路由库加载相应的组件或视图，更新页面内容。
 
 ### 示例代码
@@ -317,31 +317,107 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 ![image-20241202234241091](05React-Router.assets/image-20241202234241091.png)
 
-## 一级路由
+- 移除\<Redirect>，增加Navigate
 
-## 重定向
 
-## NavLink高亮
 
-## useRoutes路由表
+## [一级路由](https://www.bilibili.com/video/BV1wy4y1D7JT?spm_id_from=333.788.videopod.episodes&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=128)
 
-## 嵌套路由
+![image-20241209194117421](05React-Router.assets/image-20241209194117421.png)
 
-## 路由的params参数
+## [重定向](https://www.bilibili.com/video/BV1wy4y1D7JT?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=129)
 
-## 路由的search参数
+![image-20241209194056251](05React-Router.assets/image-20241209194056251.png)
 
-## 路由的state参数
+示例一：
 
-## 编程式路由导航
+![image-20241209183043410](05React-Router.assets/image-20241209183043410.png)
 
-## useInRouterContext
+示例二：
 
-## useNavigationType
+![image-20241209193732183](05React-Router.assets/image-20241209193732183.png)
 
-## useOutlet
+**路由跳转有两种模式，一种是push，一种是replace**
 
-## useOutletuseResolvedPath
+## [NavLink高亮](https://www.bilibili.com/video/BV1wy4y1D7JT?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=130)
 
-## 总结
+写法一：
+
+![image-20241209194751440](05React-Router.assets/image-20241209194751440.png)
+
+写法二：
+
+![image-20241209194851741](05React-Router.assets/image-20241209194851741.png)
+
+## [useRoutes路由表](https://www.bilibili.com/video/BV1wy4y1D7JT?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=131)
+
+写法一：
+
+![image-20241209195209114](05React-Router.assets/image-20241209195209114.png)
+
+ ![image-20241209195249212](05React-Router.assets/image-20241209195249212.png)
+
+写法二：
+
+![image-20241209195407812](05React-Router.assets/image-20241209195407812.png)
+
+![image-20241209195545613](05React-Router.assets/image-20241209195545613.png)
+
+## [嵌套路由](https://www.bilibili.com/video/BV1wy4y1D7JT?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=132)
+
+![image-20241209200502467](05React-Router.assets/image-20241209200502467.png)
+
+![image-20241209200804904](05React-Router.assets/image-20241209200804904.png)
+
+更简化一点的写法：
+
+![image-20241209200921155](05React-Router.assets/image-20241209200921155.png)
+
+## [路由的params参数](https://www.bilibili.com/video/BV1wy4y1D7JT?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=133)
+
+![image-20241209205911392](05React-Router.assets/image-20241209205911392.png)
+
+![image-20241209210030748](05React-Router.assets/image-20241209210030748.png)
+
+![image-20241209210316748](05React-Router.assets/image-20241209210316748.png)
+
+## [路由的search参数](https://www.bilibili.com/video/BV1wy4y1D7JT?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=134)
+
+![image-20241209211216679](05React-Router.assets/image-20241209211216679.png)
+
+![image-20241209211024681](05React-Router.assets/image-20241209211024681.png)
+
+## [路由的state参数](https://www.bilibili.com/video/BV1wy4y1D7JT?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=135)
+
+![image-20241209211430453](05React-Router.assets/image-20241209211430453.png)
+
+![image-20241209211558045](05React-Router.assets/image-20241209211558045.png)
+
+## [编程式路由导航](https://www.bilibili.com/video/BV1wy4y1D7JT?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=136)
+
+`useNavigate`
+
+![image-20241209221151938](05React-Router.assets/image-20241209221151938.png)
+
+![image-20241209221410133](05React-Router.assets/image-20241209221410133.png)
+
+## [useInRouterContext](https://www.bilibili.com/video/BV1wy4y1D7JT?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=137)
+
+![image-20241209221615880](05React-Router.assets/image-20241209221615880.png)
+
+## [useNavigationType](https://www.bilibili.com/video/BV1wy4y1D7JT?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=138)
+
+![image-20241209221629556](05React-Router.assets/image-20241209221629556.png)
+
+## [useOutlet](https://www.bilibili.com/video/BV1wy4y1D7JT?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=139)
+
+![image-20241209221550128](05React-Router.assets/image-20241209221550128.png)
+
+## [useResolvedPath](https://www.bilibili.com/video/BV1wy4y1D7JT?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=140)
+
+![image-20241209221839195](05React-Router.assets/image-20241209221839195.png)
+
+## [总结](https://www.bilibili.com/video/BV1wy4y1D7JT?spm_id_from=333.788.player.switch&vd_source=a7089a0e007e4167b4a61ef53acc6f7e&p=141)
+
+# 4. React 路由拦截
 
