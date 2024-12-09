@@ -147,3 +147,186 @@ const MyComponent = ({ targetId }) => {
 3. **渲染性能**： 使用 Portals 本质上只是改变了渲染位置，对性能没有显著影响。
 
 React Portals 是解决组件渲染到指定位置的核心工具，可以灵活地满足复杂 UI 的需求。
+
+# 3. 父组件阻止子组件更新
+
+在 React 中，父组件可以通过以下方式阻止子组件的更新：
+
+------
+
+### **1. 使用 `React.memo`**
+
+`React.memo` 是一个高阶组件，用于对函数组件进行性能优化。它会对组件的 props 进行浅比较，当 props 没有变化时，阻止重新渲染。
+
+#### 示例代码：
+
+```jsx
+import React, { useState } from 'react';
+
+const Child = React.memo(({ value }) => {
+  console.log('Child rendered');
+  return <div>Child Value: {value}</div>;
+});
+
+const Parent = () => {
+  const [parentValue, setParentValue] = useState(0);
+  const [childValue, setChildValue] = useState(0);
+
+  return (
+    <div>
+      <button onClick={() => setParentValue(parentValue + 1)}>
+        Update Parent
+      </button>
+      <button onClick={() => setChildValue(childValue + 1)}>
+        Update Child
+      </button>
+      <div>Parent Value: {parentValue}</div>
+      <Child value={childValue} />
+    </div>
+  );
+};
+
+export default Parent;
+```
+
+#### 分析：
+
+- `React.memo` 会阻止 `Child` 组件在 `childValue` 未变化时重新渲染。
+- 点击 "Update Parent" 按钮时，只更新父组件，不触发子组件渲染。
+
+------
+
+### **2. 使用 `shouldComponentUpdate` (Class 组件)**
+
+对于类组件，可以通过重写 `shouldComponentUpdate` 方法来自定义更新条件。
+
+#### 示例代码：
+
+```jsx
+import React, { Component } from 'react';
+
+class Child extends Component {
+  shouldComponentUpdate(nextProps) {
+    return nextProps.value !== this.props.value; // 仅当 props 改变时更新
+  }
+
+  render() {
+    console.log('Child rendered');
+    return <div>Child Value: {this.props.value}</div>;
+  }
+}
+
+class Parent extends Component {
+  state = { parentValue: 0, childValue: 0 };
+
+  render() {
+    const { parentValue, childValue } = this.state;
+
+    return (
+      <div>
+        <button onClick={() => this.setState({ parentValue: parentValue + 1 })}>
+          Update Parent
+        </button>
+        <button onClick={() => this.setState({ childValue: childValue + 1 })}>
+          Update Child
+        </button>
+        <div>Parent Value: {parentValue}</div>
+        <Child value={childValue} />
+      </div>
+    );
+  }
+}
+
+export default Parent;
+```
+
+#### 分析：
+
+- `shouldComponentUpdate` 会在更新前被调用，返回 `false` 时阻止组件更新。
+- 当父组件更新但 `childValue` 没有变化时，`Child` 组件不会重新渲染。
+
+------
+
+### **3. 使用 `useMemo` 或 `useCallback` 缓存子组件的 props**
+
+在函数组件中，通过 `useMemo` 缓存传递给子组件的值或 `useCallback` 缓存函数，可以避免不必要的渲染。
+
+#### 示例代码：
+
+```jsx
+import React, { useState, useMemo } from 'react';
+
+const Child = React.memo(({ value }) => {
+  console.log('Child rendered');
+  return <div>Child Value: {value}</div>;
+});
+
+const Parent = () => {
+  const [parentValue, setParentValue] = useState(0);
+  const [childValue, setChildValue] = useState(0);
+
+  const memoizedValue = useMemo(() => childValue, [childValue]);
+
+  return (
+    <div>
+      <button onClick={() => setParentValue(parentValue + 1)}>
+        Update Parent
+      </button>
+      <button onClick={() => setChildValue(childValue + 1)}>
+        Update Child
+      </button>
+      <div>Parent Value: {parentValue}</div>
+      <Child value={memoizedValue} />
+    </div>
+  );
+};
+
+export default Parent;
+```
+
+#### 分析：
+
+- 通过 `useMemo` 缓存 `childValue`，使得 `Child` 组件只在 `childValue` 变化时重新渲染。
+
+------
+
+### **4. 从渲染树中移除子组件**
+
+当子组件不需要参与更新时，可以通过条件渲染完全移除子组件。
+
+#### 示例代码：
+
+```jsx
+const Parent = () => {
+  const [showChild, setShowChild] = useState(true);
+
+  return (
+    <div>
+      <button onClick={() => setShowChild(!showChild)}>Toggle Child</button>
+      {showChild && <Child />}
+    </div>
+  );
+};
+
+const Child = () => {
+  console.log('Child rendered');
+  return <div>Child Component</div>;
+};
+```
+
+#### 分析：
+
+- 当 `showChild` 为 `false` 时，`Child` 被完全移除，不参与任何更新。
+
+------
+
+### **总结**
+
+父组件可以通过以下方式阻止子组件更新：
+
+1. **`React.memo`**：对函数组件进行性能优化。
+2. **`shouldComponentUpdate`**：对类组件进行更新控制。
+3. **`useMemo` / `useCallback`**：缓存传递给子组件的值或函数。
+4. **条件渲染**：在需要时从渲染树中移除子组件。
+
+选择具体方式时，应根据项目需求、组件结构以及性能要求决定。
