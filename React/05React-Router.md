@@ -421,3 +421,163 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 # 4. React 路由拦截
 
+在 React 中实现路由拦截，通常用于权限管理或特定场景下的用户访问控制。常用的方式是结合 React Router 的 `Route` 和 `useNavigate` 来实现
+
+------
+
+### **实现步骤**
+
+#### **1. 使用 React Router 设置基本路由**
+
+React Router 提供了路由配置的基本框架，`Routes` 和 `Route` 用于定义应用的路径。
+
+#### **2. 添加拦截逻辑**
+
+通过封装组件（例如 `PrivateRoute`），在渲染目标组件前进行拦截和校验。如果条件不满足，可以重定向用户到指定页面（例如登录页）。
+
+#### **3. 使用状态或全局存储管理权限**
+
+拦截逻辑通常依赖于状态（如 Redux、Context、React 的状态）来判断用户是否登录或有访问权限。
+
+------
+
+### **示例代码**
+
+#### **完整示例**
+
+```jsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+
+// 模拟认证状态
+const isAuthenticated = () => {
+  return localStorage.getItem('authToken') !== null; // 模拟从 localStorage 获取认证状态
+};
+
+// 路由拦截组件
+const PrivateRoute = ({ children }) => {
+  if (!isAuthenticated()) {
+    return <Navigate to="/login" replace />; // 重定向到登录页
+  }
+  return children;
+};
+
+// 登录页
+const Login = () => {
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    localStorage.setItem('authToken', 'example-token'); // 模拟登录
+    navigate('/dashboard'); // 跳转到受保护路由
+  };
+
+  return (
+    <div>
+      <h2>登录页</h2>
+      <button onClick={handleLogin}>登录</button>
+    </div>
+  );
+};
+
+// 仪表盘页（受保护的路由）
+const Dashboard = () => {
+  return <h2>仪表盘 - 需要登录访问</h2>;
+};
+
+// 首页
+const Home = () => {
+  return <h2>首页</h2>;
+};
+
+// 主组件
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
+```
+
+------
+
+### **代码解读**
+
+1. **模拟认证逻辑：**
+   - 使用 `isAuthenticated` 函数模拟用户认证状态。
+   - 实际项目中，这部分逻辑通常依赖于后端返回的认证 token 或全局状态管理工具（如 Redux、Context）。
+2. **拦截组件 `PrivateRoute`：**
+   - 通过判断 `isAuthenticated`，决定是否允许访问目标路由。
+   - 如果未登录，使用 React Router 提供的 `Navigate` 组件跳转到登录页。
+3. **`Navigate` 组件：**
+   - 通过 `replace` 属性确保用户在登录后无法通过后退按钮返回拦截前的页面。
+4. **动态路由管理：**
+   - 保护的路由（`/dashboard`）通过 `PrivateRoute` 包裹实现拦截。
+   - 未保护的路由（`/` 和 `/login`）无需拦截。
+
+------
+
+### **进阶用法**
+
+#### **1. 多级嵌套路由拦截**
+
+如果存在嵌套路由，也可以通过在父级路由中使用 `PrivateRoute` 实现整体拦截。
+
+```jsx
+<Route
+  path="/protected"
+  element={
+    <PrivateRoute>
+      <ProtectedLayout />
+    </PrivateRoute>
+  }
+>
+  <Route path="subpage" element={<SubPage />} />
+</Route>
+```
+
+------
+
+#### **2. 权限控制**
+
+针对不同用户角色的权限，可以扩展 `PrivateRoute` 的逻辑。
+
+```jsx
+const PrivateRoute = ({ children, roles }) => {
+  const userRole = getUserRole(); // 获取用户角色
+
+  if (!isAuthenticated() || !roles.includes(userRole)) {
+    return <Navigate to="/403" replace />; // 跳转到 403 页面
+  }
+  return children;
+};
+
+// 使用示例
+<Route
+  path="/admin"
+  element={
+    <PrivateRoute roles={['admin']}>
+      <AdminPage />
+    </PrivateRoute>
+  }
+/>
+```
+
+------
+
+### **总结**
+
+通过 `PrivateRoute` 配合 React Router 的 `Routes` 和 `Navigate`，可以轻松实现灵活的路由拦截和权限管理。根据实际项目需求，还可以结合全局状态管理工具（如 Redux）或 Context 提升可维护性。
