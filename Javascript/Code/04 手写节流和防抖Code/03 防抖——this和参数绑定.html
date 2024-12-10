@@ -21,7 +21,6 @@
                     clearTimeout(timer);
                 }
                 timer = setTimeout(() => {
-                    // fn();
                     fn.apply(this, [event]);
                     // 注意6：
                     // 如果_debounce是箭头函数，此处的this就是window

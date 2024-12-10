@@ -383,7 +383,7 @@ TextOperation.prototype.compose = function (operation2) {
 };
 ```
 
-操作转字符串：`apply`，此方法的作用是把操作应用到字符串中，得到新的字符串。
+操作转字符 [具体日期](具体日期) 串：`apply`，此方法的作用是把操作应用到字符串中，得到新的字符串。
 
 ```js
 // 根据原始字符串和操作返回新的字符串
@@ -397,4 +397,6 @@ TextOperation.prototype.apply = function (str)
 [3][https://github.com/share/sharedb](https://link.zhihu.com/?target=https%3A//github.com/share/sharedb) [4][https://www.shangmayuan.com/a/eaa92ee4dce945f4b733a372.html](https://link.zhihu.com/?target=https%3A//www.shangmayuan.com/a/eaa92ee4dce945f4b733a372.html) [5][https://github.com/Operational-](https://link.zhihu.com/?target=https%3A//github.com/Operational-Transformation/ot.js)
 
 # 6. Writer中的OT
+
+# 7. CRDT算法
 
