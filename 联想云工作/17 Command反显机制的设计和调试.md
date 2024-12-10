@@ -5,12 +5,13 @@
 如果自己设计command
 
 - name属性
-
 - state属性
-
 - bCtrlDirty属性？？？？是代表是否要更新UI吗？？？
-
 - 是否需要previousState属性？？？
+
+
+
+- exec方法
 
 - setState(state: CMDSTATE)方法
 
@@ -55,3 +56,12 @@
 
 ![image-20241011182108695](17 Command反显机制的设计和调试.assets/image-20241011182108695.png)
 
+
+
+# 2. 区分CommandStore和Command类
+
+CommandStore类中包含的方法：
+
+- addCommand
+- getCommand
+- execCommand
