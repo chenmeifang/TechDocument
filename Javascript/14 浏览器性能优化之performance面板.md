@@ -1517,3 +1517,93 @@ Web Worker 适合用在处理大量计算或数据处理时，尤其是在需要
 
 瀑布图怎么看，右上角有的有红色图标是什么意思
 
+# FID和TTI
+
+在 Chrome DevTools 的 **Performance** 面板中查看 **FID (First Input Delay)** 和 **TTI (Time to Interactive)** 这两个性能指标，虽然这些指标本身没有直接的显示项，但你可以通过一些方法间接查看它们的相关数据。
+
+### 1. **查看 FID (First Input Delay)**
+
+**FID** 是衡量用户首次与页面交互（如点击按钮、链接等）时，浏览器响应的延迟。要在 Performance 面板中查看 FID，可以按照以下步骤操作：
+
+- 打开 Chrome DevTools (`F12` 或右键点击页面，选择“检查”).
+- 转到 **Performance** 面板.
+- 在页面上进行交互（比如点击按钮、输入框等）后，点击 **"Record"** 按钮开始记录性能。
+- 在页面加载的过程中进行交互，然后停止录制。
+- **查找 FID 数据**：查看 **Main Thread**（主线程）的活动。FID 通常是在页面加载完成后的首次交互，并且会出现在 **Event** 列表中，特别是与 JavaScript 执行相关的事件。
+- 你可以通过在“Event Log”部分查看 **First Input** 事件，通常这个事件会包含 **FID** 信息。如果有延迟，可能会看到 `first input` 事件和后续的执行时间差。
+
+但是，FID 作为一个单独的指标，实际上在 **Performance Panel** 中不太容易直接看到。要获得准确的 **FID**，最好通过 **Web Vitals** 扩展工具或使用 **Google Lighthouse** 来测量。
+
+### 2. **查看 TTI (Time to Interactive)**
+
+**TTI** 是指页面从开始加载到完全可交互所需的时间。它是页面可交互性的重要衡量指标。TTI 主要关注以下几个方面：
+
+- 页面已加载内容。
+- 页面已经完全可交互。
+
+在 Performance 面板中，**TTI** 没有显式的显示项，但你可以通过以下方法间接观察：
+
+- 在 **Performance** 面板的记录中，查找 **DOMContentLoaded** 和 **Load** 事件。这些事件标志着文档的加载阶段。
+- 查找 **First Meaningful Paint**（FMP）和 **First Contentful Paint**（FCP）的时间点，它们指示页面加载的某些阶段。
+- **TTI** 可以在 Performance 面板中查看为 **Interactive** 状态，它指示页面完全可交互的时刻。
+
+要更精确地测量 **TTI**，可以使用 **Lighthouse** 或 **Web Vitals** 进行测量。Lighthouse 具有内置的 **Time to Interactive** 指标，并可以提供关于 TTI 的详细信息。
+
+### 使用 Lighthouse 查看 FID 和 TTI：
+
+Lighthouse 是 Chrome DevTools 中的一个工具，能够给出页面的详细性能报告，包括 **FID** 和 **TTI**。你可以按以下步骤使用：
+
+- 打开 Chrome DevTools (`F12` 或右键点击页面，选择“检查”).
+- 转到 **Lighthouse** 面板.
+- 选择你想要测量的设备类型（例如 Desktop 或 Mobile），然后点击 **Generate Report**.
+- 在报告中，你可以看到 **FID** 和 **TTI** 的值，以及其他 Web Vitals 指标。
+
+### 总结
+
+- **FID** 和 **TTI** 在 **Performance** 面板中没有专门的直接展示项，但你可以通过查找相关的事件（如 **DOMContentLoaded**、**First Input**、**Main Thread** 等）来间接分析这些指标。
+- 为了精确获取 FID 和 TTI，使用 **Lighthouse** 或 **Web Vitals** 扩展工具可以提供更准确的测量结果。
+
+# **Google Lighthouse** 测量FID
+
+要使用 **Google Lighthouse** 来测量 **First Input Delay (FID)**，可以通过以下步骤在 Chrome 浏览器中进行：
+
+### 步骤 1: 打开 Chrome DevTools
+
+1. 在浏览器中打开你的页面。
+2. 按 **F12** 或右键点击页面并选择 **检查**，打开 Chrome DevTools。
+
+### 步骤 2: 选择 Lighthouse 面板
+
+1. 在 DevTools 中，找到并点击顶部的 **Lighthouse** 面板。如果没有看到 **Lighthouse** 面板，可以点击右上角的菜单（三个点），选择 **More tools** -> **Lighthouse**。
+2. 在 **Lighthouse** 面板中，选择你要进行测量的设备类型：
+   - **Mobile** 或 **Desktop**（模拟移动设备或桌面设备的性能）。
+   - 可以选择测试的具体项目：Performance、Accessibility、Best Practices、SEO 和 PWA。
+3. 默认情况下，Lighthouse 会测量页面的多个性能指标，包括 **FID**。
+
+### 步骤 3: 生成 Lighthouse 报告
+
+1. 点击 **Generate Report**（生成报告）按钮，Lighthouse 将开始测量并分析页面的性能。
+2. 测量完成后，Lighthouse 会生成一个详细的报告，其中会显示各项性能指标，包括 **FID**。
+
+### 步骤 4: 查找 FID 结果
+
+- 在 Lighthouse 生成的报告中，查找 **First Input Delay (FID)** 这一部分，通常在 **Performance** 部分下。
+- FID 值会显示为：
+  - **Good** (0-100 ms)
+  - **Needs Improvement** (100-300 ms)
+  - **Poor** (300+ ms)
+
+Lighthouse 会通过模拟用户与页面的交互来计算 **FID**，并给出一个评分，帮助你评估页面的响应性。
+
+### 示例：
+
+生成的报告中，可能会看到类似以下的结果：
+
+```text
+First Input Delay (FID)
+  - 120 ms (Needs Improvement)
+```
+
+### 总结
+
+通过 Lighthouse，你可以在 **Performance** 报告中查看到 **FID** 的详细值，它会根据你的页面的交互性能为你提供评估。记住，**FID** 是一个用户体验指标，它反映了页面首次交互时的响应延迟。因此，优化 FID 主要是减少 JavaScript 执行的阻塞时间，确保页面可以尽快响应用户的输入。
