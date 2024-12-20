@@ -794,6 +794,10 @@ export default MyComponent;
 >
 > scratch your head：to think hard in order to find an answer to sth 苦苦琢磨，冥思苦想
 >
+> blog post：博客文章
+>
+> tutorial：
+>
 > unpacking
 >
 > optimize：优化
@@ -802,15 +806,45 @@ export default MyComponent;
 >
 > prime
 >
+> implementation
+>
 > run into：遇到困难
+>
+> wind up：结束，终结；将某食物带到一个结束的状态或结果
 >
 > gratuitously：不必要地
 >
 > sluggish：缓慢的，性能欠佳的
+>
+> trick up one's sleeve：袖子里的王牌：指一个人在关键时刻有一个秘密计划或策略，用以应对困难或突破僵局
+>
+> force field：a barrier that you cannot see (无形的)力障碍区
+>
+> essentially：本质上，根本上
+>
+> conventional：
+>
+> tinker with：
+>
+> either way：
+>
+> peculiar：
+>
+> tweak：
+>
+> sketch：
+>
+> negligible：
+>
+> hunt down：
+>
+> pre-emptively
 
 The fundamental idea with `useMemo` is that it allows us to *“remember”* a computed value between renders.
 
 `useMemo`: 让我们在不同渲染之间保存一个已经计算好的值。比如说我在第一次渲染的时候已经计算好了一个值，那我在第二次渲染的时候能不能不再进行这个运算，而是直接用第一次渲染时候的值
+
+# React.memo
 
 # 11. 多次调用setState, React内部源码是如何维护的
 
